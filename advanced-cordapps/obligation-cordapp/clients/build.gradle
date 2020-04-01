@@ -2,7 +2,6 @@ repositories {
     mavenLocal()
     jcenter()
     mavenCentral()
-    maven { url 'https://dl.bintray.com/kotlin/exposed' }
     maven { url 'https://jitpack.io' }
     maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda-releases' }
 }
@@ -32,8 +31,6 @@ dependencies {
     compile project(":contracts")
     compile project(":workflows")
 
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
     testCompile "junit:junit:$junit_version"
 
     // Corda dependencies.
