@@ -1,0 +1,3 @@
+include 'workflows-java'
+include 'contracts-java'
+include 'clients-java'

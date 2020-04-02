@@ -1,0 +1,3 @@
+include 'base-java'
+include 'service-java'
+include 'client-java'
