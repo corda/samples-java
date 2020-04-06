@@ -1,6 +1,6 @@
 ## samples-java/feature-specific-cordapps
 
-This folder features five sample projects, each of them demonstrates different features of corda.  
+This folder features several sample projects, each of them demonstrates different specific features of corda.  
 
 ### [Blacklist](./Attachment-blacklist): 
 This CorDapp allows nodes to reach agreement over arbitrary strings of text, but only with parties that are not included in the blacklist uploaded to the nodes.
