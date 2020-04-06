@@ -1,8 +1,6 @@
 ## samples-java/basic-cordapps
 
-## Directories
-
-This folder features three sample projects, each of them demonstrates different features of corda.  
+This folder features five sample projects, each of them demonstrates different features of corda.  
 
 ### [Database Access](./flow-database-access): 
 This CorDapp provides a simple example of how the node database can be accessed in flows. In this case, the flows maintain a table of cryptocurrency values in the node's database.
