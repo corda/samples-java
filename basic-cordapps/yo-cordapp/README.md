@@ -82,6 +82,7 @@ Java
 then
 ``./build/nodes/runnodes``
 
+### Sending a Yo
 
 We will interact with the nodes via their specific shells. When the nodes are up and running, use the following command to send a
 Yo to another node:
