@@ -9,7 +9,7 @@ This folder features three sample projects, each of them demonstrates different 
 
 ### [auction cordapp](./auction-cordapp): 
 An blockchain application that leverages different features of Corda like SchedulableState, StatePointer 
-and OwnableState. It also demonstrate how to perform a DvP (Delivery vs Payment) transaction on Corda.
+and OwnableState. It also demonstrates how to perform a DvP (Delivery vs Payment) transaction on Corda.
 
 ### [negotiation cordapp](./negotiation-cordapp): 
 An application that depicts the businsess negotiation and communication process over a distributed ledger system. 
