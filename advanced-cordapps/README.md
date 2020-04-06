@@ -7,7 +7,7 @@
 
 This folder features three sample projects, each of them demonstrates different features of corda.  
 
-### [auction cordapp](): 
+### [auction cordapp](./auction-cordapp): 
 An blockchain application that leverages different features of Corda like SchedulableState, StatePointer 
 and OwnableState. It also demonstrate how to perform a DvP (Delivery vs Payment) transaction on Corda.
 
