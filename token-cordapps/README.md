@@ -1,4 +1,4 @@
-## samples-java/basic-cordapps
+## samples-java/token-cordapps
 
 This folder features five sample projects, each of them demonstrates different features of corda.  
 
