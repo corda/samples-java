@@ -3,7 +3,7 @@
 This folder features five sample projects, each of them demonstrates different features of corda.  
 
 ### [Database Access](./flow-database-access): 
-This CorDapp provides a simple example of how the node database can be accessed in flows. In this case, the flows maintain a table of cryptocurrency values in the node's database.
+This CorDapp provides a simple example of how the node database can be accessed within flows. In this case, the flows maintain a table of cryptocurrency values in the node's database.
 
 ### [HTTP Access](./flow-http-access): 
 This CorDapp provides a simple example of how HTTP requests can be made in flows. In this case, the flow makes an HTTP request to retrieve the original BitCoin readme from GitHub.
