@@ -64,18 +64,6 @@ On the receiving end, the other corda node will simply receive the Yo using cord
 
 
 
-We will interact with the nodes via their shell. When the nodes are up and running, use the following command to send a
-Yo! to another node:
-
-    flow start YoFlow target: PartyB
-
-Where `NODE_NAME` is 'PartyA' or 'PartyB'. The space after the `:` is required. You are not required to use the full
-X500 name in the node shell. Note you can't sent a Yo! to yourself because that's not cool!
-
-To see all the Yo's! other nodes have sent you in your vault (you do not store the Yo's! you send yourself), run:
-
-    run vaultQuery contractStateType: net.corda.examples.yo.states.YoState
-
 
 ## Pre-Requisites
 
@@ -95,3 +83,18 @@ then
 ``./build/nodes/runnodes``
 
 
+We will interact with the nodes via their specific shells. When the nodes are up and running, use the following command to send a
+Yo to another node:
+
+```
+    flow start YoFlow target: PartyB
+```
+
+Where `NODE_NAME` is 'PartyA' or 'PartyB'. The space after the `:` is required. You are not required to use the full
+X500 name in the node shell. Note you can't sent a Yo! to yourself because that's not cool!
+
+To see all the Yo's! other nodes have sent you in your vault (you do not store the Yo's! you send yourself), run:
+
+```
+    run vaultQuery contractStateType: net.corda.examples.yo.states.YoState
+```
