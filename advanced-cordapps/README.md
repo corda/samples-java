@@ -4,17 +4,19 @@
 </p>
 
 ## Directories
-These samples demonstrates multiple features of corda. Many of them also has a front-end user interface. 
 
-* auction cordapp: An blockchain application that leverages different features of Corda like SchedulableState, StatePointer 
+This folder features three sample projects, each of them demonstrates different features of corda.  
+
+### [auction cordapp](): 
+An blockchain application that leverages different features of Corda like SchedulableState, StatePointer 
 and OwnableState. It also demonstrate how to perform a DvP (Delivery vs Payment) transaction on Corda.
-* negotiation cordapp: An application that depicts the businsess negotiation communication over a DLT system. 
+
+###[negotiation cordapp](): 
+An application that depicts the businsess negotiation communication over a DLT system. 
 It consists of the proposing, negotiating, and settling stage of the business logics. 
-* obligation cordapp: A simple i-owe-you application illustrates all of the steps of creating 
-```
-.
-├── advanced-cordapps
-│   ├── auction-cordapp
-│   ├── negotiation-cordapp
-│   └── obligation-cordapp
-```
+
+###[obligation cordapp](./obligation-cordapp): 
+A simple i-owe-you application illustrates all of the steps of creating an obligation for a resource to change owners. 
+
+
+
