@@ -10,9 +10,9 @@ maintain a table of cryptocurrency values in the node's database. There are thre
 
 The CorDapp defines three flows:
 
-* `[AddTokenValueFlow](https://github.com/corda/samples-java/blob/master/basic-cordapps/flow-database-access/workflows-java/src/main/java/net/corda/samples/flowdb/AddTokenValueFlow.java#L34-L48)`, which adds a new token to the database table with an initial value
-* `[UpdateTokenValueFlow](https://github.com/corda/samples-java/blob/master/basic-cordapps/flow-database-access/workflows-java/src/main/java/net/corda/samples/flowdb/UpdateTokenValueFlow.java#L34-L42)`, which updates the value of an existing token in the database table
-* `[QueryTokenValueFlow](https://github.com/corda/samples-java/blob/master/basic-cordapps/flow-database-access/workflows-java/src/main/java/net/corda/samples/flowdb/QueryTokenValueFlow.java#L32-L40)`, which reads the value of an existing token from the database table
+* `AddTokenValueFlow`, [which adds a new token to the database table with an initial value](https://github.com/corda/samples-java/blob/master/basic-cordapps/flow-database-access/workflows-java/src/main/java/net/corda/samples/flowdb/AddTokenValueFlow.java#L34-L48)
+* `UpdateTokenValueFlow`, [which updates the value of an existing token in the database table](https://github.com/corda/samples-java/blob/master/basic-cordapps/flow-database-access/workflows-java/src/main/java/net/corda/samples/flowdb/UpdateTokenValueFlow.java#L34-L42)
+* `QueryTokenValueFlow`, [which reads the value of an existing token from the database table](https://github.com/corda/samples-java/blob/master/basic-cordapps/flow-database-access/workflows-java/src/main/java/net/corda/samples/flowdb/QueryTokenValueFlow.java#L32-L40)
 
 Under the hood, the database accesses are managed by the CryptoValuesDatabaseService CordaService.
 
