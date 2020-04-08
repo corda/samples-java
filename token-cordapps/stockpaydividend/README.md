@@ -3,8 +3,8 @@
 This CorDapp aims to demonstrate the usage of TokenSDK, especially the concept of EvolvableToken which represents stock.
 You will find the StockState extends from EvolvableToken which allows the stock details(eg. announcing dividends) to be updated without affecting the parties who own the stock.
 
-[Concepts](#concepts)
-[Usage](#usage)
+* [Concepts](#concepts)
+* [Usage](#usage)
 
 ## Concepts
 
