@@ -1,8 +1,4 @@
-<p align="center">
-  <img src="https://www.corda.net/wp-content/uploads/2016/11/fg005_corda_b.png" alt="Corda" width="500">
-</p>
-
-# Fungible and NonFungible RealEstate Token Sample CorDapp - Java
+# fungible and nonfungible realestate token sample cordapp
 
 This cordapp servers as a basic example to create, issue, move fungible tokens in Corda utilizing the TokenSDK. In this specific fungible token sample, we will not talk about the
 redeem method of the TokenSDK because the redeem process will take the physical asset off the ledger and destroy the token. Thus, this sample will be a simple walk though of the
@@ -10,21 +6,111 @@ creation, issuance, and transfer of the tokens.
 
 
 
-# Pre-Requisites
+## Concepts
+
+
+### Flows
+
+There are a few flows that enable this project.
+
+We will create a resource (in this case a house), and then issue tokens for that resource, and then transfer those tokens.
+
+
+We create the representation of a house, within [CreateHouseTokenFlow.java](https://github.com/corda/samples-java/blob/f11f681f0efd5314426d7e674388e54c348f1a65/token-cordapps/fungiblehousetoken/workflows/src/main/java/net/corda/examples/tokenizedhouse/flows/RealEstateEvolvableFungibleTokenFlow.java#L47-L61).
+
+
+```java
+public SignedTransaction call() throws FlowException {
+    //grab the notary
+    Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0);
+
+    //create token type
+    FungibleHouseTokenState evolvableTokenType = new FungibleHouseTokenState(valuation, getOurIdentity(),
+            new UniqueIdentifier(), 0, this.symbol);
+
+    //warp it with transaction state specifying the notary
+    TransactionState transactionState = new TransactionState(evolvableTokenType, notary);
+
+    //call built in sub flow CreateEvolvableTokens. This can be called via rpc or in unit testing
+    return subFlow(new CreateEvolvableTokens(transactionState));
+}
+
+```
+
+We issue tokens [IssueHouseTokenFlow](https://github.com/corda/samples-java/blob/f11f681f0efd5314426d7e674388e54c348f1a65/token-cordapps/fungiblehousetoken/workflows/src/main/java/net/corda/examples/tokenizedhouse/flows/RealEstateEvolvableFungibleTokenFlow.java#L81-L105)
+
+```java
+public SignedTransaction call() throws FlowException {
+    //get house states on ledger with uuid as input tokenId
+    StateAndRef<FungibleHouseTokenState> stateAndRef = getServiceHub().getVaultService().
+            queryBy(FungibleHouseTokenState.class).getStates().stream()
+            .filter(sf->sf.getState().getData().getSymbol().equals(symbol)).findAny()
+            .orElseThrow(()-> new IllegalArgumentException("StockState symbol=\""+symbol+"\" not found from vault"));
+
+    //get the RealEstateEvolvableTokenType object
+    FungibleHouseTokenState evolvableTokenType = stateAndRef.getState().getData();
+
+    //get the pointer pointer to the house
+    TokenPointer tokenPointer = evolvableTokenType.toPointer(evolvableTokenType.getClass());
+
+    //assign the issuer to the house type who will be issuing the tokens
+    IssuedTokenType issuedTokenType = new IssuedTokenType(getOurIdentity(), tokenPointer);
+
+    //specify how much amount to issue to holder
+    Amount<IssuedTokenType> amount = new Amount(quantity, issuedTokenType);
+
+    //create fungible amount specifying the new owner
+    FungibleToken fungibleToken  = new FungibleToken(amount, holder, TransactionUtilitiesKt.getAttachmentIdForGenericParam(tokenPointer));
+
+    //use built in flow for issuing tokens on ledger
+    return subFlow(new IssueTokens(ImmutableList.of(fungibleToken)));
+}
+
+```
+
+We then move the house token. [MoveHouseTokenFlow](https://github.com/corda/samples-java/blob/f11f681f0efd5314426d7e674388e54c348f1a65/token-cordapps/fungiblehousetoken/workflows/src/main/java/net/corda/examples/tokenizedhouse/flows/RealEstateEvolvableFungibleTokenFlow.java#L127-L146)
+
+```java
+public SignedTransaction call() throws FlowException {
+    //get house states on ledger with uuid as input tokenId
+    StateAndRef<FungibleHouseTokenState> stateAndRef = getServiceHub().getVaultService().
+            queryBy(FungibleHouseTokenState.class).getStates().stream()
+            .filter(sf->sf.getState().getData().getSymbol().equals(symbol)).findAny()
+            .orElseThrow(()-> new IllegalArgumentException("StockState symbol=\""+symbol+"\" not found from vault"));
+
+    //get the RealEstateEvolvableTokenType object
+    FungibleHouseTokenState tokenstate = stateAndRef.getState().getData();
+
+    //get the pointer pointer to the house
+    TokenPointer<FungibleHouseTokenState> tokenPointer = tokenstate.toPointer(FungibleHouseTokenState.class);
+
+    //specify how much amount to transfer to which holder
+    Amount<TokenType> amount = new Amount(quantity, tokenPointer);
+    //PartyAndAmount partyAndAmount = new PartyAndAmount(holder, amount);
+
+    //use built in flow to move fungible tokens to holder
+    return subFlow(new MoveFungibleTokens(amount,holder));
+}
+```
+
+You can find the redemption code commented out [here](https://github.com/corda/samples-java/blob/f11f681f0efd5314426d7e674388e54c348f1a65/token-cordapps/fungiblehousetoken/workflows/src/main/java/net/corda/examples/tokenizedhouse/flows/RealEstateEvolvableFungibleTokenFlow.java#L173)
+
+
+## Pre-Requisites
 
 See https://docs.corda.net/getting-set-up.html.
 
 For a brief introduction to Token SDK in Corda, see https://medium.com/corda/introduction-to-token-sdk-in-corda-9b4dbcf71025
 
-# Usage
+## Usage
 
 ## Running the nodes
 
 See https://docs.corda.net/tutorial-cordapp.html#running-the-example-cordapp.
 
-## Interacting with the nodes
+### Interacting with the nodes
 
-### Shell
+#### Shell
 
 When started via the command line, each node will display an interactive shell:
 
@@ -35,7 +121,6 @@ When started via the command line, each node will display an interactive shell:
 
 You can use this shell to interact with your node.
 
-### Fungible Tokens
 
 Create house on the ledger using Seller's terminal
 
@@ -53,3 +138,6 @@ Now at Buyer's terminal, we can check the tokens by running:
 Since Buyer now has 50 tokens, Move tokens to Friend from Buyer s terminal
 
     flow start MoveHouseTokenFlow symbol: house, holder: Friend, quantity: 23
+
+
+
