@@ -5,7 +5,6 @@ interaction.
 
 ## Concepts
 
-
 A flow is provided that allows a node to propose a trade to a counterparty. The counterparty has two options:
 
 * Accepting the proposal, converting the `ProposalState` into a `TradeState` with identical attributes
@@ -17,8 +16,13 @@ accept or modify the proposal, this attempt will be rejected automatically at th
 
 ### Flows
 
-The first flow implemented is
+We start with the proposal flow implemented in [ProposalFlow.java](https://github.com/corda/samples-java/blob/master/advanced-cordapps/negotiation-cordapp/workflows/src/main/java/negotiation/flows/ProposalFlow.java)
 
+
+The modification of the proposal is implemented in [ModificationFlow.java](https://github.com/corda/samples-java/blob/master/advanced-cordapps/negotiation-cordapp/workflows/src/main/java/negotiation/flows/ModificationFlow.java#L42-L49).
+
+
+In the [AcceptanceFlow](https://github.com/corda/samples-java/blob/master/advanced-cordapps/negotiation-cordapp/workflows/src/main/java/negotiation/flows/AcceptanceFlow.java#L42-L75), we receive the modified ProposalState and it's converted into a TradeState.
 
 
 
