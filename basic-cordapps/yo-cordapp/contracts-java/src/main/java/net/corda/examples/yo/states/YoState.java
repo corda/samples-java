@@ -1,6 +1,5 @@
 package net.corda.examples.yo.states;
 
-import com.google.common.collect.ImmutableList;
 import net.corda.core.contracts.BelongsToContract;
 import net.corda.core.contracts.ContractState;
 import net.corda.core.identity.AbstractParty;
@@ -10,6 +9,7 @@ import net.corda.core.serialization.CordaSerializable;
 import net.corda.examples.yo.contracts.YoContract;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.List;
 
 // *********
@@ -49,7 +49,7 @@ public class YoState implements ContractState {
     @NotNull
     @Override
     public List<AbstractParty> getParticipants() {
-        return ImmutableList.of(target);
+        return Arrays.asList(target);
     }
 
     @Override

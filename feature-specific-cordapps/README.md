@@ -40,8 +40,3 @@ This CorDapp allows two nodes to enter into an IOU agreement, but enforces that 
 ### [heartbeat schedulable state](./schedulablestate-heartbeat):
 This CorDapp is a simple showcase of scheduled activities (i.e. activities started by a node at a specific time without direct input from the node owner).
 
-
-
-
-
-

@@ -1,7 +1,7 @@
 package net.corda.examples.yo.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
-import com.google.common.collect.ImmutableList;
+//import com.google.common.collect.ImmutableList;
 import net.corda.core.contracts.Command;
 import net.corda.core.contracts.StateAndContract;
 import net.corda.core.flows.*;
@@ -13,6 +13,7 @@ import net.corda.examples.yo.contracts.YoContract;
 import net.corda.examples.yo.states.YoState;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 // *********
@@ -58,7 +59,7 @@ public class YoFlow extends FlowLogic<SignedTransaction> {
 
         Party me = getOurIdentity();
         Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0);
-        Command<YoContract.Commands.Send> command = new Command<YoContract.Commands.Send>(new YoContract.Commands.Send(), ImmutableList.of(me.getOwningKey()));
+        Command<YoContract.Commands.Send> command = new Command<YoContract.Commands.Send>(new YoContract.Commands.Send(), Arrays.asList(me.getOwningKey()));
         YoState state = new YoState(me, target);
         StateAndContract stateAndContract = new StateAndContract(state, YoContract.ID);
         TransactionBuilder utx = new TransactionBuilder(notary).withItems(stateAndContract, command);
@@ -71,6 +72,6 @@ public class YoFlow extends FlowLogic<SignedTransaction> {
 
         progressTracker.setCurrentStep(FINALISING);
         FlowSession targetSession = initiateFlow(target);
-        return subFlow(new FinalityFlow(stx, ImmutableList.of(targetSession), Objects.requireNonNull(FINALISING.childProgressTracker())));
+        return subFlow(new FinalityFlow(stx, Arrays.asList(targetSession), Objects.requireNonNull(FINALISING.childProgressTracker())));
     }
 }
