@@ -3,6 +3,12 @@
 This CorDapp allows nodes to reach agreement over arbitrary strings of text, but only with parties that are not
 included in the blacklist uploaded to the nodes.
 
+
+
+
+## Concepts
+
+
 The blacklist takes the form of a jar including a single file, `blacklist.txt`. `blacklist.txt` lists the following
 parties as being banned from entering into agreements:
 
@@ -14,6 +20,14 @@ parties as being banned from entering into agreements:
 
 The blacklist jar is uploaded as an attachment when building a transaction, and used in the `AgreementContract` to
 check that the parties to the `AgreementState` are not blacklisted.
+
+### Flows
+
+
+There aren't many flows here, so it's quick to cover.
+
+There's a [proposal](https://github.com/corda/samples-java/blob/master/feature-specific-cordapps/attachment-blacklist/workflows/src/main/java/net/corda/examples/attachments/ProposeFlow.java) and [acceptance](https://github.com/corda/samples-java/blob/master/feature-specific-cordapps/attachment-blacklist/workflows/src/main/java/net/corda/examples/attachments/AgreeFlow.java) flow, and the blacklist is added as an attachment [here](https://github.com/corda/samples-java/blob/master/feature-specific-cordapps/attachment-blacklist/workflows/src/main/java/net/corda/examples/attachments/ProposeFlow.java#L47-L50).
+
 
 
 ## Usage

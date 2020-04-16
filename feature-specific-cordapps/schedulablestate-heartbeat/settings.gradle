@@ -1,2 +1,2 @@
-include 'contracts-java'
-include 'workflows-java'
+include 'contracts'
+include 'workflows'

@@ -1,34 +1,44 @@
-<p align="center">
-  <img src="https://www.corda.net/wp-content/uploads/2016/11/fg005_corda_b.png" alt="Corda" width="500">
-</p>
-
 # Heartbeat CorDapp
 
-This CorDapp is a simple showcase of scheduled activities (i.e. activities started by a node at a specific time without 
+This CorDapp is a simple showcase of scheduled activities (i.e. activities started by a node at a specific time without
 direct input from the node owner).
 
-A node starts its com.heartbeat by calling the `StartHeartbeatFlow`. This creates a `HeartState` on the ledger. This 
+
+
+## Concepts
+
+
+### Flows
+
+A node starts its com.heartbeat by calling the `StartHeartbeatFlow`. This creates a `HeartState` on the ledger. This
 `HeartState` has a scheduled activity to start the `HeatbeatFlow` one second later.
 
-When the `HeartbeatFlow` runs one second later, it consumes the existing `HeartState` and creates a new `HeartState`. 
+When the `HeartbeatFlow` runs one second later, it consumes the existing `HeartState` and creates a new `HeartState`.
 The new `HeartState` also has a scheduled activity to start the `HeatbeatFlow` in one second.
 
 In this way, calling the `StartHeartbeatFlow` creates an endless chain of `HeartbeatFlow`s one second apart.
 
-# Pre-requisites:
-  
+
+You can find those flows here :
+
+
+
+## Usage
+
+
+### Pre-requisites:
+
 See https://docs.corda.net/getting-set-up.html.
 
-# Usage
 
-## Running the nodes:
+### Running the nodes:
 
 See https://docs.corda.net/tutorial-cordapp.html#running-the-example-cordapp.
 
 Java use the `contracts-java:deployNodes` task and `./contracts-java/build/nodes/runnodes` script.
 
 
-## Interacting with the nodes:
+### Interacting with the nodes:
 
 Go to the CRaSH shell for PartyA, and run the `StartHeatbeatFlow`:
 

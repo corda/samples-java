@@ -27,7 +27,7 @@ dependencies {
     testCompile "$corda_release_group:corda-node-driver:$corda_release_version"
     cordaRuntime "org.apache.logging.log4j:log4j-slf4j-impl:$log4j_version"
 
-    cordapp project(":contracts-java")
+    cordapp project(":contracts")
 }
 
 jar {
@@ -41,7 +41,7 @@ tasks.withType(JavaCompile) {
 
 task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
     nodeDefaults {
-        cordapp project(":contracts-java")
+        cordapp project(":contracts")
     }
     node {
         name "O=Notary,L=London,C=GB"
