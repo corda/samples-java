@@ -33,7 +33,7 @@ dependencies {
     cordaRuntime "$corda_release_group:corda:$corda_release_version"
 
     // CorDapp dependencies.
-    cordapp project(":contracts-java")
+    cordapp project(":contracts")
 }
 
 sourceSets {
@@ -78,7 +78,7 @@ tasks.withType(JavaCompile) {
 
 task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
     nodeDefaults {
-        cordapp project(':contracts-java')
+        cordapp project(':contracts')
     }
     node {
         name "O=Notary,L=London,C=GB"
