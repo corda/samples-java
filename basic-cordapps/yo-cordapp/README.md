@@ -3,7 +3,7 @@
 Send Yo's! to all your friends running Corda nodes!
 
 
-### Concepts
+## Concepts
 
 In the original yo application, the app sent what is essentially a nudge from one endpoint and another.
 
