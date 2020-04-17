@@ -67,9 +67,9 @@ dependencies {
     cordaRuntime "org.apache.logging.log4j:log4j-slf4j-impl:$log4j_version"
 
     // CorDapp dependencies.
-    cordapp project(":base-java")
-    cordapp project(":client-java")
-    cordapp project(":service-java")
+    cordapp project(":base")
+    cordapp project(":client")
+    cordapp project(":service")
 }
 
 task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
@@ -95,8 +95,8 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
             address("localhost:10006")
             adminAddress("localhost:10046")
         }
-        cordapp project(':base-java')
-        cordapp project(':client-java')
+        cordapp project(':base')
+        cordapp project(':client')
         rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
     }
     node {
@@ -106,8 +106,8 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
             address("localhost:10009")
             adminAddress("localhost:10049")
         }
-        cordapp project(':base-java')
-        cordapp project(':service-java')
+        cordapp project(':base')
+        cordapp project(':service')
         rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
     }
 }
