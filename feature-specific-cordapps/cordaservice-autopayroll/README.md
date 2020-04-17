@@ -10,7 +10,7 @@ In this Cordapp, there are four parties:
  - PetersonThomas: worker #1 will accept money
  - GeorgeJefferson: worker #2 will accept money
 
-There are two states [`PaymentRequestState`]() & [`MoneyState`](), and two flows `RequestFlow` & `PaymentFlow`. The business logic looks like the following:
+There are two states [`PaymentRequestState`](https://github.com/corda/samples-java/blob/master/feature-specific-cordapps/cordaservice-autopayroll/contracts/src/main/java/net/corda/examples/autopayroll/states/PaymentRequestState.java#L20-L24) & [`MoneyState`](https://github.com/corda/samples-java/blob/master/feature-specific-cordapps/cordaservice-autopayroll/contracts/src/main/java/net/corda/examples/autopayroll/states/MoneyState.java#L23-L26), and two flows `RequestFlow` & `PaymentFlow`. The business logic looks like the following:
 ![alt text](https://github.com/corda/samples/blob/add-samples/autopayroll-CordaService/webpic/Business%20Logic.png)
 
 1. Finance team put in payroll request to the bank operators

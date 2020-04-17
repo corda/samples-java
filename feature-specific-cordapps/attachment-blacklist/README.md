@@ -1,13 +1,9 @@
-# Blacklist CorDapp
+# blacklist cordapp
 
-This CorDapp allows nodes to reach agreement over arbitrary strings of text, but only with parties that are not
-included in the blacklist uploaded to the nodes.
-
-
+This CorDapp allows nodes to reach agreement over arbitrary strings of text, but only with parties that are not included in the blacklist uploaded to the nodes.
 
 
 ## Concepts
-
 
 The blacklist takes the form of a jar including a single file, `blacklist.txt`. `blacklist.txt` lists the following
 parties as being banned from entering into agreements:
@@ -22,7 +18,6 @@ The blacklist jar is uploaded as an attachment when building a transaction, and 
 check that the parties to the `AgreementState` are not blacklisted.
 
 ### Flows
-
 
 There aren't many flows here, so it's quick to cover.
 
@@ -45,8 +40,6 @@ See https://docs.corda.net/tutorial-cordapp.html#running-the-example-cordapp.
 Java nodes
 ```
 ./gradlew workflows-java:deployNodes
-```
-```
 ./workflows-java/build/nodes/runnodes
 ```
 
