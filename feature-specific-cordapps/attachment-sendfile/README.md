@@ -14,7 +14,7 @@ In this Cordapp, there are two parties:
 
 You'll want to take a quick look at [InvoiceState.java](https://github.com/corda/samples-java/blob/master/feature-specific-cordapps/attachment-sendfile/contracts/src/main/java/net/corda/examples/sendfile/states/InvoiceState.java#L21)
 
-```
+```java
 public InvoiceState(String invoiceAttachmentID, List<AbstractParty> participants) {
     this.invoiceAttachmentID = invoiceAttachmentID;
     this.participants = participants;
