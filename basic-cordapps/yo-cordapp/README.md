@@ -63,13 +63,13 @@ On the receiving end, the other corda node will simply receive the Yo using cord
 ```
 
 
+## Usage
 
 
-## Pre-Requisites
+### Pre-Requisites
 
 See https://docs.corda.net/getting-set-up.html.
 
-## Usage
 
 ### Running the nodes
 
