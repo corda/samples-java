@@ -41,11 +41,15 @@ You'll find our example to do this in [Main.java](https://github.com/corda/sampl
 
 
 
-### Deploy and run the node
+### Running the CorDapp
 
+Open a terminal and go to the project root directory and type: (to deploy the nodes using bootstrapper)
 ```
-./greadlew deployNodes
-./build/node/runnodes
+./gradlew clean deployNodes
+```
+Then type: (to run the nodes)
+```
+./build/nodes/runnodes
 ```
 
 Then run the following task against Party A defined in the CorDapp Example:
