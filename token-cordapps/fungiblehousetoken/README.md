@@ -104,9 +104,16 @@ For a brief introduction to Token SDK in Corda, see https://medium.com/corda/int
 
 ## Usage
 
-## Running the nodes
+### Running the CorDapp
 
-See https://docs.corda.net/tutorial-cordapp.html#running-the-example-cordapp.
+Open a terminal and go to the project root directory and type: (to deploy the nodes using bootstrapper)
+```
+./gradlew clean deployNodes
+```
+Then type: (to run the nodes)
+```
+./build/nodes/runnodes
+```
 
 ### Interacting with the nodes
 
