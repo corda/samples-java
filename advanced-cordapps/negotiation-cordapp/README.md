@@ -35,7 +35,14 @@ See https://docs.corda.net/getting-set-up.html.
 
 ### Running the nodes:
 
-See https://docs.corda.net/tutorial-cordapp.html#running-the-example-cordapp.
+Open a terminal and go to the project root directory and type: (to deploy the nodes using bootstrapper)
+```
+./gradlew clean deployNodes
+```
+Then type: (to run the nodes)
+```
+./build/nodes/runnodes
+```
 
 We will interact with this CorDapp via the nodes' CRaSH shells.
 
