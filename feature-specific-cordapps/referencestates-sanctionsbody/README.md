@@ -25,10 +25,16 @@ We need to update the reference before we use it in a new transaction, we receiv
 
 See https://docs.corda.net/getting-set-up.html.
 
+### Running the CorDapp
 
-### Running the nodes
-
-See https://docs.corda.net/tutorial-cordapp.html#running-the-example-cordapp.
+Open a terminal and go to the project root directory and type: (to deploy the nodes using bootstrapper)
+```
+./gradlew clean deployNodes
+```
+Then type: (to run the nodes)
+```
+./build/nodes/runnodes
+```
 
 ### Running the flows
 
