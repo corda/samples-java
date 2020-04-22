@@ -18,22 +18,22 @@ could be scheduled to be made inactive, once the auction deadline is reached.
 
 ### Contracts:
 
-    - `AssetContract`: It is used to govern the evolution of the asset. In this case mostly change of
+- `AssetContract`: It is used to govern the evolution of the asset. In this case mostly change of
 ownership. Left black for simplicity. Has two commands, `CreateAsset` and `TransferAsset`.
 
-    - `AuctionContract`: It governs the evolution of the auction. The has the following commands:
+- `AuctionContract`: It governs the evolution of the auction. The has the following commands:
 
-    - `CreateAuction`: Validation rules governing the creation of the auction.
+- `CreateAuction`: Validation rules governing the creation of the auction.
 
-    - `Bid`: Validation rules governing the bidding process of the auction.
+- `Bid`: Validation rules governing the bidding process of the auction.
 
-    - `EndAuction`: Validation rules governing end of the auction i.e making the auction inactive
+- `EndAuction`: Validation rules governing end of the auction i.e making the auction inactive
     once the auction bidding deadline has been reached.
 
-    - `Settlement`: Validation rules for settlement of the auction i.e. transfer of asset to the
+- `Settlement`: Validation rules for settlement of the auction i.e. transfer of asset to the
     highest bidder and the highest bid amount transfer to the auctioneer.
 
-    - `Exit`: Rules governing the exit (consumption/deletion) of the auction state.
+- `Exit`: Rules governing the exit (consumption/deletion) of the auction state.
 
 ### Flows:
 
@@ -55,11 +55,11 @@ the corresponding auction as inactive, so that it stop receiving bids.The auctio
 
 It is used to settle an auction once the bidding deadline has passed. It internally triggers two flows:
 
-    - `AuctionDvPFlow`: This flow takes care of the dvp operation for settlement of the auction. It
+- `AuctionDvPFlow`: This flow takes care of the dvp operation for settlement of the auction. It
     transfers the asset on auction to the highest bidder and the highest bid amount is transferred to
     the auctioneer. It happens as an atomic transaction.
 
-    - `AuctionExitFlow`: Once the auction us settled, this flow is used to exit the auction state. This
+- `AuctionExitFlow`: Once the auction us settled, this flow is used to exit the auction state. This
     flow can also be triggered to  exit an auction which did not receive any bid till its deadline.
 
 
