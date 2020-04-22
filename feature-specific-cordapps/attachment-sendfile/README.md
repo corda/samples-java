@@ -41,14 +41,15 @@ The flow logic is the following:
 
 ## Usage
 
-### Running the demo
+### Running the CorDapp
 
-Deploy and run the nodes by:
-
-Java
+Open a terminal and go to the project root directory and type: (to deploy the nodes using bootstrapper)
 ```
-./gradlew workflows-java:deployNodes
-.workflows-java/build/nodes/runnodes
+./gradlew clean deployNodes
+```
+Then type: (to run the nodes)
+```
+./build/nodes/runnodes
 ```
 
 if you have any questions during setup, please go to https://docs.corda.net/getting-set-up.html for detailed setup instructions.
