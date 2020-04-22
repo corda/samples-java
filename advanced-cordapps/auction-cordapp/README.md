@@ -71,8 +71,14 @@ It is used to settle an auction once the bidding deadline has passed. It interna
 See https://docs.corda.net/getting-set-up.html.
 
 ### Running the nodes:
-
-See https://docs.corda.net/tutorial-cordapp.html#running-the-example-cordapp.
+Open a terminal and go to the project root directory and type: (to deploy the nodes using bootstrapper)
+```
+./gradlew clean deployNodes
+```
+Then type: (to run the nodes)
+```
+./build/nodes/runnodes
+```
 
 ### Running the client:
 
