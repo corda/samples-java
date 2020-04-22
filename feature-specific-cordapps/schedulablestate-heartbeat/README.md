@@ -35,11 +35,16 @@ You can find those flows here :
 See https://docs.corda.net/getting-set-up.html.
 
 
-### Running the nodes:
+### Running the CorDapp
 
-See https://docs.corda.net/tutorial-cordapp.html#running-the-example-cordapp.
-
-Java use the `contracts-java:deployNodes` task and `./contracts-java/build/nodes/runnodes` script.
+Open a terminal and go to the project root directory and type: (to deploy the nodes using bootstrapper)
+```
+./gradlew clean deployNodes
+```
+Then type: (to run the nodes)
+```
+./build/nodes/runnodes
+```
 
 
 ### Interacting with the nodes:
