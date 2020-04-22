@@ -48,13 +48,16 @@ See https://docs.corda.net/getting-set-up.html.
 
 ## Usage
 
-### Running the nodes:
+### Running the CorDapp
 
-See https://docs.corda.net/tutorial-cordapp.html#running-the-example-cordapp.
-
-Java use the `workflows-java:deployNodes` task and `./workflows-java/build/nodes/runnodes` script.
-
-
+Open a terminal and go to the project root directory and type: (to deploy the nodes using bootstrapper)
+```
+./gradlew clean deployNodes
+```
+Then type: (to run the nodes)
+```
+./build/nodes/runnodes
+```
 ### Interacting with the nodes:
 
 We'll be interacting with the node via its interactive shell.
