@@ -24,12 +24,16 @@ You can find [`SwapIdentitiesFlow` here](https://github.com/corda/samples-java/b
 See https://docs.corda.net/getting-set-up.html.
 
 
-### Running the nodes:
+### Running the CorDapp
 
-See https://docs.corda.net/tutorial-cordapp.html#running-the-example-cordapp.
-
-Java
-``./gradlew workflows-java:deployNodes`` then ``./workflows-java/build/nodes/runnodes``
+Open a terminal and go to the project root directory and type: (to deploy the nodes using bootstrapper)
+```
+./gradlew clean deployNodes
+```
+Then type: (to run the nodes)
+```
+./build/nodes/runnodes
+```
 
 ### Interacting with the nodes:
 
