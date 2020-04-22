@@ -11,12 +11,6 @@ This Cordapp shows how to upload and download an attachment via a flow.
 ### [confidential identity whistleblower](./confidentialidentity-whistleblower):
 This CorDapp is a simple showcase of confidential identities (i.e. anonymous public keys).
 
-### [confidential identity whistleblower](./confidentialidentity-whistleblower):
-This CorDapp is a simple showcase of confidential identities (i.e. anonymous public keys).
-
-### [confidential identity whistleblower](./confidentialidentity-whistleblower):
-This CorDapp is a simple showcase of confidential identities (i.e. anonymous public keys).
-
 ### [service autopayroll](./cordaservice-autopayroll):
 This Cordapp shows how to trigger a flow with vault update(completion of prior flows) using `CordaService` & `trackby`.
 
