@@ -33,14 +33,15 @@ There's a [proposal](https://github.com/corda/samples-java/blob/master/feature-s
 See https://docs.corda.net/getting-set-up.html.
 
 
-### Running the nodes:
+### Running the CorDapp
 
-See https://docs.corda.net/tutorial-cordapp.html#running-the-example-cordapp.
-
-Java nodes
+Open a terminal and go to the project root directory and type: (to deploy the nodes using bootstrapper)
 ```
-./gradlew workflows-java:deployNodes
-./workflows-java/build/nodes/runnodes
+./gradlew clean deployNodes
+```
+Then type: (to run the nodes)
+```
+./build/nodes/runnodes
 ```
 
 
