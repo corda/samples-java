@@ -31,12 +31,14 @@ Finally, once we have the ability to transfer assets, we just need to settle up.
 Once your application passes all tests in `IOUStateTests`, `IOUIssueTests`, and `IOUIssueFlowTests`, you can run the application and
 interact with it via a web browser. To run the finished application, you have two choices for each language: from the terminal, and from IntelliJ.
 
-
-* Terminal: Navigate to the root project folder and run `./gradlew java-source:deployNodes`, followed by
-`./java-source/build/node/runnodes`
-
-* IntelliJ: With the project open, select `Java - NodeDriver` from the dropdown run configuration menu, and click
-the green play button.
+Open a terminal and go to the project root directory and type: (to deploy the nodes using bootstrapper)
+```
+./gradlew clean deployNodes
+```
+Then type: (to run the nodes)
+```
+./build/nodes/runnodes
+```
 
 ### Interacting with the CorDapp
 
