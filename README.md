@@ -4,7 +4,7 @@
 </p>
 
 ## Introduction
-This repository contains sample CorDapps created to show developers how to implement specific functionality. These samples are all Apache 2.0 licensed, so feel free to use them as the basis for your own CorDapps. You can find the exact same set of Cordapp demonstration in Kotlin language at link. 
+This repository contains sample CorDapps created to show developers how to implement specific functionality. These samples are all Apache 2.0 licensed, so feel free to use them as the basis for your own CorDapps. You can find the exact same set of Cordapp demonstration in Kotlin language at [link](https://github.com/corda/samples-kotlin). 
 
 ## Directories
 The samples are divided into 4 sections with the following desciption:
@@ -27,7 +27,6 @@ The samples are divided into 4 sections with the following desciption:
 │   ├── flow-send-msg
 │   ├── rpc-nodeinfo
 │   └── yo-cordapp
-├── cordapp-template-java
 ├── feature-specific-cordapps
 │   ├── Attachment-blacklist
 │   ├── Attachment-sendfile
