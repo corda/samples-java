@@ -5,7 +5,7 @@ This folder features five sample projects, each of them demonstrates different f
 ### [bike market](./bikemarket):
 This sample Cordapp demonstrate some simple flows related to the token SDK.
 
-### [token market](./tokenmarket):
+### [Dollar to Token DvP](./dollartohousetoken):
 This CorDapp servers a basic example to create, issue and perform a DvP (Delivery vs Payment) of an Evolvable NonFungible token in Corda utilizing the TokenSDK.
 
 ### [fungible house token](./fungiblehousetoken):
