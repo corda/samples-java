@@ -14,7 +14,7 @@ The samples are divided into 4 sections with the following desciption:
 * Advanced: demonstrates multiple features of corda and normally it has sophisticated design
 * Basic: demonstrates fundamental but useful techniques during cordapp development
 * Feature: demonstrates the general Corda functionalities.
-* TokenS: TokenSDK related samples
+* Tokens: TokenSDK related samples
 
 
 
