@@ -4,7 +4,9 @@
 </p>
 
 ## Introduction
-This repository contains sample CorDapps created to show developers how to implement specific functionality. These samples are all Apache 2.0 licensed, so feel free to use them as the basis for your own CorDapps. You can find the exact same set of Cordapp demonstration in Kotlin language at [link](https://github.com/corda/samples-kotlin). 
+This repository contains multiple sample apps, from cordapps that help you get started, all the way to demonstrating specific features and advanced usage.
+
+To get started explore the [Basic](./Basic) folder, or navigate to the [Advanced](./Advanced) and [Features](./Features) folders to see a description of whats available. You can find the exact same set of Cordapp demonstration in Kotlin language at [link](https://github.com/corda/samples-kotlin). 
 
 ## Directories
 The samples are divided into 4 sections with the following desciption:
@@ -17,17 +19,17 @@ The samples are divided into 4 sections with the following desciption:
 
 ```
 .
-├── advanced-cordapps
+├── Advanced
 │   ├── auction-cordapp
 │   ├── negotiation-cordapp
 │   └── obligation-cordapp
-├── basic-cordapps
+├── Basic
 │   ├── flow-database-access
 │   ├── flow-http-access
 │   ├── flow-send-msg
 │   ├── rpc-nodeinfo
 │   └── yo-cordapp
-├── feature-specific-cordapps
+├── Features
 │   ├── Attachment-blacklist
 │   ├── Attachment-sendfile
 │   ├── ConfidentialIdentity-whistleblower
@@ -37,7 +39,7 @@ The samples are divided into 4 sections with the following desciption:
 │   ├── QueryableState-carinsurance
 │   ├── ReferenceStates-sanctionsBody
 │   └── SchedulableState-heartbeat
-└── token-cordapps
+└── Tokens
     ├── bikemarket
     ├── dollartohousetoken
     ├── fungiblehousetoken
