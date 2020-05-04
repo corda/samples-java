@@ -9,13 +9,13 @@ This CorDapp allows two nodes to enter into an IOU agreement, but enforces that 
 
 ### Flows
 
-Next, we want to issue an IOU, this happens in [IOUIssueFlow](https://github.com/corda/samples/blob/72b65879402ce95a2ef6dc92882a89dd82ac6c18/feature-specific-cordapps/ReferenceStates-sanctionsBody/workflows/src/main/java/com.example.flow/IOUIssueFlow.java#L150-L173)
+Next, we want to issue an IOU, this happens in [IOUIssueFlow](./workflows/src/main/java/com.example.flow/IOUIssueFlow.java#L150-L173)
 
 
-We've seen how to successfully send an IOU to a non-sanctioned party, so what if we want to send one to a sanctioned party? First we need to update the sanction list which you'll find in [UpdateSanctionsListFlow](https://github.com/corda/samples/blob/72b65879402ce95a2ef6dc92882a89dd82ac6c18/feature-specific-cordapps/ReferenceStates-sanctionsBody/workflows-java/src/main/java/com.example.flow/UpdateSanctionsListFlow.java#L45-L90).
+We've seen how to successfully send an IOU to a non-sanctioned party, so what if we want to send one to a sanctioned party? First we need to update the sanction list which you'll find in [UpdateSanctionsListFlow](./workflows-java/src/main/java/com.example.flow/UpdateSanctionsListFlow.java#L45-L90).
 
 
-We need to update the reference before we use it in a new transaction, we receive our sanctionslist with the [GetSanctionsListFlow](https://github.com/corda/samples/blob/72b65879402ce95a2ef6dc92882a89dd82ac6c18/feature-specific-cordapps/ReferenceStates-sanctionsBody/workflows-java/src/main/java/com.example.flow/GetSanctionsListFlow.java#L51-L63)
+We need to update the reference before we use it in a new transaction, we receive our sanctionslist with the [GetSanctionsListFlow](./workflows-java/src/main/java/com.example.flow/GetSanctionsListFlow.java#L51-L63)
 
 
 ## Usage
