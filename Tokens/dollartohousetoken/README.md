@@ -13,9 +13,9 @@ There are three flows that we'll promarily use in this example that you'll be bu
 
 We'll start with running [FiatCurrencyIssueFlow](https://github.com/corda/samples-java/blob/master/token-cordapps/dollartohousetoken/workflows/src/main/java/net/corda/examples/dollartohousetoken/flows/FiatCurrencyIssueFlow.java#L37-L49).
 
-We'll then create and issue a house token using [HouseTokenCreateAndIssueFlow](https://github.com/corda/samples-java/blob/master/token-cordapps/dollartohousetoken/workflows/src/main/java/net/corda/examples/dollartohousetoken/flows/HouseTokenCreateAndIssueFlow.java#L49-L85).
+We'll then create and issue a house token using [HouseTokenCreateAndIssueFlow](./workflows/src/main/java/net/corda/examples/dollartohousetoken/flows/HouseTokenCreateAndIssueFlow.java#L49-L85).
 
-We'll then initiate the sale of the house through [HouseSaleInitiatorFlow](https://github.com/corda/samples-java/blob/master/token-cordapps/dollartohousetoken/workflows/src/main/java/net/corda/examples/dollartohousetoken/flows/HouseSaleInitiatorFlow.java#L38-L81).
+We'll then initiate the sale of the house through [HouseSaleInitiatorFlow](./workflows/src/main/java/net/corda/examples/dollartohousetoken/flows/HouseSaleInitiatorFlow.java#L38-L81).
 
 
 
