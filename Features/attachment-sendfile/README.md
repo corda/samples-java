@@ -12,7 +12,7 @@ In this Cordapp, there are two parties:
 
 ### States
 
-You'll want to take a quick look at [InvoiceState.java](https://github.com/corda/samples-java/blob/master/feature-specific-cordapps/attachment-sendfile/contracts/src/main/java/net/corda/examples/sendfile/states/InvoiceState.java#L21)
+You'll want to take a quick look at [InvoiceState.java](./contracts/src/main/java/net/corda/examples/sendfile/states/InvoiceState.java#L21)
 
 ```java
 public InvoiceState(String invoiceAttachmentID, List<AbstractParty> participants) {
@@ -24,7 +24,7 @@ public InvoiceState(String invoiceAttachmentID, List<AbstractParty> participants
 
 ### Flows
 
-There are two flows [`sendAttachment`](https://github.com/corda/samples-java/blob/master/feature-specific-cordapps/attachment-sendfile/workflows/src/main/java/net/corda/examples/sendfile/flows/SendAttachment.java#L47-L67) and [`downloadAttachment`](https://github.com/corda/samples-java/blob/master/feature-specific-cordapps/attachment-sendfile/workflows/src/main/java/net/corda/examples/sendfile/flows/DownloadAttachment.java#L47-L66).
+There are two flows [`sendAttachment`](./workflows/src/main/java/net/corda/examples/sendfile/flows/SendAttachment.java#L47-L67) and [`downloadAttachment`](./workflows/src/main/java/net/corda/examples/sendfile/flows/DownloadAttachment.java#L47-L66).
 
 The flow logic is the following:
 
