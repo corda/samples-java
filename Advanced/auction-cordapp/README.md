@@ -37,19 +37,19 @@ ownership. Left black for simplicity. Has two commands, `CreateAsset` and `Trans
 
 ### Flows:
 
-- `CreateAssetFlow`: This flow is used create an asset. Implemented in [CreateAssetFlow.java](https://github.com/corda/samples-java/blob/master/advanced-cordapps/auction-cordapp/workflows/src/main/java/net/corda/samples/flows/CreateAssetFlow.java#L44-L66)
+- `CreateAssetFlow`: This flow is used create an asset. Implemented in [CreateAssetFlow.java](./workflows/src/main/java/net/corda/samples/flows/CreateAssetFlow.java#L44-L66)
 
-- `CreateAuctionFlow`: This flow is used to create an auction ([CreateAuctionFlow.java can be found here](https://github.com/corda/samples-java/blob/master/advanced-cordapps/auction-cordapp/workflows/src/main/java/net/corda/samples/flows/CreateAuctionFlow.java#L58-L96)). Once an asset has been created using
+- `CreateAuctionFlow`: This flow is used to create an auction ([CreateAuctionFlow.java can be found here](./workflows/src/main/java/net/corda/samples/flows/CreateAuctionFlow.java#L58-L96)). Once an asset has been created using
 the`CreateAssetFlow`, this flow can be used to put the asset on auction. The `AuctionState`
 references to the `Asset` using a `StatePointer`.
 
 Refer here to learn more about StatePointer: https://medium.com/corda/linking-corda-states-using-statepointer-16e24e5e602
 
 - `BidFlow`: It is used to place a bid on an auction. Bids can be placed only till a predetermined
-deadline defined in the `AuctionState`. Implemented in [BidFlow.java](https://github.com/corda/samples-java/blob/master/advanced-cordapps/auction-cordapp/workflows/src/main/java/net/corda/samples/flows/BidFlow.java#L42-L86).
+deadline defined in the `AuctionState`. Implemented in [BidFlow.java](./workflows/src/main/java/net/corda/samples/flows/BidFlow.java#L42-L86).
 
 - `EndAuctionFlow`: This is a scheduled flow, which run automatically on auction deadline to mark
-the corresponding auction as inactive, so that it stop receiving bids.The auction flow can be found [here](https://github.com/corda/samples-java/blob/master/advanced-cordapps/auction-cordapp/workflows/src/main/java/net/corda/samples/flows/EndAuctionFlow.java#L39-L83)
+the corresponding auction as inactive, so that it stop receiving bids.The auction flow can be found [here](./workflows/src/main/java/net/corda/samples/flows/EndAuctionFlow.java#L39-L83)
 
 - `AuctionSettlementFlow`:
 
