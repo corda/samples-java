@@ -12,10 +12,10 @@ This CorDapp allows two nodes to enter into an IOU agreement, but enforces that 
 Next, we want to issue an IOU, this happens in [IOUIssueFlow](./workflows/src/main/java/com.example.flow/IOUIssueFlow.java#L150-L173)
 
 
-We've seen how to successfully send an IOU to a non-sanctioned party, so what if we want to send one to a sanctioned party? First we need to update the sanction list which you'll find in [UpdateSanctionsListFlow](./workflows-java/src/main/java/com.example.flow/UpdateSanctionsListFlow.java#L45-L90).
+We've seen how to successfully send an IOU to a non-sanctioned party, so what if we want to send one to a sanctioned party? First we need to update the sanction list which you'll find in [UpdateSanctionsListFlow](./workflows/src/main/java/com.example.flow/UpdateSanctionsListFlow.java#L45-L90).
 
 
-We need to update the reference before we use it in a new transaction, we receive our sanctionslist with the [GetSanctionsListFlow](./workflows-java/src/main/java/com.example.flow/GetSanctionsListFlow.java#L51-L63)
+We need to update the reference before we use it in a new transaction, we receive our sanctionslist with the [GetSanctionsListFlow](./workflows/src/main/java/com.example.flow/GetSanctionsListFlow.java#L51-L63)
 
 
 ## Usage
