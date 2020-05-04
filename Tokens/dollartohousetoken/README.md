@@ -11,7 +11,7 @@ This CorDapp servers a basic example to create, issue and perform a DvP (Deliver
 There are three flows that we'll promarily use in this example that you'll be building off of.
 
 
-We'll start with running [FiatCurrencyIssueFlow](https://github.com/corda/samples-java/blob/master/token-cordapps/dollartohousetoken/workflows/src/main/java/net/corda/examples/dollartohousetoken/flows/FiatCurrencyIssueFlow.java#L37-L49).
+We'll start with running [FiatCurrencyIssueFlow](./workflows/src/main/java/net/corda/examples/dollartohousetoken/flows/FiatCurrencyIssueFlow.java#L37-L49).
 
 We'll then create and issue a house token using [HouseTokenCreateAndIssueFlow](./workflows/src/main/java/net/corda/examples/dollartohousetoken/flows/HouseTokenCreateAndIssueFlow.java#L49-L85).
 
