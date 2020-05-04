@@ -54,13 +54,13 @@ We'll list the flows here in the order that they execute in our example.
 
 ##### Pre-requisite. IssueMoney - Bank
 
-First, the bank issues money to WayneCo using [IssueMoney.java](https://github.com/corda/samples-java/blob/master/token-cordapps/stockpaydividend/workflows/src/main/java/net/corda/examples/stockpaydividend/flows/IssueMoney.java#L37-L2)
+First, the bank issues money to WayneCo using [IssueMoney.java](./workflows/src/main/java/net/corda/examples/stockpaydividend/flows/IssueMoney.java#L37-L2)
 
 
 ##### 1. IssueStock - Stock Issuer
 WayneCo creates a StockState and issues some stock tokens associated to the created StockState.
 
-That stock is issused in [IssueStock.java](https://github.com/corda/samples-java/blob/master/token-cordapps/stockpaydividend/workflows/src/main/java/net/corda/examples/stockpaydividend/flows/IssueStock.java#L57-L97).
+That stock is issused in [IssueStock.java](./workflows/src/main/java/net/corda/examples/stockpaydividend/flows/IssueStock.java#L57-L97).
 
 
 ##### 2. MoveStock - Stock Issuer
@@ -68,13 +68,13 @@ That stock is issused in [IssueStock.java](https://github.com/corda/samples-java
 WayneCo transfers some stock tokens to the Shareholder.
 
 
-This flow is in [MoveStock.java](https://github.com/corda/samples-java/blob/master/token-cordapps/stockpaydividend/workflows/src/main/java/net/corda/examples/stockpaydividend/flows/MoveStock.java#L40-L53)
+This flow is in [MoveStock.java](./workflows/src/main/java/net/corda/examples/stockpaydividend/flows/MoveStock.java#L40-L53)
 
 
 ##### 3. AnnounceDividend - Stock Issuer
 WayneCo announces the dividends that will be paid on the payday.
 
-This happens through [AnnounceDividend.java](https://github.com/corda/samples-java/blob/master/token-cordapps/stockpaydividend/workflows/src/main/java/net/corda/examples/stockpaydividend/flows/AnnounceDividend.java#L48-L77)
+This happens through [AnnounceDividend.java](./workflows/src/main/java/net/corda/examples/stockpaydividend/flows/AnnounceDividend.java#L48-L77)
 
 
 
@@ -83,7 +83,7 @@ This happens through [AnnounceDividend.java](https://github.com/corda/samples-ja
 Shareholders retrieves the newest stock state from the company.
 
 
-We see this happen in [GetStockUpdate.java](https://github.com/corda/samples-java/blob/master/token-cordapps/stockpaydividend/workflows/src/main/java/net/corda/examples/stockpaydividend/flows/GetStockUpdate.java#L33-L52)
+We see this happen in [GetStockUpdate.java](./workflows/src/main/java/net/corda/examples/stockpaydividend/flows/GetStockUpdate.java#L33-L52)
 
 
 
@@ -91,7 +91,7 @@ We see this happen in [GetStockUpdate.java](https://github.com/corda/samples-jav
 
 Shareholders finds the dividend is announced and claims the dividends base on the owning stock.
 
-Implemented in [ClaimDividendReceivable.java](https://github.com/corda/samples-java/blob/master/token-cordapps/stockpaydividend/workflows/src/main/java/net/corda/examples/stockpaydividend/flows/ClaimDividendReceivable.java#L51-L96)
+Implemented in [ClaimDividendReceivable.java](./workflows/src/main/java/net/corda/examples/stockpaydividend/flows/ClaimDividendReceivable.java#L51-L96)
 
 
 
@@ -99,12 +99,12 @@ Implemented in [ClaimDividendReceivable.java](https://github.com/corda/samples-j
 On the payday, the company pay off the stock with fiat currencies.
 
 
-This is implemented in [PayDividend.java](https://github.com/corda/samples-java/blob/master/token-cordapps/stockpaydividend/workflows/src/main/java/net/corda/examples/stockpaydividend/flows/PayDividend.java#L46-L108).
+This is implemented in [PayDividend.java](./workflows/src/main/java/net/corda/examples/stockpaydividend/flows/PayDividend.java#L46-L108).
 
 ##### 7. Get token balances - Any node
 Query the balances of different nodes. This can be executed at anytime.
 
-This is found in two different flows, where we make requests using `GetStockBalances` or `GetFiatBalances` for stock or fiat with [QueryStock.java](https://github.com/corda/samples-java/blob/5c0155784e8ca9df27dd5d4f9eca65e4cce4b11a/token-cordapps/stockpaydividend/workflows/src/main/java/net/corda/examples/stockpaydividend/flows/QueryStock.java)
+This is found in two different flows, where we make requests using `GetStockBalances` or `GetFiatBalances` for stock or fiat with [QueryStock.java](./workflows/src/main/java/net/corda/examples/stockpaydividend/flows/QueryStock.java)
 
 
 ## Usage
