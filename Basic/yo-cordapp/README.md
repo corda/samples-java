@@ -13,7 +13,7 @@ In corda, we can use abstractions to accomplish the same thing.
 We define a state (the yo to be shared), define a contract (the way to make sure the yo is legit), and define the flow (the control flow of our cordapp).
 
 ### States
-We define a [Yo as a state](https://github.com/corda/samples-java/blob/master/basic-cordapps/yo-cordapp/contracts/src/main/java/net/corda/examples/yo/states/YoState.java#L31-L35), or a corda fact.
+We define a [Yo as a state](./contracts/src/main/java/net/corda/examples/yo/states/YoState.java#L31-L35), or a corda fact.
 
 ```java
     public YoState(Party origin, Party target) {
@@ -25,7 +25,7 @@ We define a [Yo as a state](https://github.com/corda/samples-java/blob/master/ba
 
 
 ### Contracts
-We define [the "Yo Social Contract"](https://github.com/corda/samples-java/blob/master/basic-cordapps/yo-cordapp/contracts/src/main/java/net/corda/examples/yo/contracts/YoContract.java#L21-L32), which, in this case, verifies some basic assumptions about a Yo.
+We define [the "Yo Social Contract"](./contracts/src/main/java/net/corda/examples/yo/contracts/YoContract.java#L21-L32), which, in this case, verifies some basic assumptions about a Yo.
 
 ```java
     @Override
@@ -45,7 +45,7 @@ We define [the "Yo Social Contract"](https://github.com/corda/samples-java/blob/
 
 
 ### Flows
-And then we send the Yo [within a flow](https://github.com/corda/samples-java/blob/master/basic-cordapps/yo-cordapp/workflows/src/main/java/net/corda/examples/yo/flows/YoFlow.java#L59-L64).
+And then we send the Yo [within a flow](./workflows/src/main/java/net/corda/examples/yo/flows/YoFlow.java#L59-L64).
 
 ```java
         Party me = getOurIdentity();
