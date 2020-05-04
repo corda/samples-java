@@ -14,7 +14,7 @@ After cloning, use the _getInfo_ gradle task to retrieve node information.
 Here we'll be using java just to create an RPC call against a corda node.
 
 
-You'll find our example to do this in [Main.java](https://github.com/corda/samples-java/blob/master/basic-cordapps/rpc-nodeinfo/java-app/src/main/java/net/corda/Main.java#L31-L46)
+You'll find our example to do this in [Main.java](./java-app/src/main/java/net/corda/Main.java#L31-L46)
 
 ```java
         System.out.println("Node connected: " + proxy.nodeInfo().getLegalIdentities().get(0));
