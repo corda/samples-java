@@ -1,6 +1,6 @@
 ## samples-java/advanced-cordapps
 
-This folder features three sample projects, each of them demonstrates different features of corda.
+This folder features Advanced sample projects, each of them demonstrates a complex cordapp that uses multiple features of Corda.
 
 ### [auction cordapp](./auction-cordapp):
 An blockchain application that leverages different features of Corda like SchedulableState, StatePointer
