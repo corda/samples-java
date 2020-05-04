@@ -21,9 +21,9 @@ In this way, calling the `StartHeartbeatFlow` creates an endless chain of `Heart
 
 You can find those flows here :
 
- - [StartHeartBeatFlow](https://github.com/corda/samples-java/blob/master/feature-specific-cordapps/schedulablestate-heartbeat/workflows/src/main/java/com/heartbeat/flows/StartHeartbeatFlow.java#L52-L65)
+ - [StartHeartBeatFlow](./workflows/src/main/java/com/heartbeat/flows/StartHeartbeatFlow.java#L52-L65)
 
- - [HeartbeatFlow](https://github.com/corda/samples-java/blob/master/feature-specific-cordapps/schedulablestate-heartbeat/workflows/src/main/java/com/heartbeat/flows/HeartbeatFlow.java#L53-L70)
+ - [HeartbeatFlow](./workflows/src/main/java/com/heartbeat/flows/HeartbeatFlow.java#L53-L70)
 
 
 
