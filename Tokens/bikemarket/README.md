@@ -15,7 +15,7 @@ This sample Cordapp demonstrate some simple flows related to the token SDK. In t
 - Buyer: Buy bike from the BikeCo or licensed dealership, or buy used parts from used parts agency.
 
 
-![alt text](https://github.com/corda/samples/blob/dvp-token/bikemarket-TokenSDK/diagram/pic1.png)
+![alt text](./diagram/pic1.png)
 
 From the above chat we see that Tokens are representing the ownership and status of the physical assests, such as bike frame and bike wheels. A key point to notice here is that **a bike is represented with 2 tokens (Frame and wheels)**. This is designed in the way to be flexiable to sell or total a specific part of your bike. As can see, this bike buying/selling market is capable of mimicing multiple business logics. We will be demonstrating one of the possible logic here:
 
@@ -34,19 +34,19 @@ Through out the sample, we will see how to create, transact, and redeem a token.
 We'll create bike parts using the flows for CreateFrameToken and CreateWheelToken.
 
 
-We can create the tokens with [CreateFrameToken](https://github.com/corda/samples-java/blob/master/token-cordapps/bikemarket/workflows/src/main/java/net/corda/examples/bikemarket/flows/CreateFrameToken.java) and [CreateWheelToken](https://github.com/corda/samples-java/blob/master/token-cordapps/bikemarket/workflows/src/main/java/net/corda/examples/bikemarket/flows/CreateWheelToken.java).
+We can create the tokens with [CreateFrameToken](./workflows/src/main/java/net/corda/examples/bikemarket/flows/CreateFrameToken.java) and [CreateWheelToken](./workflows/src/main/java/net/corda/examples/bikemarket/flows/CreateWheelToken.java).
 
 
-We'll create a bike with the [IssueNewBike](https://github.com/corda/samples-java/blob/master/token-cordapps/bikemarket/workflows/src/main/java/net/corda/examples/bikemarket/flows/IssueNewBike.java) flow.
+We'll create a bike with the [IssueNewBike](./workflows/src/main/java/net/corda/examples/bikemarket/flows/IssueNewBike.java) flow.
 
 
-We can transfer bike tokens using the [TransferBikeToken](https://github.com/corda/samples-java/blob/master/token-cordapps/bikemarket/workflows/src/main/java/net/corda/examples/bikemarket/flows/TransferBikeTokens.java) flow.
+We can transfer bike tokens using the [TransferBikeToken](./workflows/src/main/java/net/corda/examples/bikemarket/flows/TransferBikeTokens.java) flow.
 
 
-We can transfer bike tokens using the [TotalPart](https://github.com/corda/samples-java/blob/master/token-cordapps/bikemarket/workflows/src/main/java/net/corda/examples/bikemarket/flows/TotalParts.java) flow.
+We can transfer bike tokens using the [TotalPart](./workflows/src/main/java/net/corda/examples/bikemarket/flows/TotalParts.java) flow.
 
 
-We transfer part tokens using the [TransferPartToken](https://github.com/corda/samples-java/blob/master/token-cordapps/bikemarket/workflows/src/main/java/net/corda/examples/bikemarket/flows/TransferPartTokens.java) flow.
+We transfer part tokens using the [TransferPartToken](./workflows/src/main/java/net/corda/examples/bikemarket/flows/TransferPartTokens.java) flow.
 
 
 ## Usage
