@@ -67,7 +67,7 @@ You could download H2 Console to connect to h2 database here:
 http://www.h2database.com/html/download.html
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/corda/samples/queryable-state/carinsurance-QueryableState/clients/src/main/resources/static/JDBC-url.png" alt="Database URL" width="400">
+  <img src="./clients/src/main/resources/static/JDBC-url.png" alt="Database URL" width="400">
 </p>
 
 Refer here for more details regarding connecting to the node database.
