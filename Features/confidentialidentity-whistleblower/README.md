@@ -12,7 +12,7 @@ who manage to get ahold of the state cannot identity the whistle-blower or inves
 automatically by the `SwapIdentitiesFlow`.
 
 
-You can find [`SwapIdentitiesFlow` here](./workflows/src/main/java/net/corda/examples/whistleblower/flows/BlowWhistleFlow.java#L117-L121).
+You can find `SwapIdentitiesFlow` [here](./workflows/src/main/java/net/corda/examples/whistleblower/flows/BlowWhistleFlow.java#L117-L121).
 
 
 
