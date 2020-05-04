@@ -1,6 +1,6 @@
 ## samples-java/token-cordapps
 
-This folder features tokenSDK sample projects, each of them demonstrates different features of corda.
+This folder features tokenSDK sample projects.
 
 ### [bike market](./bikemarket):
 This sample Cordapp demonstrate some simple flows related to the token SDK.
