@@ -2,7 +2,7 @@
 
 This folder features several sample projects, each of them demonstrates different specific features of corda.
 
-### [blacklist](./attachment-blacklist):
+### [attachment-blacklist](./attachment-blacklist):
 This CorDapp allows nodes to reach agreement over arbitrary strings of text, but only with parties that are not included in the blacklist uploaded to the nodes.
 
 ### [attachment-sendfile](./attachment-sendfile):
