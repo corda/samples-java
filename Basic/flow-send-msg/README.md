@@ -20,7 +20,7 @@ We define a state (the "ping" to be shared), define a contract (the way to make 
 You'll notice in our code we call these two classes ping and pong, the flow that sends the `"ping"`, and the flow that returns with a `"pong"`.
 
 
-Take a look at [Ping.java](https://github.com/corda/samples-java/blob/master/basic-cordapps/flow-send-msg/workflows-java/src/main/java/net/corda/examples/pingpong/flows/Ping.java#L20-L28).
+Take a look at [Ping.java](./workflows-java/src/main/java/net/corda/examples/pingpong/flows/Ping.java#L20-L28).
 
 You'll notice that this flow does what we expect, which is to send an outbound ping, and expect to receive a pong. If we receive a pong, then our flow is sucessful.
 
@@ -37,7 +37,7 @@ You'll notice that this flow does what we expect, which is to send an outbound p
 ```
 
 
-And of course we see a similar behavior in [Pong.java](https://github.com/corda/samples-java/blob/master/basic-cordapps/flow-send-msg/workflows-java/src/main/java/net/corda/examples/pingpong/flows/Pong.java#L22-L30).
+And of course we see a similar behavior in [Pong.java](./workflows-java/src/main/java/net/corda/examples/pingpong/flows/Pong.java#L22-L30).
 
 We expect to receive data from a counterparty that contains a ping, when we receive it, we respond with a pong.
 
