@@ -14,7 +14,7 @@ and national regulators. There are two ways to use observable states:
 
 The two approaches are functionally identical.
 
-In this CorDapp, the seller runs [the `TradeAndReport` flow](https://github.com/corda/samples-java/blob/master/feature-specific-cordapps/observablestates-tradereporting/workflows/src/main/java/com/observable/flows/TradeAndReport.java#L30-L48) to create [a new `HighlyRegulatedState`](https://github.com/corda/samples-java/blob/master/feature-specific-cordapps/observablestates-tradereporting/contracts/src/main/java/com/observable/states/HighlyRegulatedState.java#L19-L22). Then we can see that the seller will:
+In this CorDapp, the seller runs [the `TradeAndReport` flow](./workflows/src/main/java/com/observable/flows/TradeAndReport.java#L30-L48) to create [a new `HighlyRegulatedState`](./contracts/src/main/java/com/observable/states/HighlyRegulatedState.java#L19-L22). Then we can see that the seller will:
 
 * Distribute the state to the buyer and the `state regulator` using `FinalityFlow`
 * Distribute the state to the `national regulator` manually using the `ReportManually` flow
