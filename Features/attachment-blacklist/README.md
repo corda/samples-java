@@ -21,7 +21,7 @@ check that the parties to the `AgreementState` are not blacklisted.
 
 There aren't many flows here, so it's quick to cover.
 
-There's a [proposal](https://github.com/corda/samples-java/blob/master/feature-specific-cordapps/attachment-blacklist/workflows/src/main/java/net/corda/examples/attachments/ProposeFlow.java) and [acceptance](https://github.com/corda/samples-java/blob/master/feature-specific-cordapps/attachment-blacklist/workflows/src/main/java/net/corda/examples/attachments/AgreeFlow.java) flow, and the blacklist is added as an attachment [here](https://github.com/corda/samples-java/blob/master/feature-specific-cordapps/attachment-blacklist/workflows/src/main/java/net/corda/examples/attachments/ProposeFlow.java#L47-L50).
+There's a [proposal](./workflows/src/main/java/net/corda/examples/attachments/ProposeFlow.java) and [acceptance](./workflows/src/main/java/net/corda/examples/attachments/AgreeFlow.java) flow, and the blacklist is added as an attachment [here](./workflows/src/main/java/net/corda/examples/attachments/ProposeFlow.java#L47-L50).
 
 
 
