@@ -25,10 +25,10 @@ Server.
 
 There are two flow in this cordapp:
 
-1. [IssueInsuranceInitiator](https://github.com/corda/samples-java/blob/master/feature-specific-cordapps/queryablestate-carinsurance/workflows/src/main/java/net/corda/examples/carinsurance/flows/IssueInsuranceFlow.java#L39-L67): It creates the insurance state with the associated vehicle
+1. [IssueInsuranceInitiator](./workflows/src/main/java/net/corda/examples/carinsurance/flows/IssueInsuranceFlow.java#L39-L67): It creates the insurance state with the associated vehicle
 information.
 
-2. [InsuranceClaimInitiator](https://github.com/corda/samples-java/blob/master/feature-specific-cordapps/queryablestate-carinsurance/workflows/src/main/java/net/corda/examples/carinsurance/flows/InsuranceClaimFlow.java#L34-L57): It creates the claims against the insurance.
+2. [InsuranceClaimInitiator](./workflows/src/main/java/net/corda/examples/carinsurance/flows/InsuranceClaimFlow.java#L34-L57): It creates the claims against the insurance.
 
 
 ## Usage
@@ -54,7 +54,7 @@ from the link: https://www.getpostman.com/collections/ddc01c13b8ab4b5e853b.
 Use the option Import > Import from Link option in Postman to import the collection.
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/corda/samples/queryable-state/carinsurance-QueryableState/clients/src/main/resources/static/Postman_screenshot.png" alt="Postman Import Collection" width="400">
+<img src="./clients/src/main/resources/static/Postman_screenshot.png" alt="Postman Import Collection" width="400">
 </p>
 
 
