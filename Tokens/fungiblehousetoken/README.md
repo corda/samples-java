@@ -16,7 +16,7 @@ There are a few flows that enable this project.
 We will create a resource (in this case a house), and then issue tokens for that resource, and then transfer those tokens.
 
 
-We create the representation of a house, within [CreateHouseTokenFlow.java](https://github.com/corda/samples-java/blob/f11f681f0efd5314426d7e674388e54c348f1a65/token-cordapps/fungiblehousetoken/workflows/src/main/java/net/corda/examples/tokenizedhouse/flows/RealEstateEvolvableFungibleTokenFlow.java#L47-L61).
+We create the representation of a house, within [CreateHouseTokenFlow.java](./workflows/src/main/java/net/corda/examples/tokenizedhouse/flows/RealEstateEvolvableFungibleTokenFlow.java#L47-L61).
 
 
 ```java
@@ -37,7 +37,7 @@ public SignedTransaction call() throws FlowException {
 
 ```
 
-We issue tokens [IssueHouseTokenFlow](https://github.com/corda/samples-java/blob/f11f681f0efd5314426d7e674388e54c348f1a65/token-cordapps/fungiblehousetoken/workflows/src/main/java/net/corda/examples/tokenizedhouse/flows/RealEstateEvolvableFungibleTokenFlow.java#L81-L105)
+We issue tokens [IssueHouseTokenFlow](./workflows/src/main/java/net/corda/examples/tokenizedhouse/flows/RealEstateEvolvableFungibleTokenFlow.java#L81-L105)
 
 ```java
 public SignedTransaction call() throws FlowException {
@@ -68,7 +68,7 @@ public SignedTransaction call() throws FlowException {
 
 ```
 
-We then move the house token. [MoveHouseTokenFlow](https://github.com/corda/samples-java/blob/f11f681f0efd5314426d7e674388e54c348f1a65/token-cordapps/fungiblehousetoken/workflows/src/main/java/net/corda/examples/tokenizedhouse/flows/RealEstateEvolvableFungibleTokenFlow.java#L127-L146)
+We then move the house token. [MoveHouseTokenFlow](./workflows/src/main/java/net/corda/examples/tokenizedhouse/flows/RealEstateEvolvableFungibleTokenFlow.java#L127-L146)
 
 ```java
 public SignedTransaction call() throws FlowException {
@@ -93,7 +93,7 @@ public SignedTransaction call() throws FlowException {
 }
 ```
 
-You can find the redemption code commented out [here](https://github.com/corda/samples-java/blob/f11f681f0efd5314426d7e674388e54c348f1a65/token-cordapps/fungiblehousetoken/workflows/src/main/java/net/corda/examples/tokenizedhouse/flows/RealEstateEvolvableFungibleTokenFlow.java#L173)
+You can find the redemption code commented out [here](./workflows/src/main/java/net/corda/examples/tokenizedhouse/flows/RealEstateEvolvableFungibleTokenFlow.java#L173)
 
 
 ## Pre-Requisites
