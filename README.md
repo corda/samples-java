@@ -11,10 +11,10 @@ To get started explore the [Basic](./Basic) folder, or navigate to the [Advanced
 ## Directories
 The samples are divided into 4 sections with the following desciption:
 
-* Advanced: demonstrates multiple features of corda and normally it has sophisticated design
-* Basic: demonstrates fundamental but useful techniques during CorDapp development
-* Feature: demonstrates the general Corda functionalities.
-* Tokens: TokenSDK related samples
+* Advanced: In these samples, we demonstrate more complex and sophisticated features of Corda. 
+* Basic: They demonstrate fundamental and useful techniques for CorDapp development. 
+* Feature: These samples demonstrate specific Corda functionalities. 
+* Tokens: These include TokenSDK related samples. Learn more at TokenSDK. 
 
 
 
