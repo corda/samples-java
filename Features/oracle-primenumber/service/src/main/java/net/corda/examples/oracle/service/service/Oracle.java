@@ -5,6 +5,7 @@ import net.corda.core.crypto.TransactionSignature;
 import net.corda.core.node.ServiceHub;
 import net.corda.core.node.services.CordaService;
 import net.corda.core.serialization.SingletonSerializeAsToken;
+import net.corda.core.transactions.ComponentVisibilityException;
 import net.corda.core.transactions.FilteredTransaction;
 import net.corda.core.transactions.FilteredTransactionVerificationException;
 import net.corda.examples.oracle.base.contract.PrimeContract;
@@ -74,6 +75,15 @@ public class Oracle extends SingletonSerializeAsToken {
 
         // Is it a Merkle tree we are willing to sign over?
         boolean isValidMerkleTree = ftx.checkWithFun(this::isCommandWithCorrectPrimeAndIAmSigner);
+        try {
+            /**
+             * Function that checks if all of the commands that should be signed by the input public key are visible.
+             * This functionality is required from Oracles to check that all of the commands they should sign are visible.
+             */
+            ftx.checkCommandVisibility(services.getMyInfo().getLegalIdentities().get(0).getOwningKey());
+        } catch (ComponentVisibilityException e) {
+            e.printStackTrace();
+        }
 
         if (isValidMerkleTree) {
             return services.createSignature(ftx, myKey);
