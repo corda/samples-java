@@ -26,17 +26,17 @@ dependencies {
 }
 
 springBoot {
-    mainClassName = "com.template.webserver.Server"
+    mainClassName = "com.t20worldcup.webserver.Server"
 }
 
-task runTemplateClient(type: JavaExec, dependsOn: assemble) {
+task runClient(type: JavaExec, dependsOn: assemble) {
     classpath = sourceSets.main.runtimeClasspath
-    main = 'com.template.Client'
+    main = 'com.t20worldcup.Client'
     args 'localhost:10006', 'user1', 'test'
 }
 
-task runTemplateServer(type: JavaExec, dependsOn: assemble) {
+task runServer(type: JavaExec, dependsOn: assemble) {
     classpath = sourceSets.main.runtimeClasspath
-    main = 'com.template.webserver.Starter'
+    main = 'com.t20worldcup.webserver.Starter'
     args '--server.port=10050', '--config.rpc.host=localhost', '--config.rpc.port=10006', '--config.rpc.username=user1', '--config.rpc.password=test'
 }

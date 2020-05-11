@@ -1,4 +1,4 @@
-package com.template;
+package com.t20worldcup;
 
 import net.corda.client.rpc.CordaRPCClient;
 import net.corda.core.messaging.CordaRPCOps;

@@ -1,4 +1,4 @@
-package com.template.contracts;
+package com.t20worldcup.contracts;
 
 import net.corda.testing.node.MockServices;
 import org.junit.Test;

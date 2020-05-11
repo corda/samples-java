@@ -1,6 +1,6 @@
 buildscript {
     Properties constants = new Properties()
-    file("$projectDir/./constants.properties").withInputStream { constants.load(it) }
+    file("$projectDir/../constants.properties").withInputStream { constants.load(it) }
 
     ext {
 
@@ -124,7 +124,7 @@ dependencies {
 
 cordapp {
     info {
-        name "CorDapp Template"
+        name "CorDapp t20worldcup"
         vendor "Corda Open Source"
         targetPlatformVersion corda_platform_version
         minimumPlatformVersion corda_platform_version
