@@ -26,7 +26,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 /**
  * This is the DVP flow, where the buyer account buys the ticket token from the dealer account and in turn transfers him cash worth of the ticket.
@@ -70,11 +69,20 @@ public class BuyT20CricketTicketFlow extends FlowLogic<Void> {
 
         //Part1 : Move non fungible token - ticket from seller to buyer
 
-        //construct the query criteria and get the base token type
-        QueryCriteria queryCriteria = new QueryCriteria.LinearStateQueryCriteria(null, Arrays.asList(uuid), null,
+        ///All of the Tickets Seller has
+        QueryCriteria queryCriteriaForSellerTicketType = new QueryCriteria.LinearStateQueryCriteria(null, Arrays.asList(sellerAccountInfo.getIdentifier().getId()), null,
                 Vault.StateStatus.UNCONSUMED, null);
 
-        // grab the house off the ledger
+        List<StateAndRef<NonFungibleToken>> allNonfungibleTokens = getServiceHub().getVaultService().queryBy(NonFungibleToken.class, queryCriteriaForSellerTicketType).getStates();
+
+        //Retrieve the one that he wants to sell
+        StateAndRef<NonFungibleToken> matchedNonFungibleToken = allNonfungibleTokens.stream().filter(i-> i.getState().getData().getLinearId().getId().equals(uuid)).findAny().get();
+
+        //construct the query criteria and get the base token type
+        QueryCriteria queryCriteria = new QueryCriteria.LinearStateQueryCriteria(null, Arrays.asList(matchedNonFungibleToken.getState().getData().getLinearId().getId()), null,
+                Vault.StateStatus.UNCONSUMED, null);
+
+        // grab the ticket off the ledger
         StateAndRef<T20CricketTicket> stateAndRef = getServiceHub().getVaultService().
                 queryBy(T20CricketTicket.class, queryCriteria).getStates().get(0);
 
