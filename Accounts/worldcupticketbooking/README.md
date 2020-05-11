@@ -43,3 +43,63 @@ The above flows will craete accounts named buyer1 and buyer2 on Dealer1's node a
 Run the below query to confirm if accounts are created on Dealer1 node. Also run the above query on Bank and BCCI node to confirm if account info is shared with these nodes.
 
     run vaultQuery contractStateType : com.r3.corda.lib.accounts.contracts.states.AccountInfo
+
+
+
+##  Step 2
+
+    start IssueCashFlow accountName : buyer1 , currency : USD , amount : 20
+
+Run the above command on the Bank node, which will issue 20 USD to buyer1 account.
+
+##  Step 3
+```
+flow start QuerybyAccount whoAmI: buyer1
+```
+You can check balance of buyer1 account at Dealer1's node
+[Option] You can also run the below command to confirm if 20 USD fungible tokens are stored at Dealer1's node. The current holder field in the output will be an AnonymousParty which specifies an account.
+```
+run vaultQuery contractStateType : com.r3.corda.lib.tokens.contracts.states.FungibleToken
+```
+
+
+##  Step 4
+
+    start CreateT20CricketTicketTokenFlow ticketTeam : MumbaiIndiansVsRajasthanRoyals
+    
+Run the above flow on BCCI's node. BCCI node will create base token type for the T20 Ticket for the match MumbaiIndians Vs RajasthanRoyals. The ticket ID returned from this flow will be needed in the next steps.
+You can see your ticket state generated via vault query at the BCCI'd node:
+
+
+    run vaultQuery contractStateType : com.t20worldcup.states.T20CricketTicket
+
+##  Step 5
+
+    start IssueNonFungibleTicketFlow tokenId : <XXX-XXX-XXXX-XXXXX>, dealerAccountName : dealer1
+
+Run the above flow on BCCI's node to issue a non fungible token based off the token type which we created in Step5. You will need to replace the `<XXX-XXX-XXXX-XXXXX>` with the uuid returned from step 6. This token will be issued by the BCCI node to dealer1 account on Dealer1 node. 
+Switching to the Dealer1's node, you can run the following code to confirm if the token has been issued to the dealer1 account. The current holder it will be a key representing the account.
+
+    run vaultQuery contractStateType : com.r3.corda.lib.tokens.contracts.states.NonFungibleToken
+
+
+##  Step 6
+```
+flow start BuyT20CricketTicket tokenId: <XXX-XXX-XXXX-XXXXX>, buyerAccountName: buyer1, sellerAccountName: dealer1, costOfTicker: 5, currency: USD
+```
+
+This is the DVP flow where the buyer(buyer1 account on Dealer1 node) account will pay cash to seller account(dealer1 account on Dealer1 node), and the seller accountwill transfer the ticket token to the buyer. Again, replace the `<XXX-XXX-XXXX-XXXXX>` with the uuid generated in step 6.
+
+####  Step 7
+```
+flow start QuerybyAccount whoAmI: buyer1
+flow start QuerybyAccount whoAmI: dealer1
+```
+Confirm who owns the FungibleToken (cash) and NonFungibleToken (ticket) again by running this on Dealer1's node.
+
+
+# Further Reading
+
+For accounts visit https://github.com/corda/accounts.
+
+For tokens visit https://github.com/corda/token-sdk.
