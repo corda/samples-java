@@ -29,14 +29,14 @@ Looking at the above diagram follow below mentioned steps to run the application
 
 ##  Step 1
 
-    start CreateAndShareAccountFlow accountName : dealer1 , partyToShareAccountInfoTo : BCCI
+    start CreateAndShareAccountFlow accountName : dealer1 , partyToShareAccountInfoToList : BCCI
 
 Run the above flow on the Dealer1 node. This will create an account on the Dealer1 node and share this account info with BCCI node.
 partyToShareAccountInfoTo will be modified later to take in a list so that account can be shared with multiple nodes.
 The above flow will create an account named dealer1 on Dealer1 node. Similarly create below accounts on Dealer1 node.
 
-    start CreateAndShareAccountFlow  accountName : buyer1 , partyToShareAccountInfoTo : Bank
-    start CreateAndShareAccountFlow  accountName : buyer2 , partyToShareAccountInfoTo : Bank
+    start CreateAndShareAccountFlow  accountName : buyer1 , partyToShareAccountInfoToList : Bank
+    start CreateAndShareAccountFlow  accountName : buyer2 , partyToShareAccountInfoToList : Bank
     
 The above flows will craete accounts named buyer1 and buyer2 on Dealer1's node and will share this account info with the Bank node.
 
