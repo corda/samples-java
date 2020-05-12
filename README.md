@@ -11,6 +11,7 @@ To get started explore the [Basic](./Basic) folder, or navigate to the [Advanced
 ## Directories
 The samples are divided into 4 sections with the following desciption:
 
+* Accounts: These samples showcases how to utilize Corda Accounts Libray to build CorDapps which aim to have massive user volume
 * Advanced: In these samples, we demonstrate more complex and sophisticated features of Corda. 
 * Basic: They demonstrate fundamental and useful techniques for CorDapp development. 
 * Feature: These samples demonstrate specific Corda functionalities. 
@@ -18,7 +19,10 @@ The samples are divided into 4 sections with the following desciption:
 
 
 
+```
+.
 ├── Accounts
+│   ├── supplychain
 │   └── worldcupticketbooking
 ├── Advanced
 │   ├── auction-cordapp
@@ -34,15 +38,15 @@ The samples are divided into 4 sections with the following desciption:
 │   ├── spring-webserver
 │   └── yo-cordapp
 ├── Features
-│   ├── attachment-blacklist
-│   ├── attachment-sendfile
-│   ├── confidentialIdentity-whistleblower
-│   ├── cordaService-autopayroll
-│   ├── observableStates-tradereporting
-│   ├── oracle-primenumber
-│   ├── queryableState-carinsurance
-│   ├── referenceStates-sanctionsBody
-│   └── schedulableState-heartbeat
+│   ├── Attachment-blacklist
+│   ├── Attachment-sendfile
+│   ├── ConfidentialIdentity-whistleblower
+│   ├── CordaService-autopayroll
+│   ├── ObservableStates-tradereporting
+│   ├── Oracle-primenumber
+│   ├── QueryableState-carinsurance
+│   ├── ReferenceStates-sanctionsBody
+│   └── SchedulableState-heartbeat
 └── Tokens
     ├── bikemarket
     ├── dollartohousetoken
