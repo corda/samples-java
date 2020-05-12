@@ -1,33 +1,21 @@
-<p align="center">
-  <img src="./images/T20-World-Cup-e1578570579412.jpg" alt="Corda" width="2000">
-</p>
+# T20 Cricket World Cup Ticket Booking Cordapp
 
-# T20 Cricket World Cup Ticket Booking using Accounts and Tokens
 
-This Cordapp shows how to integrate accounts and tokens. 
-
-# Background
-
+## Introduction
 This sample shows you how to integrate accounts and tokens. This sample talks about a scenario where typically when the Cricket season starts, BCCI (Board of Control for Cricket) starts selling tickets.
 As of now there are multiple dealers whom the BCCI issues tickets and further these dealers sell tickets to their client. We are trying to simulate similar functionality maintaining the entore issuance and selling
 of the tickets on Corda Platform.
 
-# Steps to Execute
+## Steps to Execute
 
-Required Nodes-
+Nodes:
 
-1. BCCI node
-2. Bank Node
-3. Dealer1 Node
-4. Dealer2 Node
+* BCCI node
+* Bank Node
+* Dealer1 Node
+* Dealer2 Node
 
-Accounts-
-
-Accounts will be created by the Dealer nodes for their clients on their nodes and will be shared with the Bank and BCCI nodes.
-
-Looking at the above diagram follow below mentioned steps to run the application.
-
-##  Step 1
+###  Step 1
 
     start CreateAndShareAccountFlow accountName : dealer1 , partyToShareAccountInfoToList : BCCI
 
@@ -46,13 +34,13 @@ Run the below query to confirm if accounts are created on Dealer1 node. Also run
 
 
 
-##  Step 2
+###  Step 2
 
     start IssueCashFlow accountName : buyer1 , currency : USD , amount : 20
 
 Run the above command on the Bank node, which will issue 20 USD to buyer1 account.
 
-##  Step 3
+###  Step 3
 ```
 flow start QuerybyAccount whoAmI: buyer1
 ```
@@ -63,7 +51,7 @@ run vaultQuery contractStateType : com.r3.corda.lib.tokens.contracts.states.Fung
 ```
 
 
-##  Step 4
+###  Step 4
 
     start CreateT20CricketTicketTokenFlow ticketTeam : MumbaiIndiansVsRajasthanRoyals
     
@@ -73,7 +61,7 @@ You can see your ticket state generated via vault query at the BCCI'd node:
 
     run vaultQuery contractStateType : com.t20worldcup.states.T20CricketTicket
 
-##  Step 5
+###  Step 5
 
     start IssueNonFungibleTicketFlow tokenId : <XXX-XXX-XXXX-XXXXX>, dealerAccountName : dealer1
 
@@ -83,14 +71,14 @@ Switching to the Dealer1's node, you can run the following code to confirm if th
     run vaultQuery contractStateType : com.r3.corda.lib.tokens.contracts.states.NonFungibleToken
 
 
-##  Step 6
+###  Step 6
 ```
-flow start BuyT20CricketTicket tokenId: <XXX-XXX-XXXX-XXXXX>, buyerAccountName: buyer1, sellerAccountName: dealer1, costOfTicker: 5, currency: USD
+flow start BuyT20CricketTicket tokenId: <XXX-XXX-XXXX-XXXXX>, buyerAccountName: buyer1, sellerAccountName: dealer1, costOfTicket: 5, currency: USD
 ```
 
 This is the DVP flow where the buyer(buyer1 account on Dealer1 node) account will pay cash to seller account(dealer1 account on Dealer1 node), and the seller accountwill transfer the ticket token to the buyer. Again, replace the `<XXX-XXX-XXXX-XXXXX>` with the uuid generated in step 6.
 
-####  Step 7
+###  Step 7
 ```
 flow start QuerybyAccount whoAmI: buyer1
 flow start QuerybyAccount whoAmI: dealer1
@@ -98,7 +86,7 @@ flow start QuerybyAccount whoAmI: dealer1
 Confirm who owns the FungibleToken (cash) and NonFungibleToken (ticket) again by running this on Dealer1's node.
 
 
-# Further Reading
+## Further Reading
 
 For accounts visit https://github.com/corda/accounts.
 
