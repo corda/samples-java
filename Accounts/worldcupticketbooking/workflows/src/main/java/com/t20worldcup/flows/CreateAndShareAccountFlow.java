@@ -10,6 +10,7 @@ import net.corda.core.flows.FlowLogic;
 import net.corda.core.flows.InitiatingFlow;
 import net.corda.core.flows.StartableByRPC;
 import net.corda.core.identity.Party;
+import net.corda.core.transactions.SignedTransaction;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ import java.util.List;
  */
 @StartableByRPC
 @InitiatingFlow
-public class CreateAndShareAccountFlow extends FlowLogic {
+public class CreateAndShareAccountFlow extends FlowLogic<String> {
 
     private final String accountName;
     private final List<Party> partyToShareAccountInfoToList;
@@ -33,12 +34,13 @@ public class CreateAndShareAccountFlow extends FlowLogic {
 
     @Override
     @Suspendable
-    public Object call() throws FlowException {
+    public String call() throws FlowException {
 
         //Call inbuilt CreateAccount flow to create the AccountInfo object
         StateAndRef<AccountInfo> accountInfoStateAndRef = (StateAndRef<AccountInfo>) subFlow(new CreateAccount(accountName));
 
         //Share this AccountInfo object with the parties who want to transact with this account
-        return subFlow(new ShareAccountInfo(accountInfoStateAndRef, partyToShareAccountInfoToList));
+        subFlow(new ShareAccountInfo(accountInfoStateAndRef, partyToShareAccountInfoToList));
+        return "" + accountName +"has been created and shared to " +partyToShareAccountInfoToList+".";
     }
 }

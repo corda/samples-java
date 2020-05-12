@@ -35,7 +35,7 @@ import java.util.UUID;
  */
 @StartableByRPC
 @InitiatingFlow
-public class BuyT20CricketTicketFlow extends FlowLogic<Void> {
+public class BuyT20CricketTicketFlow extends FlowLogic<String> {
 
     private final String tokenId;
     private final String buyerAccountName;
@@ -53,34 +53,34 @@ public class BuyT20CricketTicketFlow extends FlowLogic<Void> {
 
     @Override
     @Suspendable
-    public Void call() throws FlowException {
+    public String call() throws FlowException {
 
         //Get buyers and sellers account infos
         AccountInfo buyerAccountInfo = UtilitiesKt.getAccountService(this).accountInfo(buyerAccountName).get(0).getState().getData();
-
         AccountInfo sellerAccountInfo = UtilitiesKt.getAccountService(this).accountInfo(sellerAccountName).get(0).getState().getData();
 
         //Generate new keys for buyers and sellers
         AnonymousParty buyerAccount = subFlow(new RequestKeyForAccount(buyerAccountInfo));
-
         AnonymousParty sellerAccount = subFlow(new RequestKeyForAccount(sellerAccountInfo));
 
-        UUID uuid = UUID.fromString(tokenId);
 
         //Part1 : Move non fungible token - ticket from seller to buyer
-
         ///All of the Tickets Seller has
-        QueryCriteria queryCriteriaForSellerTicketType = new QueryCriteria.LinearStateQueryCriteria(null, Arrays.asList(sellerAccountInfo.getIdentifier().getId()), null,
-                Vault.StateStatus.UNCONSUMED, null);
-
-        List<StateAndRef<NonFungibleToken>> allNonfungibleTokens = getServiceHub().getVaultService().queryBy(NonFungibleToken.class, queryCriteriaForSellerTicketType).getStates();
+        QueryCriteria queryCriteriaForSellerTicketType = new QueryCriteria.VaultQueryCriteria()
+                .withExternalIds(Arrays.asList(sellerAccountInfo.getIdentifier().getId()))
+                .withStatus(Vault.StateStatus.UNCONSUMED);
+        List<StateAndRef<NonFungibleToken>> allNonfungibleTokens = getServiceHub().getVaultService()
+                .queryBy(NonFungibleToken.class, queryCriteriaForSellerTicketType).getStates();
 
         //Retrieve the one that he wants to sell
-        StateAndRef<NonFungibleToken> matchedNonFungibleToken = allNonfungibleTokens.stream().filter(i-> i.getState().getData().getLinearId().getId().equals(uuid)).findAny().get();
+        StateAndRef<NonFungibleToken> matchedNonFungibleToken = allNonfungibleTokens.stream()
+                .filter(i-> i.getState().getData().getTokenType().getTokenIdentifier().equals(tokenId))
+                .findAny().get();
+
+        String ticketId = matchedNonFungibleToken.getState().getData().getTokenType().getTokenIdentifier();
 
         //construct the query criteria and get the base token type
-        QueryCriteria queryCriteria = new QueryCriteria.LinearStateQueryCriteria(null, Arrays.asList(matchedNonFungibleToken.getState().getData().getLinearId().getId()), null,
-                Vault.StateStatus.UNCONSUMED, null);
+        QueryCriteria queryCriteria = new QueryCriteria.LinearStateQueryCriteria().withUuid(Arrays.asList(UUID.fromString(ticketId))).withStatus(Vault.StateStatus.UNCONSUMED);
 
         // grab the ticket off the ledger
         StateAndRef<T20CricketTicket> stateAndRef = getServiceHub().getVaultService().
@@ -126,9 +126,9 @@ public class BuyT20CricketTicketFlow extends FlowLogic<Void> {
                 Arrays.asList(customerSession, dealerSession)));
 
         //call ObserverAwareFinalityFlow for finality
-        subFlow(new ObserverAwareFinalityFlow(fullySignedTx, Arrays.asList(customerSession, dealerSession)));
+        SignedTransaction stx = subFlow(new ObserverAwareFinalityFlow(fullySignedTx, Arrays.asList(customerSession, dealerSession)));
 
-        return null;
+        return ("The ticket is sold to "+buyerAccountName+""+ "\ntxID: " + stx.getId().toString());
     }
 }
 

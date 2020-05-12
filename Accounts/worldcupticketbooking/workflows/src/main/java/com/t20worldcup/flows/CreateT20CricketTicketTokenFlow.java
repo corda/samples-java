@@ -10,6 +10,7 @@ import net.corda.core.flows.FlowLogic;
 import net.corda.core.flows.InitiatingFlow;
 import net.corda.core.flows.StartableByRPC;
 import net.corda.core.identity.Party;
+import net.corda.core.transactions.SignedTransaction;
 
 /**
  * This flow should be run by BCCI node. BCCI node will take care of issuing the base token type for the Ipl ticket. The token type will be craeted on the BCCI node
@@ -18,7 +19,7 @@ import net.corda.core.identity.Party;
  */
 @StartableByRPC
 @InitiatingFlow
-public class CreateT20CricketTicketTokenFlow extends FlowLogic {
+public class CreateT20CricketTicketTokenFlow extends FlowLogic<String> {
 
     private final String ticketTeam;
 
@@ -28,17 +29,21 @@ public class CreateT20CricketTicketTokenFlow extends FlowLogic {
 
     @Override
     @Suspendable
-    public Object call() throws FlowException {
+    public String call() throws FlowException {
         //get the notary
         Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0);
 
         //create token type by passing in the name of the ipl match. specify the maintainer as BCCI
-        T20CricketTicket t20CricketTicket = new T20CricketTicket(new UniqueIdentifier(), ticketTeam, getOurIdentity());
+        UniqueIdentifier id = new UniqueIdentifier();
+        T20CricketTicket t20CricketTicket = new T20CricketTicket(id, ticketTeam, getOurIdentity());
 
         //warp it with transaction state specifying the notary
         TransactionState transactionState = new TransactionState(t20CricketTicket, notary);
 
         //call built in sub flow CreateEvolvableTokens to craete the base type on BCCI node
-        return subFlow(new CreateEvolvableTokens(transactionState));
+        SignedTransaction stx = subFlow(new CreateEvolvableTokens(transactionState));
+
+        return "Ticket for "+ticketTeam+" has been created. With Ticket ID: "+ id.toString()+"" +
+                "\ntxId: "+stx.getId()+"";
     }
 }

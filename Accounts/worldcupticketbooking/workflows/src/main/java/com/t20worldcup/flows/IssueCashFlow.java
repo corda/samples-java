@@ -11,6 +11,7 @@ import com.r3.corda.lib.tokens.workflows.flows.rpc.IssueTokens;
 import net.corda.core.contracts.Amount;
 import net.corda.core.flows.*;
 import net.corda.core.identity.AnonymousParty;
+import net.corda.core.transactions.SignedTransaction;
 
 import java.util.Arrays;
 import java.util.Currency;
@@ -21,7 +22,7 @@ import java.util.Currency;
 
 @StartableByRPC
 @InitiatingFlow
-public class IssueCashFlow extends FlowLogic {
+public class IssueCashFlow extends FlowLogic<String> {
 
     private final String accountName;
     private final String currency;
@@ -35,7 +36,7 @@ public class IssueCashFlow extends FlowLogic {
 
     @Override
     @Suspendable
-    public Object call() throws FlowException {
+    public String call() throws FlowException {
 
         //Dealer node has already shared accountinfo with the bank when we ran the CreateAndShareAccountFlow. So this bank node will
         //have access to AccountInfo of the buyer. Retrieve it using the AccountService. AccountService has certain helper methods, take a look at them.
@@ -55,10 +56,10 @@ public class IssueCashFlow extends FlowLogic {
         FungibleToken fungibleToken = new FungibleToken(new Amount(this.amount, issuedTokenType), anonymousParty, null);
 
         //Issue fungible tokens to specified account
-        subFlow(new IssueTokens(Arrays.asList(fungibleToken)));
+        SignedTransaction stx =subFlow(new IssueTokens(Arrays.asList(fungibleToken)));
 
-        return null;
-
+        return "Issued "+amount+" "+currency+" token(s) to "+accountName+"" +
+                "\ntxId: "+stx.getId().toString()+"";
     }
 
     public TokenType getInstance(String currencyCode) {

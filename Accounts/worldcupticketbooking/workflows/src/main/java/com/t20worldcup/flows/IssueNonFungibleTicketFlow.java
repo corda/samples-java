@@ -19,6 +19,7 @@ import net.corda.core.flows.StartableByRPC;
 import net.corda.core.identity.AnonymousParty;
 import net.corda.core.node.services.Vault;
 import net.corda.core.node.services.vault.QueryCriteria;
+import net.corda.core.transactions.SignedTransaction;
 
 import java.util.Arrays;
 import java.util.UUID;
@@ -29,7 +30,7 @@ import java.util.UUID;
  */
 @StartableByRPC
 @InitiatingFlow
-public class IssueNonFungibleTicketFlow extends FlowLogic {
+public class IssueNonFungibleTicketFlow extends FlowLogic<String> {
 
     private final String tokenId;
     //private final int quantity;//TODO handle quantity later
@@ -44,7 +45,7 @@ public class IssueNonFungibleTicketFlow extends FlowLogic {
 
     @Override
     @Suspendable
-    public Object call() throws FlowException {
+    public String call() throws FlowException {
 
         //Since dealer has already shared the dealer account with BCCI, BCCI will retrieve this accountinfo from the vault.
         AccountInfo dealerAccountInfo = UtilitiesKt.getAccountService(this).accountInfo(dealerAccountName).get(0).getState().getData();
@@ -76,6 +77,8 @@ public class IssueNonFungibleTicketFlow extends FlowLogic {
                 TransactionUtilitiesKt.getAttachmentIdForGenericParam(tokenPointer));
 
         //call built in flow to issue non fungible tokens
-        return subFlow(new IssueTokens(Arrays.asList(nonFungibleToken)));
+        SignedTransaction stx =  subFlow(new IssueTokens(Arrays.asList(nonFungibleToken)));
+        return "Issued the ticket of "+evolvableTokenType.getTicketTeam()+" to "+dealerAccountName+"" +
+                "\ntxId: "+stx.getId().toString()+"";
     }
 }
