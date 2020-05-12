@@ -18,8 +18,8 @@ The samples are divided into 4 sections with the following desciption:
 
 
 
-```
-.
+├── Accounts
+│   └── worldcupticketbooking
 ├── Advanced
 │   ├── auction-cordapp
 │   ├── negotiation-cordapp
@@ -34,15 +34,15 @@ The samples are divided into 4 sections with the following desciption:
 │   ├── spring-webserver
 │   └── yo-cordapp
 ├── Features
-│   ├── Attachment-blacklist
-│   ├── Attachment-sendfile
-│   ├── ConfidentialIdentity-whistleblower
-│   ├── CordaService-autopayroll
-│   ├── ObservableStates-tradereporting
-│   ├── Oracle-primenumber
-│   ├── QueryableState-carinsurance
-│   ├── ReferenceStates-sanctionsBody
-│   └── SchedulableState-heartbeat
+│   ├── attachment-blacklist
+│   ├── attachment-sendfile
+│   ├── confidentialIdentity-whistleblower
+│   ├── cordaService-autopayroll
+│   ├── observableStates-tradereporting
+│   ├── oracle-primenumber
+│   ├── queryableState-carinsurance
+│   ├── referenceStates-sanctionsBody
+│   └── schedulableState-heartbeat
 └── Tokens
     ├── bikemarket
     ├── dollartohousetoken
