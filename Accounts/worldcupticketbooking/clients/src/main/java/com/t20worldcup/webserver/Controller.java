@@ -2,6 +2,7 @@ package com.t20worldcup.webserver;
 
 import com.r3.corda.lib.accounts.contracts.states.AccountInfo;
 import com.r3.corda.lib.tokens.contracts.states.FungibleToken;
+import com.r3.corda.lib.tokens.contracts.states.NonFungibleToken;
 import com.t20worldcup.flows.GetAllAccounts;
 import net.corda.core.contracts.StateAndRef;
 import net.corda.core.messaging.CordaRPCOps;
@@ -66,5 +67,23 @@ public class Controller {
         }
 
         return totalBalance;
+    }
+
+    @PostMapping(value = "/is-account-owner-of-ticket")
+    private String isAccountOwnerOfTicket(String accountId, String nonFungibleTokenId) {
+
+        UUID uuid = UUID.fromString(accountId);
+
+        QueryCriteria criteria = new QueryCriteria.VaultQueryCriteria().withStatus(Vault.StateStatus.UNCONSUMED).
+                withExternalIds(Arrays.asList(uuid));
+
+        List<StateAndRef<NonFungibleToken>> list = this.proxy.vaultQueryByCriteria(criteria, NonFungibleToken.class).getStates();
+
+        for(StateAndRef<NonFungibleToken> nonFungibleTokenStateAndRef : list) {
+            if (nonFungibleTokenStateAndRef.getState().getData().getLinearId().getId().equals(UUID.fromString(nonFungibleTokenId))) {
+                return "This account does hold the ticket";
+            }
+        }
+        return "This account does not hold the ticket";
     }
 }

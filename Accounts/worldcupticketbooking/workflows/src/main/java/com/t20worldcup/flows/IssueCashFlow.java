@@ -44,7 +44,7 @@ public class IssueCashFlow extends FlowLogic<String> {
 
         //To transact with any account, we have to request for a Key from the node hosting the account. For this we use RequestKeyForAccount inbuilt flow.
         //This will return a Public key wrapped in an AnonymousParty class.
-        AnonymousParty anonymousParty = (AnonymousParty) subFlow(new RequestKeyForAccount(accountInfo));
+        AnonymousParty anonymousParty = subFlow(new RequestKeyForAccount(accountInfo));
 
         //Get the base token type for issuing fungible tokens
         TokenType token = getInstance(currency);

@@ -73,10 +73,20 @@ Switching to the Dealer1's node, you can run the following code to confirm if th
 
 ###  Step 6
 ```
-flow start BuyT20CricketTicket tokenId: <XXX-XXX-XXXX-XXXXX>, buyerAccountName: buyer1, sellerAccountName: dealer1, costOfTicket: 5, currency: USD
+flow start DVPAccountsOnSameNode tokenId: <XXX-XXX-XXXX-XXXXX>, buyerAccountName: buyer1, sellerAccountName: dealer1, costOfTicket: 5, currency: USD
 ```
 
-This is the DVP flow where the buyer(buyer1 account on Dealer1 node) account will pay cash to seller account(dealer1 account on Dealer1 node), and the seller accountwill transfer the ticket token to the buyer. Again, replace the `<XXX-XXX-XXXX-XXXXX>` with the uuid generated in step 6.
+The above flow is used to perform a DVP between accounts hosted on the same node.
+
+```
+flow start DVPAccountsHostedOnDifferentNodes tokenId: <XXX-XXX-XXXX-XXXXX>, buyerAccountName: cust3, sellerAccountName: dealer1, costOfTicket: 5, currency: USD
+```
+The above flow is used to perform a DVP where accounts are hosted on different nodes.
+Please note : Initiate the above flow from the buyers terminal. 
+
+You will find a lot of details of the steps required to transact between accounts hosted on different nodes in the comments section in DVPAccountsHostedOnDifferentNodes.
+
+This is the DVP flow where the buyer(buyer1 account on Dealer1 node) account will pay cash to seller account(dealer1 account on Dealer1 node), and the seller account will transfer the ticket token to the buyer. Again, replace the `<XXX-XXX-XXXX-XXXXX>` with the uuid generated in step 6.
 
 ###  Step 7
 ```
