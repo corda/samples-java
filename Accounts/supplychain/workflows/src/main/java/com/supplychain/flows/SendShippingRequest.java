@@ -66,11 +66,11 @@ public class SendShippingRequest extends FlowLogic<String> {
 
 
     //public constructor
-    public SendShippingRequest(String whoAmI, String whereTo, Party shipper, String cargo){
+    public SendShippingRequest(String whoAmI, String whereTo, Party shipper, String Cargo){
         this.whoAmI = whoAmI;
         this.whereTo = whereTo;
         this.shipper = shipper;
-        this.cargo = cargo;
+        this.cargo = Cargo;
     }
 
     @Suspendable
