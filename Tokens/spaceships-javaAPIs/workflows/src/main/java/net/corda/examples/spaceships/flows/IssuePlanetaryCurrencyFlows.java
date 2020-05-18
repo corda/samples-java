@@ -14,7 +14,7 @@ import net.corda.core.flows.StartableByRPC;
 import net.corda.core.identity.Party;
 import net.corda.core.transactions.SignedTransaction;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 public interface IssuePlanetaryCurrencyFlows {
 
@@ -40,7 +40,7 @@ public interface IssuePlanetaryCurrencyFlows {
 
             switch (currencyCode) {
                 case "USD":
-                    // MoneyUtilities can return either a TokenType or Amount<TokenType> related to standard currencies
+                    // MoneyUtilities returns either a TokenType or Amount<TokenType> related to standard currencies
                     tokenType = MoneyUtilities.getUSD();
                     break;
                 case "AUD":
@@ -58,7 +58,7 @@ public interface IssuePlanetaryCurrencyFlows {
                     throw new FlowException("unable to generate currency");
             }
 
-            // The FungibleTokenBuilder allows quick and easy stepwise assembly of your token.
+            // The FungibleTokenBuilder allows quick and easy stepwise assembly of a token that can be split/merged
             FungibleToken tokens = new FungibleTokenBuilder()
                     .ofTokenType(tokenType)
                     .withAmount(amount)
@@ -66,7 +66,7 @@ public interface IssuePlanetaryCurrencyFlows {
                     .heldBy(holder)
                     .buildFungibleToken();
 
-            return subFlow(new IssueTokens(Arrays.asList(tokens)));
+            return subFlow(new IssueTokens(Collections.singletonList(tokens)));
         }
     }
 }

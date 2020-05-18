@@ -1,12 +1,19 @@
 package net.corda.examples.spaceships.contracts;
 
+import com.r3.corda.lib.tokens.contracts.EvolvableTokenContract;
 import net.corda.core.contracts.Contract;
 import net.corda.core.transactions.LedgerTransaction;
 import org.jetbrains.annotations.NotNull;
 
-public class SpaceshipTokenContract implements Contract {
+public class SpaceshipTokenContract extends EvolvableTokenContract implements Contract {
+
     @Override
-    public void verify(@NotNull LedgerTransaction tx) throws IllegalArgumentException {
-        // left empty all tx will verify for testing
+    public void additionalCreateChecks(@NotNull LedgerTransaction tx) {
+        // add additional create checks here
+    }
+
+    @Override
+    public void additionalUpdateChecks(@NotNull LedgerTransaction tx) {
+        // add additional update checks here
     }
 }
