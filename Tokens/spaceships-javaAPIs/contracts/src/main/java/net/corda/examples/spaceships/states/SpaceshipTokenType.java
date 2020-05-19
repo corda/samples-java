@@ -8,6 +8,7 @@ import net.corda.core.contracts.BelongsToContract;
 import net.corda.core.contracts.LinearPointer;
 import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.identity.Party;
+import net.corda.core.serialization.ConstructorForDeserialization;
 import net.corda.examples.spaceships.contracts.SpaceshipTokenContract;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 @BelongsToContract(SpaceshipTokenContract.class)
-public class SpaceshipTokenState extends EvolvableTokenType {
+public class SpaceshipTokenType extends EvolvableTokenType {
     private final Party manufacturer;
     private final String model;
     private final String planetOfOrigin;
@@ -25,16 +26,36 @@ public class SpaceshipTokenState extends EvolvableTokenType {
     private final boolean fungible;
     private final Amount<TokenType> value; // price OR price/share in case of Fungible
 
-    public SpaceshipTokenState(Party manufacturer, String model, String planetOfOrigin, int seatingCapacity, Amount<TokenType> value, boolean fungible) {
+    public static int fungibleFractionDigits = 4;
+
+    @ConstructorForDeserialization
+    public SpaceshipTokenType(UniqueIdentifier linearId, Party manufacturer, String model, String planetOfOrigin, int seatingCapacity, Amount<TokenType> value, boolean fungible) {
+        this.linearId = linearId;
         this.manufacturer = manufacturer;
-        this.linearId = new UniqueIdentifier();
         this.model = model;
         this.planetOfOrigin = planetOfOrigin;
         this.seatingCapacity = seatingCapacity;
-        if (fungible) this.fractionDigits = 4;
+        if (fungible) this.fractionDigits = fungibleFractionDigits;
         else this.fractionDigits = 0;
         this.value = value;
         this.fungible = fungible;
+    }
+
+    // Auto-gen linearId
+    public SpaceshipTokenType (Party manufacturer, String model, String planetOfOrigin, int seatingCapacity, Amount<TokenType> value, boolean fungible) {
+        this(new UniqueIdentifier(), manufacturer, model, planetOfOrigin, seatingCapacity, value, fungible);
+    }
+
+    public static SpaceshipTokenType createUpdatedSpaceShipTokenType(SpaceshipTokenType original, int seatingCapacity, Amount<TokenType> value) {
+        return new SpaceshipTokenType(
+                original.getLinearId(),
+                original.getManufacturer(),
+                original.getModel(),
+                original.getPlanetOfOrigin(),
+                seatingCapacity,
+                value,
+                original.isFungible()
+        );
     }
 
     public String getModel() {
@@ -81,8 +102,8 @@ public class SpaceshipTokenState extends EvolvableTokenType {
 
 
     /* This method returns a TokenPointer by using the linear Id of the evolvable state */
-    public TokenPointer<SpaceshipTokenState> toPointer(){
-        LinearPointer<SpaceshipTokenState> linearPointer = new LinearPointer<>(linearId, SpaceshipTokenState.class);
+    public TokenPointer<SpaceshipTokenType> toPointer(){
+        LinearPointer<SpaceshipTokenType> linearPointer = new LinearPointer<>(linearId, SpaceshipTokenType.class);
         return new TokenPointer<>(linearPointer, fractionDigits);
     }
 }

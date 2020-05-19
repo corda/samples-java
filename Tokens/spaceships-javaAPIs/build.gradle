@@ -54,6 +54,12 @@ allprojects {
         options.compilerArgs << "-parameters" // Required by Corda's serialisation framework.
     }
 
+    test {
+        maxHeapSize = '2G'
+        maxParallelForks = 4
+        forkEvery = 4
+    }
+
     jar {
         // This makes the JAR's SHA-256 hash repeatable.
         preserveFileTimestamps = false

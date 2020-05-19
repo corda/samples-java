@@ -12,18 +12,28 @@ import com.r3.corda.lib.tokens.workflows.utilities.NonFungibleTokenBuilder;
 import com.r3.corda.lib.tokens.workflows.utilities.NotaryUtilities;
 import net.corda.core.contracts.Amount;
 import net.corda.core.contracts.TransactionState;
-import net.corda.core.contracts.UniqueIdentifier;
-import net.corda.core.flows.*;
+import net.corda.core.flows.FlowException;
+import net.corda.core.flows.FlowLogic;
+import net.corda.core.flows.StartableByRPC;
 import net.corda.core.identity.Party;
 import net.corda.core.transactions.SignedTransaction;
-import net.corda.examples.spaceships.states.SpaceshipTokenState;
+import net.corda.examples.spaceships.states.SpaceshipTokenType;
 
 import java.util.Collections;
 
-import static net.corda.examples.spaceships.flows.FlowHelpers.parseValueFromString;
+import static net.corda.examples.spaceships.flows.FlowHelpers.parseAmountFromString;
 
-public interface IssueSpaceShipFlows {
+/**
+ * The contained flows are initiated from the perspective of a manufacturer (initiating node)
+ * - the initiating node can bring a Spaceship token on ledger and assign it to a holder
+ * - the manufacturer (initiating node) is designated as a 'maintainer' (a party that can update the tokenDefinition)
+ */
+public interface IssueSpaceshipFlows {
 
+    /**
+     * A Fungible Spaceship is one whose tokens can be split or merged and allows fractional ownership
+     * - instances of this type of token will be used for investment / group ownership of a spaceship
+     */
     @StartableByRPC
     class TokenizeFungibleSpaceship extends FlowLogic<SignedTransaction> {
         private final Party holder;
@@ -33,12 +43,22 @@ public interface IssueSpaceShipFlows {
         private final Amount<TokenType> value;
         private final int tokenAmount;
 
+        public TokenizeFungibleSpaceship(Party holder, String model, String planetOfOrigin, int seatingCapacity, Amount<TokenType> value, int tokenAmount) {
+            this.holder = holder;
+            this.model = model;
+            this.planetOfOrigin = planetOfOrigin;
+            this.seatingCapacity = seatingCapacity;
+            this.value = value;
+            this.tokenAmount = tokenAmount;
+        }
+
+        // Overload for simple value
         public TokenizeFungibleSpaceship(Party holder, String model, String planetOfOrigin, int seatingCapacity, String value, int tokenAmount) {
             this.holder = holder;
             this.model = model;
             this.planetOfOrigin = planetOfOrigin;
             this.seatingCapacity = seatingCapacity;
-            this.value = parseValueFromString(value);
+            this.value = parseAmountFromString(value); // value format: 'int <CURR CODE>' ie. '100 USD'
             this.tokenAmount = tokenAmount;
         }
 
@@ -57,8 +77,8 @@ public interface IssueSpaceShipFlows {
              * of the any maintainers specified in the SpaceshipTokenState (in our case the manufacturer) as well as any observers we pass in as an
              * optional argument - we have not passed in any observers to CreateEvolvableTokens()
              */
-            SpaceshipTokenState evolvableSpaceshipToken = new SpaceshipTokenState(manufacturer, model, planetOfOrigin, seatingCapacity, value, true);
-            TransactionState<SpaceshipTokenState> txState = new TransactionState<>(evolvableSpaceshipToken, notary);
+            SpaceshipTokenType evolvableSpaceshipToken = new SpaceshipTokenType(manufacturer, model, planetOfOrigin, seatingCapacity, value, true);
+            TransactionState<SpaceshipTokenType> txState = new TransactionState<>(evolvableSpaceshipToken, notary);
             subFlow(new CreateEvolvableTokens(txState));
 
 
@@ -66,7 +86,7 @@ public interface IssueSpaceShipFlows {
              * TokenPointer which is of type TokenType and can be resolved to the definition. This allows the definition of the token to evolve
              * independently of who is holding it. The holder can reference the current definition at anytime and will receive updates when it is changed.
              */
-            TokenPointer<SpaceshipTokenState> evolvableSpaceshipTokenPtr = evolvableSpaceshipToken.toPointer();
+            TokenPointer<SpaceshipTokenType> evolvableSpaceshipTokenPtr = evolvableSpaceshipToken.toPointer();
 
             // The FungibleTokenBuilder allows quick and easy stepwise assembly of a token that can be split/merged
             FungibleToken token = new FungibleTokenBuilder()
@@ -80,6 +100,10 @@ public interface IssueSpaceShipFlows {
         }
     }
 
+    /**
+     * A NonFungible Spaceship is one where there is only ONE holder (it can not be split or merged)
+     * - instances of this type of token will be used ownership of UNIQUE spaceships.
+     */
     @StartableByRPC
     class TokenizeNonFungibleSpaceship extends FlowLogic<SignedTransaction> {
         private final Party holder;
@@ -88,12 +112,21 @@ public interface IssueSpaceShipFlows {
         private final int seatingCapacity;
         private final Amount<TokenType> value;
 
+        public TokenizeNonFungibleSpaceship(Party holder, String model, String planetOfOrigin, int seatingCapacity, Amount<TokenType> value) {
+            this.holder = holder;
+            this.model = model;
+            this.planetOfOrigin = planetOfOrigin;
+            this.seatingCapacity = seatingCapacity;
+            this.value = value;
+        }
+
+        // Overload for simple value
         public TokenizeNonFungibleSpaceship(Party holder, String model, String planetOfOrigin, int seatingCapacity, String value) {
             this.holder = holder;
             this.model = model;
             this.planetOfOrigin = planetOfOrigin;
             this.seatingCapacity = seatingCapacity;
-            this.value = parseValueFromString(value);
+            this.value = parseAmountFromString(value); // value format: 'int <CURR CODE>' ie. '100 USD'
         }
 
         @Suspendable
@@ -101,7 +134,7 @@ public interface IssueSpaceShipFlows {
         public SignedTransaction call() throws FlowException {
             final Party manufacturer = getOurIdentity(); // node that tokenizes assumed to be manufacturer
 
-            //NotaryUtilities allows you to set a strategy for notary selection - otherwise you can default to firstnotary, or random
+            //NotaryUtilities allows you to set a strategy for notary selection - otherwise you can default to first notary, or random
             final Party notary = NotaryUtilities.getPreferredNotary(getServiceHub());
 
             /**
@@ -111,8 +144,8 @@ public interface IssueSpaceShipFlows {
              * of the any maintainers specified in the SpaceshipTokenState (in our case the manufacturer) as well as any observers we pass in as an
              * optional argument - we have not passed in any observers to CreateEvolvableTokens()
              */
-            SpaceshipTokenState evolvableSpaceshipToken = new SpaceshipTokenState(manufacturer, model, planetOfOrigin, seatingCapacity, value, false);
-            TransactionState<SpaceshipTokenState> txState = new TransactionState<>(evolvableSpaceshipToken, notary);
+            SpaceshipTokenType evolvableSpaceshipToken = new SpaceshipTokenType(manufacturer, model, planetOfOrigin, seatingCapacity, value, false);
+            TransactionState<SpaceshipTokenType> txState = new TransactionState<>(evolvableSpaceshipToken, notary);
             subFlow(new CreateEvolvableTokens(txState));
 
 
@@ -120,7 +153,7 @@ public interface IssueSpaceShipFlows {
              * TokenPointer which is of type TokenType and can be resolved to the definition. This allows the definition of the token to evolve
              * independently of who is holding it. The holder can reference the current definition at anytime and will receive updates when it is changed.
              */
-            TokenPointer<SpaceshipTokenState> evolvableSpaceshipTokenPtr = evolvableSpaceshipToken.toPointer();
+            TokenPointer<SpaceshipTokenType> evolvableSpaceshipTokenPtr = evolvableSpaceshipToken.toPointer();
 
             // The NonFungibleTokenBuilder allows quick and easy stepwise assembly of a token that can only be held outright (no associated amount)
             // Notice that when building a NonFungibleToken, you do not add an 'amount'

@@ -18,14 +18,25 @@ import java.util.Collections;
 
 public interface IssuePlanetaryCurrencyFlows {
 
+    /**
+     * Lets the node calling the flow issue some currency to a holder
+     * Valid currencies are USD, AUD, GBP, BTC
+     * You may add new Issuing flows to this interface to experiment
+     */
     @StartableByRPC
-    class Initiator extends FlowLogic<SignedTransaction> {
+    class Issue extends FlowLogic<SignedTransaction> {
 
         private final Party holder;
         private final String currencyCode;
-        private final int amount;
+        private final double amount;
 
-        public Initiator(Party holder, String currencyCode, int amount) {
+        /**
+         * Issue
+         * @param holder - the party who will receive the tokens
+         * @param currencyCode - an ISO type code string
+         * @param amount - amount
+         */
+        public Issue(Party holder, String currencyCode, double amount) {
             this.holder = holder;
             this.currencyCode = currencyCode;
             this.amount = amount;

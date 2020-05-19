@@ -1,17 +1,22 @@
 package net.corda.examples.spaceships.flows;
 
 import com.google.common.collect.ImmutableMap;
-import com.r3.corda.lib.tokens.contracts.types.IssuedTokenType;
 import com.r3.corda.lib.tokens.contracts.types.TokenType;
 import com.r3.corda.lib.tokens.contracts.utilities.AmountUtilities;
 import com.r3.corda.lib.tokens.money.DigitalCurrency;
 import com.r3.corda.lib.tokens.money.FiatCurrency;
 import net.corda.core.contracts.Amount;
+import net.corda.core.contracts.StateAndRef;
+import net.corda.core.node.services.VaultService;
+import net.corda.core.node.services.vault.QueryCriteria;
+import net.corda.examples.spaceships.states.SpaceshipTokenType;
 
+import java.util.Collections;
 import java.util.Map;
+import java.util.UUID;
 
 public interface FlowHelpers {
-    // Base rate is USD
+    // Base rate is USD 1:1
     double USDRate = 1.00;
     double AUDRate = 0.60;
     double GBPRate = 1.30;
@@ -19,19 +24,25 @@ public interface FlowHelpers {
     Map<String, Double> rates = ImmutableMap.of("USD", USDRate, "AUD", AUDRate, "GBP", GBPRate, "Bitcoin", BTCRate);
 
     /**
-     * exchangeCurrency calculates an amount back in heldCurrency that is fair exchange with an itemCurrency
+     * exchangeCurrency calculates an amount back in targetCurrency that is fair exchange with an itemCurrency
      * This allows a buyer to know how much of his held currency to give to a seller to satisfy the price.
-     * @param itemAmount
-     * @param heldCurrency
+     * @param amount
+     * @param targetCurrency
      * @return
      */
-    static Amount<TokenType> exchangeCurrency(Amount<TokenType> itemAmount, TokenType heldCurrency) {
-        int itemCurrFractionDigits = itemAmount.getToken().getFractionDigits();
-        double newValue = (itemAmount.getQuantity()/Math.pow(10,itemCurrFractionDigits)) * (rates.get(itemAmount.getToken().getTokenIdentifier()) / rates.get(heldCurrency.getTokenIdentifier()));
-        return AmountUtilities.amount(newValue, heldCurrency);
+    static Amount<TokenType> exchangeCurrency(Amount<TokenType> amount, TokenType targetCurrency) {
+        int itemCurrFractionDigits = amount.getToken().getFractionDigits();
+        double newValue = (amount.getQuantity()/Math.pow(10,itemCurrFractionDigits)) * (rates.get(amount.getToken().getTokenIdentifier()) / rates.get(targetCurrency.getTokenIdentifier()));
+        return AmountUtilities.amount(newValue, targetCurrency);
     }
 
-    static Amount<TokenType> parseValueFromString(String value) {
+    /**
+     * ParseValueFromString takes in a String representation of an Amount (useful for terminal / UI input)
+     * and returns the correct object.
+     * @param value
+     * @return
+     */
+    static Amount<TokenType> parseAmountFromString(String value) {
         String[] in = value.split(" ");
         double val = Long.parseLong(in[0]);
         String curr = in[1];
@@ -39,11 +50,12 @@ public interface FlowHelpers {
         else return AmountUtilities.amount(val, FiatCurrency.getInstance(curr));
     }
 
-//    public static void main(String[] args) {
-//        Amount<TokenType> testVar = parseValueFromString("1 USD");
-//        Amount<TokenType> convertedVar = exchangeCurrency(testVar, FiatCurrency.getInstance("GBP"));
-////        Amount<TokenType> convertedVar = exchangeCurrency(testVar, DigitalCurrency.getInstance("BTC"));
-//        System.out.println(convertedVar.getQuantity());
-//    }
+    static SpaceshipTokenType uuidToSpaceShipTokenType(VaultService vs, UUID uuid) {
+        // Get the state definition from vault to grab the value
+        QueryCriteria queryCriteria = new QueryCriteria.LinearStateQueryCriteria(null, Collections.singletonList(uuid));
+        StateAndRef<SpaceshipTokenType> spaceShip = vs.queryBy(SpaceshipTokenType.class, queryCriteria).getStates().get(0);
+
+        return spaceShip.getState().getData();
+    }
 
 }
