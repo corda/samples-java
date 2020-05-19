@@ -52,6 +52,9 @@ dependencies {
     // Token SDK dependencies.
     cordaCompile "$tokens_release_group:tokens-modules:$tokens_release_version"
     cordaCompile "$tokens_release_group:tokens-workflows:$tokens_release_version"
+    
+    // Other dependencies
+    cordaCompile group: 'com.google.guava', name: 'guava', version: '23.5-jre'
 }
 
 task integrationTest(type: Test, dependsOn: []) {
