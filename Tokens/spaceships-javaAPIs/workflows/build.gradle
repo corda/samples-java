@@ -39,6 +39,7 @@ configurations {
 
 dependencies {
     testCompile "junit:junit:$junit_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.2.71"
 
     // Corda dependencies.
     cordaCompile "$corda_core_release_group:corda-core:$corda_core_release_version"
