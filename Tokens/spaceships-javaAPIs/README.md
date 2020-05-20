@@ -45,7 +45,7 @@ Examples of the new Java APIs will be used throughout and identified as such.
 
 ### Flows
 
-There are a few flows that enable this project.
+Flows are executed through the `FlowTests` class in the workflows module. They can also be run through the CrashShell.
 
 
 ## Pre-Requisites
