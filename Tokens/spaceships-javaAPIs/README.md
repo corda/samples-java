@@ -1,5 +1,15 @@
 # spaceships-javaAPIs token sample cordapp
 
+## IMPORTANT: this project is using TokenSDK snapshot until quarterly release available on mavenCentral
+
+```java
+// FOR USE with snapshot source (pre-release JAVA APIs)
+tokens_release_group = 'com.r3.corda.lib.tokens'
+tokens_release_version = '1.2-SNAPSHOT'
+```
+You must download the latest source [here](https://github.com/corda/token-sdk) and then run the gradle task 'publishToMavenLocal'
+
+---
 This cordapp demonstrates the new Java Apis released with TokenSDK 1.2
 
 The core changes include easier access to the following Utility classes and functions from Java:
