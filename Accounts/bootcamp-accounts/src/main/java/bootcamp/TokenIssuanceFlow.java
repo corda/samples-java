@@ -7,8 +7,6 @@ import com.r3.corda.lib.accounts.workflows.UtilitiesKt;
 import com.r3.corda.lib.accounts.workflows.flows.RequestKeyForAccount;
 import com.r3.corda.lib.ci.workflows.SyncKeyMappingFlow;
 import com.r3.corda.lib.ci.workflows.SyncKeyMappingFlowHandler;
-import net.corda.core.contracts.CommandData;
-import net.corda.core.contracts.CommandWithParties;
 import net.corda.core.flows.*;
 import net.corda.core.identity.AnonymousParty;
 import net.corda.core.identity.Party;
@@ -16,11 +14,8 @@ import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
 import org.jetbrains.annotations.NotNull;
 
-import java.security.PublicKey;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 @InitiatingFlow
 @StartableByRPC
@@ -58,25 +53,13 @@ public class TokenIssuanceFlow extends FlowLogic<SignedTransaction> {
 
         transactionBuilder.addOutputState(tokenState);
         transactionBuilder.addCommand(new TokenContract.Commands.Issue() ,
-                ImmutableList.of(issuerAccount.getOwningKey(),ownerAccount.getOwningKey()));
+                ImmutableList.of(issuerAccount.getOwningKey(), ownerAccount.getOwningKey()));
 
-        List<CommandWithParties<CommandData>> commandWithPartiesList  = transactionBuilder.toLedgerTransaction(getServiceHub()).getCommands();
+        //sign the transaction with the issuer account hosted on the Initiating node
+        SignedTransaction selfSignedTransaction = getServiceHub().signInitialTransaction(transactionBuilder, issuerAccount.getOwningKey());
 
-        List<PublicKey> mySigners = new ArrayList();
-
-        for(CommandWithParties<CommandData> commandDataCommandWithParties : commandWithPartiesList) {
-            if(((ArrayList<PublicKey>)(getServiceHub().getKeyManagementService().filterMyKeys(commandDataCommandWithParties.getSigners()))).size() > 0) {
-                mySigners.add(((ArrayList<PublicKey>)getServiceHub().getKeyManagementService().filterMyKeys(commandDataCommandWithParties.getSigners())).get(0));
-            }
-        }
-
-        //sign the transaction with the signers we got by calling filterMyKeys
-        SignedTransaction selfSignedTransaction = getServiceHub().signInitialTransaction(transactionBuilder, mySigners);
-
-        final SignedTransaction fullySignedTx = subFlow(new CollectSignaturesFlow(
-                selfSignedTransaction,
-                Collections.singletonList(ownerSession),
-                mySigners));
+        //call CollectSignaturesFlow to get the signature from the owner by specifying with issuer key telling CollectSignaturesFlow that issuer has already signed the transaction
+        final SignedTransaction fullySignedTx = subFlow(new CollectSignaturesFlow(selfSignedTransaction, Arrays.asList(ownerSession), Collections.singleton(issuerAccount.getOwningKey())));
 
         //call FinalityFlow for finality
         subFlow(new FinalityFlow(fullySignedTx, Arrays.asList(ownerSession)));
@@ -86,6 +69,10 @@ public class TokenIssuanceFlow extends FlowLogic<SignedTransaction> {
     }
 }
 
+/**
+ * This is the responder flow which will get called for the owner to sign the transaction and also to receive the fully signed validated transaction to save in the node's vault and map the token state to
+ * owner account
+ */
 @InitiatedBy(TokenIssuanceFlow.class)
 class TokenIssuanceFlowResponder extends FlowLogic<Void> {
 
@@ -104,7 +91,7 @@ class TokenIssuanceFlowResponder extends FlowLogic<Void> {
         subFlow(new SignTransactionFlow(otherSide) {
             @Override
             protected void checkTransaction(@NotNull SignedTransaction stx) throws FlowException {
-                // Custom Logic to validate transaction.
+                // Owner can add Custom Logic to validate transaction.
             }
         });
         subFlow(new ReceiveFinalityFlow(otherSide));
