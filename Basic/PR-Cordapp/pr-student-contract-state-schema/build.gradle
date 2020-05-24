@@ -1,0 +1,34 @@
+group 'com.pr.student.contract.state.schema'
+apply plugin: 'net.corda.plugins.cordapp'
+apply plugin: 'net.corda.plugins.cordformation'
+apply plugin: 'java'
+version '1.0'
+cordapp {
+    targetPlatformVersion corda_platform_version.toInteger()
+    minimumPlatformVersion corda_platform_version.toInteger()
+    contract {
+        name "Student Contracts"
+        vendor "Corda Open Source"
+        licence "Apache License, Version 2.0"
+        versionId 1
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation" << "-Xlint:-options" << "-parameters"
+}
+
+dependencies {
+    // Corda dependencies.    
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    cordaCompile "$corda_release_group:corda-core:$corda_release_version"
+    cordaRuntime "$corda_release_group:corda:$corda_release_version"
+    testCompile "$corda_release_group:corda-node-driver:$corda_release_version"
+    cordaCompile "$corda_release_group:corda-jackson:$corda_release_version"
+    cordaCompile "$corda_release_group:corda-rpc:$corda_release_version"
+    cordaCompile "$corda_release_group:corda-node-api:$corda_release_version"
+    cordaCompile "$corda_release_group:corda-webserver-impl:$corda_release_version"
+    cordaCompile "$corda_release_group:corda-webserver:$corda_release_version"
+
+}

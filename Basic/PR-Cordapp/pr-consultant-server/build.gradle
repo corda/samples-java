@@ -1,0 +1,67 @@
+group 'com.pr.consultant.webserver'
+version '1.0'
+
+apply plugin: 'org.springframework.boot'
+apply plugin: 'java'
+apply plugin: 'net.corda.plugins.cordapp'
+
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDir rootProject.file("config/dev")
+        }
+    }
+}
+
+
+dependencies {
+
+    // Corda dependencies.
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+
+    compile("org.springframework.boot:spring-boot-starter-websocket:$spring_boot_version") {
+        exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
+    }
+    compile("org.springframework.boot:spring-boot-starter-web:$spring_boot_version") {
+        exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
+        exclude group: "org.springframework.boot", module: "spring-boot-starter-jetty"
+    }
+
+
+    compile "$corda_release_group:corda-rpc:$corda_release_version"
+    compile "org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}"
+    compile "org.apache.logging.log4j:log4j-web:${log4j_version}"
+    compile "org.slf4j:jul-to-slf4j:$slf4j_version"
+
+    cordaCompile group: 'net.corda', name: 'corda-finance', version: '3.3-corda'
+
+
+    // CorDapp dependencies.
+    cordapp project(":pr-consultant")
+    compile project(":pr-common-server")
+
+
+}
+
+
+task runConsultantServer(type: JavaExec, dependsOn: jar) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'com.pr.webserver.boot.BootConsultant'
+    args '--server.port=8081', '--config.rpc.host=localhost', '--config.rpc.port=10006', '--config.rpc.username=user1', '--config.rpc.password=test'
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation" << "-Xlint:-options" << "-parameters"
+}
+
+bootJar() {
+    launchScript()
+    mainClassName = 'com.pr.webserver.boot.BootConsultant'
+}

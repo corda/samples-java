@@ -1,0 +1,12 @@
+rootProject.name = 'PR-Cordapp'
+include 'pr-common'
+include 'pr-common-server'
+include 'pr-consultant'
+include 'pr-consultant-server'
+include 'pr-university'
+include 'pr-university-server'
+include 'pr-wes'
+include 'pr-wes-server'
+include 'pr-contract-state-schema'
+include 'pr-student-contract-state-schema'
+
