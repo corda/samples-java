@@ -1,7 +1,7 @@
 package com.t20worldcup.states;
 
-import com.t20worldcup.contracts.T20CricketTicketContract;
 import com.r3.corda.lib.tokens.contracts.states.EvolvableTokenType;
+import com.t20worldcup.contracts.T20CricketTicketContract;
 import net.corda.core.contracts.BelongsToContract;
 import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.identity.Party;
