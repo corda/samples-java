@@ -12,6 +12,8 @@ You must download the latest source [here](https://github.com/corda/token-sdk) a
 ---
 This cordapp demonstrates the new Java Apis released with TokenSDK 1.2
 
+For an exploratory overview of usage, checkout the following blog post: [here](https://medium.com/corda/corda-tokens-made-easy-with-new-java-apis-83095693d72)
+
 The core changes include easier access to the following Utility classes and functions from Java:
 - com.r3.corda.lib.tokens.money
   - MoneyUtilities
