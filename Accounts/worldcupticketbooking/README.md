@@ -19,6 +19,10 @@ Nodes:
 * Dealer2 Node: Dealer Agency 2 and it includes
     * buyer3 account: who will get the ticket from buyer1 and sell to buyer2
 
+<p align="center">
+  <img src="./images/graph.png" alt="Corda">
+</p>
+
 
 ###  Step 1
 ```
