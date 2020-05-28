@@ -9,8 +9,7 @@ import net.corda.testing.core.TestIdentity;
 import net.corda.testing.node.MockServices;
 import org.junit.Test;
 
-import static java.util.Arrays.*;
-
+import static java.util.Arrays.asList;
 import static net.corda.testing.node.NodeTestUtils.ledger;
 
 public class IOUContractTests {
@@ -89,9 +88,10 @@ public class IOUContractTests {
 
     @Test
     public void lenderIsNotBorrower() {
+        final TestIdentity megaCorpDupe = new TestIdentity(megaCorp.getName(), megaCorp.getKeyPair());
         ledger(ledgerServices, (ledger -> {
             ledger.transaction(tx -> {
-                tx.output(IOUContract.ID, new IOUState(iouValue, megaCorp.getParty(), megaCorp.getParty(), new UniqueIdentifier()));
+                tx.output(IOUContract.ID, new IOUState(iouValue, megaCorp.getParty(), megaCorpDupe.getParty(), new UniqueIdentifier()));
                 tx.command(ImmutableList.of(megaCorp.getPublicKey(), miniCorp.getPublicKey()), new IOUContract.Commands.Create());
                 tx.failsWith("The lender and the borrower cannot be the same entity.");
                 return null;
