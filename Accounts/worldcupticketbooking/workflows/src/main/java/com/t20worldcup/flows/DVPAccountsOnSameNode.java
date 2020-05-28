@@ -2,7 +2,10 @@ package com.t20worldcup.flows;
 
 
 import co.paralleluniverse.fibers.Suspendable;
+import com.r3.corda.lib.tokens.contracts.states.FungibleToken;
 import com.r3.corda.lib.tokens.contracts.states.NonFungibleToken;
+import com.r3.corda.lib.tokens.contracts.types.TokenType;
+import com.r3.corda.lib.tokens.workflows.utilities.QueryUtilitiesKt;
 import com.t20worldcup.states.T20CricketTicket;
 import com.r3.corda.lib.accounts.contracts.states.AccountInfo;
 import com.r3.corda.lib.accounts.workflows.UtilitiesKt;
@@ -24,6 +27,7 @@ import net.corda.core.transactions.TransactionBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.Currency;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,7 +39,7 @@ import java.util.UUID;
  */
 @StartableByRPC
 @InitiatingFlow
-public class BuyT20CricketTicketFlow extends FlowLogic<String> {
+public class DVPAccountsOnSameNode extends FlowLogic<String> {
 
     private final String tokenId;
     private final String buyerAccountName;
@@ -43,7 +47,7 @@ public class BuyT20CricketTicketFlow extends FlowLogic<String> {
     private final String currency;
     private final Long costOfTicket;
 
-    public BuyT20CricketTicketFlow(String tokenId, String buyerAccountName, String sellerAccountName, Long costOfTicket, String currency) {
+    public DVPAccountsOnSameNode(String tokenId, String buyerAccountName, String sellerAccountName, Long costOfTicket, String currency) {
         this.tokenId = tokenId;
         this.buyerAccountName = buyerAccountName;
         this.sellerAccountName = sellerAccountName;
@@ -73,14 +77,23 @@ public class BuyT20CricketTicketFlow extends FlowLogic<String> {
                 .queryBy(NonFungibleToken.class, queryCriteriaForSellerTicketType).getStates();
 
         //Retrieve the one that he wants to sell
-        StateAndRef<NonFungibleToken> matchedNonFungibleToken = allNonfungibleTokens.stream()
+        StateAndRef<NonFungibleToken> matchedNonFungibleToken;
+
+        if(allNonfungibleTokens.stream()
                 .filter(i-> i.getState().getData().getTokenType().getTokenIdentifier().equals(tokenId))
-                .findAny().get();
+                .findAny().isPresent()) {
+            matchedNonFungibleToken = allNonfungibleTokens.stream()
+                    .filter(i-> i.getState().getData().getTokenType().getTokenIdentifier().equals(tokenId))
+                    .findAny().get();
+        }
+        else
+            throw new FlowException(sellerAccountName + "does not own ticket with token id - " + tokenId);
 
         String ticketId = matchedNonFungibleToken.getState().getData().getTokenType().getTokenIdentifier();
 
         //construct the query criteria and get the base token type
-        QueryCriteria queryCriteria = new QueryCriteria.LinearStateQueryCriteria().withUuid(Arrays.asList(UUID.fromString(ticketId))).withStatus(Vault.StateStatus.UNCONSUMED);
+        QueryCriteria queryCriteria = new QueryCriteria.LinearStateQueryCriteria().withUuid(Arrays.asList(UUID.fromString(ticketId))).
+                withStatus(Vault.StateStatus.UNCONSUMED);
 
         // grab the ticket off the ledger
         StateAndRef<T20CricketTicket> stateAndRef = getServiceHub().getVaultService().
@@ -93,12 +106,27 @@ public class BuyT20CricketTicketFlow extends FlowLogic<String> {
 
         Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0);
 
+        //create a transactionBuilder
         TransactionBuilder transactionBuilder = new TransactionBuilder(notary);
 
         //first part of DVP is to transfer the non fungible token from seller to buyer
+        //this add inputs and outputs to transactionBuilder
         MoveTokensUtilitiesKt.addMoveNonFungibleTokens(transactionBuilder, getServiceHub(), tokenPointer, buyerAccount);
 
         //Part2 : Move fungible token - cash from buyer to seller
+
+        QueryCriteria queryCriteriaForTokenBalance = QueryUtilitiesKt.heldTokenAmountCriteria(this.getInstance(currency), buyerAccount).and(QueryUtilitiesKt.sumTokenCriteria());
+
+        List<Object> sum = getServiceHub().getVaultService().
+                queryBy(FungibleToken.class, queryCriteriaForTokenBalance).component5();
+
+        if(sum.size() == 0)
+            throw new FlowException(buyerAccountName + "has 0 token balance. Please ask the Bank to issue some cash.");
+        else {
+            Long tokenBalance = (Long) sum.get(0);
+            if(tokenBalance < costOfTicket)
+                throw new FlowException("Available token balance of " + buyerAccountName+ " is less than the cost of the ticket. Please ask the Bank to issue some cash if you wish to buy the ticket ");
+        }
 
         Amount<FiatCurrency> amount = new Amount(costOfTicket, FiatCurrency.Companion.getInstance(currency));
 
@@ -110,6 +138,8 @@ public class BuyT20CricketTicketFlow extends FlowLogic<String> {
                 withExternalIds(Arrays.asList(buyerAccountInfo.getIdentifier().getId()));
 
         //call utility function to move the fungible token from buyer to seller account
+        //this also adds inputs and outputs to the transactionBuilder
+        //till now we have only 1 transaction with 2 inputs and 2 outputs - one moving fungible tokens other moving non fungible tokens between accounts
         MoveTokensUtilitiesKt.addMoveFungibleTokens(transactionBuilder, getServiceHub(), Arrays.asList(partyAndAmount), buyerAccount, criteria);
 
         //self sign the transaction. note : the host party will first self sign the transaction.
@@ -130,14 +160,19 @@ public class BuyT20CricketTicketFlow extends FlowLogic<String> {
 
         return ("The ticket is sold to "+buyerAccountName+""+ "\ntxID: " + stx.getId().toString());
     }
+
+    public TokenType getInstance(String currencyCode) {
+        Currency currency = Currency.getInstance(currencyCode);
+        return new TokenType(currency.getCurrencyCode(), 0);
+    }
 }
 
-@InitiatedBy(BuyT20CricketTicketFlow.class)
-class BuyT20CricketTicketFlowResponder extends FlowLogic<Void> {
+@InitiatedBy(DVPAccountsOnSameNode.class)
+class DVPAccountsOnSameNodeResponder extends FlowLogic<Void> {
 
     private final FlowSession otherSide;
 
-    public BuyT20CricketTicketFlowResponder(FlowSession otherSide) {
+    public DVPAccountsOnSameNodeResponder(FlowSession otherSide) {
         this.otherSide = otherSide;
     }
 
