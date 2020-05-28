@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 @LegalProseReference(uri = "<prose_contract_uri>")
 public class IOUContract implements Contract {
-    public static final String IOU_CONTRACT_ID = "net.corda.training.contracts.IOUContract";
+    public static final String IOU_CONTRACT_ID = "net.corda.samples.contracts.IOUContract";
 
     /**
      * The IOUContract can handle three transaction types involving [IOUState]s.

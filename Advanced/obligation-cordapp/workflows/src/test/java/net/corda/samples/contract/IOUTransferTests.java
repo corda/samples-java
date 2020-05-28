@@ -34,7 +34,7 @@ public class IOUTransferTests {
     }
 
     static private final MockServices ledgerServices = new MockServices(
-            Arrays.asList("net.corda.training", "net.corda.finance.contracts")
+            Arrays.asList("net.corda.samples.contracts", "net.corda.finance.contracts")
     );
 
     /**
@@ -83,7 +83,7 @@ public class IOUTransferTests {
             l.transaction(tx -> {
                 tx.output(IOUContract.IOU_CONTRACT_ID, iou);
                 tx.command(Arrays.asList(ALICE.getPublicKey(), BOB.getPublicKey()), new Commands.DummyCommand());
-                return tx.failsWith("Required net.corda.training.contracts.IOUContract.Commands command");
+                return tx.failsWith("Required net.corda.samples.contracts.IOUContract.Commands command");
             });
             l.transaction(tx -> {
                 tx.output(IOUContract.IOU_CONTRACT_ID, iou);

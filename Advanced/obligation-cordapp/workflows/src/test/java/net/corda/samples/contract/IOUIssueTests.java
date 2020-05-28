@@ -33,7 +33,7 @@ public class IOUIssueTests {
     }
 
     static private final MockServices ledgerServices = new MockServices(
-            Arrays.asList("net.corda.training", "net.corda.finance.contracts")
+            Arrays.asList("net.corda.samples", "net.corda.finance.contracts")
     );
 
     /**

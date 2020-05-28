@@ -39,7 +39,7 @@ public class IOUSettleTests {
     }
 
     static private final MockServices ledgerServices = new MockServices(
-            Arrays.asList("net.corda.training", "net.corda.finance.contracts")
+            Arrays.asList("net.corda.samples.contracts", "net.corda.finance.contracts")
     );
 
     private Cash.State createCashState(AbstractParty owner, Amount<Currency> amount) {

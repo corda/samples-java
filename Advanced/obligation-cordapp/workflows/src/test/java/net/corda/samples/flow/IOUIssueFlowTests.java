@@ -40,7 +40,7 @@ public class IOUIssueFlowTests {
     public void setup() {
         MockNetworkParameters mockNetworkParameters = new MockNetworkParameters().withCordappsForAllNodes(
                 Arrays.asList(
-                        TestCordapp.findCordapp("net.corda.training.contracts")
+                        TestCordapp.findCordapp("net.corda.samples.contracts")
                 )
         ).withNotarySpecs(Arrays.asList(new MockNetworkNotarySpec(new CordaX500Name("Notary", "London", "GB"))));
         mockNetwork = new MockNetwork(mockNetworkParameters);
