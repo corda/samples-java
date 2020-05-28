@@ -55,14 +55,24 @@ public class QuerybyAccount extends FlowLogic<String> {
         }).collect(Collectors.toList());
 
         String tickets = "\nI have ticket(s) for: ";
-        for(String item : tkList){
-            tickets = tickets + item;
+        if(ticketList.size() == 0) {
+            tickets = "I do not own any ticket";
+        } else {
+            for(String item : tkList){
+                tickets = tickets + item;
+            }
         }
 
+
         String wallets = "\nI have money of: ";
-        for(String item: myMoney){
-            wallets = wallets + item;
+        if(myMoney.size() == 0) {
+            wallets = "I do not have any money";
+        } else {
+            for(String item: myMoney){
+                wallets = wallets + item;
+            }
         }
+
         return  tickets + wallets;
     }
 }

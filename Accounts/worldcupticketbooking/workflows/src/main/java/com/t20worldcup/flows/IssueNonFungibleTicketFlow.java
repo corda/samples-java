@@ -51,7 +51,7 @@ public class IssueNonFungibleTicketFlow extends FlowLogic<String> {
         AccountInfo dealerAccountInfo = UtilitiesKt.getAccountService(this).accountInfo(dealerAccountName).get(0).getState().getData();
 
         //Generate the key pair for dealer account so taht BCCI node will be able to transact with issue a token to the dealer account.
-        AnonymousParty dealerAccount = (AnonymousParty) subFlow(new RequestKeyForAccount(dealerAccountInfo));
+        AnonymousParty dealerAccount = subFlow(new RequestKeyForAccount(dealerAccountInfo));
 
         UUID uuid = UUID.fromString(tokenId);
 
