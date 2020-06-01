@@ -31,9 +31,15 @@ public class SendAttachment extends FlowLogic<SignedTransaction> {
             new ProgressTracker(GENERATING_TRANSACTION, PROCESSING_TRANSACTION, FINALISING_TRANSACTION);
 
     private final Party receiver;
+    private boolean unitTest = false;
 
     public SendAttachment(Party receiver) {
         this.receiver = receiver;
+    }
+
+    public SendAttachment(Party receiver, boolean unitTest) {
+        this.receiver = receiver;
+        this.unitTest = unitTest;
     }
 
     @Nullable
@@ -57,10 +63,12 @@ public class SendAttachment extends FlowLogic<SignedTransaction> {
 
         //Change the path to "../test.zip" for passing the unit test.
         //because the unit test are in a different working directory than the running node.
+        String zipPath = unitTest ? "../test.zip" : "../../../../test.zip";
+
         SecureHash attachmentHash = null;
         try {
             attachmentHash = SecureHash.parse(uploadAttachment(
-                    "../../../../test.zip",
+                    zipPath,
                     getServiceHub(),
                     getOurIdentity(),
                     "testzip")

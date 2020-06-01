@@ -39,7 +39,7 @@ public class FlowTests {
     //because the unit test are in a different working directory than the running node.
     @Test
     public void attachmentListHasMoreThanOneElement() throws ExecutionException, InterruptedException {
-        CordaFuture<SignedTransaction> future = a.startFlow(new SendAttachment(b.getInfo().getLegalIdentities().get(0)));
+        CordaFuture<SignedTransaction> future = a.startFlow(new SendAttachment(b.getInfo().getLegalIdentities().get(0), true));
         network.runNetwork();
         SignedTransaction ptx = future.get();
         assert (ptx.getTx().getAttachments().size() > 1);
@@ -48,7 +48,7 @@ public class FlowTests {
     //Test #2 test successful download of the attachment by the receiving node.
     @Test
     public void attachmentDownloadedByBuyer() throws ExecutionException, InterruptedException {
-        CordaFuture<SignedTransaction> future = a.startFlow(new SendAttachment(b.getInfo().getLegalIdentities().get(0)));
+        CordaFuture<SignedTransaction> future = a.startFlow(new SendAttachment(b.getInfo().getLegalIdentities().get(0), true));
         network.runNetwork();
         CordaFuture<String> future1 = b.startFlow(new DownloadAttachment(a.getInfo().getLegalIdentities().get(0), "file.zip"));
         network.runNetwork();

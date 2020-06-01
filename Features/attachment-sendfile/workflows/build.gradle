@@ -63,7 +63,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         projectCordapp {
             deploy = true
         }
-        cordapp project(':contracts-java')
+        cordapp project(':contracts')
     }
     node {
         name "O=Notary,L=London,C=GB"
