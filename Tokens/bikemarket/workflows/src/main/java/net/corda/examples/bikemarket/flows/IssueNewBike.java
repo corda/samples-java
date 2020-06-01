@@ -46,7 +46,7 @@ public class IssueNewBike extends FlowLogic<String> {
         //get the TokenType object
         FrameTokenState frametokentype = frameStateAndRef.getState().getData();
 
-        //get the pointer pointer to the frame
+        //get the pointer to the frame
         TokenPointer frametokenPointer = frametokentype.toPointer(frametokentype.getClass());
 
         //assign the issuer to the frame type who will be issuing the tokens

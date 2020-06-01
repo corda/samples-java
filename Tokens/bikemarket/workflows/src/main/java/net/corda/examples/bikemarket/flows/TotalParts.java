@@ -50,7 +50,7 @@ public class TotalParts {
                 FrameTokenState frametokentype = frameStateAndRef.getState().getData();
                 Party issuer = frametokentype.getIssuer();
 
-                //get the pointer pointer to the frame
+                //get the pointer to the frame
                 TokenPointer frametokenPointer = frametokentype.toPointer(frametokentype.getClass());
 
                 SignedTransaction stx = subFlow(new RedeemNonFungibleTokens(frametokenPointer, issuer));
