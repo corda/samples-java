@@ -24,4 +24,7 @@ dependencies {
     // Token SDK dependencies.
     cordaCompile "$tokens_release_group:tokens-contracts:$tokens_release_version"
     cordaCompile "$tokens_release_group:tokens-money:$tokens_release_version"
+
+    // Guave
+    compile "com.google.guava:guava:$guava_version"
 }

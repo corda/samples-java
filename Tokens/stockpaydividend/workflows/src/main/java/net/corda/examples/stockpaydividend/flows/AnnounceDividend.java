@@ -72,8 +72,8 @@ public class AnnounceDividend {
             }
 
             // Update the stock state and send a copy to the observers eventually
-            subFlow(new UpdateEvolvableTokenFlow(stockStateRef, outputState, ImmutableList.of(), obSessions));
-            return "\nStock " + this.symbol + " has changed dividend percentage to " + this.dividendPercentage + ". \n";
+            SignedTransaction stx = subFlow(new UpdateEvolvableTokenFlow(stockStateRef, outputState, ImmutableList.of(), obSessions));
+            return "\nStock " + this.symbol + " has changed dividend percentage to " + this.dividendPercentage + ". " + stx.getId();
         }
     }
 

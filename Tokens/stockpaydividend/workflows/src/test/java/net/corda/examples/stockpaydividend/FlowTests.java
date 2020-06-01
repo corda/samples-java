@@ -9,6 +9,7 @@ import net.corda.core.concurrent.CordaFuture;
 import net.corda.core.contracts.Amount;
 import net.corda.core.contracts.StateAndRef;
 import net.corda.core.contracts.StateRef;
+import net.corda.core.crypto.SecureHash;
 import net.corda.core.identity.CordaX500Name;
 import net.corda.core.identity.Party;
 import net.corda.core.node.NetworkParameters;
@@ -26,6 +27,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
@@ -110,13 +112,16 @@ public class FlowTests {
     @Test
     public void issueTest() throws ExecutionException, InterruptedException {
         // Issue Stock
-        CordaFuture<SignedTransaction> future = company.startFlow(new IssueStock(STOCK_SYMBOL, STOCK_NAME, STOCK_CURRENCY, STOCK_PRICE, ISSUING_STOCK_QUANTITY, notaryParty));
+        CordaFuture<String> future = company.startFlow(new IssueStock(STOCK_SYMBOL, STOCK_NAME, STOCK_CURRENCY, STOCK_PRICE, ISSUING_STOCK_QUANTITY, notaryParty));
         network.runNetwork();
-        SignedTransaction stx = future.get();
+        String stx = future.get();
+
+        String stxID = stx.substring(stx.lastIndexOf(" ") + 1);
+        SecureHash stxIDHash = SecureHash.parse(stxID);
 
         //Check if company and observer of the stock have recorded the transactions
-        SignedTransaction issuerTx = company.getServices().getValidatedTransactions().getTransaction(stx.getId());
-        SignedTransaction observerTx = observer.getServices().getValidatedTransactions().getTransaction(stx.getId());
+        SignedTransaction issuerTx = company.getServices().getValidatedTransactions().getTransaction(stxIDHash);
+        SignedTransaction observerTx = observer.getServices().getValidatedTransactions().getTransaction(stxIDHash);
         assertNotNull(issuerTx);
         assertNotNull(observerTx);
         assertEquals(issuerTx, observerTx);
@@ -126,14 +131,14 @@ public class FlowTests {
     @Test
     public void moveTest() throws ExecutionException, InterruptedException {
         // Issue Stock
-        CordaFuture<SignedTransaction> future = company.startFlow(new IssueStock(STOCK_SYMBOL, STOCK_NAME, STOCK_CURRENCY, STOCK_PRICE, ISSUING_STOCK_QUANTITY, notaryParty));
+        CordaFuture<String> future = company.startFlow(new IssueStock(STOCK_SYMBOL, STOCK_NAME, STOCK_CURRENCY, STOCK_PRICE, ISSUING_STOCK_QUANTITY, notaryParty));
         network.runNetwork();
         future.get();
 
         // Move Stock
         future = company.startFlow(new MoveStock.Initiator(STOCK_SYMBOL, BUYING_STOCK, shareholder.getInfo().getLegalIdentities().get(0)));
         network.runNetwork();
-        SignedTransaction moveTx = future.get();
+        String moveTx = future.get();
 
         //Retrieve states from receiver
         List<StateAndRef<StockState>> receivedStockStatesPages = shareholder.getServices().getVaultService().queryBy(StockState.class).getStates();
@@ -156,7 +161,7 @@ public class FlowTests {
     @Test
     public void announceDividendTest() throws ExecutionException, InterruptedException {
         // Issue Stock
-        CordaFuture<SignedTransaction> future = company.startFlow(new IssueStock(STOCK_SYMBOL, STOCK_NAME, STOCK_CURRENCY, STOCK_PRICE, ISSUING_STOCK_QUANTITY, notaryParty));
+        CordaFuture<String> future = company.startFlow(new IssueStock(STOCK_SYMBOL, STOCK_NAME, STOCK_CURRENCY, STOCK_PRICE, ISSUING_STOCK_QUANTITY, notaryParty));
         network.runNetwork();
         future.get();
 
@@ -168,7 +173,11 @@ public class FlowTests {
         // Announce Dividend
         future = company.startFlow(new AnnounceDividend.Initiator(STOCK_SYMBOL, ANNOUNCING_DIVIDEND, exDate, payDate));
         network.runNetwork();
-        SignedTransaction announceTx = future.get();
+
+        String announceTxSting = future.get();
+
+        String stxID = announceTxSting.substring(announceTxSting.lastIndexOf(" ") + 1);
+        SecureHash announceTx = SecureHash.parse(stxID);
 
         // Retrieve states from sender
         List<StateAndRef<StockState>> remainingStockStatesPages = company.getServices().getVaultService().queryBy(StockState.class).getStates();
@@ -178,8 +187,8 @@ public class FlowTests {
         assertEquals(remainingStockState.getPayDate(), payDate);
 
         // Check observer has recorded the same transaction
-        SignedTransaction issuerTx = company.getServices().getValidatedTransactions().getTransaction(announceTx.getId());
-        SignedTransaction observerTx = observer.getServices().getValidatedTransactions().getTransaction(announceTx.getId());
+        SignedTransaction issuerTx = company.getServices().getValidatedTransactions().getTransaction(announceTx);
+        SignedTransaction observerTx = observer.getServices().getValidatedTransactions().getTransaction(announceTx);
 
         assertNotNull(issuerTx);
         assertNotNull(observerTx);
@@ -190,7 +199,7 @@ public class FlowTests {
     @Test
     public void getStockUpdateTest() throws ExecutionException, InterruptedException {
         // Issue Stock
-        CordaFuture<SignedTransaction> future = company.startFlow(new IssueStock(STOCK_SYMBOL, STOCK_NAME, STOCK_CURRENCY, STOCK_PRICE, ISSUING_STOCK_QUANTITY, notaryParty));
+        CordaFuture<String> future = company.startFlow(new IssueStock(STOCK_SYMBOL, STOCK_NAME, STOCK_CURRENCY, STOCK_PRICE, ISSUING_STOCK_QUANTITY, notaryParty));
         network.runNetwork();
         future.get();
 
@@ -222,14 +231,14 @@ public class FlowTests {
     @Test
     public void claimDividendTest() throws ExecutionException, InterruptedException {
         // Issue Stock
-        CordaFuture<SignedTransaction> future = company.startFlow(new IssueStock(STOCK_SYMBOL, STOCK_NAME, STOCK_CURRENCY, STOCK_PRICE, ISSUING_STOCK_QUANTITY, notaryParty));
+        CordaFuture<String> future = company.startFlow(new IssueStock(STOCK_SYMBOL, STOCK_NAME, STOCK_CURRENCY, STOCK_PRICE, ISSUING_STOCK_QUANTITY, notaryParty));
         network.runNetwork();
         future.get();
 
         // Move Stock
         future = company.startFlow(new MoveStock.Initiator(STOCK_SYMBOL, BUYING_STOCK, shareholder.getInfo().getLegalIdentities().get(0)));
         network.runNetwork();
-        SignedTransaction moveTx = future.get();
+        String moveTx = future.get();
 
         // Announce Dividend
         future = company.startFlow(new AnnounceDividend.Initiator(STOCK_SYMBOL, ANNOUNCING_DIVIDEND, exDate, payDate));
@@ -244,7 +253,11 @@ public class FlowTests {
         // Shareholder claims Dividend
         future = shareholder.startFlow(new ClaimDividendReceivable.Initiator(STOCK_SYMBOL));
         network.runNetwork();
-        SignedTransaction claimTx = future.get();
+
+        String claimTxString = future.get();
+
+        String stxID = claimTxString.substring(claimTxString.lastIndexOf(" ") + 1);
+        SecureHash claimTxID = SecureHash.parse(stxID);
 
         // Checks if the dividend amount is correct
         List<StateAndRef<DividendState>> holderDividendPages = shareholder.getServices().getVaultService().queryBy(DividendState.class).getStates();
@@ -257,8 +270,8 @@ public class FlowTests {
         assertEquals(holderState.getDividendAmount().getQuantity(), receivingDividend.longValue());
 
         // Check company and shareholder owns the same transaction
-        SignedTransaction issuerTx = company.getServices().getValidatedTransactions().getTransaction(claimTx.getId());
-        SignedTransaction holderTx = shareholder.getServices().getValidatedTransactions().getTransaction(claimTx.getId());
+        SignedTransaction issuerTx = company.getServices().getValidatedTransactions().getTransaction(claimTxID);
+        SignedTransaction holderTx = shareholder.getServices().getValidatedTransactions().getTransaction(claimTxID);
 
         assertNotNull(issuerTx);
         assertNotNull(holderTx);
@@ -269,7 +282,7 @@ public class FlowTests {
     @Test
     public void payDividendTest() throws ExecutionException, InterruptedException {
         // Issue Money
-        CordaFuture<SignedTransaction> future = bank.startFlow(new IssueMoney(STOCK_CURRENCY, ISSUING_MONEY.longValue(), company.getInfo().getLegalIdentities().get(0)));
+        CordaFuture<String> future = bank.startFlow(new IssueMoney(STOCK_CURRENCY, ISSUING_MONEY.longValue(), company.getInfo().getLegalIdentities().get(0)));
         network.runNetwork();
         future.get();
 
@@ -299,13 +312,16 @@ public class FlowTests {
         future.get();
 
         //Pay Dividend
-        CordaFuture<List<SignedTransaction>> futurePayDiv = company.startFlow(new PayDividend.Initiator());
+        CordaFuture<List<String>> futurePayDiv = company.startFlow(new PayDividend.Initiator());
         network.runNetwork();
-        List<SignedTransaction> txList = futurePayDiv.get();
+        List<String> txList = futurePayDiv.get();
 
         // The above test should only have 1 transaction created
         assertEquals(txList.size(),  1);
-        SignedTransaction payDivTx = txList.get(0);
+        String payDivTxString = txList.get(0);
+
+        String stxID = payDivTxString.substring(payDivTxString.lastIndexOf(" ") + 1);
+        SecureHash payDivTxID = SecureHash.parse(stxID);
 
         // Checks if no Dividend state left unspent in shareholder's and company's vault
         List<StateAndRef<DividendState>> holderDivStateRefs = shareholder.getServices().getVaultService().queryBy(DividendState.class).getStates();
@@ -316,16 +332,16 @@ public class FlowTests {
         // Validates shareholder has received equivalent fiat currencies of the dividend
         TokenType fiatTokenType = FiatCurrency.Companion.getInstance(STOCK_CURRENCY);
         Amount<TokenType> fiatAmount = QueryUtilitiesKt.tokenBalance(shareholder.getServices().getVaultService(), fiatTokenType);
-        BigDecimal receivingDividend = BigDecimal.valueOf(BUYING_STOCK).multiply(ANNOUNCING_DIVIDEND);
-        assertEquals(fiatAmount.getQuantity(), receivingDividend.longValue());
+        BigDecimal receivingDividend = BigDecimal.valueOf(BUYING_STOCK).multiply(STOCK_PRICE).multiply(ANNOUNCING_DIVIDEND);
+        assertEquals(fiatAmount.getQuantity(), receivingDividend.movePointRight(2).longValue());
 
         // Check company and shareholder owns the same transaction
-        SignedTransaction issuerTx = company.getServices().getValidatedTransactions().getTransaction(payDivTx.getId());
-        SignedTransaction holderTx = shareholder.getServices().getValidatedTransactions().getTransaction(payDivTx.getId());
+        SignedTransaction issuerTx = company.getServices().getValidatedTransactions().getTransaction(payDivTxID);
+        SignedTransaction holderTx = shareholder.getServices().getValidatedTransactions().getTransaction(payDivTxID);
         assertNotNull(issuerTx);
         assertNotNull(holderTx);
         assertEquals(issuerTx, holderTx);
-}
+    }
 
 
 }

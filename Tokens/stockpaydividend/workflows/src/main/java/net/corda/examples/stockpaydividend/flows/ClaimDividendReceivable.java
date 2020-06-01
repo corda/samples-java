@@ -92,7 +92,7 @@ public class ClaimDividendReceivable {
             // Checks if the later transaction ID of the received FinalityFlow is the same as the one just signed
             final SecureHash txId = subFlow(signTxFlow).getId();
             subFlow(new ReceiveFinalityFlow(session, txId));
-            return "\nRequest has been sent, Please wait for the stock issuer to respond.";
+            return "\nRequest has been sent, Please wait for the stock issuer to respond. " + txId;
         }
     }
 
