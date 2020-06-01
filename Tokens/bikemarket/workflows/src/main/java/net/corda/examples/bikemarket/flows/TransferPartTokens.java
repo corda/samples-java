@@ -50,7 +50,7 @@ public class TransferPartTokens {
                 FrameTokenState frametokentype = frameStateAndRef.getState().getData();
                 Party issuer = frametokentype.getIssuer();
 
-                //get the pointer pointer to the frame
+                //get the pointer to the frame
                 TokenPointer frametokenPointer = frametokentype.toPointer(frametokentype.getClass());
                 PartyAndToken partyAndFrameToken = new PartyAndToken(holder, frametokenPointer);
 
@@ -68,7 +68,7 @@ public class TransferPartTokens {
                 WheelsTokenState wheeltokentype = wheelStateStateAndRef.getState().getData();
                 Party issuer = wheeltokentype.getIssuer();
 
-                //get the pointer pointer to the wheel
+                //get the pointer to the wheel
                 TokenPointer wheeltokenPointer = wheeltokentype.toPointer(wheeltokentype.getClass());
                 PartyAndToken partyAndWheelToken = new PartyAndToken(holder, wheeltokenPointer);
 
@@ -91,7 +91,7 @@ public class TransferPartTokens {
         @Suspendable
         @Override
         public Void call() throws FlowException {
-            // Simply use the MoveFungibleTokensHandler as the responding flow
+            //simply use the MoveFungibleTokensHandler as the responding flow
             subFlow(new MoveNonFungibleTokensHandler(counterSession));
             return null;
         }
