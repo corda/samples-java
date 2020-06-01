@@ -33,7 +33,7 @@ public class FlowTests {
     @Before
     public void setup() {
         network = new MockNetwork(new MockNetworkParameters().withCordappsForAllNodes(
-                Collections.singletonList(TestCordapp.findCordapp("com.flowdb"))
+                Collections.singletonList(TestCordapp.findCordapp("net.corda.samples.flowdb"))
         ));
         node = network.createPartyNode(null);
         network.runNetwork();
