@@ -1,8 +1,8 @@
-# fungible and nonfungible realestate token sample cordapp
+# fungible and nonfungible realestate token sample CorDapp
 
-This cordapp servers as a basic example to create, issue, move fungible tokens in Corda utilizing the TokenSDK. In this specific fungible token sample, we will not talk about the
-redeem method of the TokenSDK because the redeem process will take the physical asset off the ledger and destroy the token. Thus, this sample will be a simple walk though of the
-creation, issuance, and transfer of the tokens.
+This CorDapp serves as a basic example to create, issue, and move fungible tokens in Corda utilizing the Token SDK. In this specific fungible token sample, we will not 
+talk about the redeem method of the Token SDK because the redeem process will take the physical asset off the ledger and destroy the token. Thus, this sample will be a 
+simple walk though of the creation, issuance, and transfer of the tokens.
 
 
 
@@ -28,7 +28,7 @@ public SignedTransaction call() throws FlowException {
     FungibleHouseTokenState evolvableTokenType = new FungibleHouseTokenState(valuation, getOurIdentity(),
             new UniqueIdentifier(), 0, this.symbol);
 
-    //warp it with transaction state specifying the notary
+    //wrap it with transaction state specifying the notary
     TransactionState transactionState = new TransactionState(evolvableTokenType, notary);
 
     //call built in sub flow CreateEvolvableTokens. This can be called via rpc or in unit testing
@@ -50,7 +50,7 @@ public SignedTransaction call() throws FlowException {
     //get the RealEstateEvolvableTokenType object
     FungibleHouseTokenState evolvableTokenType = stateAndRef.getState().getData();
 
-    //get the pointer pointer to the house
+    //get the pointer to the house
     TokenPointer tokenPointer = evolvableTokenType.toPointer(evolvableTokenType.getClass());
 
     //assign the issuer to the house type who will be issuing the tokens
