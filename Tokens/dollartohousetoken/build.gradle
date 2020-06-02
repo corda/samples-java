@@ -11,6 +11,8 @@ buildscript {
         log4j_version = constants.getProperty("log4jVersion")
         slf4j_version = constants.getProperty("slf4jVersion")
         corda_platform_version = constants.getProperty("platformVersion").toInteger()
+        guava_version = constants.getProperty("guavaVersion")
+
         //Tokens
         tokens_release_group = 'com.r3.corda.lib.tokens'
         tokens_release_version = '1.0'
@@ -47,6 +49,10 @@ allprojects {
 
     tasks.withType(JavaCompile) {
         options.compilerArgs << "-parameters" // Required by Corda's serialisation framework.
+    }
+
+    dependencies {
+        compile "com.google.guava:guava:$guava_version"
     }
 
     jar {
