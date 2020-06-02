@@ -21,10 +21,10 @@ import java.util.Currency;
 import java.util.UUID;
 
 /**
- * Flow to create and issue house token. TokenSDK provides some in-build flows which could be called to Create and Issue tokens.
- * This flow should be called by the issuer of the token. The constructor take the owner and other properties of the house as the as input parameters,
- * it first create the house token onto the issuer's ledger and then issues it to the owner.
-**/
+ * Flow to create and issue house tokens. Token SDK provides some in-built flows which could be called to Create and Issue tokens.
+ * This flow should be called by the issuer of the token. The constructor takes the owner and other properties of the house as
+ * input parameters, it first creates the house token onto the issuer's ledger and then issues it to the owner.
+*/
 @StartableByRPC
 public class HouseTokenCreateAndIssueFlow extends FlowLogic<String> {
 
@@ -50,11 +50,11 @@ public class HouseTokenCreateAndIssueFlow extends FlowLogic<String> {
 
         /* Choose the notary for the transaction */
         Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0);
+
         /* Get a reference of own identity */
         Party issuer = getOurIdentity();
 
         /* Construct the output state */
-
         UniqueIdentifier uuid = UniqueIdentifier.Companion.fromString(UUID.randomUUID().toString());
         final HouseState houseState = new HouseState(uuid, ImmutableList.of(issuer),
                 valuation, noOfBedRooms, constructionArea, additionInfo, address);
@@ -62,18 +62,18 @@ public class HouseTokenCreateAndIssueFlow extends FlowLogic<String> {
         /* Create an instance of TransactionState using the houseState token and the notary */
         TransactionState<HouseState> transactionState = new TransactionState<>(houseState, notary);
 
-        /* Create the house token. TokenSDK provides the CreateEvolvableTokens flow which could be called to create an evolvable token in the ledger.*/
+        /* Create the house token. Token SDK provides the CreateEvolvableTokens flow which could be called to create an
+        evolvable token in the ledger.*/
         subFlow(new CreateEvolvableTokens(transactionState));
 
-        /*
-        * Create an instance of IssuedTokenType, it is used by our Non-Fungible token which would be issued to the owner. Note that the IssuedTokenType takes
-        * a TokenPointer as an input, since EvolvableTokenType is not TokenType, but is a LinearState. This is done to separate the state info from the token
-        * so that the state can evolve independently.
-        * IssuedTokenType is a wrapper around the TokenType and the issuer.
-        * */
+        /* Create an instance of IssuedTokenType, it is used by our Non-Fungible token which would be issued to the owner.
+        Note that the IssuedTokenType takes a TokenPointer as an input, since EvolvableTokenType is not TokenType, but is
+        a LinearState. This is done to separate the state info from the token so that the state can evolve independently.
+        IssuedTokenType is a wrapper around the TokenType and the issuer. */
         IssuedTokenType issuedHouseToken = new IssuedTokenType(issuer, houseState.toPointer());
 
-        /* Create an instance of the non-fungible house token with the owner as the token holder. The last paramter is a hash of the jar containing the TokenType, use the helper function to fetch it. */
+        /* Create an instance of the non-fungible house token with the owner as the token holder. The last parameter is a
+        hash of the jar containing the TokenType, use the helper function to fetch it. */
         NonFungibleToken houseToken =
                 new NonFungibleToken(issuedHouseToken, owner, UniqueIdentifier.Companion.fromString(UUID.randomUUID().toString()), TransactionUtilitiesKt.getAttachmentIdForGenericParam(houseState.toPointer()));
 

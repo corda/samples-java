@@ -16,8 +16,9 @@ import net.corda.core.identity.Party;
 import net.corda.core.transactions.SignedTransaction;
 
 /**
- * Flow class to issue fiat currency. FiatCurrency is defined in the TokenSDK and is issued as a Fungible Token. This constructor takes the currecy code
- * for the currency to be issued, the amount of the currency to be issued and the recipient as input parameters.
+ * Flow class to issue fiat currency. FiatCurrency is defined in the Token SDK and is issued as a Fungible Token.
+ * This constructor takes the currency code for the currency to be issued, the amount of the currency to be issued
+ * and the recipient as input parameters.
  */
 @StartableByRPC
 public class FiatCurrencyIssueFlow extends FlowLogic<SignedTransaction> {

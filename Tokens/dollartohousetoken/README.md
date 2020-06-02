@@ -1,6 +1,7 @@
 # nonfungible house token dvp sample cordapp
 
-This CorDapp servers a basic example to create, issue and perform a DvP (Delivery vs Payment) of an Evolvable NonFungible token in Corda utilizing the TokenSDK.
+This CorDapp provides a basic example to create, issue and perform a DvP (Delivery vs Payment) of an Evolvable NonFungible token in 
+Corda utilizing the Token SDK.
 
 
 ## Concepts
@@ -8,7 +9,7 @@ This CorDapp servers a basic example to create, issue and perform a DvP (Deliver
 
 ### Flows
 
-There are three flows that we'll promarily use in this example that you'll be building off of.
+There are three flows that we'll primarily use in this example that you'll be building off of.
 
 
 We'll start with running [FiatCurrencyIssueFlow](./workflows/src/main/java/net/corda/examples/dollartohousetoken/flows/FiatCurrencyIssueFlow.java#L37-L49).

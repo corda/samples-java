@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 /*
 *  HouseContract governs the evolution of HouseState token. Evolvable tokens must extend the EvolvableTokenContract abstract class, it defines the
-*  additionalCreateChecks and additionalCreateChecks method to add custom logic to validate while creation adn updation of evolvable tokens respectively.
+*  additionalCreateChecks and additionalCreateChecks method to add custom logic to validate while creation and update of evolvable tokens respectively.
 * */
 public class HouseContract extends EvolvableTokenContract implements Contract {
 
