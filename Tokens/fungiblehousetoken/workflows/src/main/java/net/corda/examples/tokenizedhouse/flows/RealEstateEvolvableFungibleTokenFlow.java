@@ -36,7 +36,6 @@ public class RealEstateEvolvableFungibleTokenFlow {
         private final BigDecimal valuation;
         private final String symbol;
 
-
         public CreateHouseTokenFlow(String symbol, BigDecimal valuation) {
             this.valuation = valuation;
             this.symbol = symbol;
@@ -52,12 +51,11 @@ public class RealEstateEvolvableFungibleTokenFlow {
             FungibleHouseTokenState evolvableTokenType = new FungibleHouseTokenState(valuation, getOurIdentity(),
                     new UniqueIdentifier(), 0, this.symbol);
 
-            //warp it with transaction state specifying the notary
+            //wrap it with transaction state specifying the notary
             TransactionState transactionState = new TransactionState(evolvableTokenType, notary);
 
             //call built in sub flow CreateEvolvableTokens. This can be called via rpc or in unit testing
             return subFlow(new CreateEvolvableTokens(transactionState));
-
         }
     }
 
@@ -114,7 +112,6 @@ public class RealEstateEvolvableFungibleTokenFlow {
         private final String symbol;
         private final Party holder;
         private final int quantity;
-
 
         public MoveHouseTokenFlow(String symbol, Party holder, int quantity) {
             this.symbol = symbol;
