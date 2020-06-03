@@ -20,9 +20,11 @@ The core changes include easier access to the following Utility classes and func
   - DigitalCurrency
   - FiatCurrency 
 - com.r3.corda.lib.tokens.selection
-  - DatabaseSelectionConfig
   - SelectionUtilities
   - TokenQueryBy
+- com.r3.corda.lib.tokens.selection.database.config
+  - DatabaseSelectionConfig
+- com.r3.corda.lib.tokens.selection.database.selector
   - DatabaseTokenSelection
 - com.r3.corda.lib.tokens.contracts.utilities
   - AmountUtilities
