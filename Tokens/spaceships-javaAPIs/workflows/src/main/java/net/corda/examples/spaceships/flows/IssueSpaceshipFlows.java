@@ -67,14 +67,14 @@ public interface IssueSpaceshipFlows {
         public SignedTransaction call() throws FlowException {
             final Party manufacturer = getOurIdentity(); // node that tokenizes assumed to be manufacturer
 
-            //NotaryUtilities allows you to set a strategy for notary selection - otherwise you can default to firstnotary, or random
+            // NotaryUtilities allows you to set a strategy for notary selection - otherwise you can default to firstnotary, or random
             final Party notary = NotaryUtilities.getPreferredNotary(getServiceHub());
 
             /**
              * Create the evolvableTokenState
              *
              * CreateEvolvableTokens() will behind the scenes commit our token definition to the ledgers
-             * of the any maintainers specified in the SpaceshipTokenState (in our case the manufacturer) as well as any observers we pass in as an
+             * of any maintainers specified in the SpaceshipTokenState (in our case the manufacturer) as well as any observers we pass in as an
              * optional argument - we have not passed in any observers to CreateEvolvableTokens()
              */
             SpaceshipTokenType evolvableSpaceshipToken = new SpaceshipTokenType(manufacturer, model, planetOfOrigin, seatingCapacity, value, true);
@@ -102,7 +102,7 @@ public interface IssueSpaceshipFlows {
 
     /**
      * A NonFungible Spaceship is one where there is only ONE holder (it can not be split or merged)
-     * - instances of this type of token will be used ownership of UNIQUE spaceships.
+     * - instances of this type of token will be used for ownership of UNIQUE spaceships.
      */
     @StartableByRPC
     class TokenizeNonFungibleSpaceship extends FlowLogic<SignedTransaction> {
@@ -134,7 +134,7 @@ public interface IssueSpaceshipFlows {
         public SignedTransaction call() throws FlowException {
             final Party manufacturer = getOurIdentity(); // node that tokenizes assumed to be manufacturer
 
-            //NotaryUtilities allows you to set a strategy for notary selection - otherwise you can default to first notary, or random
+            // NotaryUtilities allows you to set a strategy for notary selection - otherwise you can default to first notary, or random
             final Party notary = NotaryUtilities.getPreferredNotary(getServiceHub());
 
             /**

@@ -37,7 +37,7 @@ public interface FlowHelpers {
     }
 
     /**
-     * ParseValueFromString takes in a String representation of an Amount (useful for terminal / UI input)
+     * parseAmountFromString takes in a String representation of an Amount (useful for terminal / UI input)
      * and returns the correct object.
      * @param value
      * @return
