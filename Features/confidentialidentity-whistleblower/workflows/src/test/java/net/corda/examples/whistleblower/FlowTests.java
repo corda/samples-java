@@ -30,12 +30,12 @@ public class FlowTests {
 
     @Before
     public void setUp() throws Exception {
-        network.runNetwork();
+        network.startNodes();
     }
 
     @After
-    public void tearDown() throws Exception {
-        network.stopNodes();
+    public void tearDown() {
+//        network.stopNodes();
     }
 
     //simple unit test to check the public keys that used in the transaction

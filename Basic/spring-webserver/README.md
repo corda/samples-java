@@ -55,7 +55,7 @@ You can convert the webserver for Party A into a runnable JAR using:
 
 And run the webserver using:
 
-    java -jar server-<java/kotlin>/build/libs/corda-webserver.jar
+    java -jar server-<java/kotlin>/build/libs/corda-webserver-1.0.jar
 
 ### With IntelliJ
 

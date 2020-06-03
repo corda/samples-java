@@ -2,7 +2,7 @@ apply from: '../repositories.gradle'
 
 dependencies {
 
-    compile project(":workflows-java")
+    cordaCompile project(":workflows-java")
     compile "$corda_release_group:corda-rpc:$corda_release_version"
 
     testCompile "$corda_release_group:corda-node-driver:$corda_release_version"

@@ -56,7 +56,7 @@ dependencies {
     cordapp "$corda_release_group:corda-confidential-identities:$corda_release_version"
 
     // CorDapp dependencies.
-    cordapp project(":contracts-java")
+    cordapp project(":contracts")
 }
 
 task integrationTest(type: Test, dependsOn: []) {
@@ -67,7 +67,7 @@ task integrationTest(type: Test, dependsOn: []) {
 task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
     nodeDefaults {
         cordapp "$corda_release_group:corda-confidential-identities:$corda_release_version"
-        cordapp project(':contracts-java')
+        cordapp project(':contracts')
     }
     node {
         name "O=Notary,L=Nakuru,C=KE"

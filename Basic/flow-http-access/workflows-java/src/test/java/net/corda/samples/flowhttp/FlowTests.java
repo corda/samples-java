@@ -26,7 +26,7 @@ public class FlowTests {
     @Before
     public void Setup() {
         network = new MockNetwork(new MockNetworkParameters().withCordappsForAllNodes(
-                Collections.singletonList(TestCordapp.findCordapp("com.flowhttp"))
+                Collections.singletonList(TestCordapp.findCordapp("net.corda.samples.flowhttp"))
         ));
         node = network.createPartyNode(null);
         network.runNetwork();

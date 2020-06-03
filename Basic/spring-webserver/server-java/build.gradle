@@ -4,6 +4,6 @@ task runPartyAServer(type: JavaExec, dependsOn: jar) {
 }
 
 bootJar {
-    baseName = "corda-webserver"
-    version = ""
+    setArchivesBaseName("corda-webserver")
 }
+

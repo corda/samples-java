@@ -51,6 +51,7 @@ allprojects {
         }
     }
 
+
     dependencies {
         compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
         testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
@@ -78,6 +79,9 @@ allprojects {
 
 }
 
+bootJar {
+    enabled = false
+}
 
 task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
     nodeDefaults {
