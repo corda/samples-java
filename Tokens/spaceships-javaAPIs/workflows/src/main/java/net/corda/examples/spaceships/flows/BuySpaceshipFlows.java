@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
  * To achieve this the steps are:
  * 1. Buyer requests the value/sale price of the ship he wants to purchase identified by UUID
  * 2. Seller queries his inventory of ships and grabs the value of the associated UUID and sends to Buyer
- * 3. Buyer checks to see if he has the money to pay - if not throws exception which ends the flow.
+ * 3. Buyer checks to see if he has the money to pay - if not throws exception which ends the flow
  * 4. Seller sends the transaction of ownership (the tx that created his ownership token) and sends it to Buyer
  * 5. Buyer creates transaction with the required currency tokens going to seller, and the ship token going to buyer
  * 6. Transaction is signed and finalised
@@ -69,7 +69,7 @@ public interface BuySpaceshipFlows {
 
             paymentAmount = shipValue; // first we will try to pay in the native currency of the ship's value
 
-            // check if we have enough funds to afford this currency and amount
+            // Check if we have enough funds to afford this currency and amount
             // tokenBalance returns Amount<TokenType> which represents the quantity of this TokenType (currency) in our vault
             int fundsAvailable = QueryUtilities.tokenBalance(vaultService, shipValue.getToken()).compareTo(paymentAmount);
 
@@ -77,13 +77,13 @@ public interface BuySpaceshipFlows {
                 processSale = true;
             } else { // we do NOT have enough, in THAT tokenType but check if we can pay in some other currency using exchange rate
 
-                // creates a set of all tokenTypes we are holding
+                // Creates a set of all tokenTypes we are holding
                 Set<TokenType> heldTokenTypes = vaultService.queryBy(FungibleToken.class).getStates().stream()
                         .map(it -> it.getState().getData().getTokenType())
                         .collect(Collectors.toSet());
                 heldTokenTypes.remove(shipValue.getToken()); // remove this as it's already been checked
 
-                // iterate over all the different TokenTypes (currencies) we hold to see if any have enough value against
+                // Iterate over all the different TokenTypes (currencies) we hold to see if any have enough value against
                 // the listed exchange rate (defined in FlowHelpers interface)
                 for (TokenType currentTokenType : heldTokenTypes) {
                     paymentAmount = FlowHelpers.exchangeCurrency(shipValue, currentTokenType);
@@ -112,7 +112,7 @@ public interface BuySpaceshipFlows {
              * We record the transaction in OUR vault so that the TransactionBuilder can access it.
              * Important: make sure you have the argument StatesToRecord.ALL_VISIBLE as the default recordTransactions will only
              * record states in the transaction which are RELEVANT (i.e. which we participated in) this is not 'our' transaction
-             * so we need to that argument ALL_VISIBLE.
+             * so we need that argument ALL_VISIBLE.
              */
             getServiceHub().recordTransactions(StatesToRecord.ALL_VISIBLE, Collections.singletonList(shipTokenTransaction));
             NonFungibleToken shipNFT = shipTokenTransaction.getCoreTransaction().outputsOfType(NonFungibleToken.class).get(0);
@@ -123,7 +123,7 @@ public interface BuySpaceshipFlows {
                     // here we are generating input and output states which send the correct amount to the seller, and any change back to buyer
                     .generateMove(Collections.singletonList(new Pair<>(seller, paymentAmount)), getOurIdentity());
 
-            // Build the transaction which transfers the curreny tokens AND the spaceship token, in a single transaction
+            // Build the transaction which transfers the currency tokens AND the spaceship token, in a single transaction
             TransactionBuilder txBuilder = new TransactionBuilder(notary);
             MoveTokensUtilities.addMoveNonFungibleTokens(txBuilder, getServiceHub(), shipTokenPointer, getOurIdentity());
             MoveTokensUtilities.addMoveTokens(txBuilder, selectedTokens.getFirst(), selectedTokens.getSecond());
@@ -131,7 +131,7 @@ public interface BuySpaceshipFlows {
             SignedTransaction ptx = getServiceHub().signInitialTransaction(txBuilder);
             SignedTransaction stx = subFlow(new CollectSignaturesFlow(ptx, Collections.singletonList(sellerSession)));
 
-            // update the distribution list
+            // Update the distribution list
             subFlow(new UpdateDistributionListFlow(stx));
             return subFlow(new ObserverAwareFinalityFlow(stx, Collections.singletonList(sellerSession)));
         }
@@ -148,11 +148,11 @@ public interface BuySpaceshipFlows {
         @Suspendable
         @Override
         public Void call() throws FlowException {
-            // receive request for value of the given shipId
+            // Receive request for value of the given shipId
             String shipId = counterpartySession.receive(String.class).unwrap(it -> it);
             UUID shipUUID = UUID.fromString(shipId);
 
-//            // Get the state definition from vault to grab the value
+            // Get the state definition from vault to grab the value
             SpaceshipTokenType spaceshipTokenType = FlowHelpers.uuidToSpaceShipTokenType(getServiceHub().getVaultService(), shipUUID);
 
             // (Step 1 - Respond with value) send back value

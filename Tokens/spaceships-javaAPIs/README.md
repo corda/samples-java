@@ -10,7 +10,7 @@ tokens_release_version = '1.2-SNAPSHOT'
 You must download the latest source [here](https://github.com/corda/token-sdk) and then run the gradle task 'publishToMavenLocal'
 
 ---
-This cordapp demonstrates the new Java Apis released with TokenSDK 1.2
+This CorDapp demonstrates the new Java APIs released with Token SDK 1.2
 
 For an exploratory overview of usage, checkout the following blog post: [here](https://medium.com/corda/corda-tokens-made-easy-with-new-java-apis-83095693d72)
 
@@ -36,7 +36,7 @@ Additionally two new Java Builder classes have been added to allow easy creation
 - FungibleTokenBuilder
 - NonFungibleTokenBuilder
 
-The Cordapp will allow International Planetary Council (IPC) residents to use their local currencies to either purchase unique spaceships (represented by NonFungibleToken) OR invest in partial ownership of a spaceship (represented by a FungibleToken). 
+The CorDapp will allow International Planetary Council (IPC) residents to use their local currencies to either purchase unique spaceships (represented by NonFungibleToken) OR invest in partial ownership of a spaceship (represented by a FungibleToken). 
 
 Examples of the new Java APIs will be used throughout and identified as such.
 
@@ -47,7 +47,7 @@ Examples of the new Java APIs will be used throughout and identified as such.
 
 ### Flows
 
-Flows are executed through the `FlowTests` class in the workflows module. They can also be run through the CrashShell.
+Flows are executed through the `FlowTests` class in the workflows module. They can also be run through the CRaSH shell.
 
 
 ## Pre-Requisites
