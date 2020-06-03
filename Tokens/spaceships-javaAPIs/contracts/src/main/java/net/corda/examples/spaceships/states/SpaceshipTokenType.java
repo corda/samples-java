@@ -98,9 +98,7 @@ public class SpaceshipTokenType extends EvolvableTokenType {
     public UniqueIdentifier getLinearId() {
         return linearId;
     }
-
-
-
+    
     /* This method returns a TokenPointer by using the linear Id of the evolvable state */
     public TokenPointer<SpaceshipTokenType> toPointer(){
         LinearPointer<SpaceshipTokenType> linearPointer = new LinearPointer<>(linearId, SpaceshipTokenType.class);

@@ -94,13 +94,13 @@ public interface UtilityFlows {
 
             Set<TokenType> tokenTypesAvailable = fetchTokenTypes(FlowHelpers.rates.keySet());
 
-            // remove excluded Tokens (will not be in calculation)
+            // Remove excluded Tokens (will not be in calculation)
             if (exclusionList != null) tokenTypesAvailable.removeAll(exclusionList);
 
             List<Amount<TokenType>> amountsOfOutputTokenType = new ArrayList<>();
             tokenTypesAvailable.forEach(it -> {
                 Amount<TokenType> amountOfCurrentToken = QueryUtilities.tokenBalance(vs, it);
-                // convert to output currency
+                // Convert to output currency
                 if (!it.equals(outputTokenType)) {
                     amountOfCurrentToken = FlowHelpers.exchangeCurrency(amountOfCurrentToken, outputTokenType);
                 }

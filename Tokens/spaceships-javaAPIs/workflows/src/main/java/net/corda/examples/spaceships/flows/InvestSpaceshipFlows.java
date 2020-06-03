@@ -58,7 +58,7 @@ public interface InvestSpaceshipFlows {
         @Suspendable
         @Override
         public Void call() throws FlowException {
-            // receive request for value of the given shipId
+            // Receive request for value of the given shipId
             String shipId = counterpartySession.receive(String.class).unwrap(it -> it);
             UUID shipUUID = UUID.fromString(shipId);
 
