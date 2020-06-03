@@ -83,9 +83,15 @@ public class BlowWhistleFlow extends FlowLogic<SignedTransaction> {
     public SignedTransaction call() throws FlowException {
         progressTracker.setCurrentStep(GENERATE_CONFIDENTIAL_IDS);
         FlowSession investigatorSession = initiateFlow(investigator);
-        Pair<AnonymousParty, AnonymousParty> confidentialPairMeAndInvestigator = generateConfidentialIdentities(investigatorSession);
-        AnonymousParty anonymousMe = confidentialPairMeAndInvestigator.getFirst();
-        AnonymousParty anonymousInvestigator = confidentialPairMeAndInvestigator.getSecond();
+
+        /** Generates confidential identities for the whistle-blower and the investigator. */
+        LinkedHashMap<Party, AnonymousParty> confidentialIdentities = subFlow(new SwapIdentitiesFlow(
+                investigatorSession,
+                GENERATE_CONFIDENTIAL_IDS.childProgressTracker()
+        ));
+
+        AnonymousParty anonymousMe = confidentialIdentities.get(getOurIdentity());
+        AnonymousParty anonymousInvestigator = confidentialIdentities.get(investigator);
 
         progressTracker.setCurrentStep(BUILD_TRANSACTION);
         BlowWhistleState output = new BlowWhistleState(badCompany, anonymousMe, anonymousInvestigator);
@@ -110,17 +116,5 @@ public class BlowWhistleFlow extends FlowLogic<SignedTransaction> {
 
         progressTracker.setCurrentStep(FINALISE_TRANSACTION);
         return subFlow(new FinalityFlow(ftx, ImmutableList.of(investigatorSession), FINALISE_TRANSACTION.childProgressTracker()));
-    }
-
-    /** Generates confidential identities for the whistle-blower and the investigator. */
-    @Suspendable
-    private Pair<AnonymousParty, AnonymousParty> generateConfidentialIdentities(FlowSession counterpartySession) throws FlowException {
-        LinkedHashMap<Party, AnonymousParty> confidentialIdentities = subFlow(new SwapIdentitiesFlow(
-                counterpartySession,
-                GENERATE_CONFIDENTIAL_IDS.childProgressTracker()
-        ));
-        AnonymousParty anonymousMe = confidentialIdentities.get(getOurIdentity());
-        AnonymousParty anonymousInvestigator = confidentialIdentities.get(counterpartySession.getCounterparty());
-        return new Pair<AnonymousParty, AnonymousParty>(anonymousMe, anonymousInvestigator);
     }
 }

@@ -35,7 +35,7 @@ public class FlowTests {
 
     @After
     public void tearDown() {
-//        network.stopNodes();
+        network.stopNodes();
     }
 
     //simple unit test to check the public keys that used in the transaction
