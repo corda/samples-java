@@ -47,7 +47,6 @@ public class FlowTests {
                         .withCordappsForAllNodes(ImmutableList.of(
                                 TestCordapp.findCordapp("com.r3.corda.lib.tokens.contracts"),
                                 TestCordapp.findCordapp("com.r3.corda.lib.tokens.workflows"),
-                                TestCordapp.findCordapp("com.r3.corda.lib.tokens.money"),
                                 TestCordapp.findCordapp("net.corda.examples.spaceships.flows"),
                                 TestCordapp.findCordapp("net.corda.examples.spaceships.contracts")
                         ))

@@ -1,23 +1,11 @@
 # spaceships-javaAPIs token sample cordapp
 
-## IMPORTANT: this project is using TokenSDK snapshot until quarterly release available on mavenCentral
+## IMPORTANT: this project is using TokenSDK Pre-signed developer snapshot pending the formal release. NOT FOR PRODUCTION. This repo will be updated when available.
 
 ```java
-// FOR USE with snapshot source (pre-release JAVA APIs)
 tokens_release_group = 'com.r3.corda.lib.tokens'
-tokens_release_version = '1.2-SNAPSHOT'
+tokens_release_version = '1.2-RC02-PRESIGN'
 ```
-You must download the latest source [here](https://github.com/corda/token-sdk) 
-
-Add the money modules to the following block in token-sdk project build.gradle 
-```java
-def publishProjects = [
-        project(":contracts"),
-        project(":workflows"),
-        project(":modules:money")
-]
-```
-Finally, run the gradle task 'publishToMavenLocal'.
 
 ---
 This CorDapp demonstrates the new Java APIs released with Token SDK 1.2
