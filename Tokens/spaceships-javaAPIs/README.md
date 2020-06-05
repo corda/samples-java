@@ -7,7 +7,17 @@
 tokens_release_group = 'com.r3.corda.lib.tokens'
 tokens_release_version = '1.2-SNAPSHOT'
 ```
-You must download the latest source [here](https://github.com/corda/token-sdk) and then run the gradle task 'publishToMavenLocal'
+You must download the latest source [here](https://github.com/corda/token-sdk) 
+
+Add the money modules to the following block in token-sdk project build.gradle 
+```java
+def publishProjects = [
+        project(":contracts"),
+        project(":workflows"),
+        project(":modules:money")
+]
+```
+Finally, run the gradle task 'publishToMavenLocal'.
 
 ---
 This CorDapp demonstrates the new Java APIs released with Token SDK 1.2
