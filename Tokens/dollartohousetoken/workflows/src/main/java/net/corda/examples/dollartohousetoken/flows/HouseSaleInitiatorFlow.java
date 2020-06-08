@@ -1,10 +1,10 @@
 package net.corda.examples.dollartohousetoken.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
+import com.r3.corda.lib.tokens.workflows.flows.move.MoveTokensUtilities;
 import net.corda.examples.dollartohousetoken.states.HouseState;
 import com.google.common.collect.ImmutableList;
 import com.r3.corda.lib.tokens.contracts.states.FungibleToken;
-import com.r3.corda.lib.tokens.workflows.flows.move.MoveTokensUtilitiesKt;
 import com.r3.corda.lib.tokens.workflows.internal.flows.distribution.UpdateDistributionListFlow;
 import net.corda.core.contracts.StateAndRef;
 import net.corda.core.flows.*;
@@ -58,7 +58,7 @@ public class HouseSaleInitiatorFlow extends FlowLogic<String> {
 
         /* Create a move token proposal for the house token using the helper function provided by Token SDK. This would
         create the movement proposal and would be committed in the ledgers of parties once the transaction in finalized */
-        MoveTokensUtilitiesKt.addMoveNonFungibleTokens(txBuilder, getServiceHub(), houseState.toPointer(), buyer);
+        MoveTokensUtilities.addMoveNonFungibleTokens(txBuilder, getServiceHub(), houseState.toPointer(), buyer);
 
         /* Initiate a flow session with the buyer to send the house valuation and transfer of the fiat currency */
         FlowSession buyerSession = initiateFlow(buyer);
@@ -73,7 +73,7 @@ public class HouseSaleInitiatorFlow extends FlowLogic<String> {
         List<FungibleToken> moneyReceived = buyerSession.receive(List.class).unwrap(value -> value);
 
         /* Create a fiat currency proposal for the house token using the helper function provided by Token SDK */
-        MoveTokensUtilitiesKt.addMoveTokens(txBuilder, inputs, moneyReceived);
+        MoveTokensUtilities.addMoveTokens(txBuilder, inputs, moneyReceived);
 
         /* Sign the transaction */
         SignedTransaction initialSignedTrnx = getServiceHub().signInitialTransaction(txBuilder, getOurIdentity().getOwningKey());

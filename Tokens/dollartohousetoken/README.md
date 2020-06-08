@@ -1,4 +1,4 @@
-# nonfungible house token dvp sample cordapp
+# Nonfungible house token dvp sample cordapp
 
 This CorDapp provides a basic example to create, issue and perform a DvP (Delivery vs Payment) of an Evolvable NonFungible token in 
 Corda utilizing the Token SDK.

@@ -1,6 +1,7 @@
 package net.corda.examples.dollartohousetoken.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
+import com.r3.corda.lib.tokens.workflows.utilities.NonFungibleTokenBuilder;
 import net.corda.examples.dollartohousetoken.states.HouseState;
 import com.google.common.collect.ImmutableList;
 import com.r3.corda.lib.tokens.contracts.states.NonFungibleToken;
@@ -66,16 +67,15 @@ public class HouseTokenCreateAndIssueFlow extends FlowLogic<String> {
         evolvable token in the ledger.*/
         subFlow(new CreateEvolvableTokens(transactionState));
 
-        /* Create an instance of IssuedTokenType, it is used by our Non-Fungible token which would be issued to the owner.
-        Note that the IssuedTokenType takes a TokenPointer as an input, since EvolvableTokenType is not TokenType, but is
-        a LinearState. This is done to separate the state info from the token so that the state can evolve independently.
-        IssuedTokenType is a wrapper around the TokenType and the issuer. */
-        IssuedTokenType issuedHouseToken = new IssuedTokenType(issuer, houseState.toPointer());
-
-        /* Create an instance of the non-fungible house token with the owner as the token holder. The last parameter is a
-        hash of the jar containing the TokenType, use the helper function to fetch it. */
-        NonFungibleToken houseToken =
-                new NonFungibleToken(issuedHouseToken, owner, UniqueIdentifier.Companion.fromString(UUID.randomUUID().toString()), TransactionUtilitiesKt.getAttachmentIdForGenericParam(houseState.toPointer()));
+        /* Create an instance of the non-fungible house token with the owner as the token holder.
+        * Notice the TokenPointer is used as the TokenType, since EvolvableTokenType is not TokenType, but is
+        * a LinearState. This is done to separate the state info from the token so that the state can evolve independently.
+        * */
+        NonFungibleToken houseToken = new NonFungibleTokenBuilder()
+                .ofTokenType(houseState.toPointer())
+                .issuedBy(issuer)
+                .heldBy(owner)
+                .buildNonFungibleToken();
 
         /* Issue the house token by calling the IssueTokens flow provided with the TokenSDK */
         SignedTransaction stx = subFlow(new IssueTokens(ImmutableList.of(houseToken)));
