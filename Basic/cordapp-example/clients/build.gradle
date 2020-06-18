@@ -1,14 +1,13 @@
-plugins {
-    id 'org.jetbrains.kotlin.jvm'
-    id 'io.spring.dependency-management' version '1.0.7.RELEASE'
-    id 'net.corda.plugins.quasar-utils'
-    id 'net.corda.plugins.cordformation'
+repositories {
+    mavenLocal()
+    jcenter()
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+    maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda-releases' }
 }
 
-ext {
-    spring_boot_version = '1.5.7.RELEASE'
-    spring_version = '4.3.11.RELEASE'
-}
+apply plugin: 'net.corda.plugins.cordformation'
+apply plugin: 'net.corda.plugins.quasar-utils'
 
 sourceSets {
     main {
@@ -18,16 +17,13 @@ sourceSets {
     }
 }
 
-// See https://docs.spring.io/dependency-management-plugin/docs/current/reference/html
-dependencyManagement {
-    dependencies {
-        dependency "org.apache.logging.log4j:log4j-slf4j-impl:$log4j_version"
-    }
-}
+
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+    // CorDapp dependencies.
+    compile project(":contracts-java")
+    compile project(":workflows-java")
+
     testCompile "junit:junit:$junit_version"
 
     // Corda dependencies.
@@ -42,37 +38,26 @@ dependencies {
     }
     compile "org.springframework.boot:spring-boot-starter-log4j2:$spring_boot_version"
     compile "org.apache.logging.log4j:log4j-web:$log4j_version"
-
-    cordapp project(":contracts-java")
-    cordapp project(":workflows-java")
-    cordapp project(":contracts-kotlin")
-    cordapp project(":workflows-kotlin")
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
-    kotlinOptions {
-        languageVersion = "1.2"
-        apiVersion = "1.2"
-        jvmTarget = "1.8"
-        javaParameters = true   // Useful for reflection.
-    }
-}
+
+
 
 
 task runPartyAServer(type: JavaExec, dependsOn: jar) {
     classpath = sourceSets.main.runtimeClasspath
-    main = 'com.example.server.ServerKt'
+    main = 'com.example.server.Server'
     args '--server.port=50005', '--config.rpc.host=localhost', '--config.rpc.port=10005', '--config.rpc.username=user1', '--config.rpc.password=test'
 }
 
 task runPartyBServer(type: JavaExec, dependsOn: jar) {
     classpath = sourceSets.main.runtimeClasspath
-    main = 'com.example.server.ServerKt'
+    main = 'com.example.server.Server'
     args '--server.port=50006', '--config.rpc.host=localhost', '--config.rpc.port=10009', '--config.rpc.username=user1', '--config.rpc.password=test'
 }
 
 task runPartyCServer(type: JavaExec, dependsOn: jar) {
     classpath = sourceSets.main.runtimeClasspath
-    main = 'com.example.server.ServerKt'
+    main = 'com.example.server.Server'
     args '--server.port=50007', '--config.rpc.host=localhost', '--config.rpc.port=10013', '--config.rpc.username=user1', '--config.rpc.password=test'
 }
