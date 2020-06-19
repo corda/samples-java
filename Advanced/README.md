@@ -3,8 +3,8 @@
 This folder features Advanced sample projects, each of them demonstrates a complex cordapp that uses multiple features of Corda.
 
 ### [auction cordapp](./auction-cordapp):
-An blockchain application that leverages different features of Corda like SchedulableState, StatePointer
-and OwnableState. It also demonstrates how to perform a DvP (Delivery vs Payment) transaction on Corda.
+An blockchain application that leverages different features of Corda like [SchedulableState](https://docs.corda.net/docs/corda-os/event-scheduling.html#how-to-implement-scheduled-events), [StatePointer](https://docs.corda.net/docs/corda-os/api-states.html#state-pointers)
+and [OwnableState](https://docs.corda.net/docs/corda-os/api-states.html#ownablestate). It also demonstrates how to perform a DvP (Delivery vs Payment) transaction on Corda.
 
 ### [negotiation cordapp](./negotiation-cordapp):
 An application that depicts the businsess negotiation and communication process over a distributed ledger system.

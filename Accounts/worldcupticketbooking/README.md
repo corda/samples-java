@@ -3,7 +3,7 @@
 
 ## Introduction
 This sample shows you how to integrate accounts and tokens. This sample talks about a scenario where typically when the Cricket season starts, BCCI (Board of Control for Cricket) starts selling tickets.
-As of now there are multiple dealers whom the BCCI issues tickets and further these dealers sell tickets to their client. We are trying to simulate similar functionality maintaining the entore issuance and selling
+As of now there are multiple dealers whom the BCCI issues tickets and further these dealers sell tickets to their client. We are trying to simulate similar functionality maintaining the entire issuance and selling
 of the tickets on Corda Platform.
 
 ## Flow logic of the sample application 
@@ -57,7 +57,7 @@ Run the above command on the Bank node, which will issue 20 USD to buyer1 accoun
 flow start QuerybyAccount whoAmI: buyer1
 ```
 You can check balance of buyer1 account at Dealer1's node
-[Option] You can also run the below command to confirm if 20 USD fungible tokens are stored at Dealer1's node. The current holder field in the output will be an AnonymousParty which specifies an account.
+[Option] You can also run the below command to confirm if 20 USD fungible tokens are stored at Dealer1's node. The current holder field in the output will be an [AnonymousParty](https://docs.corda.net/docs/corda-os/4.4/api-identity.html#party) which specifies an account.
 ```
 run vaultQuery contractStateType : com.r3.corda.lib.tokens.contracts.states.FungibleToken
 ```
@@ -94,7 +94,7 @@ Note that, the current holder it will be a key representing the account.
 flow start DVPAccountsOnSameNode tokenId: <XXX-XXX-XXXX-XXXXX>, buyerAccountName: buyer1, sellerAccountName: agent1, costOfTicket: 5, currency: USD
 ```
 
-This is the DVP flow where the buyer(buyer1 account on Dealer1 node) account will pay cash to seller account(agent1 account on Dealer1 node), and the seller accountwill transfer the ticket token to the buyer. Again, replace the `<XXX-XXX-XXXX-XXXXX>` with the uuid generated in step 6.
+This is the DVP flow where the buyer(buyer1 account on Dealer1 node) account will pay cash to seller account(agent1 account on Dealer1 node), and the seller account will transfer the ticket token to the buyer. Again, replace the `<XXX-XXX-XXXX-XXXXX>` with the uuid generated in step 6.
 
 ### Step 7
 Now lets continue the flow logic to intiate an ticket sale between buyer1 and buyer3. Go to Dealer2 node and run the following code:
@@ -121,7 +121,7 @@ At Dealer2 node
 flow start QuerybyAccount whoAmI: buyer3
 
 ```
-Confirm who owns the FungibleToken (cash) and NonFungibleToken (ticket) again by running this on Dealer1's node.
+Confirm who owns the [FungibleToken](https://training.corda.net/libraries/tokens-sdk/#fungibletoken) (cash) and [NonFungibleToken](https://training.corda.net/libraries/tokens-sdk/#nonfungibletoken) (ticket) again by running this on Dealer1's node.
 
 
 ## Further Reading

@@ -8,7 +8,7 @@ tokens_release_version = '1.2-RC02-PRESIGN'
 ```
 
 ---
-This CorDapp demonstrates the new Java APIs released with Token SDK 1.2
+This CorDapp demonstrates the new Java APIs released with [TokenSDK](https://training.corda.net/libraries/tokens-sdk/) 1.2
 
 For an exploratory overview of usage, checkout the following blog post: [here](https://medium.com/corda/corda-tokens-made-easy-with-new-java-apis-83095693d72)
 
@@ -32,7 +32,7 @@ The core changes include easier access to the following Utility classes and func
   - QueryUtilities
   - TokenUtilities
   
-Additionally two new Java Builder classes have been added to allow easy creation of both Fungible and NonFungible Tokens:
+Additionally two new Java Builder classes have been added to allow easy creation of both [Fungible](https://training.corda.net/libraries/tokens-sdk/#fungibletoken) and [NonFungible](https://training.corda.net/libraries/tokens-sdk/#nonfungibletoken) Tokens:
 - FungibleTokenBuilder
 - NonFungibleTokenBuilder
 
@@ -47,7 +47,7 @@ Examples of the new Java APIs will be used throughout and identified as such.
 
 ### Flows
 
-Flows are executed through the `FlowTests` class in the workflows module. They can also be run through the CRaSH shell.
+Flows are executed through the `FlowTests` class in the workflows module. They can also be run through the [CRaSH](https://docs.corda.net/docs/corda-os/shell.html) shell.
 
 
 ## Pre-Requisites

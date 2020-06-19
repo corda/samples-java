@@ -4,7 +4,7 @@
 
 # Spring webserver
 
-This project defines a simple Spring webserver that connects to a Corda node via RPC.
+This project defines a simple [Spring webserver](https://spring.io/projects/spring-boot#overview) that connects to a Corda node via [RPC](https://docs.corda.net/docs/corda-os/api-rpc.html#api-rpc-operations).
 
 # Structure:
 

@@ -20,7 +20,7 @@ The first flows are the ones that issue the original cash and assets. You can fi
 The next flow is the one that transfers ownership of that asset over to another party. That can be found in [IOUTransferFlow.java](./workflows/src/main/java/net/corda/samples/flows/IOUTransferFlow.java#L132-L159).
 
 
-Finally, once we have the ability to transfer assets, we just need to settle up. That functiionality can be found [here in IOUSettleFlow.java](./workflows/src/main/java/net/corda/samples/flows/IOUSettleFlow.java#L54-L116)
+Finally, once we have the ability to transfer assets, we just need to settle up. That functiionality can be found here in [IOUSettleFlow.java](./workflows/src/main/java/net/corda/samples/flows/IOUSettleFlow.java#L54-L116)
 
 
 

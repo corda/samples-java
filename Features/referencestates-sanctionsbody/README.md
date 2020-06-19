@@ -1,6 +1,6 @@
 # reference state cordapp
 
-This CorDapp demonstrates the use of reference states in a transaction and in the verification method of a contract.
+This CorDapp demonstrates the use of [reference states](https://training.corda.net/corda-details/reference-states/) in a transaction and in the verification method of a contract.
 
 ## Concepts
 

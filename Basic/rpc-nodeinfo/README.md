@@ -1,6 +1,6 @@
 # NodeInfo
 
-Allows one to get some rudimentary information about a running Corda node via RPC
+Allows one to get some rudimentary information about a running Corda node via [RPC](https://docs.corda.net/docs/corda-os/api-rpc.html#api-rpc-operations)
 
 Useful for debugging network issues, ensuring flows have loaded etc.
 
@@ -11,7 +11,7 @@ After cloning, use the _getInfo_ gradle task to retrieve node information.
 ## Concepts
 
 
-Here we'll be using java just to create an RPC call against a corda node.
+Here we'll be using java just to create an RPC call against a Corda node.
 
 
 You'll find our example to do this in [Main.java](./java-app/src/main/java/net/corda/Main.java#L31-L46)

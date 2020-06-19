@@ -6,4 +6,4 @@
 
 Welcome to the example CorDapp. This CorDapp is fully documented [here](http://docs.corda.net/tutorial-cordapp.html).
 
-This example application has modules for both Java and Kotlin and is an exploratory sample for the official Corda online training. It demonstrates the basic components present in a CorDapp and how they work together using a simple IOU example.
+This example application has modules for both Java and Kotlin and is an exploratory sample for the official [Corda online training](https://training.corda.net). It demonstrates the basic components present in a CorDapp and how they work together using a simple IOU example.

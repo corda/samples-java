@@ -1,4 +1,4 @@
-.# negotiation cordapp
+# negotiation cordapp
 
 This CorDapp shows how multi-party negotiation is handled on the Corda ledger, in the absence of an API for user
 interaction.
@@ -22,7 +22,7 @@ We start with the proposal flow implemented in [ProposalFlow.java](./workflows/s
 The modification of the proposal is implemented in [ModificationFlow.java](./workflows/src/main/java/negotiation/flows/ModificationFlow.java#L42-L49).
 
 
-In the [AcceptanceFlow](./workflows/src/main/java/negotiation/flows/AcceptanceFlow.java#L42-L75), we receive the modified ProposalState and it's converted into a TradeState.
+In the [AcceptanceFlow.java](./workflows/src/main/java/negotiation/flows/AcceptanceFlow.java#L42-L75), we receive the modified ProposalState and it's converted into a TradeState.
 
 
 

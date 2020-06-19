@@ -1,6 +1,6 @@
 # autopayroll -- cordaservice demo
 
-This Cordapp shows how to trigger a flow with vault update(completion of prior flows) using `CordaService` & `trackby`.
+This Cordapp shows how to trigger a flow with vault update(completion of prior flows) using [CordaService](https://training.corda.net/corda-details/automation/#services) & [trackby](https://training.corda.net/corda-details/automation-solution/#track-and-notify).
 
 ## Concepts
 

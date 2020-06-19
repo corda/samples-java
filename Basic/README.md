@@ -1,6 +1,6 @@
 ## samples-java/basic-cordapps
 
-This folder features basic sample projects, each of them demonstrates low level cordapp functionalities, such rpc connection, messing, and etc.
+This folder features basic sample projects, each of them demonstrates low level cordapp functionalities, such [RPC connection](https://docs.corda.net/docs/corda-os/api-rpc.html#api-rpc-operations), messaging, etc.
 
 ### [database access](./flow-database-access):
 This CorDapp provides a simple example of how the node database can be accessed within flows. In this case, the flows maintain a table of cryptocurrency values in the node's database.
