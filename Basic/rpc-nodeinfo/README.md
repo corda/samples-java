@@ -1,4 +1,4 @@
-# NodeInfo
+# NodeInfo [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Basic/rpc-nodeinfo)
 
 Allows one to get some rudimentary information about a running Corda node via [RPC](https://docs.corda.net/docs/corda-os/api-rpc.html#api-rpc-operations)
 

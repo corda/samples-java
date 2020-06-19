@@ -1,4 +1,4 @@
-# spaceships-javaAPIs token sample cordapp
+# spaceships-javaAPIs token sample cordapp [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Tokens/spaceships-javaAPIs)
 
 ## IMPORTANT: this project is using TokenSDK Pre-signed developer snapshot pending the formal release. NOT FOR PRODUCTION. This repo will be updated when available.
 

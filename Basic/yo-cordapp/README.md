@@ -1,4 +1,4 @@
-# Yo! CorDapp
+# Yo! CorDapp [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Basic/yo-cordapp)
 
 Send Yo's! to all your friends running Corda nodes!
 

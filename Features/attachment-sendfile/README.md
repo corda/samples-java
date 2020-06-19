@@ -1,4 +1,4 @@
-# attachzip -- attachment demo
+# attachzip -- attachment demo [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Features/attachment-sendfile)
 
 This Cordapp shows how to upload and download an [attachment](https://training.corda.net/corda-details/attachments/) via flow.
 

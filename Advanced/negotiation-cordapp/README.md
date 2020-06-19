@@ -1,4 +1,4 @@
-# negotiation cordapp
+# negotiation cordapp [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Advanced/negotiation-cordapp)
 
 This CorDapp shows how multi-party negotiation is handled on the Corda ledger, in the absence of an API for user
 interaction.

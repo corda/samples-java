@@ -1,4 +1,4 @@
-# Ping-Pong CorDapp
+# Ping-Pong CorDapp [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Basic/ping-pong)
 
 This CorDapp allows a node to ping any other node on the network that also has this CorDapp installed.
 

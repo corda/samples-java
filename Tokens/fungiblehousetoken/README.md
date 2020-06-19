@@ -1,4 +1,4 @@
-# fungible and nonfungible realestate token sample CorDapp
+# fungible and nonfungible realestate token sample CorDapp [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Tokens/fungiblehousetoken)
 
 This CorDapp serves as a basic example to create, issue, and move [Fungible](https://training.corda.net/libraries/tokens-sdk/#fungibletoken) tokens in Corda utilizing the Token SDK. In this specific fungible token sample, we will not 
 talk about the redeem method of the Token SDK because the redeem process will take the physical asset off the [ledger](https://training.corda.net/prepare-and-discover/design-corda/#orchestration-and-ledger-layers) and destroy the token. Thus, this sample will be a 

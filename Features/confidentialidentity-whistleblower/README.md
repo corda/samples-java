@@ -1,4 +1,4 @@
-# whistle blower cordapp
+# whistle blower cordapp [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Features/confidentialidentity-whistleblower)
 
 This CorDapp is a simple showcase of [confidential identities](https://docs.corda.net/docs/corda-os/api-identity.html#confidential-identities) (i.e. anonymous public keys).
 

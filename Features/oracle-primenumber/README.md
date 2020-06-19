@@ -1,4 +1,4 @@
-# corda oracle examples
+# corda oracle examples [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Features/oracle-primenumber)
 
 This CorDapp implements an [oracle service](https://training.corda.net/corda-details/oracles) that allows nodes to:
 
