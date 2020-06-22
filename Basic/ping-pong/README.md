@@ -1,8 +1,8 @@
-# Ping-Pong CorDapp
+# Ping-Pong CorDapp [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Basic/ping-pong)
 
 This CorDapp allows a node to ping any other node on the network that also has this CorDapp installed.
 
-It demonstrates how to use Corda for messaging and passing data using a flow without saving any states or using any contracts.
+It demonstrates how to use Corda for messaging and passing data using a [flow](https://docs.corda.net/docs/corda-os/flow-state-machines.html#flow-sessions) without saving any states or using any contracts.
 
 
 ### Concepts

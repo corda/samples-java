@@ -1,6 +1,6 @@
-# blacklist cordapp
+# blacklist cordapp [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Features/attachment-blacklist)
 
-This CorDapp allows nodes to reach agreement over arbitrary strings of text, but only with parties that are not included in the blacklist uploaded to the nodes.
+This CorDapp allows nodes to reach agreement over arbitrary strings of text, but only with parties that are not included in the blacklist uploaded to the nodes as an [attachment](https://training.corda.net/corda-details/attachments/).
 
 
 ## Concepts
@@ -50,7 +50,7 @@ Then type: (to run the nodes)
 Note: The nodes must be running before attempting this step
 
 Before attempting to reach any agreements, you must upload the blacklist as an attachment to each node that you want to
-be able to *initiate* an agreement. The blacklist can be uploaded via RPC by running the following command from the
+be able to *initiate* an agreement. The blacklist can be uploaded via [RPC](https://docs.corda.net/docs/corda-os/api-rpc.html#api-rpc-operations) by running the following command from the
 project's root folder:
 
 Java version

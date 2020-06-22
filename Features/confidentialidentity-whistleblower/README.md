@@ -1,6 +1,6 @@
-# whistle blower cordapp
+# whistle blower cordapp [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Features/confidentialidentity-whistleblower)
 
-This CorDapp is a simple showcase of confidential identities (i.e. anonymous public keys).
+This CorDapp is a simple showcase of [confidential identities](https://docs.corda.net/docs/corda-os/api-identity.html#confidential-identities) (i.e. anonymous public keys).
 
 
 ## Concepts
@@ -37,7 +37,7 @@ Then type: (to run the nodes)
 
 ### Interacting with the nodes:
 
-We will interact with this CorDapp via the nodes' CRaSH shells.
+We will interact with this CorDapp via the nodes' [CRaSH](https://docs.corda.net/docs/corda-os/shell.html) shells.
 
 First, go the the shell of BraveEmployee, and report BadCompany to the TradeBody by running:
 

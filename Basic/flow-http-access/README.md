@@ -1,4 +1,4 @@
-# Flow Http CorDapp
+# Flow Http CorDapp [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Basic/flow-http-access)
 
 This CorDapp provides a simple example of how HTTP requests can be made in flows. In this case, the flow makes an HTTP
 request to retrieve the original BitCoin readme from GitHub.

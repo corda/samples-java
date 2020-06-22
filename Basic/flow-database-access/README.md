@@ -1,6 +1,6 @@
-# Flow Database Access CorDapp
+# Flow Database Access CorDapp [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Basic/flow-database-access)
 
-This CorDapp provides a simple example of how the node database can be accessed in flows. In this case, the flows
+This CorDapp provides a simple example of how the node database can be accessed in flows using a [JDBC Connection](https://docs.corda.net/docs/corda-os/api-persistence.html#jdbc-session). In this case, the flows
 maintain a table of cryptocurrency values in the node's database. There are three flows:
 
 
@@ -14,7 +14,7 @@ The CorDapp defines three flows:
 * `UpdateTokenValueFlow`, [which updates the value of an existing token in the database table](./workflows-java/src/main/java/net/corda/samples/flowdb/UpdateTokenValueFlow.java#L34-L42)
 * `QueryTokenValueFlow`, [which reads the value of an existing token from the database table](./workflows-java/src/main/java/net/corda/samples/flowdb/QueryTokenValueFlow.java#L32-L40)
 
-Under the hood, the database accesses are managed by the CryptoValuesDatabaseService CordaService.
+Under the hood, the database accesses are managed by the CryptoValuesDatabaseService [CordaService](https://training.corda.net/corda-details/automation/#services).
 
 Be aware that support of database accesses in flows is currently limited:
 

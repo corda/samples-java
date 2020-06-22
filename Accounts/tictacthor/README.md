@@ -1,5 +1,6 @@
-# Tic Tac Thor
-This CorDapp recreates the game of Tic Tac Toe via Corda. It primarilly demonstrates how you can have linear state transactions between cross-node accounts.
+# Tic Tac Thor [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Accounts/tictacthor)
+This CorDapp recreates the game of Tic Tac Toe via Corda. It primarilly demonstrates how you can have [LinearState](https://docs.corda.net/docs/corda-os/api-states.html#linearstate) transactions between cross-node accounts.
+
 <p align="center">
   <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Tic_tac_toe.svg/1024px-Tic_tac_toe.svg.png" alt="Corda" width="200">
 </p>
@@ -30,10 +31,10 @@ From here, you can start play the game by changing the very last number from the
 │3│4│5│        ->        │ │X│ │
 │6│7│8│                  │ │ │ │
 ```
-The Game will automatically end when one player win the game. 
+The Game will automatically end when one player wins the game. 
 You can also run `run vaultQuery contractStateType: net.corda.samples.tictacthor.states.BoardState` at any given time to see the board games stored in vault. 
 
-now if you want to fast fard the game, Play the following moves in order:
+now if you want to fast forward the game, Play the following moves in order:
 According to syntax: we should have `http://localhost:8080/submitMove/PeterLi/DavidWinner/3` for the first move below.
 ```
 * Peter: 3                                  │O│ │ │
@@ -48,7 +49,7 @@ We can play a bit more about the accounts. Now let's create two accounts, a new 
 * Create an account on SoE node: `http://localhost:8090/createAccount/ThorG`
 Now, try to have Anthony play a game with Thor while start a new game between Peter and David. It worked! 
 
-One key feature about account is that, each account's data is segregated, meaning each account will not be able to see other account's data. In this sample cordapp, the game is queried by account name. Therefore, we see that each account only knows about the game that he participated. Account Peter doesn't know anything about the game between Thor and Anthony. 
+One key feature about account is that, each account's data is segregated, meaning that it can be enforced that each account will not be able to see other account's data. In this sample cordapp, the game is queried by account name. Therefore, we see that each account only knows about the game that he participated. Account Peter doesn't know anything about the game between Thor and Anthony. 
 
 ## Credit 
 This project is inspired and evolved from a simple [tic-tac-toe](https://github.com/thorgilman/tictactoe) game on Corda by Thor Gilman. 

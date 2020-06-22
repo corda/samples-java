@@ -2,9 +2,9 @@
   <img src="https://www.corda.net/wp-content/uploads/2016/11/fg005_corda_b.png" alt="Corda" width="500">
 </p>
 
-# Spring webserver
+# Spring webserver [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Basic/spring-webserver)
 
-This project defines a simple Spring webserver that connects to a Corda node via RPC.
+This project defines a simple [Spring webserver](https://spring.io/projects/spring-boot#overview) that connects to a Corda node via [RPC](https://docs.corda.net/docs/corda-os/api-rpc.html#api-rpc-operations).
 
 # Structure:
 

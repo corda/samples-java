@@ -1,4 +1,4 @@
-# bike market - tokensdk
+# bike market - tokensdk [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Tokens/bikemarket)
 
 In this sample CorDapp we will mimic a bike buying and selling market.
 
@@ -92,7 +92,7 @@ but on the ledger we will also need to "destroy" (process of redeem in Corda Tok
 ```
 flow start TotalPart part: frame, serialNumber: F4561
 ```
-At the buyer's shell, if we do the `vaultQuery` again, we will see we now only have a wheel Token (the frame Token is gone). With the wheel Token, we can sell 
+At the buyer's shell, if we do the [vaultQuery](https://docs.corda.net/docs/corda-os/api-vault-query.html#api-vault-query) again, we will see we now only have a wheel Token (the frame Token is gone). With the wheel Token, we can sell 
 this pair of wheels to the used parts agency. We will achieve it by running:
 ```
 flow start TransferPartToken part: wheel, serialNumber: W7894, holder: UsedPartsAgency

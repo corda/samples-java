@@ -1,4 +1,4 @@
-# Yo! CorDapp
+# Yo! CorDapp [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Basic/yo-cordapp)
 
 Send Yo's! to all your friends running Corda nodes!
 
@@ -10,7 +10,7 @@ In the original yo application, the app sent what is essentially a nudge from on
 In corda, we can use abstractions to accomplish the same thing.
 
 
-We define a state (the yo to be shared), define a contract (the way to make sure the yo is legit), and define the flow (the control flow of our cordapp).
+We define a [state](https://training.corda.net/key-concepts/concepts/#states) (the yo to be shared), define a [contract](https://training.corda.net/key-concepts/concepts/#contracts) (the way to make sure the yo is legit), and define the [flow](https://training.corda.net/key-concepts/concepts/#flows) (the control flow of our cordapp).
 
 ### States
 We define a [Yo as a state](./contracts/src/main/java/net/corda/examples/yo/states/YoState.java#L31-L35), or a corda fact.

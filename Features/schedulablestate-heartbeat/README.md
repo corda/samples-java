@@ -1,6 +1,6 @@
-# Heartbeat CorDapp
+# Heartbeat CorDapp [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Features/schedulablestate-heartbeat)
 
-This CorDapp is a simple showcase of scheduled activities (i.e. activities started by a node at a specific time without
+This CorDapp is a simple showcase of [scheduled activities](https://docs.corda.net/docs/corda-os/event-scheduling.html#how-to-implement-scheduled-events) (i.e. activities started by a node at a specific time without
 direct input from the node owner).
 
 
@@ -49,7 +49,7 @@ Then type: (to run the nodes)
 
 ### Interacting with the nodes:
 
-Go to the CRaSH shell for PartyA, and run the `StartHeatbeatFlow`:
+Go to the [CRaSH](https://docs.corda.net/docs/corda-os/shell.html) shell for PartyA, and run the `StartHeatbeatFlow`:
 
     start StartHeartbeatFlow
 

@@ -1,6 +1,6 @@
-# observable states cordapp
+# observable states cordapp [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Features/observablestates-tradereporting)
 
-This CorDapp shows how Corda's observable states feature works. Observable states is the ability for nodes who are not
+This CorDapp shows how Corda's [observable states](https://docs.corda.net/docs/corda-os/4.4/tutorial-observer-nodes.html#observer-nodes) feature works. Observable states is the ability for nodes who are not
 participants in a transaction to still store them if the transactions are sent to them.
 
 
@@ -40,7 +40,7 @@ Then type: (to run the nodes)
 
 ### Interacting with the nodes:
 
-Go to the CRaSH shell of Seller, and create a new `HighlyRegulatedState`
+Go to the [CRaSH](https://docs.corda.net/docs/corda-os/shell.html) shell of Seller, and create a new `HighlyRegulatedState`
 
     start TradeAndReport buyer: Buyer, stateRegulator: StateRegulator, nationalRegulator: NationalRegulator
 

@@ -1,6 +1,6 @@
-# Nonfungible house token dvp sample cordapp
+# Nonfungible house token dvp sample cordapp [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Tokens/dollartohousetoken)
 
-This CorDapp provides a basic example to create, issue and perform a DvP (Delivery vs Payment) of an Evolvable NonFungible token in 
+This CorDapp provides a basic example to create, issue and perform a DvP (Delivery vs Payment) of an [Evolvable](https://training.corda.net/libraries/tokens-sdk/#evolvabletokentype), [NonFungible](https://training.corda.net/libraries/tokens-sdk/#nonfungibletoken) token in 
 Corda utilizing the Token SDK.
 
 
@@ -54,7 +54,7 @@ First go to the shell of PartyA and issue some USD to Party C. We will need the 
 
     start FiatCurrencyIssueFlow currency: USD, amount: 100000000, recipient: PartyC
 
-We can now go to the shell of PartyC and check the amount of USD issued. Since fiat currency is a fungible token we can query the vault for FungibleToken states.
+We can now go to the shell of PartyC and check the amount of USD issued. Since fiat currency is a fungible token we can query the vault for [FungibleToken](https://training.corda.net/libraries/tokens-sdk/#fungibletoken) states.
 
     run vaultQuery contractStateType: com.r3.corda.lib.tokens.contracts.states.FungibleToken
 
@@ -62,11 +62,11 @@ Once we have the USD issued to PartyC, we can Create and Issue the HouseToken to
 
     start HouseTokenCreateAndIssueFlow owner: PartyB, valuation: 10000 USD, noOfBedRooms: 2, constructionArea: 1000sqft, additionInfo: NA, address: Mumbai
 
-We can now check the issued house token in PartyB's vault. Since we issued it as a non-fungible token we can query the vault for non-fungible tokens.
+We can now check the issued house token in PartyB's vault. Since we issued it as a [NonFungible](https://training.corda.net/libraries/tokens-sdk/#nonfungibletoken) token we can query the vault for non-fungible tokens.
 
     run vaultQuery contractStateType: com.r3.corda.lib.tokens.contracts.states.NonFungibleToken
 
-Note that HouseState token is an evolvable token which is a linear state, thus we can check PartyB's vault to view the evolvable token
+Note that HouseState token is an evolvable token which is a [LinearState](https://docs.corda.net/docs/corda-os/api-states.html#linearstate), thus we can check PartyB's vault to view the [EvolvableToken](https://training.corda.net/libraries/tokens-sdk/#evolvabletokentype)
 
     run vaultQuery contractStateType: net.corda.examples.dollartohousetoken.states.HouseState
 

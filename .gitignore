@@ -5,7 +5,7 @@
 **/bin/
 */.gradle/
 */.idea/*
-*/.vscode/*
+**/.vscode/*
 **/out/
 **/logs/
 corda-nodeinfo/corda-nodeinfo.iml

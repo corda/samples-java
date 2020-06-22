@@ -1,4 +1,4 @@
-# Accounts_SupplyChain
+# Accounts_SupplyChain [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Accounts/supplychain)
 
 For More information regarding the Accounts Library, please read at: https://github.com/corda/accounts/blob/master/docs.md
 
@@ -7,7 +7,8 @@ This sample describes a mock/simple supply chain business flow.
 <p align="center">
   <img src="./Business%20Flow.png" alt="Corda" width="500">
 </p>
-From the above chart, you can see the flow is going back and forth between different parties' accounts. Please follow the instruction below to experience the Accounts library. 
+
+From the above chart, you can see the flow is going back and forth between different parties' accounts. Please follow the instruction below to experience the [Accounts](https://training.corda.net/libraries/accounts-lib/) library. 
 
 # Setting up
 Go into the project directory and build the project
@@ -44,9 +45,9 @@ flow start ShareAccountTo acctNameShared: SellerSales, shareTo: Buyer
 flow start ShareAccountTo acctNameShared: SellerFinance, shareTo: Buyer
 flow start ShareAccountTo acctNameShared: SellerInventory, shareTo: ShippingCo
 ```
-This is creating 3 accounts under Seller's node and sharing with their specific conterpartie's node or account.
+This is creating 3 accounts under Seller's node and sharing with their specific conterparty's node or account.
 
-[Optional]: You can run a vaultQuery to see the accoutnInfo that been stored at each node by using: 
+[Optional]: You can run a vaultQuery to see the [AccountInfo](https://training.corda.net/libraries/accounts-lib/#design) that been stored at each node by using: 
 ```
 run vaultQuery contractStateType: com.r3.corda.lib.accounts.contracts.states.AccountInfo
 ```
@@ -70,7 +71,7 @@ flow start InternalMessage fromWho: BuyerProcurement, whereTo: BuyerFinance, mes
 [Optional verification]: run ```flow start ViewInboxByAccount acctname: BuyerFinance``` at Buyer' node terminal
 
 ## Step 3: Buyer's finance team send a payment to Seller's finance team
-Navigatie to Buyer's node terminal and type in:
+Navigate to Buyer's node terminal and type in:
 ```
 flow start SendPayment whoAmI: BuyerFinance, whereTo: SellerFinance, amount: 500
 ```

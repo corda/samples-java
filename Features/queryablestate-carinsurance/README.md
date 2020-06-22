@@ -1,6 +1,6 @@
-# queryablestate cordapp
+# queryablestate cordapp [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Features/queryablestate-carinsurance)
 
-This CorDapp demonstrates QueryableState works in Corda. Corda allows developers
+This CorDapp demonstrates [QueryableState](https://docs.corda.net/docs/corda-os/api-persistence.html) works in Corda. Corda allows developers
 to have the ability to expose some or all parts of their states to a custom database
 table using an ORM tools. To support this feature the state must implement
 `QueryableState`.
@@ -18,8 +18,8 @@ made against the insurance. We use them to demonstrate _One-to-Many_ relationshi
 
 A spring boot client is provided with the cordapp, which exposes two REST endpoints
 (see `Controller` in the clients module) to trigger the flows.
-Use the command `./gradlew bootRun` in the project root folder to run the Spring Boot
-Server.
+Use the command `./gradlew bootRun` in the project root folder to run the [Spring Boot
+Server](https://spring.io/projects/spring-boot#overview).
 
 ### Flows
 
