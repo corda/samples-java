@@ -3,7 +3,7 @@ package net.corda.examples.tokenizedhouse.flows;
 import co.paralleluniverse.fibers.Suspendable;
 import com.r3.corda.lib.tokens.contracts.types.TokenPointer;
 import com.r3.corda.lib.tokens.contracts.types.TokenType;
-import com.r3.corda.lib.tokens.workflows.utilities.QueryUtilitiesKt;
+import com.r3.corda.lib.tokens.workflows.utilities.QueryUtilities;
 import net.corda.examples.tokenizedhouse.states.FungibleHouseTokenState;
 import net.corda.core.contracts.Amount;
 import net.corda.core.contracts.StateAndRef;
@@ -46,7 +46,7 @@ public class QueryTokens {
             //get the pointer pointer to the house
             TokenPointer<FungibleHouseTokenState> tokenPointer = evolvableTokenType.toPointer(FungibleHouseTokenState.class);
 
-            Amount<TokenType> amount = QueryUtilitiesKt.tokenBalance(getServiceHub().getVaultService(), tokenPointer);
+            Amount<TokenType> amount = QueryUtilities.tokenBalance(getServiceHub().getVaultService(), tokenPointer);
             return "\n You currently have "+ amount.getQuantity()+ " " +symbol + " Tokens\n";
         }
     }

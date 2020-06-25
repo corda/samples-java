@@ -14,7 +14,10 @@ buildscript {
         corda_platform_version = constants.getProperty("platformVersion")
         guava_version = constants.getProperty("guavaVersion")
         tokens_release_group = 'com.r3.corda.lib.tokens'
-        tokens_release_version = '1.0'
+        tokens_release_version = '1.2'
+
+        confidential_id_release_group = "com.r3.corda.lib.ci"
+        confidential_id_release_version = "1.0"
     }
 
     repositories {
@@ -103,7 +106,8 @@ dependencies {
     // Token SDK dependencies.
     cordapp "$tokens_release_group:tokens-contracts:$tokens_release_version"
     cordapp "$tokens_release_group:tokens-workflows:$tokens_release_version"
-    cordapp "$tokens_release_group:tokens-money:$tokens_release_version"
+
+    cordapp "$confidential_id_release_group:ci-workflows:$confidential_id_release_version"
 }
 
 task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
@@ -113,7 +117,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         }
         cordapp("$tokens_release_group:tokens-contracts:$tokens_release_version")
         cordapp("$tokens_release_group:tokens-workflows:$tokens_release_version")
-        cordapp("$tokens_release_group:tokens-money:$tokens_release_version")
+        cordapp("$confidential_id_release_group:ci-workflows:$confidential_id_release_version")
         cordapp project(':contracts')
         cordapp project(':workflows')
     }

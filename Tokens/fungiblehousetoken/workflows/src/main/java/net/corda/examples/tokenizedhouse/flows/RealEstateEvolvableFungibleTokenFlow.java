@@ -8,6 +8,7 @@ import com.r3.corda.lib.tokens.contracts.types.TokenPointer;
 import com.r3.corda.lib.tokens.contracts.types.TokenType;
 import com.r3.corda.lib.tokens.contracts.utilities.TransactionUtilitiesKt;
 import com.r3.corda.lib.tokens.workflows.flows.rpc.*;
+import com.r3.corda.lib.tokens.workflows.utilities.FungibleTokenBuilder;
 import net.corda.examples.tokenizedhouse.states.FungibleHouseTokenState;
 import kotlin.Unit;
 import net.corda.core.contracts.*;
@@ -52,7 +53,7 @@ public class RealEstateEvolvableFungibleTokenFlow {
                     new UniqueIdentifier(), 0, this.symbol);
 
             //wrap it with transaction state specifying the notary
-            TransactionState transactionState = new TransactionState(evolvableTokenType, notary);
+            TransactionState<FungibleHouseTokenState> transactionState = new TransactionState<>(evolvableTokenType, notary);
 
             //call built in sub flow CreateEvolvableTokens. This can be called via rpc or in unit testing
             return subFlow(new CreateEvolvableTokens(transactionState));
@@ -86,17 +87,13 @@ public class RealEstateEvolvableFungibleTokenFlow {
             //get the RealEstateEvolvableTokenType object
             FungibleHouseTokenState evolvableTokenType = stateAndRef.getState().getData();
 
-            //get the pointer pointer to the house
-            TokenPointer tokenPointer = evolvableTokenType.toPointer(evolvableTokenType.getClass());
-
-            //assign the issuer to the house type who will be issuing the tokens
-            IssuedTokenType issuedTokenType = new IssuedTokenType(getOurIdentity(), tokenPointer);
-
-            //specify how much amount to issue to holder
-            Amount<IssuedTokenType> amount = new Amount(quantity, issuedTokenType);
-
-            //create fungible amount specifying the new owner
-            FungibleToken fungibleToken  = new FungibleToken(amount, holder, TransactionUtilitiesKt.getAttachmentIdForGenericParam(tokenPointer));
+            //create fungible token for the house token type
+            FungibleToken fungibleToken = new FungibleTokenBuilder()
+                    .ofTokenType(evolvableTokenType.toPointer(FungibleHouseTokenState.class)) // get the token pointer
+                    .issuedBy(getOurIdentity())
+                    .heldBy(holder)
+                    .withAmount(quantity)
+                    .buildFungibleToken();
 
             //use built in flow for issuing tokens on ledger
             return subFlow(new IssueTokens(ImmutableList.of(fungibleToken)));
@@ -131,11 +128,8 @@ public class RealEstateEvolvableFungibleTokenFlow {
             //get the RealEstateEvolvableTokenType object
             FungibleHouseTokenState tokenstate = stateAndRef.getState().getData();
 
-            //get the pointer pointer to the house
-            TokenPointer<FungibleHouseTokenState> tokenPointer = tokenstate.toPointer(FungibleHouseTokenState.class);
-
             //specify how much amount to transfer to which holder
-            Amount<TokenType> amount = new Amount(quantity, tokenPointer);
+            Amount<TokenType> amount = new Amount<>(quantity, tokenstate.toPointer(FungibleHouseTokenState.class));
             //PartyAndAmount partyAndAmount = new PartyAndAmount(holder, amount);
 
             //use built in flow to move fungible tokens to holder
@@ -191,11 +185,9 @@ public class RealEstateEvolvableFungibleTokenFlow {
 //            //get the RealEstateEvolvableTokenType object
 //            FungibleHouseTokenState evolvableTokenType = stateAndRef.getState().getData();
 //
-//            //get the pointer pointer to the house
-//            TokenPointer tokenPointer = evolvableTokenType.toPointer(evolvableTokenType.getClass());
-//
 //            //specify how much amount quantity of tokens of type token parameter
-//            Amount amount = new Amount(quantity, tokenPointer);
+//            Amount<TokenType> amount =
+//                    new Amount<>(quantity, evolvableTokenType.toPointer(FungibleHouseTokenState.class));
 //
 //            //call built in redeem flow to redeem tokens with issuer
 //            return subFlow(new RedeemFungibleTokens(amount, issuer));
