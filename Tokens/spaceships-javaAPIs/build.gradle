@@ -20,7 +20,7 @@ buildscript {
         //TokenSDK
         // FOR USE with snapshot source (pre-release JAVA APIs)
         tokens_release_group = 'com.r3.corda.lib.tokens'
-        tokens_release_version = '1.2-RC02-PRESIGN'
+        tokens_release_version = '1.2'
     }
 
     repositories {

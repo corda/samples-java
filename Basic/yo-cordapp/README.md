@@ -25,7 +25,7 @@ We define a [Yo as a state](./contracts/src/main/java/net/corda/examples/yo/stat
 
 
 ### Contracts
-We define [the "Yo Social Contract"](./contracts/src/main/java/net/corda/examples/yo/contracts/YoContract.java#L21-L32), which, in this case, verifies some basic assumptions about a Yo.
+We define the ["Yo Social Contract"](./contracts/src/main/java/net/corda/examples/yo/contracts/YoContract.java#L21-L32), which, in this case, verifies some basic assumptions about a Yo.
 
 ```java
     @Override

@@ -21,7 +21,7 @@ This CordApp assumes there are 4 parties:
 
 Here's the flows that exist between these parties :
 
-![Flow diagram](diagrams/FlowDiagram2.png)
+![Flow diagram](./diagrams/FlowDiagram2.png)
 
 
 This Stock Exchange CorDapp includes:
