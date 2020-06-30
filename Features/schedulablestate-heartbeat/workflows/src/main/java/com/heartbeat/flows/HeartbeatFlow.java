@@ -56,7 +56,16 @@ public class HeartbeatFlow extends FlowLogic<String> {
         HeartState output = new HeartState(getOurIdentity());
         CommandData beatCmd = new HeartContract.Commands.Beat();
 
-        TransactionBuilder txBuilder = new TransactionBuilder(getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0))
+        // Obtain a reference to a notary we wish to use.
+        /** METHOD 1: Take first notary on network, WARNING: use for test, non-prod environments, and single-notary networks only!*
+         *  METHOD 2: Explicit selection of notary by CordaX500Name - argument can by coded in flow or parsed from config (Preferred)
+         *
+         *  * - For production you always want to use Method 2 as it guarantees the expected notary is returned.
+         */
+        final Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0); // METHOD 1
+        // final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB")); // METHOD 2
+
+        TransactionBuilder txBuilder = new TransactionBuilder(notary)
             .addInputState(input)
             .addOutputState(output, HeartContract.contractID)
             .addCommand(beatCmd, getOurIdentity().getOwningKey());

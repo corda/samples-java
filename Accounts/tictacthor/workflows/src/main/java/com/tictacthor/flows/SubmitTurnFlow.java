@@ -102,7 +102,17 @@ public class SubmitTurnFlow extends FlowLogic<String> {
         progressTracker.setCurrentStep(GENERATING_TRANSACTION);
         //generating State for transfer
         BoardState outputBoardState = inputBoardState.returnNewBoardAfterMove(new Pair<>(x,y),new AnonymousParty(myKey), targetAcctAnonymousParty);
-        TransactionBuilder txbuilder = new TransactionBuilder(getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0))
+
+        // Obtain a reference to a notary we wish to use.
+        /** METHOD 1: Take first notary on network, WARNING: use for test, non-prod environments, and single-notary networks only!*
+         *  METHOD 2: Explicit selection of notary by CordaX500Name - argument can by coded in flow or parsed from config (Preferred)
+         *
+         *  * - For production you always want to use Method 2 as it guarantees the expected notary is returned.
+         */
+        final Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0); // METHOD 1
+        // final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB")); // METHOD 2
+
+        TransactionBuilder txbuilder = new TransactionBuilder(notary)
                 .addInputState(inputBoardStateAndRef)
                 .addOutputState(outputBoardState)
                 .addCommand(new BoardContract.Commands.SubmitTurn(),Arrays.asList(myKey,targetAcctAnonymousParty.getOwningKey()));

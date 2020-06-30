@@ -78,9 +78,17 @@ public class AuctionDvPFlow {
             CommandAndState commandAndState = assetStateAndRef.getState().getData()
                     .withNewOwner(auctionState.getWinner());
 
+            // Obtain a reference to a notary we wish to use.
+            /** METHOD 1: Take first notary on network, WARNING: use for test, non-prod environments, and single-notary networks only!*
+             *  METHOD 2: Explicit selection of notary by CordaX500Name - argument can by coded in flow or parsed from config (Preferred)
+             *
+             *  * - For production you always want to use Method 2 as it guarantees the expected notary is returned.
+             */
+            final Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0); // METHOD 1
+            // final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB")); // METHOD 2
+
             // Create the transaction builder.
-            TransactionBuilder transactionBuilder = new TransactionBuilder(getServiceHub().getNetworkMapCache()
-                    .getNotaryIdentities().get(0));
+            TransactionBuilder transactionBuilder = new TransactionBuilder(notary);
 
             // Generate Spend for the Cash. The CashUtils generateSpend method can be used to update the transaction
             // builder with the appropriate inputs and outputs corresponding to the cash spending. A new keypair is
