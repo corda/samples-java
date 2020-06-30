@@ -124,6 +124,72 @@ flow start QuerybyAccount whoAmI: buyer3
 Confirm who owns the [FungibleToken](https://training.corda.net/libraries/tokens-sdk/#fungibletoken) (cash) and [NonFungibleToken](https://training.corda.net/libraries/tokens-sdk/#nonfungibletoken) (ticket) again by running this on Dealer1's node.
 
 
+## Transfer tokens from one account to other 
+
+For someone who is looking into how to only transfer tokens from one account to other use below steps.
+
+
+###  Step 1
+```
+flow start CreateAndShareAccountFlow accountName: agent1, partyToShareAccountInfoToList: [BCCI, Dealer2]
+flow start CreateAndShareAccountFlow accountName: buyer1, partyToShareAccountInfoToList: [Bank, Dealer2]
+flow start CreateAndShareAccountFlow accountName: buyer2, partyToShareAccountInfoToList: [Bank, Dealer2]
+```
+Run the above flow on the Dealer1 node. This will create the agent1, buyer1 and buyer2 accounts on the Dealer1 node and share this account info with BCCI, Bank, and Dealer2 node respecticely.
+
+Then let's go to the Dealer2 node and create buyer3 account: 
+```
+flow start CreateAndShareAccountFlow accountName: buyer3, partyToShareAccountInfoToList: [Bank, Dealer1]
+```
+
+Run the below query to confirm if accounts are created on Dealer1 node. Also run the above query on Bank and BCCI node to confirm if account info is shared with these nodes.
+
+    run vaultQuery contractStateType : com.r3.corda.lib.accounts.contracts.states.AccountInfo
+
+
+###  Step 2
+
+```
+start IssueCashFlow accountName : buyer1 , currency : USD , amount : 77
+
+```
+Run the above command on the Bank node, which will issue 77 USD to buyer1 account.
+
+###  Step 3
+```
+flow start QuerybyAccount whoAmI: buyer1
+```
+You can check balance of buyer1 account at Dealer1's node
+[Option] You can also run the below command to confirm if 20 USD fungible tokens are stored at Dealer1's node. The current holder field in the output will be an AnonymousParty which specifies an account.
+```
+run vaultQuery contractStateType : com.r3.corda.lib.tokens.contracts.states.FungibleToken
+```
+
+###  Step 4
+
+    start MoveTokensBetweenAccounts buyerAccountName : buyer1, sellerAccountName : buyer3 , currency : USD , costOfTicket : 10
+
+This will move tokens from account buyer1 to account buyer3
+
+
+
+###  Step 5
+```
+flow start QuerybyAccount whoAmI: buyer1
+```
+You can check balance of buyer1 account at Dealer1's node
+```
+run vaultQuery contractStateType : com.r3.corda.lib.tokens.contracts.states.FungibleToken
+```
+
+###  Step 6
+```
+flow start QuerybyAccount whoAmI: buyer3
+```
+You can check balance of buyer3 account at Dealer2's node
+```
+run vaultQuery contractStateType : com.r3.corda.lib.tokens.contracts.states.FungibleToken
+```
 ## Further Reading
 
 For accounts visit https://github.com/corda/accounts.
