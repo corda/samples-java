@@ -36,7 +36,7 @@ The flow logic is the following:
 * `downloadAttchment`: save the attachment file from node's serviceHub to local
   1. signing the attachment service in the node to download the file via attachmentID
 
-![alt text](https://github.com/corda/samples/blob/add-samples/sendfile-Attachments/graph.png)
+![alt text](./graph.png)
 
 
 ## Usage

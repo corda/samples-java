@@ -44,7 +44,7 @@ Then type: (to run the nodes)
 ./build/nodes/runnodes
 ```
 
-We will interact with this CorDapp via the nodes' CRaSH shells.
+We will interact with this CorDapp via the nodes' [CRaSH](https://docs.corda.net/docs/corda-os/shell.html) shells.
 
 First, go the the shell of PartyA, and propose a deal with yourself as buyer and a value of 10 to PartyB:
 

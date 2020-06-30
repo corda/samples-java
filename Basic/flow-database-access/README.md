@@ -1,7 +1,7 @@
 # Flow Database Access CorDapp [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Basic/flow-database-access)
 
 This CorDapp provides a simple example of how the node database can be accessed in flows using a [JDBC Connection](https://docs.corda.net/docs/corda-os/api-persistence.html#jdbc-session). In this case, the flows
-maintain a table of cryptocurrency values in the node's database. There are three flows:
+maintain a table of cryptocurrency values in the node's database.
 
 
 ## Concepts
