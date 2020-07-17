@@ -2,15 +2,22 @@ package net.corda.examples.bikemarket.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import com.r3.corda.lib.tokens.contracts.types.TokenPointer;
+import com.r3.corda.lib.tokens.workflows.flows.move.MoveTokensUtilities;
 import com.r3.corda.lib.tokens.workflows.flows.rpc.MoveNonFungibleTokens;
 import com.r3.corda.lib.tokens.workflows.flows.rpc.MoveNonFungibleTokensHandler;
+import com.r3.corda.lib.tokens.workflows.internal.flows.distribution.UpdateDistributionListFlow;
+import com.r3.corda.lib.tokens.workflows.internal.flows.finality.ObserverAwareFinalityFlow;
 import com.r3.corda.lib.tokens.workflows.types.PartyAndToken;
+import com.r3.corda.lib.tokens.workflows.utilities.NotaryUtilities;
+import net.corda.core.transactions.TransactionBuilder;
 import net.corda.examples.bikemarket.states.FrameTokenState;
 import net.corda.examples.bikemarket.states.WheelsTokenState;
 import net.corda.core.contracts.StateAndRef;
 import net.corda.core.flows.*;
 import net.corda.core.identity.Party;
 import net.corda.core.transactions.SignedTransaction;
+
+import java.util.Collections;
 
 public class TransferBikeTokens {
     public TransferBikeTokens() {
@@ -45,10 +52,6 @@ public class TransferBikeTokens {
             //get the pointer to the frame
             TokenPointer frametokenPointer = frametokentype.toPointer(frametokentype.getClass());
 
-            PartyAndToken partyAndFrameToken = new PartyAndToken(holder, frametokenPointer);
-
-            SignedTransaction stx1 = (SignedTransaction) subFlow(new MoveNonFungibleTokens(partyAndFrameToken));
-
             //Step 2: Wheels Token
             StateAndRef<WheelsTokenState> wheelStateStateAndRef = getServiceHub().getVaultService().
                     queryBy(WheelsTokenState.class).getStates().stream().filter(sf -> sf.getState().getData().getModelNum().equals(this.wheelsModel)).findAny()
@@ -60,13 +63,22 @@ public class TransferBikeTokens {
             //get the pointer to the wheel
             TokenPointer wheeltokenPointer = wheeltokentype.toPointer(wheeltokentype.getClass());
 
-            PartyAndToken partyAndWheelToken = new PartyAndToken(holder, wheeltokenPointer);
 
-            SignedTransaction stx2 = (SignedTransaction) subFlow(new MoveNonFungibleTokens(partyAndWheelToken));
+            FlowSession sellerSession = initiateFlow(holder);
+            TransactionBuilder txBuilder = new TransactionBuilder(NotaryUtilities.getPreferredNotary(getServiceHub()));
+            MoveTokensUtilities.addMoveNonFungibleTokens(txBuilder, getServiceHub(), frametokenPointer, holder);
+            MoveTokensUtilities.addMoveNonFungibleTokens(txBuilder, getServiceHub(), wheeltokenPointer, holder);
+
+            SignedTransaction ptx = getServiceHub().signInitialTransaction(txBuilder);
+            SignedTransaction stx = subFlow(new CollectSignaturesFlow(ptx, Collections.singletonList(sellerSession)));
+
+            // Update the distribution list
+            subFlow(new UpdateDistributionListFlow(stx));
+            SignedTransaction ftx =  subFlow(new ObserverAwareFinalityFlow(stx, Collections.singletonList(sellerSession)));
 
             return "\nTransfer ownership of a bike (Frame serial#: "+ this.frameModel + ", Wheels serial#: " + this.wheelsModel + ") to "
                     + this.holder.getName().getOrganisation() + "\nTransaction IDs: "
-                    + stx1.getId() + ", " + stx2.getId();
+                    + ftx.getId();
         }
     }
 

@@ -4,6 +4,7 @@ import co.paralleluniverse.fibers.Suspendable;
 import com.google.common.collect.ImmutableList;
 import com.r3.corda.lib.tokens.contracts.states.NonFungibleToken;
 import com.r3.corda.lib.tokens.workflows.flows.rpc.IssueTokens;
+import com.r3.corda.lib.tokens.workflows.utilities.NonFungibleTokenBuilder;
 import net.corda.examples.bikemarket.states.FrameTokenState;
 import net.corda.examples.bikemarket.states.WheelsTokenState;
 import net.corda.core.contracts.StateAndRef;
@@ -49,12 +50,12 @@ public class IssueNewBike extends FlowLogic<String> {
         //get the pointer to the frame
         TokenPointer frametokenPointer = frametokentype.toPointer(frametokentype.getClass());
 
-        //assign the issuer to the frame type who will be issuing the tokens
-        IssuedTokenType frameissuedTokenType = new IssuedTokenType(getOurIdentity(), frametokenPointer);
-
         //mention the current holder also
-        NonFungibleToken frametoken = new NonFungibleToken(frameissuedTokenType, holder, new UniqueIdentifier(), TransactionUtilitiesKt.getAttachmentIdForGenericParam(frametokenPointer));
-
+        NonFungibleToken frametoken = new NonFungibleTokenBuilder()
+                .ofTokenType(frametokentype.toPointer())
+                .issuedBy(getOurIdentity())
+                .heldBy(holder)
+                .buildNonFungibleToken();
 
         //Step 2: Wheels Token
         StateAndRef<WheelsTokenState> wheelStateStateAndRef = getServiceHub().getVaultService().
@@ -67,11 +68,12 @@ public class IssueNewBike extends FlowLogic<String> {
         //get the pointer pointer to the wheel
         TokenPointer wheeltokenPointer = wheeltokentype.toPointer(wheeltokentype.getClass());
 
-        //assign the issuer to the wheel type who will be issuing the tokens
-        IssuedTokenType wheelissuedTokenType = new IssuedTokenType(getOurIdentity(), wheeltokenPointer);
-
         //mention the current holder also
-        NonFungibleToken wheeltoken = new NonFungibleToken(wheelissuedTokenType, holder, new UniqueIdentifier(), TransactionUtilitiesKt.getAttachmentIdForGenericParam(wheeltokenPointer));
+        NonFungibleToken wheeltoken = new NonFungibleTokenBuilder()
+                .ofTokenType(wheeltokentype.toPointer())
+                .issuedBy(getOurIdentity())
+                .heldBy(holder)
+                .buildNonFungibleToken();
 
         //distribute the new bike (two token to be exact)
         //call built in flow to issue non fungible tokens
