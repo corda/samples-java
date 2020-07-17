@@ -62,7 +62,7 @@ public class TransferPartTokens {
 
                 FlowSession sellerSession = initiateFlow(holder);
                 TransactionBuilder txBuilder = new TransactionBuilder(NotaryUtilities.getPreferredNotary(getServiceHub()));
-                MoveTokensUtilities.addMoveNonFungibleTokens(txBuilder, getServiceHub(), frametokenPointer, getOurIdentity());
+                MoveTokensUtilities.addMoveNonFungibleTokens(txBuilder, getServiceHub(), frametokenPointer, holder);
 
                 SignedTransaction ptx = getServiceHub().signInitialTransaction(txBuilder);
                 SignedTransaction stx = subFlow(new CollectSignaturesFlow(ptx, Collections.singletonList(sellerSession)));
@@ -88,7 +88,7 @@ public class TransferPartTokens {
                 TokenPointer wheeltokenPointer = wheeltokentype.toPointer(wheeltokentype.getClass());
                 FlowSession sellerSession = initiateFlow(holder);
                 TransactionBuilder txBuilder = new TransactionBuilder(NotaryUtilities.getPreferredNotary(getServiceHub()));
-                MoveTokensUtilities.addMoveNonFungibleTokens(txBuilder, getServiceHub(), wheeltokenPointer, getOurIdentity());
+                MoveTokensUtilities.addMoveNonFungibleTokens(txBuilder, getServiceHub(), wheeltokenPointer, holder);
 
                 SignedTransaction ptx = getServiceHub().signInitialTransaction(txBuilder);
                 SignedTransaction stx = subFlow(new CollectSignaturesFlow(ptx, Collections.singletonList(sellerSession)));
