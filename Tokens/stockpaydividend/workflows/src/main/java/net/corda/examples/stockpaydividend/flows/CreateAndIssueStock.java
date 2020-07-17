@@ -6,8 +6,8 @@ import com.r3.corda.lib.tokens.contracts.states.FungibleToken;
 import com.r3.corda.lib.tokens.contracts.types.IssuedTokenType;
 import com.r3.corda.lib.tokens.workflows.flows.rpc.CreateEvolvableTokens;
 import com.r3.corda.lib.tokens.workflows.flows.rpc.IssueTokens;
+import com.r3.corda.lib.tokens.workflows.utilities.FungibleTokenBuilder;
 import net.corda.core.node.services.IdentityService;
-import net.corda.examples.stockpaydividend.flows.utilities.ObserversUtilities;
 import net.corda.examples.stockpaydividend.states.StockState;
 import net.corda.core.contracts.Amount;
 import net.corda.core.contracts.TransactionState;
@@ -23,6 +23,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import static net.corda.examples.stockpaydividend.flows.AnnounceDividend.getObserverLegalIdenties;
+
 /**
  * Designed initiating node : Company
  * This flow issues a stock to the node itself just to keep things simple
@@ -32,7 +34,7 @@ import java.util.List;
  */
 @InitiatingFlow
 @StartableByRPC
-public class IssueStock extends FlowLogic<String> {
+public class CreateAndIssueStock extends FlowLogic<String> {
 
     private String symbol;
     private String name;
@@ -43,7 +45,7 @@ public class IssueStock extends FlowLogic<String> {
     // Using NetworkmapCache.getNotaryIdentities().get(0) is not encouraged due to multi notary is introduced
     private Party notary;
 
-    public IssueStock(String symbol, String name, String currency, BigDecimal price, int issueVol, Party notary) {
+    public CreateAndIssueStock(String symbol, String name, String currency, BigDecimal price, int issueVol, Party notary) {
         this.symbol = symbol;
         this.name = name;
         this.currency = currency;
@@ -58,7 +60,7 @@ public class IssueStock extends FlowLogic<String> {
 
         // Sample specific - retrieving the hard-coded observers
         IdentityService identityService = getServiceHub().getIdentityService();
-        List<Party> observers = ObserversUtilities.getObserverLegalIdenties(identityService);
+        List<Party> observers = getObserverLegalIdenties(identityService);
 
         Party company = getOurIdentity();
 
@@ -81,14 +83,14 @@ public class IssueStock extends FlowLogic<String> {
         // Using the build-in flow to create an evolvable token type -- Stock
         subFlow(new CreateEvolvableTokens(transactionState, observers));
 
-        // Similar in IssueMoney flow, class of IssuedTokenType represents the stock is issued by the company party
-        IssuedTokenType issuedStock = new IssuedTokenType(company, stockState.toPointer(stockState.getClass()));
-
-        // Create an specified amount of stock with a pointer that refers to the StockState
-        Amount<IssuedTokenType> issueAmount = new Amount(new Long(issueVol), issuedStock);
-
         // Indicate the recipient which is the issuing party itself here
-        FungibleToken stockToken = new FungibleToken(issueAmount, getOurIdentity(), null);
+        //new FungibleToken(issueAmount, getOurIdentity(), null);
+        FungibleToken stockToken = new FungibleTokenBuilder()
+                .ofTokenType(stockState.toPointer())
+                .withAmount(issueVol)
+                .issuedBy(getOurIdentity())
+                .heldBy(getOurIdentity())
+                .buildFungibleToken();
 
         // Finally, use the build-in flow to issue the stock tokens. Observer parties provided here will record a copy of the transactions
         SignedTransaction stx = subFlow(new IssueTokens(ImmutableList.of(stockToken), observers));

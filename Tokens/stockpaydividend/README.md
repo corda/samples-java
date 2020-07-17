@@ -129,7 +129,7 @@ This can be executed anytime before step 6.
 
 ##### 1. IssueStock - Stock Issuer
 WayneCo creates a StockState and issues some stock tokens associated to the created StockState.
->On company WayneCo's node, execute <br>`start IssueStock symbol: TEST, name: "Stock, SP500", currency: USD, price: 7.4, issueVol: 500, notary: Notary`
+>On company WayneCo's node, execute <br>`start CreateAndIssueStock symbol: TEST, name: "Stock, SP500", currency: USD, price: 7.4, issueVol: 500, notary: Notary`
 
 ##### 2. MoveStock - Stock Issuer
 WayneCo transfers some stock tokens to the Shareholder.
@@ -142,19 +142,16 @@ Now at the Shareholder's terminal, we can see that it received 100 stock tokens:
 WayneCo announces the dividends that will be paid on the payday.
 >On WayneCo's node, execute <br>`start AnnounceDividend symbol: TEST, dividendPercentage: 0.05, executionDate: "2019-11-22T00:00:00Z", payDate: "2019-11-23T00:00:00Z"`
 
-##### 4. GetStockUpdate - Shareholder
-Shareholders retrieves the newest stock state from the company.
->On shareholder node, execute <br>`start GetStockUpdate symbol: TEST`
 
-##### 5. ClaimDividendReceivable - Shareholder
+##### 4. ClaimDividendReceivable - Shareholder
 Shareholders finds the dividend is announced and claims the dividends base on the owning stock.
 >On shareholder node, execute <br>`start ClaimDividendReceivable symbol: TEST`
 
-##### 6. PayDividend - Company
+##### 5. PayDividend - Company
 On the payday, the company pay off the stock with fiat currencies.
 >On WayneCo node, execute <br>`start PayDividend`
 
-##### 7. Get token balances - Any node
+##### 6. Get token balances - Any node
 Query the balances of different nodes. This can be executed at anytime.
 > Get stock token balances
 <br>`start GetStockBalance symbol: TEST`

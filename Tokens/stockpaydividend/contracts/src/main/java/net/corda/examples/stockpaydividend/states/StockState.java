@@ -2,6 +2,8 @@ package net.corda.examples.stockpaydividend.states;
 
 import com.google.common.collect.ImmutableList;
 import com.r3.corda.lib.tokens.contracts.states.EvolvableTokenType;
+import com.r3.corda.lib.tokens.contracts.types.TokenPointer;
+import net.corda.core.contracts.LinearPointer;
 import net.corda.core.schemas.StatePersistable;
 import net.corda.core.serialization.CordaSerializable;
 import net.corda.examples.stockpaydividend.contracts.StockContract;
@@ -91,4 +93,9 @@ public class StockState extends EvolvableTokenType implements StatePersistable {
         return ImmutableList.of(issuer);
     }
 
+    /* This method returns a TokenPointer by using the linear Id of the evolvable state */
+    public TokenPointer<StockState> toPointer(){
+        LinearPointer<StockState> linearPointer = new LinearPointer<>(linearId, StockState.class);
+        return new TokenPointer<>(linearPointer, fractionDigits);
+    }
 }

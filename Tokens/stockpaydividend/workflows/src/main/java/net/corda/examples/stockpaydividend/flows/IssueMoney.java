@@ -7,6 +7,7 @@ import com.r3.corda.lib.tokens.contracts.types.IssuedTokenType;
 import com.r3.corda.lib.tokens.contracts.types.TokenType;
 import com.r3.corda.lib.tokens.money.FiatCurrency;
 import com.r3.corda.lib.tokens.workflows.flows.rpc.IssueTokens;
+import com.r3.corda.lib.tokens.workflows.utilities.FungibleTokenBuilder;
 import net.corda.core.contracts.Amount;
 import net.corda.core.flows.FlowException;
 import net.corda.core.flows.FlowLogic;
@@ -39,11 +40,16 @@ public class IssueMoney extends FlowLogic<String> {
         // Create an instance of the fiat currency token type
         TokenType token = FiatCurrency.Companion.getInstance(currency);
 
-        // Create an instance of IssuedTokenType which represents the token is issued by this party
-        IssuedTokenType issuedTokenType = new IssuedTokenType(getOurIdentity(), token);
+
 
         // Create an instance of FungibleToken for the fiat currency to be issued
-        FungibleToken fungibleToken = new FungibleToken(new Amount<>(quantity, issuedTokenType), recipient, null);
+        //new FungibleToken(new Amount<>(quantity, issuedTokenType), recipient, null);
+        FungibleToken fungibleToken = new FungibleTokenBuilder()
+                .ofTokenType(token)
+                .withAmount(this.quantity)
+                .issuedBy(getOurIdentity())
+                .heldBy(recipient)
+                .buildFungibleToken();
 
         // Use the build-in flow, IssueTokens, to issue the required amount to the the recipient
         SignedTransaction stx = subFlow(new IssueTokens(ImmutableList.of(fungibleToken), ImmutableList.of(recipient)));

@@ -5,8 +5,9 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.r3.corda.lib.tokens.contracts.states.FungibleToken;
 import com.r3.corda.lib.tokens.contracts.types.TokenType;
-import com.r3.corda.lib.tokens.workflows.flows.move.MoveTokensUtilitiesKt;
-import com.r3.corda.lib.tokens.workflows.internal.selection.TokenSelection;
+import com.r3.corda.lib.tokens.selection.*;
+import com.r3.corda.lib.tokens.selection.database.selector.DatabaseTokenSelection;
+import com.r3.corda.lib.tokens.workflows.flows.move.MoveTokensUtilities;
 import com.r3.corda.lib.tokens.workflows.types.PartyAndAmount;
 import kotlin.Pair;
 import net.corda.core.contracts.Command;
@@ -19,11 +20,11 @@ import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
 import net.corda.core.utilities.ProgressTracker;
 import net.corda.examples.stockpaydividend.contracts.DividendContract;
-import net.corda.examples.stockpaydividend.flows.utilities.TempTokenSelectionFactory;
 import net.corda.examples.stockpaydividend.states.DividendState;
 
 import java.security.PublicKey;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,15 +60,12 @@ public class PayDividend {
                 // The amount of fiat tokens to be sent to the shareholder.
                 PartyAndAmount<TokenType> sendingPartyAndAmount = new PartyAndAmount<>(shareholder, dividendState.getDividendAmount());
 
-                // Instantiating an instance of TokenSelection which helps retrieving required tokens easily
-                TokenSelection tokenSelection = TempTokenSelectionFactory.getTokenSelection(getServiceHub());
+                // Gather the paymentAmount in Tokens on our side (the tx proposal will transfer these to the seller)
+                Pair<List<StateAndRef<FungibleToken>>, List<FungibleToken>> selectedTokens = new DatabaseTokenSelection(getServiceHub())
+                        // here we are generating input and output states which send the correct amount to the seller, and any change back to buyer
+                        .generateMove(Collections.singletonList(new Pair<>(shareholder, dividendState.getDividendAmount())), getOurIdentity());
 
-                // Generate input and output pair of moving fungible tokens
-                Pair<List<StateAndRef<FungibleToken>>, List<FungibleToken>> fiatIoPair = tokenSelection.generateMove(
-                                getRunId().getUuid(),
-                                ImmutableList.of(sendingPartyAndAmount),
-                                getOurIdentity(),
-                                null);
+
 
                 // Using the notary from the previous transaction (dividend issuance)
                 Party notary = result.getState().getNotary();
@@ -82,7 +80,7 @@ public class PayDividend {
                         .addInputState(result)
                         .addCommand(payCommand);
                 // As a later part of TokenSelection.generateMove which generates a move of tokens handily
-                MoveTokensUtilitiesKt.addMoveTokens(txBuilder, fiatIoPair.getFirst(), fiatIoPair.getSecond());
+                MoveTokensUtilities.addMoveTokens(txBuilder, selectedTokens.getFirst(), selectedTokens.getSecond());
 
                 // Verify the transactions with contracts
                 txBuilder.verify(getServiceHub());

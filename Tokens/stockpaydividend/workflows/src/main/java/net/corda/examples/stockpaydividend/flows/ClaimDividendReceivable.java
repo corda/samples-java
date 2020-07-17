@@ -6,7 +6,7 @@ import com.google.common.collect.ImmutableSet;
 import com.r3.corda.lib.tokens.contracts.types.TokenPointer;
 import com.r3.corda.lib.tokens.contracts.types.TokenType;
 import com.r3.corda.lib.tokens.workflows.types.PartyAndAmount;
-import com.r3.corda.lib.tokens.workflows.utilities.QueryUtilitiesKt;
+import com.r3.corda.lib.tokens.workflows.utilities.QueryUtilities;
 import net.corda.core.contracts.*;
 import net.corda.core.crypto.SecureHash;
 import net.corda.core.flows.*;
@@ -16,7 +16,7 @@ import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
 import net.corda.core.utilities.ProgressTracker;
 import net.corda.examples.stockpaydividend.contracts.DividendContract;
-import net.corda.examples.stockpaydividend.flows.utilities.QueryUtilities;
+import net.corda.examples.stockpaydividend.flows.utilities.CustomQuery;
 import net.corda.examples.stockpaydividend.states.DividendState;
 import net.corda.examples.stockpaydividend.states.StockState;
 
@@ -51,12 +51,13 @@ public class ClaimDividendReceivable {
         public String call() throws FlowException {
 
             // Retrieve the stock and pointer
-            TokenPointer stockPointer = QueryUtilities.queryStockPointer(symbol, getServiceHub());
+            TokenPointer stockPointer = CustomQuery.queryStockPointer(symbol, getServiceHub());
+
             StateAndRef<StockState> stockStateRef = stockPointer.getPointer().resolve(getServiceHub());
             StockState stockState = stockStateRef.getState().getData();
 
             // Query the current Stock amount from shareholder
-            Amount<TokenType> stockAmount = QueryUtilitiesKt.tokenBalance(getServiceHub().getVaultService(), stockPointer);
+            Amount<TokenType> stockAmount = QueryUtilities.tokenBalance(getServiceHub().getVaultService(), stockPointer);
 
             // Prepare to send the stock amount to the company to request dividend issuance
             ClaimNotification stockToClaim = new ClaimNotification(stockAmount);
@@ -114,7 +115,7 @@ public class ClaimDividendReceivable {
             StockState stockState = holderStockState.getState().getData();
 
             // Query the stored state of the company
-            TokenPointer stockPointer = QueryUtilities.queryStockPointer(stockState.getSymbol(), getServiceHub());
+            TokenPointer stockPointer = CustomQuery.queryStockPointer(stockState.getSymbol(), getServiceHub());
             StateAndRef<StockState> stockStateRef = stockPointer.getPointer().resolve(getServiceHub());
 
             // Receives the amount that the shareholder holds
@@ -123,8 +124,6 @@ public class ClaimDividendReceivable {
                     throw new FlowException("StockState does not match with the issuers. Shareholder may not have updated the newest stock state.");
                 return it;
             });
-
-            PartyAndAmount<TokenType> stockPartyAndAmount = new PartyAndAmount<TokenType>(getOurIdentity(), claimNoticication.getAmount());
 
             // Preparing the token type of the paying fiat currency
             Currency currency = Currency.getInstance(stockState.getCurrency());
