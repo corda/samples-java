@@ -35,7 +35,7 @@ This Stock Exchange CorDapp includes:
 ### Keys to learn
 * Basic usage of TokenSDK
 * How the state of stock (ie. EvolvableToken) updates independently without stock holders involved
-* Use of `TokenSelection.generateMove()` and `MoveTokensUtilitiesKt.addMoveTokens()` to generate move of tokens
+* Use of `TokenSelection.generateMove()` and `MoveTokensUtilities.addMoveTokens()` to generate move of tokens
 * Adding observers in token transactions with TokenSDK
 
 *Note that some date constraint(eg. payday) is being commented out to make sure the sample can be ran smoothly
