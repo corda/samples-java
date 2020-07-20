@@ -134,7 +134,9 @@ public class RealEstateEvolvableFungibleTokenFlow {
             //get the RealEstateEvolvableTokenType object
             FungibleHouseTokenState tokenstate = stateAndRef.getState().getData();
 
-            //specify how much amount to transfer to which holder
+            /*  specify how much amount to transfer to which holder
+             *  Note: we use a pointer of tokenstate because it of type EvolvableTokenType
+             */
             Amount<TokenType> amount = new Amount<>(quantity, tokenstate.toPointer(FungibleHouseTokenState.class));
             //PartyAndAmount partyAndAmount = new PartyAndAmount(holder, amount);
 

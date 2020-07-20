@@ -21,20 +21,25 @@ We create the representation of a house, within [CreateHouseTokenFlow.java](./wo
 
 ```java
 public SignedTransaction call() throws FlowException {
-    //grab the notary
-    Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0);
+    // Obtain a reference to a notary we wish to use.
+    /** METHOD 1: Take first notary on network, WARNING: use for test, non-prod environments, and single-notary networks only!*
+     *  METHOD 2: Explicit selection of notary by CordaX500Name - argument can by coded in flow or parsed from config (Preferred)
+     *
+     *  * - For production you always want to use Method 2 as it guarantees the expected notary is returned.
+     */
+    final Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0); // METHOD 1
+    // final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB")); // METHOD 2
 
     //create token type
     FungibleHouseTokenState evolvableTokenType = new FungibleHouseTokenState(valuation, getOurIdentity(),
             new UniqueIdentifier(), 0, this.symbol);
 
     //wrap it with transaction state specifying the notary
-    TransactionState transactionState = new TransactionState(evolvableTokenType, notary);
+    TransactionState<FungibleHouseTokenState> transactionState = new TransactionState<>(evolvableTokenType, notary);
 
     //call built in sub flow CreateEvolvableTokens. This can be called via rpc or in unit testing
     return subFlow(new CreateEvolvableTokens(transactionState));
 }
-
 ```
 
 We issue tokens [IssueHouseTokenFlow](./workflows/src/main/java/net/corda/examples/tokenizedhouse/flows/RealEstateEvolvableFungibleTokenFlow.java#L81-L105)
@@ -50,22 +55,17 @@ public SignedTransaction call() throws FlowException {
     //get the RealEstateEvolvableTokenType object
     FungibleHouseTokenState evolvableTokenType = stateAndRef.getState().getData();
 
-    //get the pointer to the house
-    TokenPointer tokenPointer = evolvableTokenType.toPointer(evolvableTokenType.getClass());
-
-    //assign the issuer to the house type who will be issuing the tokens
-    IssuedTokenType issuedTokenType = new IssuedTokenType(getOurIdentity(), tokenPointer);
-
-    //specify how much amount to issue to holder
-    Amount<IssuedTokenType> amount = new Amount(quantity, issuedTokenType);
-
-    //create fungible amount specifying the new owner
-    FungibleToken fungibleToken  = new FungibleToken(amount, holder, TransactionUtilitiesKt.getAttachmentIdForGenericParam(tokenPointer));
+    //create fungible token for the house token type
+    FungibleToken fungibleToken = new FungibleTokenBuilder()
+            .ofTokenType(evolvableTokenType.toPointer(FungibleHouseTokenState.class)) // get the token pointer
+            .issuedBy(getOurIdentity())
+            .heldBy(holder)
+            .withAmount(quantity)
+            .buildFungibleToken();
 
     //use built in flow for issuing tokens on ledger
     return subFlow(new IssueTokens(ImmutableList.of(fungibleToken)));
 }
-
 ```
 
 We then move the house token. [MoveHouseTokenFlow](./workflows/src/main/java/net/corda/examples/tokenizedhouse/flows/RealEstateEvolvableFungibleTokenFlow.java#L127-L146)
@@ -74,18 +74,17 @@ We then move the house token. [MoveHouseTokenFlow](./workflows/src/main/java/net
 public SignedTransaction call() throws FlowException {
     //get house states on ledger with uuid as input tokenId
     StateAndRef<FungibleHouseTokenState> stateAndRef = getServiceHub().getVaultService().
-            queryBy(FungibleHouseTokenState.class).getStates().stream()
-            .filter(sf->sf.getState().getData().getSymbol().equals(symbol)).findAny()
-            .orElseThrow(()-> new IllegalArgumentException("StockState symbol=\""+symbol+"\" not found from vault"));
+    queryBy(FungibleHouseTokenState.class).getStates().stream()
+    .filter(sf->sf.getState().getData().getSymbol().equals(symbol)).findAny()
+    .orElseThrow(()-> new IllegalArgumentException("StockState symbol=\""+symbol+"\" not found from vault"));
 
     //get the RealEstateEvolvableTokenType object
     FungibleHouseTokenState tokenstate = stateAndRef.getState().getData();
 
-    //get the pointer pointer to the house
-    TokenPointer<FungibleHouseTokenState> tokenPointer = tokenstate.toPointer(FungibleHouseTokenState.class);
-
-    //specify how much amount to transfer to which holder
-    Amount<TokenType> amount = new Amount(quantity, tokenPointer);
+    /*  specify how much amount to transfer to which holder
+     *  Note: we use a pointer of tokenstate because it of type EvolvableTokenType
+     */
+    Amount<TokenType> amount = new Amount<>(quantity, tokenstate.toPointer(FungibleHouseTokenState.class));
     //PartyAndAmount partyAndAmount = new PartyAndAmount(holder, amount);
 
     //use built in flow to move fungible tokens to holder
@@ -146,5 +145,7 @@ Since Buyer now has 50 tokens, Move tokens to Friend from Buyer s terminal
 
     flow start MoveHouseTokenFlow symbol: house, holder: Friend, quantity: 23
 
+You can now view the number of Tokens held by both the Buyer and the friend by executing the following Query flow in their respective terminals.
 
+    flow start GetTokenBalance symbol: house
 

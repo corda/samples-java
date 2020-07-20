@@ -38,7 +38,7 @@ public class QueryTokens {
             StateAndRef<FungibleHouseTokenState> stateAndRef = getServiceHub().getVaultService().
                     queryBy(FungibleHouseTokenState.class).getStates().stream()
                     .filter(sf->sf.getState().getData().getSymbol().equals(symbol)).findAny()
-                    .orElseThrow(()-> new IllegalArgumentException("StockState symbol=\""+symbol+"\" not found from vault"));
+                    .orElseThrow(()-> new IllegalArgumentException("FungibleHouseTokenState symbol=\""+symbol+"\" not found from vault"));
 
             //get the RealEstateEvolvableTokenType object
             FungibleHouseTokenState evolvableTokenType = stateAndRef.getState().getData();
