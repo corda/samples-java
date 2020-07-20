@@ -2,6 +2,8 @@ package net.corda.examples.bikemarket.states;
 
 import com.google.common.collect.ImmutableList;
 import com.r3.corda.lib.tokens.contracts.states.EvolvableTokenType;
+import com.r3.corda.lib.tokens.contracts.types.TokenPointer;
+import net.corda.core.contracts.LinearPointer;
 import net.corda.examples.bikemarket.contracts.WheelsContract;
 import net.corda.core.contracts.BelongsToContract;
 import net.corda.core.contracts.UniqueIdentifier;
@@ -46,5 +48,11 @@ public class WheelsTokenState extends EvolvableTokenType {
     @Override
     public UniqueIdentifier getLinearId() {
         return this.uniqueIdentifier;
+    }
+
+    /* This method returns a TokenPointer by using the linear Id of the evolvable state */
+    public TokenPointer<WheelsTokenState> toPointer(){
+        LinearPointer<WheelsTokenState> linearPointer = new LinearPointer<>(uniqueIdentifier, WheelsTokenState.class);
+        return new TokenPointer<>(linearPointer, fractionDigits);
     }
 }

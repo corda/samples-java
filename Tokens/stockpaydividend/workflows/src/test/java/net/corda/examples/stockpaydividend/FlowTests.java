@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.r3.corda.lib.tokens.contracts.types.TokenPointer;
 import com.r3.corda.lib.tokens.contracts.types.TokenType;
 import com.r3.corda.lib.tokens.money.FiatCurrency;
-import com.r3.corda.lib.tokens.workflows.utilities.QueryUtilitiesKt;
+import com.r3.corda.lib.tokens.workflows.utilities.QueryUtilities;
 import net.corda.core.concurrent.CordaFuture;
 import net.corda.core.contracts.Amount;
 import net.corda.core.contracts.StateAndRef;
@@ -112,7 +112,7 @@ public class FlowTests {
     @Test
     public void issueTest() throws ExecutionException, InterruptedException {
         // Issue Stock
-        CordaFuture<String> future = company.startFlow(new IssueStock(STOCK_SYMBOL, STOCK_NAME, STOCK_CURRENCY, STOCK_PRICE, ISSUING_STOCK_QUANTITY, notaryParty));
+        CordaFuture<String> future = company.startFlow(new CreateAndIssueStock(STOCK_SYMBOL, STOCK_NAME, STOCK_CURRENCY, STOCK_PRICE, ISSUING_STOCK_QUANTITY, notaryParty));
         network.runNetwork();
         String stx = future.get();
 
@@ -131,7 +131,7 @@ public class FlowTests {
     @Test
     public void moveTest() throws ExecutionException, InterruptedException {
         // Issue Stock
-        CordaFuture<String> future = company.startFlow(new IssueStock(STOCK_SYMBOL, STOCK_NAME, STOCK_CURRENCY, STOCK_PRICE, ISSUING_STOCK_QUANTITY, notaryParty));
+        CordaFuture<String> future = company.startFlow(new CreateAndIssueStock(STOCK_SYMBOL, STOCK_NAME, STOCK_CURRENCY, STOCK_PRICE, ISSUING_STOCK_QUANTITY, notaryParty));
         network.runNetwork();
         future.get();
 
@@ -143,7 +143,7 @@ public class FlowTests {
         //Retrieve states from receiver
         List<StateAndRef<StockState>> receivedStockStatesPages = shareholder.getServices().getVaultService().queryBy(StockState.class).getStates();
         StockState receivedStockState = receivedStockStatesPages.get(0).getState().getData();
-        Amount<TokenPointer> receivedAmount = QueryUtilitiesKt.tokenBalance(shareholder.getServices().getVaultService(), receivedStockState.toPointer(receivedStockState.getClass()));
+        Amount<TokenType> receivedAmount = QueryUtilities.tokenBalance(shareholder.getServices().getVaultService(), receivedStockState.toPointer(receivedStockState.getClass()));
 
         //Check
         assertEquals(receivedAmount.getQuantity(), Long.valueOf(500).longValue());
@@ -151,7 +151,7 @@ public class FlowTests {
         //Retrieve states from sender
         List<StateAndRef<StockState>> remainingStockStatesPages = company.getServices().getVaultService().queryBy(StockState.class).getStates();
         StockState remainingStockState = remainingStockStatesPages.get(0).getState().getData();
-        Amount<TokenPointer> remainingAmount = QueryUtilitiesKt.tokenBalance(company.getServices().getVaultService(), remainingStockState.toPointer(remainingStockState.getClass()));
+        Amount<TokenType> remainingAmount = QueryUtilities.tokenBalance(company.getServices().getVaultService(), remainingStockState.toPointer(remainingStockState.getClass()));
 
         //Check
         assertEquals(remainingAmount.getQuantity(), Long.valueOf(1500).longValue());
@@ -161,7 +161,7 @@ public class FlowTests {
     @Test
     public void announceDividendTest() throws ExecutionException, InterruptedException {
         // Issue Stock
-        CordaFuture<String> future = company.startFlow(new IssueStock(STOCK_SYMBOL, STOCK_NAME, STOCK_CURRENCY, STOCK_PRICE, ISSUING_STOCK_QUANTITY, notaryParty));
+        CordaFuture<String> future = company.startFlow(new CreateAndIssueStock(STOCK_SYMBOL, STOCK_NAME, STOCK_CURRENCY, STOCK_PRICE, ISSUING_STOCK_QUANTITY, notaryParty));
         network.runNetwork();
         future.get();
 
@@ -199,7 +199,7 @@ public class FlowTests {
     @Test
     public void getStockUpdateTest() throws ExecutionException, InterruptedException {
         // Issue Stock
-        CordaFuture<String> future = company.startFlow(new IssueStock(STOCK_SYMBOL, STOCK_NAME, STOCK_CURRENCY, STOCK_PRICE, ISSUING_STOCK_QUANTITY, notaryParty));
+        CordaFuture<String> future = company.startFlow(new CreateAndIssueStock(STOCK_SYMBOL, STOCK_NAME, STOCK_CURRENCY, STOCK_PRICE, ISSUING_STOCK_QUANTITY, notaryParty));
         network.runNetwork();
         future.get();
 
@@ -214,7 +214,7 @@ public class FlowTests {
         future.get();
 
         // Get Stock Update
-        future = shareholder.startFlow(new GetStockUpdate.Initiator(STOCK_SYMBOL));
+        future = shareholder.startFlow(new ClaimDividendReceivable.Initiator(STOCK_SYMBOL));
         network.runNetwork();
         future.get();
 
@@ -231,7 +231,7 @@ public class FlowTests {
     @Test
     public void claimDividendTest() throws ExecutionException, InterruptedException {
         // Issue Stock
-        CordaFuture<String> future = company.startFlow(new IssueStock(STOCK_SYMBOL, STOCK_NAME, STOCK_CURRENCY, STOCK_PRICE, ISSUING_STOCK_QUANTITY, notaryParty));
+        CordaFuture<String> future = company.startFlow(new CreateAndIssueStock(STOCK_SYMBOL, STOCK_NAME, STOCK_CURRENCY, STOCK_PRICE, ISSUING_STOCK_QUANTITY, notaryParty));
         network.runNetwork();
         future.get();
 
@@ -242,11 +242,6 @@ public class FlowTests {
 
         // Announce Dividend
         future = company.startFlow(new AnnounceDividend.Initiator(STOCK_SYMBOL, ANNOUNCING_DIVIDEND, exDate, payDate));
-        network.runNetwork();
-        future.get();
-
-        // Shareholder claims Dividend
-        future = shareholder.startFlow(new GetStockUpdate.Initiator(STOCK_SYMBOL));
         network.runNetwork();
         future.get();
 
@@ -287,7 +282,7 @@ public class FlowTests {
         future.get();
 
         // Issue Stock
-        future = company.startFlow(new IssueStock(STOCK_SYMBOL, STOCK_NAME, STOCK_CURRENCY, STOCK_PRICE, ISSUING_STOCK_QUANTITY, notaryParty));
+        future = company.startFlow(new CreateAndIssueStock(STOCK_SYMBOL, STOCK_NAME, STOCK_CURRENCY, STOCK_PRICE, ISSUING_STOCK_QUANTITY, notaryParty));
         network.runNetwork();
         future.get();
 
@@ -298,11 +293,6 @@ public class FlowTests {
 
         // Announce Dividend
         future = company.startFlow(new AnnounceDividend.Initiator(STOCK_SYMBOL, ANNOUNCING_DIVIDEND, exDate, payDate));
-        network.runNetwork();
-        future.get();
-
-        // Shareholder claims Dividend
-        future = shareholder.startFlow(new GetStockUpdate.Initiator(STOCK_SYMBOL));
         network.runNetwork();
         future.get();
 
@@ -331,7 +321,7 @@ public class FlowTests {
 
         // Validates shareholder has received equivalent fiat currencies of the dividend
         TokenType fiatTokenType = FiatCurrency.Companion.getInstance(STOCK_CURRENCY);
-        Amount<TokenType> fiatAmount = QueryUtilitiesKt.tokenBalance(shareholder.getServices().getVaultService(), fiatTokenType);
+        Amount<TokenType> fiatAmount = QueryUtilities.tokenBalance(shareholder.getServices().getVaultService(), fiatTokenType);
         BigDecimal receivingDividend = BigDecimal.valueOf(BUYING_STOCK).multiply(STOCK_PRICE).multiply(ANNOUNCING_DIVIDEND);
         assertEquals(fiatAmount.getQuantity(), receivingDividend.movePointRight(2).longValue());
 

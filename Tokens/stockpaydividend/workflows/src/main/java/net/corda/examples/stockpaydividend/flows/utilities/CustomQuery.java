@@ -7,7 +7,7 @@ import net.corda.examples.stockpaydividend.states.StockState;
 
 import java.util.List;
 
-public class QueryUtilities {
+public class CustomQuery {
 
     /**
      * Retrieve any unconsumed StockState and filter by the given symbol
