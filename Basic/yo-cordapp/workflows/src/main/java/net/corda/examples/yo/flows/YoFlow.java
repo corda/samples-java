@@ -24,7 +24,7 @@ import java.util.Objects;
 public class YoFlow extends FlowLogic<SignedTransaction> {
     private static final ProgressTracker.Step CREATING = new ProgressTracker.Step("Creating a new Yo!");
     private static final ProgressTracker.Step SIGNING = new ProgressTracker.Step("Signing the Yo!");
-    private static final ProgressTracker.Step VERIFYING = new ProgressTracker.Step("Verfiying the Yo!");
+    private static final ProgressTracker.Step VERIFYING = new ProgressTracker.Step("Verifying the Yo!");
     private static final ProgressTracker.Step FINALISING = new ProgressTracker.Step("Sending the Yo!") {
         @Nullable
         @Override
