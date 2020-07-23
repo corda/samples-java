@@ -6,6 +6,7 @@ import net.corda.core.contracts.Amount;
 import net.corda.core.contracts.CommandAndState;
 import net.corda.core.contracts.StateAndRef;
 import net.corda.core.flows.*;
+import net.corda.core.identity.Party;
 import net.corda.core.node.services.Vault;
 import net.corda.core.node.services.vault.QueryCriteria;
 import net.corda.core.transactions.SignedTransaction;
@@ -16,6 +17,7 @@ import net.corda.finance.workflows.asset.CashUtils;
 import net.corda.samples.states.Asset;
 import net.corda.samples.states.AuctionState;
 import org.jetbrains.annotations.NotNull;
+
 
 import java.security.PublicKey;
 import java.util.*;
