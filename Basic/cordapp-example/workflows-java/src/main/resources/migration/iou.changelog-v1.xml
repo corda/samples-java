@@ -14,7 +14,7 @@
             <column name="value" type="int"/>
             <column name="lender" type="NVARCHAR(64)"/>
             <column name="borrower" type="NVARCHAR(64)"/>
-            <column name="linear_id" type="uuid"/>
+            <column name="linear_id" type="NVARCHAR(64)"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>

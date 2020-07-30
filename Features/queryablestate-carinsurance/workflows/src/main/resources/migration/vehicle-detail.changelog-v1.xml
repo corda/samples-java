@@ -6,7 +6,7 @@
     <changeSet author="R3.Corda" id="create_vehicle_detail_state">
         <createTable tableName="vehicle_detail">
 
-            <column name="id" type="uuid"/>
+            <column name="id" type="NVARCHAR(64)"/>
             <column name="registrationNumber" type="NVARCHAR(64)"/>
             <column name="chasisNumber" type="NVARCHAR(64)"/>
             <column name="make" type="NVARCHAR(64)"/>

@@ -72,3 +72,23 @@ http://www.h2database.com/html/download.html
 
 Refer here for more details regarding connecting to the node database.
 https://docs.corda.net/head/node-database-access-h2.html
+
+Additional Notes:
+
+With Corda release 4.6, open source cordapps will have to write liquibase scripts to generate the custom database tables. For rapid development in dev mode with H2, you could use below command to generate Hibernate entities for your custom schemas. You will not require Liquibase scripts in such a situation.
+
+java -jar corda.jar run-migration-scripts --app-schemas
+Liquibase scripts have been added to workflow-java/src/main/resojurces/migration folder.
+
+To run the migration scripts for corda node use below command
+
+java -jar corda.jar run-migration-scripts --core-schemas
+To run the migration scripts for your custom tables defined in your Cordapp use below command
+
+java -jar corda.jar run-migration-scripts --app-schemas
+If you already have hibernate entities created in your db, prior to using Corda version 4.6, use below command to sync the database
+
+java -jar corda.jar sync-app-schemas
+Read more about hwo to add liquibase to your cordapp here.
+
+### TODO update documentation link.

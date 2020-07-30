@@ -14,7 +14,7 @@
             <column name="claimAmount" type="int"/>
             <column name="claimNumber" type="NVARCHAR(64)"/>
             <column name="claimDescription" type="NVARCHAR(64)"/>
-            <column name="id" type="uuid"/>
+            <column name="id" type="NVARCHAR(64)"/>
 
         </createTable>
     </changeSet>
