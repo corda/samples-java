@@ -1,0 +1,61 @@
+version: '3.0'  
+
+services:
+  notary: 
+    image: corda/corda-zulu-java1.8-4.5
+    container_name: notary 
+    ports:
+      - "2000:2222"
+    volumes:
+      - ./notary/node.conf:/etc/corda/node.conf
+      - ./notary/certificates:/opt/corda/certificates
+      - ./notary/persistence:/opt/corda/persistence
+      - ./notary/logs:/opt/corda/logs
+      - ./shared/cordapps:/opt/corda/cordapps
+      - ./shared/node-infos:/opt/corda/additional-node-infos
+      - ./shared/network-parameters:/opt/corda/network-parameters
+
+
+  partya: 
+    image: corda/corda-zulu-java1.8-4.5
+    container_name: partya
+    ports:
+      - "2001:2222"
+    volumes:
+      - ./partya/node.conf:/etc/corda/node.conf
+      - ./partya/certificates:/opt/corda/certificates
+      - ./partya/persistence:/opt/corda/persistence
+      - ./partya/logs:/opt/corda/logs
+      - ./shared/cordapps:/opt/corda/cordapps
+      - ./shared/node-infos:/opt/corda/additional-node-infos
+      - ./shared/network-parameters:/opt/corda/network-parameters
+
+
+  partyb: 
+    image: corda/corda-zulu-java1.8-4.5
+    container_name: partyb 
+    ports:
+      - "2002:2222"
+    volumes:
+      - ./partyb/node.conf:/etc/corda/node.conf
+      - ./partyb/certificates:/opt/corda/certificates
+      - ./partyb/persistence:/opt/corda/persistence
+      - ./partyb/logs:/opt/corda/logs
+      - ./shared/cordapps:/opt/corda/cordapps
+      - ./shared/node-infos:/opt/corda/additional-node-infos
+      - ./shared/network-parameters:/opt/corda/network-parameters
+
+
+  partyc: 
+    image: corda/corda-zulu-java1.8-4.5
+    container_name: partyc 
+    ports:
+      - "2003:2222"
+    volumes:
+      - ./partyc/node.conf:/etc/corda/node.conf
+      - ./partyc/certificates:/opt/corda/certificates
+      - ./partyc/persistence:/opt/corda/persistence
+      - ./partyc/logs:/opt/corda/logs
+      - ./shared/cordapps:/opt/corda/cordapps
+      - ./shared/node-infos:/opt/corda/additional-node-infos
+      - ./shared/network-parameters:/opt/corda/network-parameters
