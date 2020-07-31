@@ -1,7 +1,9 @@
 package com.tictacthor.states;
 
 import com.tictacthor.contracts.BoardContract;
-import javafx.util.Pair;
+//import javafx.util.Pair;
+
+import kotlin.Pair;
 import net.corda.core.contracts.BelongsToContract;
 import net.corda.core.contracts.LinearState;
 import net.corda.core.contracts.UniqueIdentifier;
@@ -91,14 +93,14 @@ public class BoardState implements LinearState {
     }
 
     public BoardState returnNewBoardAfterMove(Pair<Integer,Integer> pos, AnonymousParty me, AnonymousParty competitor){
-        if((pos.getKey() > 2) ||(pos.getValue()> 2)){
+        if((pos.getFirst() > 2) ||(pos.getSecond()> 2)){
             throw new IllegalStateException("Invalid board index.");
         }
         char[][] newborad = this.deepCopy();
         if(isPlayerXTurn){
-            newborad[pos.getKey()][pos.getValue()] = 'X';
+            newborad[pos.getFirst()][pos.getSecond()] = 'X';
         }else{
-            newborad[pos.getKey()][pos.getValue()] = 'O';
+            newborad[pos.getFirst()][pos.getSecond()] = 'O';
         }
         if(BoardContract.BoardUtils.isGameOver(newborad)){
             BoardState b = new BoardState(this.playerO,this.playerX,me,competitor,!this.isPlayerXTurn,this.linearId, newborad,Status.GAME_OVER);
