@@ -65,10 +65,8 @@ dependencies {
 
 
     // Token SDK dependencies.
-    cordaCompile "$tokens_release_group:tokens-money:$tokens_release_version"
     cordaCompile "$tokens_release_group:tokens-workflows:$tokens_release_version"
     cordaCompile "$tokens_release_group:tokens-contracts:$tokens_release_version"
-    cordapp "$tokens_release_group:tokens-selection:$tokens_release_version"
 
 }
 

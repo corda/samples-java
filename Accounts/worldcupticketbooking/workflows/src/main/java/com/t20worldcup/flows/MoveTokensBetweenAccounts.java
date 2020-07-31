@@ -9,8 +9,8 @@ import com.r3.corda.lib.tokens.contracts.types.TokenType;
 import com.r3.corda.lib.tokens.selection.TokenQueryBy;
 import com.r3.corda.lib.tokens.selection.database.config.DatabaseSelectionConfigKt;
 import com.r3.corda.lib.tokens.selection.database.selector.DatabaseTokenSelection;
-import com.r3.corda.lib.tokens.workflows.flows.move.MoveTokensUtilitiesKt;
-import com.r3.corda.lib.tokens.workflows.utilities.QueryUtilitiesKt;
+import com.r3.corda.lib.tokens.workflows.flows.move.MoveTokensUtilities;
+import com.r3.corda.lib.tokens.workflows.utilities.QueryUtilities;
 import kotlin.Pair;
 import net.corda.core.contracts.Amount;
 import net.corda.core.contracts.CommandData;
@@ -62,7 +62,7 @@ public class MoveTokensBetweenAccounts extends FlowLogic<String> {
         Amount<TokenType> amount = new Amount(costOfTicket, getInstance(currency));
 
         //Buyer Query for token balance.
-        QueryCriteria queryCriteria = QueryUtilitiesKt.heldTokenAmountCriteria(this.getInstance(currency), buyerAccount).and(QueryUtilitiesKt.sumTokenCriteria());
+        QueryCriteria queryCriteria = QueryUtilities.heldTokenAmountCriteria(this.getInstance(currency), buyerAccount).and(QueryUtilities.sumTokenCriteria());
         List<Object> sum = getServiceHub().getVaultService().queryBy(FungibleToken.class, queryCriteria).component5();
         if(sum.size() == 0)
             throw new FlowException(buyerAccountName + " has 0 token balance. Please ask the Bank to issue some cash.");
@@ -92,7 +92,7 @@ public class MoveTokensBetweenAccounts extends FlowLogic<String> {
 
         TransactionBuilder transactionBuilder = new TransactionBuilder(notary);
 
-        MoveTokensUtilitiesKt.addMoveTokens(transactionBuilder, inputsAndOutputs.getFirst(), inputsAndOutputs.getSecond());
+        MoveTokensUtilities.addMoveTokens(transactionBuilder, inputsAndOutputs.getFirst(), inputsAndOutputs.getSecond());
 
         Set<PublicKey> mySigners = new HashSet<>();
 
