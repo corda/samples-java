@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="e6586186-7087-4c1c-bbdb-87caeed821d7" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectId" id="1dVRqENiSglMnGgA5G7vo8WU3aS" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+  </component>
+  <component name="RunManager" selected="JUnit.Run Flow Tests - Kotlin">
+    <list>
+      <item itemvalue="Application.Run Example Cordapp - Java" />
+      <item itemvalue="Gradle.Unit tests" />
+      <item itemvalue="JUnit.Run Contract Tests - Java" />
+      <item itemvalue="JUnit.Run Contract Tests - Kotlin" />
+      <item itemvalue="JUnit.Run Flow Tests - Java" />
+      <item itemvalue="JUnit.Run Flow Tests - Kotlin" />
+      <item itemvalue="JUnit.Run Integration Tests - Java" />
+      <item itemvalue="JUnit.Run Integration Tests - Kotlin" />
+      <item itemvalue="Kotlin.Run Example Cordapp - Kotlin" />
+      <item itemvalue="Remote.Debug CorDapp" />
+    </list>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e6586186-7087-4c1c-bbdb-87caeed821d7" name="Default Changelist" comment="" />
+      <created>1592508463164</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1592508463164</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="2324" y="172" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1592508782145">
+      <screen x="1920" y="23" width="1920" height="1057" />
+    </state>
+    <state x="2324" y="172" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1920.974/1920.23.1920.1057@1920.23.1920.1057" timestamp="1592508782145" />
+    <state width="1720" height="285" key="GridCell.Tab.0.bottom" timestamp="1596218833266">
+      <screen x="1920" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1720" height="285" key="GridCell.Tab.0.bottom/0.23.1920.974/1920.23.1920.1057@1920.23.1920.1057" timestamp="1596218833266" />
+    <state width="1720" height="285" key="GridCell.Tab.0.center" timestamp="1596218833265">
+      <screen x="1920" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1720" height="285" key="GridCell.Tab.0.center/0.23.1920.974/1920.23.1920.1057@1920.23.1920.1057" timestamp="1596218833265" />
+    <state width="1720" height="285" key="GridCell.Tab.0.left" timestamp="1596218833264">
+      <screen x="1920" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1720" height="285" key="GridCell.Tab.0.left/0.23.1920.974/1920.23.1920.1057@1920.23.1920.1057" timestamp="1596218833264" />
+    <state width="1720" height="285" key="GridCell.Tab.0.right" timestamp="1596218833265">
+      <screen x="1920" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1720" height="285" key="GridCell.Tab.0.right/0.23.1920.974/1920.23.1920.1057@1920.23.1920.1057" timestamp="1596218833265" />
+  </component>
+</project>
