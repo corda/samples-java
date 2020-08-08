@@ -11,6 +11,13 @@ buildscript {
         log4j_version = constants.getProperty("log4jVersion")
         slf4j_version = constants.getProperty("slf4jVersion")
         corda_platform_version = constants.getProperty("platformVersion").toInteger()
+
+        //account
+        accounts_release_group = 'com.r3.corda.lib.accounts'
+        accounts_release_version = '1.0'
+        //CI
+        confidential_id_release_group = "com.r3.corda.lib.ci"
+        confidential_id_release_version = "1.0"
     }
 
     repositories {
@@ -18,6 +25,10 @@ buildscript {
         mavenCentral()
         jcenter()
         maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda-releases' }
+        maven { url 'http://ci-artifactory.corda.r3cev.com/artifactory/corda-lib' }
+        maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda' }
+        // Corda dependencies for the patched Quasar version
+        maven { url "https://software.r3.com/artifactory/corda-dependencies" } // access to the patched Quasar version
     }
 
     dependencies {
@@ -38,6 +49,11 @@ allprojects {
         mavenCentral()
         maven { url 'https://software.r3.com/artifactory/corda' }
         maven { url 'https://jitpack.io' }
+        //CI dependencies
+        maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda' }
+        maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda-lib' }
+
+
     }
 
     tasks.withType(JavaCompile) {
@@ -75,6 +91,11 @@ dependencies {
     cordaCompile "org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}"
     cordaCompile "org.apache.logging.log4j:log4j-web:${log4j_version}"
     cordaCompile "org.slf4j:jul-to-slf4j:$slf4j_version"
+
+    //Account & CI lib
+    cordapp "$confidential_id_release_group:ci-workflows:$confidential_id_release_version"
+    cordapp "$accounts_release_group:accounts-contracts:$accounts_release_version"
+    cordapp "$accounts_release_group:accounts-workflows:$accounts_release_version"
 }
 
 cordapp {
@@ -93,6 +114,9 @@ task deployNodesJava(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         }
         cordapp project(':contracts')
         cordapp project(':workflows')
+        cordapp("$confidential_id_release_group:ci-workflows:$confidential_id_release_version")
+        cordapp("$accounts_release_group:accounts-contracts:$accounts_release_version")
+        cordapp("$accounts_release_group:accounts-workflows:$accounts_release_version")
     }
     node {
         name "O=Notary,L=London,C=GB"

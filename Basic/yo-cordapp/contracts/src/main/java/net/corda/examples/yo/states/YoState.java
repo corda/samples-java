@@ -3,6 +3,7 @@ package net.corda.examples.yo.states;
 import net.corda.core.contracts.BelongsToContract;
 import net.corda.core.contracts.ContractState;
 import net.corda.core.identity.AbstractParty;
+import net.corda.core.identity.AnonymousParty;
 import net.corda.core.identity.Party;
 import net.corda.core.serialization.ConstructorForDeserialization;
 import net.corda.core.serialization.CordaSerializable;
@@ -17,28 +18,28 @@ import java.util.List;
 // *********
 @BelongsToContract(YoContract.class)
 public class YoState implements ContractState {
-    private final Party origin;
-    private final Party target;
+    private final AnonymousParty origin;
+    private final AnonymousParty target;
     private final String yo;
 
     @ConstructorForDeserialization
-    public YoState(Party origin, Party target, String yo) {
+    public YoState(AnonymousParty origin, AnonymousParty target, String yo) {
         this.origin = origin;
         this.target = target;
         this.yo = yo;
     }
 
-    public YoState(Party origin, Party target) {
+    public YoState(AnonymousParty origin, AnonymousParty target) {
         this.origin = origin;
         this.target = target;
         this.yo = "Yo!";
     }
 
-    public Party getOrigin() {
+    public AnonymousParty getOrigin() {
         return origin;
     }
 
-    public Party getTarget() {
+    public AnonymousParty getTarget() {
         return target;
     }
 
@@ -49,11 +50,11 @@ public class YoState implements ContractState {
     @NotNull
     @Override
     public List<AbstractParty> getParticipants() {
-        return Arrays.asList(target);
+        return Arrays.asList(origin,target);
     }
 
-    @Override
-    public String toString() {
-        return origin.getName() + ": " + yo;
-    }
+//    @Override
+//    public String toString() {
+//        return origin.getName() + ": " + yo;
+//    }
 }
