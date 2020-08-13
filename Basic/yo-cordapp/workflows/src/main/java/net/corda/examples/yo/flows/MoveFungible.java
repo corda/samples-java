@@ -67,21 +67,4 @@ public class MoveFungible {
 
         }
     }
-
-    @InitiatedBy(MoveFungibleInitiator.class)
-    public static class MoveFungibleResponder extends FlowLogic<Unit>{
-
-        private FlowSession counterSession;
-
-        public MoveFungibleResponder(FlowSession counterSession) {
-            this.counterSession = counterSession;
-        }
-
-        @Suspendable
-        @Override
-        public Unit call() throws FlowException {
-            // Simply use the MoveFungibleTokensHandler as the responding flow
-            return subFlow(new MoveFungibleTokensHandler(counterSession));
-        }
-    }
 }
