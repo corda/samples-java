@@ -97,7 +97,8 @@ public class YoFlow extends FlowLogic<SignedTransaction> {
         utx.verify(getServiceHub());
 
         progressTracker.setCurrentStep(SIGNING);
-        SignedTransaction stx = getServiceHub().signInitialTransaction(utx,Arrays.asList(getOurIdentity().getOwningKey(),myAcconut.getOwningKey()));
+        SignedTransaction stx = getServiceHub().signInitialTransaction(utx,
+                Arrays.asList(getOurIdentity().getOwningKey(),myAcconut.getOwningKey()));
 
         //Collect sigs
         FlowSession sessionForAccountToSendTo = initiateFlow(targetAccount.getHost());
