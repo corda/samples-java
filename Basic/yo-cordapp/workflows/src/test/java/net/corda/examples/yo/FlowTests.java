@@ -23,7 +23,7 @@ public class FlowTests {
     private final StartedMockNode a = network.createNode();
     private final StartedMockNode b = network.createNode();
 
-    public FlowTests() {git a
+    public FlowTests() {
         ImmutableList.of(a, b).forEach(it -> {
             it.registerInitiatedFlow(YoFlowResponder.class);
         });
