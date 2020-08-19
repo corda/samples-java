@@ -94,26 +94,29 @@ public class IntegrationTest {
                 CordaRPCClient bClient = new CordaRPCClient(partyBHandle.getRpcAddress());
                 CordaRPCOps bProxy  = bClient.start("user1", "test").getProxy();
 
-                //Excute flows
-                //Create & Share account
-                aProxy.startTrackedFlowDynamic(CreateNewAccount.class,"PeterLi");
-                aProxy.startTrackedFlowDynamic(ShareAccountTo.class, "PeterLi",aProxy.wellKnownPartyFromX500Name(partyB.getName())).getReturnValue().get();
+                // Excute flows
+                // Create & Share account
+                aProxy.startTrackedFlowDynamic(CreateNewAccount.class,"PeterLi").getReturnValue().get();
+                aProxy.startTrackedFlowDynamic(ShareAccountTo.class, "PeterLi", aProxy.wellKnownPartyFromX500Name(partyB.getName())).getReturnValue().get();
                 List<StateAndRef<AccountInfo>> aAccounts = aProxy.vaultQuery(AccountInfo.class).getStates();
                 List<StateAndRef<AccountInfo>> bAccounts = bProxy.vaultQuery(AccountInfo.class).getStates();
 
-                bProxy.startTrackedFlowDynamic(CreateNewAccount.class,"DavidA");//"BankA", "Test1", "GB"
-                List<StateAndRef<AccountInfo>> bAccountsAfterShare = aProxy.vaultQuery(AccountInfo.class).getStates();
-                bProxy.startTrackedFlowDynamic(ShareAccountTo.class, "DavidA",bProxy.wellKnownPartyFromX500Name(partyA.getName())).getReturnValue().get();
+                bProxy.startTrackedFlowDynamic(CreateNewAccount.class,"DavidA").getReturnValue().get();//"BankA", "Test1", "GB"
+                List<StateAndRef<AccountInfo>> bAccountsAfterShare = bProxy.vaultQuery(AccountInfo.class).getStates();
+                bProxy.startTrackedFlowDynamic(ShareAccountTo.class, "DavidA", bProxy.wellKnownPartyFromX500Name(partyA.getName())).getReturnValue().get();
                 List<StateAndRef<AccountInfo>> aAccountsAfterShare = aProxy.vaultQuery(AccountInfo.class).getStates();
+
+                // ensure that both nodes have both accounts.
+                assertEquals(aAccountsAfterShare.size(), 2);
+                assertEquals(bAccountsAfterShare.size(), 2);
 
                 //send yo flow
                 aProxy.startTrackedFlowDynamic(YoFlow.class,"PeterLi","DavidA").getReturnValue().get();
                 List<StateAndRef<YoState>> yoStates= aProxy.vaultQuery(YoState.class).getStates();
 
+                // ensure our yo is received
                 YoState yo = yoStates.get(0).getState().getData();
                 assertEquals(yo.getYo(),"Yo to Accounts");
-
-
 
             } catch (Exception e) {
                 throw new RuntimeException("Caught exception during test: ", e);
