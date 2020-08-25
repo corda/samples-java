@@ -5,14 +5,14 @@ import co.paralleluniverse.fibers.Suspendable;
 import com.r3.corda.lib.tokens.contracts.states.FungibleToken;
 import com.r3.corda.lib.tokens.contracts.states.NonFungibleToken;
 import com.r3.corda.lib.tokens.contracts.types.TokenType;
-import com.r3.corda.lib.tokens.workflows.utilities.QueryUtilities;
+import com.r3.corda.lib.tokens.workflows.utilities.QueryUtilitiesKt;
 import com.t20worldcup.states.T20CricketTicket;
 import com.r3.corda.lib.accounts.contracts.states.AccountInfo;
 import com.r3.corda.lib.accounts.workflows.UtilitiesKt;
 import com.r3.corda.lib.accounts.workflows.flows.RequestKeyForAccount;
 import com.r3.corda.lib.tokens.contracts.types.TokenPointer;
 import com.r3.corda.lib.tokens.money.FiatCurrency;
-import com.r3.corda.lib.tokens.workflows.flows.move.MoveTokensUtilities;
+import com.r3.corda.lib.tokens.workflows.flows.move.MoveTokensUtilitiesKt;
 import com.r3.corda.lib.tokens.workflows.internal.flows.finality.ObserverAwareFinalityFlow;
 import com.r3.corda.lib.tokens.workflows.types.PartyAndAmount;
 import net.corda.core.contracts.Amount;
@@ -21,7 +21,6 @@ import net.corda.core.flows.*;
 import net.corda.core.identity.AnonymousParty;
 import net.corda.core.identity.Party;
 import net.corda.core.node.services.Vault;
-import net.corda.core.node.services.VaultService;
 import net.corda.core.node.services.vault.QueryCriteria;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
@@ -31,8 +30,6 @@ import java.util.Arrays;
 import java.util.Currency;
 import java.util.List;
 import java.util.UUID;
-
-import static com.r3.corda.lib.tokens.workflows.utilities.QueryUtilities.rowsToAmount;
 
 /**
  * This is the DVP flow, where the buyer account buys the ticket token from the dealer account and in turn transfers him cash worth of the ticket.
@@ -121,26 +118,22 @@ public class DVPAccountsOnSameNode extends FlowLogic<String> {
 
         //first part of DVP is to transfer the non fungible token from seller to buyer
         //this add inputs and outputs to transactionBuilder
-        MoveTokensUtilities.addMoveNonFungibleTokens(transactionBuilder, getServiceHub(), tokenPointer, buyerAccount);
+        MoveTokensUtilitiesKt.addMoveNonFungibleTokens(transactionBuilder, getServiceHub(), tokenPointer, buyerAccount);
 
         //Part2 : Move fungible token - cash from buyer to seller
-        QueryCriteria queryCriteriaForTokenBalance = QueryUtilities.heldTokenAmountCriteria(this.getInstance(currency), buyerAccount)
-                .and(QueryUtilities.sumTokenCriteria());
 
-        VaultService vaultService = getServiceHub().getVaultService();
-        Amount<TokenType> rot = rowsToAmount(this.getInstance(currency), vaultService.queryBy(FungibleToken.class,queryCriteriaForTokenBalance));
-        int fundsAvailable = rot.compareTo(new Amount<TokenType>(this.costOfTicket,this.getInstance(currency)));
+        QueryCriteria queryCriteriaForTokenBalance = QueryUtilitiesKt.heldTokenAmountCriteria(this.getInstance(currency), buyerAccount).and(QueryUtilitiesKt.sumTokenCriteria());
 
+        List<Object> sum = getServiceHub().getVaultService().
+                queryBy(FungibleToken.class, queryCriteriaForTokenBalance).component5();
 
-        //List<Object> sum = getServiceHub().getVaultService().queryBy(FungibleToken.class, queryCriteriaForTokenBalance).component5();
-
-        if(fundsAvailable < 0)
+        if(sum.size() == 0)
             throw new FlowException(buyerAccountName + "has 0 token balance. Please ask the Bank to issue some cash.");
-//        else {
-//            Long tokenBalance = (Long) sum.get(0);
-//            if(tokenBalance < costOfTicket)
-//                throw new FlowException("Available token balance of " + buyerAccountName+ " is less than the cost of the ticket. Please ask the Bank to issue some cash if you wish to buy the ticket ");
-//        }
+        else {
+            Long tokenBalance = (Long) sum.get(0);
+            if(tokenBalance < costOfTicket)
+                throw new FlowException("Available token balance of " + buyerAccountName+ " is less than the cost of the ticket. Please ask the Bank to issue some cash if you wish to buy the ticket ");
+        }
 
         Amount<FiatCurrency> amount = new Amount(costOfTicket, FiatCurrency.Companion.getInstance(currency));
 
@@ -154,7 +147,7 @@ public class DVPAccountsOnSameNode extends FlowLogic<String> {
         //call utility function to move the fungible token from buyer to seller account
         //this also adds inputs and outputs to the transactionBuilder
         //till now we have only 1 transaction with 2 inputs and 2 outputs - one moving fungible tokens other moving non fungible tokens between accounts
-        MoveTokensUtilities.addMoveFungibleTokens(transactionBuilder, getServiceHub(), Arrays.asList(partyAndAmount), buyerAccount, criteria);
+        MoveTokensUtilitiesKt.addMoveFungibleTokens(transactionBuilder, getServiceHub(), Arrays.asList(partyAndAmount), buyerAccount, criteria);
 
         //self sign the transaction. note : the host party will first self sign the transaction.
         SignedTransaction selfSignedTransaction = getServiceHub().signInitialTransaction(transactionBuilder,

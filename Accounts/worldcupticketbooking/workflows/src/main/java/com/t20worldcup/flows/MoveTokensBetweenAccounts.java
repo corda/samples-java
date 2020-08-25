@@ -9,8 +9,8 @@ import com.r3.corda.lib.tokens.contracts.types.TokenType;
 import com.r3.corda.lib.tokens.selection.TokenQueryBy;
 import com.r3.corda.lib.tokens.selection.database.config.DatabaseSelectionConfigKt;
 import com.r3.corda.lib.tokens.selection.database.selector.DatabaseTokenSelection;
-import com.r3.corda.lib.tokens.workflows.flows.move.MoveTokensUtilities;
-import com.r3.corda.lib.tokens.workflows.utilities.QueryUtilities;
+import com.r3.corda.lib.tokens.workflows.flows.move.MoveTokensUtilitiesKt;
+import com.r3.corda.lib.tokens.workflows.utilities.QueryUtilitiesKt;
 import kotlin.Pair;
 import net.corda.core.contracts.Amount;
 import net.corda.core.contracts.CommandData;
@@ -62,7 +62,7 @@ public class MoveTokensBetweenAccounts extends FlowLogic<String> {
         Amount<TokenType> amount = new Amount(costOfTicket, getInstance(currency));
 
         //Buyer Query for token balance.
-        QueryCriteria queryCriteria = QueryUtilities.heldTokenAmountCriteria(this.getInstance(currency), buyerAccount).and(QueryUtilities.sumTokenCriteria());
+        QueryCriteria queryCriteria = QueryUtilitiesKt.heldTokenAmountCriteria(this.getInstance(currency), buyerAccount).and(QueryUtilitiesKt.sumTokenCriteria());
         List<Object> sum = getServiceHub().getVaultService().queryBy(FungibleToken.class, queryCriteria).component5();
         if(sum.size() == 0)
             throw new FlowException(buyerAccountName + " has 0 token balance. Please ask the Bank to issue some cash.");
@@ -92,7 +92,7 @@ public class MoveTokensBetweenAccounts extends FlowLogic<String> {
 
         TransactionBuilder transactionBuilder = new TransactionBuilder(notary);
 
-        MoveTokensUtilities.addMoveTokens(transactionBuilder, inputsAndOutputs.getFirst(), inputsAndOutputs.getSecond());
+        MoveTokensUtilitiesKt.addMoveTokens(transactionBuilder, inputsAndOutputs.getFirst(), inputsAndOutputs.getSecond());
 
         Set<PublicKey> mySigners = new HashSet<>();
 
@@ -106,7 +106,7 @@ public class MoveTokensBetweenAccounts extends FlowLogic<String> {
 
         FlowSession sellerSession = initiateFlow(sellerAccountInfo.getHost());
 
-       //sign the transaction with the signers we got by calling filterMyKeys
+        //sign the transaction with the signers we got by calling filterMyKeys
         SignedTransaction selfSignedTransaction = getServiceHub().signInitialTransaction(transactionBuilder, mySigners);
 
         //call FinalityFlow for finality
