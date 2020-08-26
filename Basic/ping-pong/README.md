@@ -24,7 +24,7 @@ Take a look at [Ping.java](./workflows-java/src/main/java/net/corda/examples/pin
 
 You'll notice that this flow does what we expect, which is to send an outbound ping, and expect to receive a pong. If we receive a pong, then our flow is sucessful.
 
-```
+```java
     public Void call() throws FlowException {
         final FlowSession counterpartySession = initiateFlow(counterparty);
         final UntrustworthyData<String> counterpartyData = counterpartySession.sendAndReceive(String.class, "ping");
