@@ -2,19 +2,19 @@ package com.t20worldcup.flows;
 
 
 import co.paralleluniverse.fibers.Suspendable;
-import com.r3.corda.lib.tokens.contracts.states.FungibleToken;
-import com.r3.corda.lib.tokens.contracts.states.NonFungibleToken;
-import com.r3.corda.lib.tokens.contracts.types.TokenType;
-import com.r3.corda.lib.tokens.workflows.utilities.QueryUtilitiesKt;
-import com.t20worldcup.states.T20CricketTicket;
 import com.r3.corda.lib.accounts.contracts.states.AccountInfo;
 import com.r3.corda.lib.accounts.workflows.UtilitiesKt;
 import com.r3.corda.lib.accounts.workflows.flows.RequestKeyForAccount;
+import com.r3.corda.lib.tokens.contracts.states.FungibleToken;
+import com.r3.corda.lib.tokens.contracts.states.NonFungibleToken;
 import com.r3.corda.lib.tokens.contracts.types.TokenPointer;
+import com.r3.corda.lib.tokens.contracts.types.TokenType;
 import com.r3.corda.lib.tokens.money.FiatCurrency;
-import com.r3.corda.lib.tokens.workflows.flows.move.MoveTokensUtilitiesKt;
+import com.r3.corda.lib.tokens.workflows.flows.move.MoveTokensUtilities;
 import com.r3.corda.lib.tokens.workflows.internal.flows.finality.ObserverAwareFinalityFlow;
 import com.r3.corda.lib.tokens.workflows.types.PartyAndAmount;
+import com.r3.corda.lib.tokens.workflows.utilities.QueryUtilities;
+import com.t20worldcup.states.T20CricketTicket;
 import net.corda.core.contracts.Amount;
 import net.corda.core.contracts.StateAndRef;
 import net.corda.core.flows.*;
@@ -118,14 +118,18 @@ public class DVPAccountsOnSameNode extends FlowLogic<String> {
 
         //first part of DVP is to transfer the non fungible token from seller to buyer
         //this add inputs and outputs to transactionBuilder
-        MoveTokensUtilitiesKt.addMoveNonFungibleTokens(transactionBuilder, getServiceHub(), tokenPointer, buyerAccount);
+        MoveTokensUtilities.addMoveNonFungibleTokens(transactionBuilder, getServiceHub(), tokenPointer, buyerAccount);
 
         //Part2 : Move fungible token - cash from buyer to seller
 
-        QueryCriteria queryCriteriaForTokenBalance = QueryUtilitiesKt.heldTokenAmountCriteria(this.getInstance(currency), buyerAccount).and(QueryUtilitiesKt.sumTokenCriteria());
+        //construct the query criteria and get all USD available unconsumed fungible tokens which belong to buyers account
+        QueryCriteria queryCriteriaForTokenBalance = QueryUtilities.tokenAmountCriteria(this.getInstance(currency))
+                .and(new QueryCriteria.VaultQueryCriteria().withStatus(Vault.StateStatus.UNCONSUMED).
+                        withExternalIds(Arrays.asList(buyerAccountInfo.getIdentifier().getId())));
 
+        // Note: component5 is a shortcut to 'other-results' of the Vault.Page, this is where the sumTokenCriteria return value is.
         List<Object> sum = getServiceHub().getVaultService().
-                queryBy(FungibleToken.class, queryCriteriaForTokenBalance).component5();
+                queryBy(FungibleToken.class, queryCriteriaForTokenBalance.and(QueryUtilities.sumTokenCriteria())).component5();
 
         if(sum.size() == 0)
             throw new FlowException(buyerAccountName + "has 0 token balance. Please ask the Bank to issue some cash.");
@@ -140,14 +144,10 @@ public class DVPAccountsOnSameNode extends FlowLogic<String> {
         //move money to sellerAccountInfo account.
         PartyAndAmount partyAndAmount = new PartyAndAmount(sellerAccount, amount);
 
-        //construct the query criteria and get all available unconsumed fungible tokens which belong to buyers account
-        QueryCriteria criteria = new QueryCriteria.VaultQueryCriteria().withStatus(Vault.StateStatus.UNCONSUMED).
-                withExternalIds(Arrays.asList(buyerAccountInfo.getIdentifier().getId()));
-
         //call utility function to move the fungible token from buyer to seller account
         //this also adds inputs and outputs to the transactionBuilder
         //till now we have only 1 transaction with 2 inputs and 2 outputs - one moving fungible tokens other moving non fungible tokens between accounts
-        MoveTokensUtilitiesKt.addMoveFungibleTokens(transactionBuilder, getServiceHub(), Arrays.asList(partyAndAmount), buyerAccount, criteria);
+        MoveTokensUtilities.addMoveFungibleTokens(transactionBuilder, getServiceHub(), Arrays.asList(partyAndAmount), buyerAccount, queryCriteriaForTokenBalance);
 
         //self sign the transaction. note : the host party will first self sign the transaction.
         SignedTransaction selfSignedTransaction = getServiceHub().signInitialTransaction(transactionBuilder,
