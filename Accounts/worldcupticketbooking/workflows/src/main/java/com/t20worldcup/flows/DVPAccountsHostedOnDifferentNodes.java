@@ -93,11 +93,19 @@ public class DVPAccountsHostedOnDifferentNodes extends FlowLogic<String> {
         //buyer will create generate a move tokens state and send this state with new holder(seller) to seller
         Amount<FiatCurrency> amount = new Amount(costOfTicket, FiatCurrency.Companion.getInstance(currency));
 
-        //Buyer Query for token balance. 
-        QueryCriteria queryCriteria = QueryUtilities.heldTokenAmountCriteria(this.getInstance(currency), buyerAccount).and(QueryUtilities.sumTokenCriteria());
-        List<Object> sum = getServiceHub().getVaultService().queryBy(FungibleToken.class, queryCriteria).component5();
+        //Buyer Query for token balance.
+
+        //construct the query criteria and get all USD available unconsumed fungible tokens which belong to buyers account
+        QueryCriteria queryCriteriaForTokenBalance = QueryUtilities.tokenAmountCriteria(this.getInstance(currency))
+                .and(new QueryCriteria.VaultQueryCriteria().withStatus(Vault.StateStatus.UNCONSUMED).
+                        withExternalIds(Arrays.asList(buyerAccountInfo.getIdentifier().getId())));
+
+        // Note: component5 is a shortcut to 'other-results' of the Vault.Page, this is where the sumTokenCriteria return value is.
+        List<Object> sum = getServiceHub().getVaultService().
+                queryBy(FungibleToken.class, queryCriteriaForTokenBalance.and(QueryUtilities.sumTokenCriteria())).component5();
+
         if(sum.size() == 0)
-            throw new FlowException(buyerAccountName + " has 0 token balance. Please ask the Bank to issue some cash.");
+            throw new FlowException(buyerAccountName + "has 0 token balance. Please ask the Bank to issue some cash.");
         else {
             Long tokenBalance = (Long) sum.get(0);
             if(tokenBalance < costOfTicket)

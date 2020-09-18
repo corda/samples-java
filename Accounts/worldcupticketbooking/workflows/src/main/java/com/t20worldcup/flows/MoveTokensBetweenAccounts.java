@@ -20,6 +20,7 @@ import net.corda.core.flows.*;
 import net.corda.core.identity.AbstractParty;
 import net.corda.core.identity.AnonymousParty;
 import net.corda.core.identity.Party;
+import net.corda.core.node.services.Vault;
 import net.corda.core.node.services.vault.QueryCriteria;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
@@ -62,10 +63,18 @@ public class MoveTokensBetweenAccounts extends FlowLogic<String> {
         Amount<TokenType> amount = new Amount(costOfTicket, getInstance(currency));
 
         //Buyer Query for token balance.
-        QueryCriteria queryCriteria = QueryUtilities.heldTokenAmountCriteria(this.getInstance(currency), buyerAccount).and(QueryUtilities.sumTokenCriteria());
-        List<Object> sum = getServiceHub().getVaultService().queryBy(FungibleToken.class, queryCriteria).component5();
+
+        //construct the query criteria and get all USD available unconsumed fungible tokens which belong to buyers account
+        QueryCriteria queryCriteriaForTokenBalance = QueryUtilities.tokenAmountCriteria(this.getInstance(currency))
+                .and(new QueryCriteria.VaultQueryCriteria().withStatus(Vault.StateStatus.UNCONSUMED).
+                        withExternalIds(Arrays.asList(buyerAccountInfo.getIdentifier().getId())));
+
+        // Note: component5 is a shortcut to 'other-results' of the Vault.Page, this is where the sumTokenCriteria return value is.
+        List<Object> sum = getServiceHub().getVaultService().
+                queryBy(FungibleToken.class, queryCriteriaForTokenBalance.and(QueryUtilities.sumTokenCriteria())).component5();
+
         if(sum.size() == 0)
-            throw new FlowException(buyerAccountName + " has 0 token balance. Please ask the Bank to issue some cash.");
+            throw new FlowException(buyerAccountName + "has 0 token balance. Please ask the Bank to issue some cash.");
         else {
             Long tokenBalance = (Long) sum.get(0);
             if(tokenBalance < costOfTicket)
