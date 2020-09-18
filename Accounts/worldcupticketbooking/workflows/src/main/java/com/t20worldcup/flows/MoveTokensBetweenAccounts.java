@@ -9,8 +9,8 @@ import com.r3.corda.lib.tokens.contracts.types.TokenType;
 import com.r3.corda.lib.tokens.selection.TokenQueryBy;
 import com.r3.corda.lib.tokens.selection.database.config.DatabaseSelectionConfigKt;
 import com.r3.corda.lib.tokens.selection.database.selector.DatabaseTokenSelection;
-import com.r3.corda.lib.tokens.workflows.flows.move.MoveTokensUtilitiesKt;
-import com.r3.corda.lib.tokens.workflows.utilities.QueryUtilitiesKt;
+import com.r3.corda.lib.tokens.workflows.flows.move.MoveTokensUtilities;
+import com.r3.corda.lib.tokens.workflows.utilities.QueryUtilities;
 import kotlin.Pair;
 import net.corda.core.contracts.Amount;
 import net.corda.core.contracts.CommandData;
@@ -20,6 +20,7 @@ import net.corda.core.flows.*;
 import net.corda.core.identity.AbstractParty;
 import net.corda.core.identity.AnonymousParty;
 import net.corda.core.identity.Party;
+import net.corda.core.node.services.Vault;
 import net.corda.core.node.services.vault.QueryCriteria;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
@@ -62,10 +63,18 @@ public class MoveTokensBetweenAccounts extends FlowLogic<String> {
         Amount<TokenType> amount = new Amount(costOfTicket, getInstance(currency));
 
         //Buyer Query for token balance.
-        QueryCriteria queryCriteria = QueryUtilitiesKt.heldTokenAmountCriteria(this.getInstance(currency), buyerAccount).and(QueryUtilitiesKt.sumTokenCriteria());
-        List<Object> sum = getServiceHub().getVaultService().queryBy(FungibleToken.class, queryCriteria).component5();
+
+        //construct the query criteria and get all USD available unconsumed fungible tokens which belong to buyers account
+        QueryCriteria queryCriteriaForTokenBalance = QueryUtilities.tokenAmountCriteria(this.getInstance(currency))
+                .and(new QueryCriteria.VaultQueryCriteria().withStatus(Vault.StateStatus.UNCONSUMED).
+                        withExternalIds(Arrays.asList(buyerAccountInfo.getIdentifier().getId())));
+
+        // Note: component5 is a shortcut to 'other-results' of the Vault.Page, this is where the sumTokenCriteria return value is.
+        List<Object> sum = getServiceHub().getVaultService().
+                queryBy(FungibleToken.class, queryCriteriaForTokenBalance.and(QueryUtilities.sumTokenCriteria())).component5();
+
         if(sum.size() == 0)
-            throw new FlowException(buyerAccountName + " has 0 token balance. Please ask the Bank to issue some cash.");
+            throw new FlowException(buyerAccountName + "has 0 token balance. Please ask the Bank to issue some cash.");
         else {
             Long tokenBalance = (Long) sum.get(0);
             if(tokenBalance < costOfTicket)
@@ -92,7 +101,7 @@ public class MoveTokensBetweenAccounts extends FlowLogic<String> {
 
         TransactionBuilder transactionBuilder = new TransactionBuilder(notary);
 
-        MoveTokensUtilitiesKt.addMoveTokens(transactionBuilder, inputsAndOutputs.getFirst(), inputsAndOutputs.getSecond());
+        MoveTokensUtilities.addMoveTokens(transactionBuilder, inputsAndOutputs.getFirst(), inputsAndOutputs.getSecond());
 
         Set<PublicKey> mySigners = new HashSet<>();
 
@@ -106,7 +115,7 @@ public class MoveTokensBetweenAccounts extends FlowLogic<String> {
 
         FlowSession sellerSession = initiateFlow(sellerAccountInfo.getHost());
 
-        //sign the transaction with the signers we got by calling filterMyKeys
+       //sign the transaction with the signers we got by calling filterMyKeys
         SignedTransaction selfSignedTransaction = getServiceHub().signInitialTransaction(transactionBuilder, mySigners);
 
         //call FinalityFlow for finality

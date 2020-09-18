@@ -3,7 +3,8 @@ package com.t20worldcup.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import com.r3.corda.lib.tokens.contracts.states.NonFungibleToken;
-import com.r3.corda.lib.tokens.workflows.utilities.QueryUtilitiesKt;
+import com.r3.corda.lib.tokens.workflows.flows.move.MoveTokensUtilities;
+import com.r3.corda.lib.tokens.workflows.utilities.QueryUtilities;
 import com.t20worldcup.states.T20CricketTicket;
 import com.r3.corda.lib.accounts.contracts.states.AccountInfo;
 import com.r3.corda.lib.accounts.workflows.UtilitiesKt;
@@ -17,7 +18,6 @@ import com.r3.corda.lib.tokens.money.FiatCurrency;
 import com.r3.corda.lib.tokens.selection.TokenQueryBy;
 import com.r3.corda.lib.tokens.selection.database.config.DatabaseSelectionConfigKt;
 import com.r3.corda.lib.tokens.selection.database.selector.DatabaseTokenSelection;
-import com.r3.corda.lib.tokens.workflows.flows.move.MoveTokensUtilitiesKt;
 import kotlin.Pair;
 import net.corda.core.contracts.*;
 import net.corda.core.flows.*;
@@ -94,10 +94,18 @@ public class DVPAccountsHostedOnDifferentNodes extends FlowLogic<String> {
         Amount<FiatCurrency> amount = new Amount(costOfTicket, FiatCurrency.Companion.getInstance(currency));
 
         //Buyer Query for token balance.
-        QueryCriteria queryCriteria = QueryUtilitiesKt.heldTokenAmountCriteria(this.getInstance(currency), buyerAccount).and(QueryUtilitiesKt.sumTokenCriteria());
-        List<Object> sum = getServiceHub().getVaultService().queryBy(FungibleToken.class, queryCriteria).component5();
+
+        //construct the query criteria and get all USD available unconsumed fungible tokens which belong to buyers account
+        QueryCriteria queryCriteriaForTokenBalance = QueryUtilities.tokenAmountCriteria(this.getInstance(currency))
+                .and(new QueryCriteria.VaultQueryCriteria().withStatus(Vault.StateStatus.UNCONSUMED).
+                        withExternalIds(Arrays.asList(buyerAccountInfo.getIdentifier().getId())));
+
+        // Note: component5 is a shortcut to 'other-results' of the Vault.Page, this is where the sumTokenCriteria return value is.
+        List<Object> sum = getServiceHub().getVaultService().
+                queryBy(FungibleToken.class, queryCriteriaForTokenBalance.and(QueryUtilities.sumTokenCriteria())).component5();
+
         if(sum.size() == 0)
-            throw new FlowException(buyerAccountName + " has 0 token balance. Please ask the Bank to issue some cash.");
+            throw new FlowException(buyerAccountName + "has 0 token balance. Please ask the Bank to issue some cash.");
         else {
             Long tokenBalance = (Long) sum.get(0);
             if(tokenBalance < costOfTicket)
@@ -106,7 +114,7 @@ public class DVPAccountsHostedOnDifferentNodes extends FlowLogic<String> {
 
         //the tokens to move to new account which is the seller account
         Pair<AbstractParty, Amount<TokenType>> partyAndAmount = new Pair(sellerAccount, amount);
-
+        
         //let's use the DatabaseTokenSelection to get the tokens from the db
         DatabaseTokenSelection tokenSelection = new DatabaseTokenSelection(
                 getServiceHub(),
@@ -115,7 +123,7 @@ public class DVPAccountsHostedOnDifferentNodes extends FlowLogic<String> {
                 DatabaseSelectionConfigKt.RETRY_CAP_DEFAULT,
                 DatabaseSelectionConfigKt.PAGE_SIZE_DEFAULT
         );
-
+        
         //call generateMove which gives us 2 stateandrefs with tokens having new owner as seller.
         Pair<List<StateAndRef<FungibleToken>>, List<FungibleToken>> inputsAndOutputs =
                 tokenSelection.generateMove(Arrays.asList(partyAndAmount), buyerAccount, new TokenQueryBy(), getRunId().getUuid());
@@ -141,7 +149,7 @@ public class DVPAccountsHostedOnDifferentNodes extends FlowLogic<String> {
         //this is the handler for synckeymapping called by seller. seller must also have created some keys not known to us - buyer
         subFlow(new SyncKeyMappingFlowHandler(sellerSession));
 
-        //recieve the data from counter session in tx formatt.
+        //recieve the data from counter session in tx formatt. 
         subFlow(new SignTransactionFlow(sellerSession) {
             @Override
             protected void checkTransaction(@NotNull SignedTransaction stx) throws FlowException {
@@ -194,7 +202,7 @@ class DVPAccountsHostedOnDifferentNodesResponder extends FlowLogic<Void> {
         AnonymousParty buyerAccount = subFlow(new RequestKeyForAccount(buyerAccountInfo));
         AnonymousParty sellerAccount = subFlow(new RequestKeyForAccount(sellerAccountInfo));
 
-        //query for all tickets
+        //query for all tickets 
         QueryCriteria queryCriteriaForSellerTicketType = new QueryCriteria.VaultQueryCriteria()
                 .withExternalIds(Arrays.asList(sellerAccountInfo.getIdentifier().getId()))
                 .withStatus(Vault.StateStatus.UNCONSUMED);
@@ -240,10 +248,10 @@ class DVPAccountsHostedOnDifferentNodesResponder extends FlowLogic<Void> {
         TransactionBuilder transactionBuilder = new TransactionBuilder(notary);
 
         //part1 of DVP is to transfer the non fungible token from seller to buyer
-        MoveTokensUtilitiesKt.addMoveNonFungibleTokens(transactionBuilder, getServiceHub(), tokenPointer, buyerAccount);
+        MoveTokensUtilities.addMoveNonFungibleTokens(transactionBuilder, getServiceHub(), tokenPointer, buyerAccount);
 
         //part2 of DVP is to transfer cash - fungible token from buyer to seller and return the change to buyer
-        MoveTokensUtilitiesKt.addMoveTokens(transactionBuilder, inputs, moneyReceived);
+        MoveTokensUtilities.addMoveTokens(transactionBuilder, inputs, moneyReceived);
 
         //sync keys with buyer, again sync for similar members
 
