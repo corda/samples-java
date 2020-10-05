@@ -5,12 +5,8 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
     <changeSet author="R3.Corda" id="create_insurance_detail_state">
         <createTable tableName="insurance_detail">
-            <column name="output_index" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="transaction_id" type="NVARCHAR(64)">
-                <constraints nullable="false"/>
-            </column>
+            <column name="output_index" type="INT"/>
+            <column name="transaction_id" type="NVARCHAR(64)"/>
             <column name="policyNumber" type="NVARCHAR(64)"/>
             <column name="duration" type="int"/>
             <column name="premium" type="int"/>

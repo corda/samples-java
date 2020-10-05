@@ -52,6 +52,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
             adminAddress("localhost:10043")
         }
         cordapps = []
+	runSchemaMigration = true
     }
     node {
         name "O=PartyA,L=London,C=GB"
