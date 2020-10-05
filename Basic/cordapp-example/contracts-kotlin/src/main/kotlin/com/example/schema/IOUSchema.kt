@@ -6,7 +6,8 @@ import java.util.*
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Table
-
+//4.6 changes
+import org.hibernate.annotations.Type
 /**
  * The family of schemas for IOUState.
  */
@@ -19,6 +20,10 @@ object IOUSchemaV1 : MappedSchema(
         schemaFamily = IOUSchema.javaClass,
         version = 1,
         mappedTypes = listOf(PersistentIOU::class.java)) {
+
+    override val migrationResource: String?
+        get() = "iou.changelog-master";
+
     @Entity
     @Table(name = "iou_states")
     class PersistentIOU(
@@ -32,6 +37,7 @@ object IOUSchemaV1 : MappedSchema(
             var value: Int,
 
             @Column(name = "linear_id")
+            @Type(type = "uuid-char")
             var linearId: UUID
     ) : PersistentState() {
         // Default constructor required by hibernate.

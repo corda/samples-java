@@ -93,6 +93,7 @@ task deployNodesJava(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         }
         cordapp project(':contracts')
         cordapp project(':workflows')
+	runSchemaMigration = true
     }
     node {
         name "O=Notary,L=London,C=GB"
