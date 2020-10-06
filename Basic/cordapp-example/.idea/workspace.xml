@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e6586186-7087-4c1c-bbdb-87caeed821d7" name="Default Changelist" comment="" />
+    <list default="true" id="e6586186-7087-4c1c-bbdb-87caeed821d7" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/workflows-java/src/main/resources/migration/iou.changelog-master.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/workflows-java/src/main/resources/migration/iou.changelog-v1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/workflows-kotlin/src/main/resources/migration/iou.changelog-master.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/workflows-kotlin/src/main/resources/migration/iou.changelog-v1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../constants.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../constants.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contracts-java/src/main/java/com/example/schema/IOUSchemaV1.java" beforeDir="false" afterPath="$PROJECT_DIR$/contracts-java/src/main/java/com/example/schema/IOUSchemaV1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contracts-kotlin/src/main/kotlin/com/example/schema/IOUSchema.kt" beforeDir="false" afterPath="$PROJECT_DIR$/contracts-kotlin/src/main/kotlin/com/example/schema/IOUSchema.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/workflows-java/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/workflows-java/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/workflows-kotlin/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/workflows-kotlin/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../flow-database-access/workflows-java/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../flow-database-access/workflows-java/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../flow-http-access/workflows-java/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../flow-http-access/workflows-java/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Features/queryablestate-carinsurance/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../../Features/queryablestate-carinsurance/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Features/queryablestate-carinsurance/workflows/src/main/resources/migration/claim-detail.changelog-v1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Features/queryablestate-carinsurance/workflows/src/main/resources/migration/claim-detail.changelog-v1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Features/queryablestate-carinsurance/workflows/src/main/resources/migration/insurance-detail.changelog-v1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Features/queryablestate-carinsurance/workflows/src/main/resources/migration/insurance-detail.changelog-v1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Tokens/dollartohousetoken/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../../Tokens/dollartohousetoken/build.gradle" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

@@ -60,5 +60,6 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
                 "StartFlow.com.flowdb.UpdateTokenValueFlow",
                 "StartFlow.com.flowdb.QueryTokenValueFlow"
         ]]]
+	runSchemaMigration = true
     }
 }

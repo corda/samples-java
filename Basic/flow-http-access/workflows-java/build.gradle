@@ -47,6 +47,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
             adminAddress("localhost:10046")
         }
         cordapps = []
+	runSchemaMigration = true
         rpcUsers = [[ user: "user1", "password": "test", "permissions": ["StartFlow.com.flowhttp.HttpCallFlow"]]]
     }
 }

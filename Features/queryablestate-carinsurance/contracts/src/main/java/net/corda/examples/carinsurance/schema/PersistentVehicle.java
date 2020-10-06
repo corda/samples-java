@@ -5,6 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.UUID;
+//4.6 changes
+import org.hibernate.annotations.Type;
+
 
 /**
  * JPA Entity for saving vehicle details to the database table
@@ -13,7 +16,7 @@ import java.util.UUID;
 @Table(name = "VEHICLE_DETAIL")
 public class PersistentVehicle  {
 
-    @Id private final UUID id;
+    @Id @Type (type = "uuid-char") private final UUID id;
     @Column private final String registrationNumber;
     @Column private final String chasisNumber;
     @Column private final String make;

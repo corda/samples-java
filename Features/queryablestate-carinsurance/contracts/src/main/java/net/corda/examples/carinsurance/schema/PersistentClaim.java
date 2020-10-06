@@ -2,6 +2,8 @@ package net.corda.examples.carinsurance.schema;
 
 import javax.persistence.*;
 import java.util.UUID;
+//4.6 changes
+import org.hibernate.annotations.Type;
 
 
 /**
@@ -11,7 +13,7 @@ import java.util.UUID;
 @Table(name = "CLAIM_DETAIL")
 public class PersistentClaim {
 
-    @Id private final UUID id;
+    @Id @Type (type = "uuid-char") private final UUID id;
     @Column private final String claimNumber;
     @Column private final String claimDescription;
     @Column private final Integer claimAmount;

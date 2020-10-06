@@ -21,7 +21,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
             deploy = true
         }
         cordapp project(':contracts')
-
+	runSchemaMigration = true
         rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
     }
     node {

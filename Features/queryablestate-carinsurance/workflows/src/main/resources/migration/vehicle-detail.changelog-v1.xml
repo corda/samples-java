@@ -1,0 +1,20 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="R3.Corda" id="create_vehicle_detail_state">
+        <createTable tableName="vehicle_detail">
+
+            <column name="id" type="NVARCHAR(64)"/>
+            <column name="registrationNumber" type="NVARCHAR(64)"/>
+            <column name="chasisNumber" type="NVARCHAR(64)"/>
+            <column name="make" type="NVARCHAR(64)"/>
+            <column name="model" type="NVARCHAR(64)"/>
+            <column name="variant" type="NVARCHAR(64)"/>
+            <column name="color" type="NVARCHAR(64)"/>
+            <column name="fuelType" type="NVARCHAR(64)"/>
+
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

@@ -17,6 +17,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
             address("localhost:10006")
             adminAddress("localhost:10046")
         }
+	runSchemaMigration = true
         rpcUsers = [[user: "user1", "password": "test", "permissions": ["ALL"]]]
     }
     node {
@@ -26,6 +27,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
             address("localhost:10009")
             adminAddress("localhost:10049")
         }
+	runSchemaMigration = true
         rpcUsers = [[user: "user1", "password": "test", "permissions": ["ALL"]]]
     }
 }
