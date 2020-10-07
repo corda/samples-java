@@ -40,12 +40,25 @@ Then type: (to run the nodes)
 ./build/nodes/runnodes
 ```
 
+### Starting the webserver
+Once the nodes are up, we will start the webservers next. This app consists of three nodes and one notary, so we will be starting 3 webservers separately. First, lets start PartyA's webserver. Open a new tab of the terminal (make sure you are still in the project directory) and run:
+```
+./gradlew runPartyAServer
+```
+repeat the same for PartyB and PartyC, run each of the commands in a new tab:
+```
+./gradlew runPartyBServer
+```
+and
+```
+./gradlew runPartyCServer
+```
+
 ### Interacting with the CorDapp
 
-Once all the three nodes have started up (look for `Webserver started up in XXX sec` in the terminal or IntelliJ ), you can interact with the app via a web browser.
+Once all the three servers have started up (look for `Webserver started up in XXX sec` in the terminal), you can interact with the app via a web browser.
 * From a Node Driver configuration, look for `Starting webserver on address localhost:100XX` for the addresses.
 
 * From the terminal: Node A: `localhost:10009`, Node B: `localhost:10012`, Node C: `localhost:10015`.
 
 To access the front-end gui for each node, navigate to `localhost:XXXX/web/iou/`
-
