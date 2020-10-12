@@ -87,11 +87,12 @@ public class HouseSaleInitiatorFlow extends FlowLogic<String> {
         /* Call the CollectSignaturesFlow to receive signature of the buyer */
         SignedTransaction signedTransaction = subFlow(new CollectSignaturesFlow(initialSignedTrnx, ImmutableList.of(buyerSession)));
 
-        /* Distribution list is a list of identities that should receive updates. For this mechanism to behave correctly we call the UpdateDistributionListFlow flow */
-        subFlow(new UpdateDistributionListFlow(signedTransaction));
-
         /* Call finality flow to notarise the transaction */
         SignedTransaction stx = subFlow(new FinalityFlow(signedTransaction, ImmutableList.of(buyerSession)));
+
+        /* Distribution list is a list of identities that should receive updates. For this mechanism to behave correctly we call the UpdateDistributionListFlow flow */
+        subFlow(new UpdateDistributionListFlow(stx));
+
         return "\nThe house is sold to "+ this.buyer.getName().getOrganisation() + "\nTransaction ID: "
                 + stx.getId();
     }
