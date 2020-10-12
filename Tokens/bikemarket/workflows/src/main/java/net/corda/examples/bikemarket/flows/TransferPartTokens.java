@@ -67,10 +67,10 @@ public class TransferPartTokens {
                 SignedTransaction ptx = getServiceHub().signInitialTransaction(txBuilder);
                 SignedTransaction stx = subFlow(new CollectSignaturesFlow(ptx, Collections.singletonList(sellerSession)));
 
-                // Update the distribution list
-                subFlow(new UpdateDistributionListFlow(stx));
                 SignedTransaction ftx =  subFlow(new ObserverAwareFinalityFlow(stx, Collections.singletonList(sellerSession)));
 
+                // Update the distribution list
+                subFlow(new UpdateDistributionListFlow(stx));
                 return "Transfer ownership of the frame ("+this.frameModel+") to" +this.holder.getName().getOrganisation()
                         + "\nTransaction ID: " + ftx.getId();
 
