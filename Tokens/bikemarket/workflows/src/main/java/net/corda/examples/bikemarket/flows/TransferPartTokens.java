@@ -94,8 +94,11 @@ public class TransferPartTokens {
                 SignedTransaction stx = subFlow(new CollectSignaturesFlow(ptx, Collections.singletonList(sellerSession)));
 
                 // Update the distribution list
-                subFlow(new UpdateDistributionListFlow(stx));
                 SignedTransaction ftx =  subFlow(new ObserverAwareFinalityFlow(stx, Collections.singletonList(sellerSession)));
+
+                //Add the new token holder to the distribution list
+                subFlow(new UpdateDistributionListFlow(ftx));
+
                 return "Transfer ownership of the wheels (" +this.wheelModel+") to" +this.holder.getName().getOrganisation()
                         + "\nTransaction ID: " + ftx.getId();
             }

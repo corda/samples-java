@@ -73,8 +73,10 @@ public class TransferBikeTokens {
             SignedTransaction stx = subFlow(new CollectSignaturesFlow(ptx, Collections.singletonList(sellerSession)));
 
             // Update the distribution list
-            subFlow(new UpdateDistributionListFlow(stx));
             SignedTransaction ftx =  subFlow(new ObserverAwareFinalityFlow(stx, Collections.singletonList(sellerSession)));
+
+            //Add the new token holder to the distribution list
+            subFlow(new UpdateDistributionListFlow(ftx));
 
             return "\nTransfer ownership of a bike (Frame serial#: "+ this.frameModel + ", Wheels serial#: " + this.wheelsModel + ") to "
                     + this.holder.getName().getOrganisation() + "\nTransaction IDs: "
