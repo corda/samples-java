@@ -53,18 +53,18 @@ dependencies {
 
 task runPartyAServer(type: JavaExec, dependsOn: jar) {
     classpath = sourceSets.main.runtimeClasspath
-    main = 'net.corda.training.server.Server'
+    main = 'net.corda.samples.server.Server'
     args '--server.port=10009', '--config.rpc.host=localhost', '--config.rpc.port=10008', '--config.rpc.username=user1', '--config.rpc.password=password'
 }
 
 task runPartyBServer(type: JavaExec, dependsOn: jar) {
     classpath = sourceSets.main.runtimeClasspath
-    main = 'net.corda.training.server.Server'
+    main = 'net.corda.samples.server.Server'
     args '--server.port=10012', '--config.rpc.host=localhost', '--config.rpc.port=10011', '--config.rpc.username=user1', '--config.rpc.password=password'
 }
 
 task runPartyCServer(type: JavaExec, dependsOn: jar) {
     classpath = sourceSets.main.runtimeClasspath
-    main = 'net.corda.training.server.Server'
+    main = 'net.corda.samples.server.Server'
     args '--server.port=10015', '--config.rpc.host=localhost', '--config.rpc.port=10014', '--config.rpc.username=user1', '--config.rpc.password=password'
 }
