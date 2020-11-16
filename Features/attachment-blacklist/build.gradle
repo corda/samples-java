@@ -19,7 +19,7 @@ buildscript {
         mavenLocal()
         mavenCentral()
         jcenter()
-        maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda-releases' }
+        maven { url 'https://software.r3.com/artifactory/corda-releases' }
     }
 
     dependencies {
@@ -37,7 +37,7 @@ allprojects {
         jcenter()
         mavenCentral()
         maven { url 'https://jitpack.io' }
-        maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda' }
+        maven { url 'https://software.r3.com/artifactory/corda' }
         maven { url 'https://repo.gradle.org/gradle/libs-releases' }
     }
 
