@@ -2,7 +2,6 @@ package com.example.state;
 
 import com.example.contract.SanctionableIOUContract;
 import com.google.common.collect.ImmutableList;
-import jdk.nashorn.internal.ir.annotations.Immutable;
 import net.corda.core.contracts.BelongsToContract;
 import net.corda.core.contracts.LinearState;
 import net.corda.core.contracts.UniqueIdentifier;
