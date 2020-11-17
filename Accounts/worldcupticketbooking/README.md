@@ -77,7 +77,7 @@ You can see your ticket state generated via vault query at the BCCI'd node:
 
     start IssueNonFungibleTicketFlow tokenId : <XXX-XXX-XXXX-XXXXX>, dealerAccountName : agent1
 
-Run the above flow on BCCI's node to issue a non fungible token based off the token type which we created in Step5. You will need to replace the `<XXX-XXX-XXXX-XXXXX>` with the uuid returned from step 6. This token will be issued by the BCCI node to dealer1 account on Dealer1 node. 
+Run the above flow on BCCI's node to issue a non fungible token based off the token type which we created in Step5. You will need to replace the `<XXX-XXX-XXXX-XXXXX>` with the uuid returned from step 6. This token will be issued by the BCCI node to agent1 account on Dealer1 node. 
 Switching to the Dealer1's node, you can run the following code to confirm if the token has been issued to the dealer1 account. 
 ```
 flow start QuerybyAccount whoAmI: agent1
