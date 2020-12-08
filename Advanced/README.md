@@ -9,7 +9,7 @@ and [OwnableState](https://docs.corda.net/docs/corda-os/api-states.html#ownables
 
 ### [negotiation cordapp](./negotiation-cordapp):
 An application that depicts the businsess negotiation and communication process over a distributed ledger system.
-It consists of the proposing, negotiating, and settling a corda transaction.  
+IIt consists of the proposing, negotiating, and settling a corda transaction.  
 [<img src="../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Advanced/negotiation-cordapp)
 
 ### [obligation cordapp](./obligation-cordapp):
