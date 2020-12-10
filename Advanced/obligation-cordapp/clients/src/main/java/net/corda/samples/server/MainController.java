@@ -9,11 +9,11 @@ import net.corda.core.messaging.CordaRPCOps;
 import net.corda.core.node.NodeInfo;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.finance.contracts.asset.Cash;
-import net.corda.samples.flows.IOUIssueFlow;
-import net.corda.samples.flows.IOUSettleFlow;
-import net.corda.samples.flows.IOUTransferFlow;
-import net.corda.samples.flows.SelfIssueCashFlow;
-import net.corda.samples.states.IOUState;
+import net.corda.samples.obligation.flow.IOUIssueFlow;
+import net.corda.samples.obligation.flow.IOUSettleFlow;
+import net.corda.samples.obligation.flow.IOUTransferFlow;
+import net.corda.samples.obligation.flow.SelfIssueCashFlow;
+import net.corda.samples.obligation.state.IOUState;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
@@ -122,12 +122,12 @@ public class MainController {
         return proxy.notaryIdentities().toString();
     }
 
-    @GetMapping(value = "/flows", produces = TEXT_PLAIN_VALUE)
+    @GetMapping(value = "/flow", produces = TEXT_PLAIN_VALUE)
     private String flows() {
         return proxy.registeredFlows().toString();
     }
 
-    @GetMapping(value = "/states", produces = TEXT_PLAIN_VALUE)
+    @GetMapping(value = "/state", produces = TEXT_PLAIN_VALUE)
     private String states() {
         return proxy.vaultQuery(ContractState.class).getStates().toString();
     }

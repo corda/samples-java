@@ -1,26 +1,21 @@
-package net.corda.samples.flow;
+package net.corda.samples.obligation.flow;
 
-
-import net.corda.core.concurrent.CordaFuture;
+import net.corda.testing.node.*;
 import net.corda.core.contracts.Amount;
 import net.corda.core.contracts.CommandWithParties;
+import net.corda.core.concurrent.CordaFuture;
 import net.corda.core.identity.CordaX500Name;
 import net.corda.core.transactions.LedgerTransaction;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.finance.Currencies;
 import net.corda.finance.contracts.asset.Cash;
-import net.corda.testing.node.*;
-import net.corda.samples.contracts.IOUContract;
-import net.corda.samples.flows.IOUIssueFlow;
-import net.corda.samples.flows.IOUSettleFlow;
-import net.corda.samples.flows.SelfIssueCashFlow;
-import net.corda.samples.states.IOUState;
+import net.corda.samples.obligation.state.IOUState;
+import net.corda.samples.obligation.contract.IOUContract;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Currency;
@@ -29,23 +24,20 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
-import static net.corda.testing.node.NodeTestUtils.ledger;
-
 /**
  * Practical exercise instructions Flows part 3.
  * Uncomment the unit tests and use the hints + unit test body to complete the FLows such that the unit tests pass.
  */
-public class IOUSettleFlowTests{
+public class IOUSettleFlowTests {
 
     private MockNetwork mockNetwork;
     private StartedMockNode a, b, c;
 
     @Before
     public void setup() {
-
         MockNetworkParameters mockNetworkParameters = new MockNetworkParameters().withCordappsForAllNodes(
                 Arrays.asList(
-                        TestCordapp.findCordapp("net.corda.samples.contracts"),
+                        TestCordapp.findCordapp("net.corda.samples.obligation.contract"),
                         TestCordapp.findCordapp("net.corda.finance.schemas")
                 )
         ).withNotarySpecs(Arrays.asList(new MockNetworkNotarySpec(new CordaX500Name("Notary", "London", "GB"))));
@@ -96,10 +88,10 @@ public class IOUSettleFlowTests{
      * TODO: Grab the IOU for the given [linearId] from the vault, build and sign the settle transaction.
      * Hints:
      * - Use the code from the [IOUTransferFlow] to get the correct [IOUState] from the vault.
-     * - You will need to use the [Cash.generateSpend] functionality of the vault to add the cash states and cash command
+     * - You will need to use the [Cash.generateSpend] functionality of the vault to add the cash state and cash command
      *   to your transaction. The API is quite simple. It takes a reference to a [ServiceHub], [TransactionBuilder], an [Amount],
      *   our Identity as a [PartyAndCertificate], the [Party] object for the recipient, and a set of the spending parties.
-     *   The function will mutate your builder by adding the states and commands.
+     *   The function will mutate your builder by adding the state and commands.
      * - You then need to produce the output [IOUState] by using the [IOUState.pay] function.
      * - Add the input [IOUState] [StateAndRef] and the new output [IOUState] to the transaction.
      * - Sign the transaction and return it.
@@ -131,7 +123,7 @@ public class IOUSettleFlowTests{
                 assert (outputIOU.lender.equals(correctOutputIOU.lender));
                 assert (outputIOU.borrower.equals(correctOutputIOU.borrower));
 
-                // Sum all the output cash. This is complicated as there may be multiple cash output states with not all of them
+                // Sum all the output cash. This is complicated as there may be multiple cash output state with not all of them
                 // being assigned to the lender.
                 List<Cash.State> outputCash = ledgerTx.getOutputs().stream()
                         .map(state -> (Cash.State) state.getData())

@@ -1,16 +1,13 @@
-package net.corda.samples.state;
+package net.corda.samples.obligation.state;
 
 
+import net.corda.finance.*;
 import net.corda.core.contracts.*;
 import net.corda.core.identity.Party;
-import net.corda.finance.*;
-import static net.corda.samples.TestUtils.*;
-
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Constructor;
-
-import net.corda.samples.states.IOUState;
+import net.corda.samples.obligation.TestUtils;
+import org.junit.Assert;
 import org.junit.Test;
 import java.util.*;
 import static org.junit.Assert.*;
@@ -26,6 +23,8 @@ import static org.junit.Assert.*;
  * Continue until all the unit tests pass.
  * Hint: CMD / Ctrl + click on the brown type names in square brackets for that type's definition in the codebase.
  */
+
+
 public class IOUStateTests {
 
     /**
@@ -93,8 +92,8 @@ public class IOUStateTests {
      */
     @Test
     public void lenderIsParticipant() {
-        IOUState iouState = new IOUState(Currencies.POUNDS(0), ALICE.getParty(), BOB.getParty());
-        assertNotEquals(iouState.getParticipants().indexOf(ALICE.getParty()), -1);
+        IOUState iouState = new IOUState(Currencies.POUNDS(0), TestUtils.ALICE.getParty(), TestUtils.BOB.getParty());
+        assertNotEquals(iouState.getParticipants().indexOf(TestUtils.ALICE.getParty()), -1);
     }
 
     /**
@@ -103,8 +102,8 @@ public class IOUStateTests {
      */
     @Test
     public void borrowerIsParticipant() {
-        IOUState iouState = new IOUState(Currencies.POUNDS(0), ALICE.getParty(), BOB.getParty());
-        assertNotEquals(iouState.getParticipants().indexOf(BOB.getParty()), -1);
+        IOUState iouState = new IOUState(Currencies.POUNDS(0), TestUtils.ALICE.getParty(), TestUtils.BOB.getParty());
+        assertNotEquals(iouState.getParticipants().indexOf(TestUtils.BOB.getParty()), -1);
     }
 
     /**
@@ -177,7 +176,7 @@ public class IOUStateTests {
      */
     @Test
     public void checkPayHelperMethod() {
-        IOUState iou = new IOUState(Currencies.DOLLARS(10), ALICE.getParty(), BOB.getParty());
+        IOUState iou = new IOUState(Currencies.DOLLARS(10), TestUtils.ALICE.getParty(), TestUtils.BOB.getParty());
         assertEquals(Currencies.DOLLARS(5), iou.pay(Currencies.DOLLARS(5)).getPaid());
         assertEquals(Currencies.DOLLARS(3), iou.pay(Currencies.DOLLARS(1)).pay(Currencies.DOLLARS(2)).getPaid());
         assertEquals(Currencies.DOLLARS(10), iou.pay(Currencies.DOLLARS(5)).pay(Currencies.DOLLARS(3)).pay(Currencies.DOLLARS(2)).getPaid());
@@ -190,9 +189,9 @@ public class IOUStateTests {
      */
     @Test
     public void checkWithNewLenderHelperMethod() {
-        IOUState iou = new IOUState(Currencies.DOLLARS(10), ALICE.getParty(), BOB.getParty());
-        assertEquals(MINICORP.getParty(), iou.withNewLender(MINICORP.getParty()).getLender());
-        assertEquals(MEGACORP.getParty(), iou.withNewLender(MEGACORP.getParty()).getLender());
+        IOUState iou = new IOUState(Currencies.DOLLARS(10), TestUtils.ALICE.getParty(), TestUtils.BOB.getParty());
+        Assert.assertEquals(TestUtils.MINICORP.getParty(), iou.withNewLender(TestUtils.MINICORP.getParty()).getLender());
+        Assert.assertEquals(TestUtils.MEGACORP.getParty(), iou.withNewLender(TestUtils.MEGACORP.getParty()).getLender());
     }
 
     /**
@@ -202,13 +201,13 @@ public class IOUStateTests {
      */
     @Test
     public void correctConstructorsExist() {
-        // Public constructor for new states
+        // Public constructor for new state
         try {
             Constructor<IOUState> contructor = IOUState.class.getConstructor(Amount.class, Party.class, Party.class);
         } catch( NoSuchMethodException nsme ) {
             fail("The correct public constructor does not exist!");
         }
-        // Private constructor for updating states
+        // Private constructor for updating state
         try {
             Constructor<IOUState> contructor = IOUState.class.getDeclaredConstructor(Amount.class, Party.class, Party.class, Amount.class, UniqueIdentifier.class);
         } catch( NoSuchMethodException nsme ) {

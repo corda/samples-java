@@ -1,4 +1,4 @@
-package net.corda.samples.flows;
+package net.corda.samples.obligation.flow;
 
 import co.paralleluniverse.fibers.Suspendable;
 import net.corda.core.contracts.Command;
@@ -7,7 +7,7 @@ import net.corda.core.contracts.StateAndRef;
 import net.corda.core.crypto.SecureHash;
 import net.corda.core.flows.*;
 import net.corda.core.utilities.ProgressTracker;
-import net.corda.samples.contracts.IOUContract.Commands.Transfer;
+import net.corda.samples.obligation.contract.IOUContract.Commands.Transfer;
 import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.identity.AbstractParty;
 import net.corda.core.identity.Party;
@@ -15,8 +15,8 @@ import net.corda.core.node.services.Vault;
 import net.corda.core.node.services.vault.QueryCriteria;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
-import net.corda.samples.contracts.IOUContract;
-import net.corda.samples.states.IOUState;
+import net.corda.samples.obligation.contract.IOUContract;
+import net.corda.samples.obligation.state.IOUState;
 import org.jetbrains.annotations.NotNull;
 
 import java.security.PublicKey;
@@ -90,7 +90,7 @@ public class IOUTransferFlow{
             // 5. Add the command to the transaction using the TransactionBuilder.
             tb.addCommand(command);
 
-            // 6. Add input and output states to flow using the TransactionBuilder.
+            // 6. Add input and output state to flow using the TransactionBuilder.
             tb.addInputState(inputStateAndRefToTransfer);
             tb.addOutputState(inputStateToTransfer.withNewLender(newLender), IOUContract.IOU_CONTRACT_ID);
 

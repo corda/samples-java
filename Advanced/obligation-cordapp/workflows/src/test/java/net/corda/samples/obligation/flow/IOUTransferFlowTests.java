@@ -1,4 +1,4 @@
-package net.corda.samples.flow;
+package net.corda.samples.obligation.flow;
 
 import net.corda.core.concurrent.CordaFuture;
 import net.corda.core.contracts.Command;
@@ -8,13 +8,10 @@ import net.corda.core.identity.Party;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.finance.Currencies;
 import net.corda.testing.node.*;
-import net.corda.samples.contracts.IOUContract;
-import net.corda.samples.flows.IOUIssueFlow;
-import net.corda.samples.flows.IOUTransferFlow;
-import net.corda.samples.states.IOUState;
+import net.corda.samples.obligation.state.IOUState;
+import net.corda.samples.obligation.contract.IOUContract;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
@@ -29,7 +26,7 @@ public class IOUTransferFlowTests {
     public void setup() {
         MockNetworkParameters mockNetworkParameters = new MockNetworkParameters().withCordappsForAllNodes(
                 Arrays.asList(
-                        TestCordapp.findCordapp("net.corda.samples.contracts")
+                        TestCordapp.findCordapp("net.corda.samples.obligation.contract")
                 )
         ).withNotarySpecs(Arrays.asList(new MockNetworkNotarySpec(new CordaX500Name("Notary", "London", "GB"))));
         mockNetwork = new MockNetwork(mockNetworkParameters);
@@ -72,8 +69,8 @@ public class IOUTransferFlowTests {
      * Hint:
      * - This flow will look similar to the [IOUIssueFlow].
      * - This time our transaction has an input state, so we need to retrieve it from the vault!
-     * - You can use the [getServiceHub().getVaultService().queryBy(Class, queryCriteria)] method to get the latest linear states of a particular
-     *   type from the vault. It returns a list of states matching your query.
+     * - You can use the [getServiceHub().getVaultService().queryBy(Class, queryCriteria)] method to get the latest linear state of a particular
+     *   type from the vault. It returns a list of state matching your query.
      * - Use the [UniqueIdentifier] which is passed into the flow to create the appropriate Query Criteria.
      * - Use the [IOUState.withNewLender] method to create a copy of the state with a new lender.
      * - Create a Command - we will need to use the Transfer command.

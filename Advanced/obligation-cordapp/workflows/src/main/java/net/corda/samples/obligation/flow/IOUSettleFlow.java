@@ -1,4 +1,4 @@
-package net.corda.samples.flows;
+package net.corda.samples.obligation.flow;
 
 import co.paralleluniverse.fibers.Suspendable;
 import net.corda.confidential.IdentitySyncFlow;
@@ -16,8 +16,8 @@ import net.corda.finance.contracts.asset.Cash;
 import net.corda.finance.flows.AbstractCashFlow;
 import net.corda.finance.flows.CashIssueFlow;
 import net.corda.finance.workflows.asset.CashUtils;
-import net.corda.samples.contracts.IOUContract;
-import net.corda.samples.states.IOUState;
+import net.corda.samples.obligation.contract.IOUContract;
+import net.corda.samples.obligation.state.IOUState;
 
 import java.lang.IllegalArgumentException;
 import java.security.PublicKey;
@@ -87,7 +87,7 @@ public class IOUSettleFlow {
             }
 
             // Step 5. Get some cash from the vault and add a spend to our transaction builder.
-            // Vault might contain states "owned" by anonymous parties. This is one of techniques to anonymize transactions
+            // Vault might contain state "owned" by anonymous parties. This is one of techniques to anonymize transactions
             // generateSpend returns all public keys which have to be used to sign transaction
             List<PublicKey> keyList = CashUtils.generateSpend(getServiceHub(), tb, amount, getOurIdentityAndCert(), counterparty).getSecond();
 

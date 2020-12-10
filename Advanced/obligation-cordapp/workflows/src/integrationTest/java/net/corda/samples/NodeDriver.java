@@ -35,7 +35,7 @@ public class NodeDriver {
                 // From each node, make an RPC call to retrieve another node's name from the network map, to verify that the
                 // nodes have started and can communicate.
 
-                // This is a very basic test: in practice tests would be starting flows, and verifying the states in the vault
+                // This is a very basic test: in practice tests would be starting flow, and verifying the state in the vault
                 // and other important metrics to ensure that your CorDapp is working as intended.
                 assertEquals(partyAHandle.getRpc().wellKnownPartyFromX500Name(bankB.getName()).getName(), bankB.getName());
                 assertEquals(partyBHandle.getRpc().wellKnownPartyFromX500Name(bankA.getName()).getName(), bankA.getName());

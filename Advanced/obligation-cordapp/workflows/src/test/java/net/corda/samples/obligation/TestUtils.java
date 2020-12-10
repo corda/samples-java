@@ -1,4 +1,4 @@
-package net.corda.samples;
+package net.corda.samples.obligation;
 
 import net.corda.core.identity.CordaX500Name;
 import net.corda.testing.core.TestIdentity;

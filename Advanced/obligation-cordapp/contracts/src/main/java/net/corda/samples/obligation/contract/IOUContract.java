@@ -1,4 +1,4 @@
-package net.corda.samples.contracts;
+package net.corda.samples.obligation.contract;
 
 import net.corda.core.contracts.*;
 
@@ -9,7 +9,7 @@ import net.corda.core.identity.AbstractParty;
 import net.corda.core.identity.Party;
 import net.corda.core.transactions.LedgerTransaction;
 import net.corda.finance.contracts.asset.Cash;
-import net.corda.samples.states.IOUState;
+import net.corda.samples.obligation.state.IOUState;
 
 import java.security.PublicKey;
 import java.util.*;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 @LegalProseReference(uri = "<prose_contract_uri>")
 public class IOUContract implements Contract {
-    public static final String IOU_CONTRACT_ID = "net.corda.samples.contracts.IOUContract";
+    public static final String IOU_CONTRACT_ID = "net.corda.samples.obligation.contract.IOUContract";
 
     /**
      * The IOUContract can handle three transaction types involving [IOUState]s.
@@ -123,7 +123,7 @@ public class IOUContract implements Contract {
                 List<LedgerTransaction.InOutGroup<IOUState, UniqueIdentifier>> groups = tx.groupStates(IOUState.class, IOUState::getLinearId);
                 require.using("There must be one input IOU.", groups.get(0).getInputs().size() > 0);
 
-                // Check that there are output cash states.
+                // Check that there are output cash state.
                 List<Cash.State> allOutputCash = tx.outputsOfType(Cash.State.class);
                 require.using("There must be output cash.", !allOutputCash.isEmpty());
 

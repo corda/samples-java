@@ -1,4 +1,4 @@
-package net.corda.samples.states;
+package net.corda.samples.obligation.state;
 
 import net.corda.core.contracts.*;
 import net.corda.core.identity.Party;
@@ -7,7 +7,7 @@ import net.corda.core.identity.AbstractParty;
 import java.util.*;
 import com.google.common.collect.ImmutableList;
 import net.corda.core.serialization.ConstructorForDeserialization;
-import net.corda.samples.contracts.IOUContract;
+import net.corda.samples.obligation.contract.IOUContract;
 
 /**
  * The IOU State object, with the following properties:
@@ -16,7 +16,7 @@ import net.corda.samples.contracts.IOUContract;
  * - [borrower] The borrowing party.
  * - [contract] Holds a reference to the [IOUContract]
  * - [paid] Records how much of the [amount] has been paid.
- * - [linearId] A unique id shared by all LinearState states representing the same agreement throughout history within
+ * - [linearId] A unique id shared by all LinearState state representing the same agreement throughout history within
  *   the vaults of all parties. Verify methods should check that one input and one output share the id in a transaction,
  *   except at issuance/termination.
  */

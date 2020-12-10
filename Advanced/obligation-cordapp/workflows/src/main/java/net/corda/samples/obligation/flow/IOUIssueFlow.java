@@ -1,4 +1,4 @@
-package net.corda.samples.flows;
+package net.corda.samples.obligation.flow;
 
 import co.paralleluniverse.fibers.Suspendable;
 import java.util.List;
@@ -15,9 +15,9 @@ import net.corda.core.transactions.TransactionBuilder;
 import static net.corda.core.contracts.ContractsDSL.requireThat;
 import net.corda.core.utilities.ProgressTracker;
 
-import net.corda.samples.contracts.IOUContract;
-import net.corda.samples.states.IOUState;
-import static net.corda.samples.contracts.IOUContract.Commands.*;
+import net.corda.samples.obligation.contract.IOUContract;
+import net.corda.samples.obligation.state.IOUState;
+import static net.corda.samples.obligation.contract.IOUContract.Commands.*;
 
 /**
  * This is the flow which handles issuance of new IOUs on the ledger.

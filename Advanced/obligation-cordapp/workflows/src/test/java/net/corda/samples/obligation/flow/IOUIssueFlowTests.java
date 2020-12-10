@@ -1,29 +1,22 @@
-package net.corda.samples.flow;
-
+package net.corda.samples.obligation.flow;
 
 import net.corda.core.contracts.Command;
 import net.corda.core.contracts.TransactionVerificationException;
 import net.corda.core.identity.CordaX500Name;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.finance.*;
+import net.corda.samples.obligation.state.IOUState;
+import net.corda.samples.obligation.contract.IOUContract;
 import net.corda.testing.node.*;
 import net.corda.core.identity.Party;
 import net.corda.core.crypto.SecureHash;
 import net.corda.core.flows.*;
 import net.corda.core.transactions.TransactionBuilder;
-
-
-import net.corda.samples.contracts.IOUContract;
-import net.corda.samples.flows.IOUIssueFlow;
-import net.corda.samples.states.IOUState;
-
 import java.util.stream.Collectors;
 import java.util.concurrent.Future;
 import java.util.*;
-
 import org.junit.*;
 import org.junit.rules.ExpectedException;
-
 import static org.junit.Assert.*;
 import static org.hamcrest.core.IsInstanceOf.*;
 
@@ -40,7 +33,7 @@ public class IOUIssueFlowTests {
     public void setup() {
         MockNetworkParameters mockNetworkParameters = new MockNetworkParameters().withCordappsForAllNodes(
                 Arrays.asList(
-                        TestCordapp.findCordapp("net.corda.samples.contracts")
+                        TestCordapp.findCordapp("net.corda.samples.obligation.contract")
                 )
         ).withNotarySpecs(Arrays.asList(new MockNetworkNotarySpec(new CordaX500Name("Notary", "London", "GB"))));
         mockNetwork = new MockNetwork(mockNetworkParameters);
