@@ -1,5 +1,4 @@
-package net.corda.samples;
-
+package net.corda.samples.auction.flows;
 
 import com.google.common.collect.ImmutableList;
 import net.corda.core.concurrent.CordaFuture;
@@ -15,7 +14,7 @@ import java.util.List;
 import static net.corda.testing.driver.Driver.driver;
 import static org.junit.Assert.assertEquals;
 
-public class NodeDriver {
+public class DriverBasedTest {
     private final TestIdentity bankA = new TestIdentity(new CordaX500Name("BankA", "", "GB"));
     private final TestIdentity bankB = new TestIdentity(new CordaX500Name("BankB", "", "US"));
 
