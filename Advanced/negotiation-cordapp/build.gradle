@@ -3,7 +3,6 @@ buildscript {
     file("$projectDir/../constants.properties").withInputStream { constants.load(it) }
 
     ext {
-
         corda_release_group = constants.getProperty("cordaReleaseGroup")
         corda_core_release_group =  constants.getProperty("cordaCoreReleaseGroup")
         corda_release_version = constants.getProperty("cordaVersion")
@@ -21,12 +20,15 @@ buildscript {
     }
 
     repositories {
+        jcenter()
         mavenLocal()
         mavenCentral()
-        jcenter()
-        maven { url 'http://software.r3.com/artifactory/corda-lib-dev' }
-        maven { url 'http://software.r3.com/artifactory/corda-lib' }
+
         maven { url 'https://software.r3.com/artifactory/corda' }
+        maven { url 'http://software.r3.com/artifactory/corda-lib' }
+        maven { url 'http://software.r3.com/artifactory/corda-lib-dev' }
+        maven { url 'https://software.r3.com/artifactory/corda-releases' }
+
         // Corda dependencies for the patched Quasar version
         maven { url "https://software.r3.com/artifactory/corda-dependencies" } // access to the patched Quasar version
     }
@@ -36,7 +38,6 @@ buildscript {
         classpath "net.corda.plugins:cordformation:$corda_gradle_plugins_version"
         classpath "net.corda.plugins:quasar-utils:$corda_gradle_plugins_version"
         classpath "org.springframework.boot:spring-boot-gradle-plugin:$spring_boot_gradle_plugin_version"
-
     }
 }
 
@@ -155,3 +156,9 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
     }
 }
 
+task installQuasar(type: Copy) {
+    destinationDir rootProject.file("lib")
+    from(configurations.quasar) {
+        rename 'quasar-core(.*).jar', 'quasar.jar'
+    }
+}

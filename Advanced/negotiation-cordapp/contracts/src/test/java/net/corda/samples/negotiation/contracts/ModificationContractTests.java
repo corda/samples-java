@@ -1,8 +1,8 @@
-package negotiation.contracts;
+package net.corda.samples.negotiation.contracts;
 
 import com.google.common.collect.ImmutableList;
-import negotiation.states.ProposalState;
-import negotiation.states.TradeState;
+import net.corda.samples.negotiation.states.ProposalState;
+import net.corda.samples.negotiation.states.TradeState;
 import net.corda.testing.core.DummyCommandData;
 import net.corda.testing.core.TestIdentity;
 import net.corda.testing.node.MockServices;
@@ -13,6 +13,7 @@ import java.time.Instant;
 import static net.corda.testing.node.NodeTestUtils.ledger;
 
 public class ModificationContractTests {
+
     private MockServices ledgerServices = new MockServices(ImmutableList.of("negotiation.contracts"));
     private TestIdentity alice = new TestIdentity(new net.corda.core.identity.CordaX500Name("alice","New York", "US"));
     private TestIdentity bob = new TestIdentity(new net.corda.core.identity.CordaX500Name("bob","Tokyo", "JP"));

@@ -1,8 +1,8 @@
-package negotiation.flows;
+package net.corda.samples.negotiation.flows;
 
 import com.google.common.collect.ImmutableList;
-import negotiation.states.ProposalState;
-import negotiation.states.TradeState;
+import net.corda.samples.negotiation.states.ProposalState;
+import net.corda.samples.negotiation.states.TradeState;
 import net.corda.core.contracts.StateAndRef;
 import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.identity.Party;

@@ -1,9 +1,9 @@
-package negotiation.flows;
+package net.corda.samples.negotiation.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import com.google.common.collect.ImmutableList;
-import negotiation.contracts.ProposalAndTradeContract;
-import negotiation.states.ProposalState;
+import net.corda.samples.negotiation.contracts.ProposalAndTradeContract;
+import net.corda.samples.negotiation.states.ProposalState;
 import net.corda.core.contracts.Command;
 import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.crypto.SecureHash;
