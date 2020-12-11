@@ -20,10 +20,10 @@ abstract class FlowTestsBase {
     protected StartedMockNode b;
 
     @Before
-    public void setup(){
+    public void setup() {
         network = new MockNetwork(new MockNetworkParameters(ImmutableList.of(
-                TestCordapp.findCordapp("negotiation.flows"),
-                TestCordapp.findCordapp("negotiation.contracts")
+                TestCordapp.findCordapp("net.corda.samples.negotiation.flows"),
+                TestCordapp.findCordapp("net.corda.samples.negotiation.contracts")
         )
         ));
         a = network.createPartyNode(null);
