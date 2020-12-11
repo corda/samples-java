@@ -1,7 +1,7 @@
-package negotiation.states;
+package net.corda.samples.negotiation.states;
 
 import com.google.common.collect.ImmutableList;
-import negotiation.contracts.ProposalAndTradeContract;
+import net.corda.samples.negotiation.contracts.ProposalAndTradeContract;
 import net.corda.core.contracts.BelongsToContract;
 import net.corda.core.contracts.LinearState;
 import net.corda.core.contracts.UniqueIdentifier;

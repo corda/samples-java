@@ -1,16 +1,17 @@
-package negotiation.contracts;
+package net.corda.samples.negotiation.contracts;
 
 import com.google.common.collect.ImmutableSet;
-import negotiation.states.ProposalState;
-import negotiation.states.TradeState;
+import net.corda.samples.negotiation.states.ProposalState;
+import net.corda.samples.negotiation.states.TradeState;
 import net.corda.core.contracts.CommandData;
 import net.corda.core.contracts.CommandWithParties;
 import net.corda.core.contracts.Contract;
 import net.corda.core.transactions.LedgerTransaction;
+
 import static net.corda.core.contracts.ContractsDSL.requireThat;
 
 public class ProposalAndTradeContract implements Contract {
-    public static String ID = "negotiation.contracts.ProposalAndTradeContract";
+    public static String ID = "ProposalAndTradeContract";
     @Override
     public void verify(LedgerTransaction tx) throws IllegalArgumentException {
         final CommandWithParties command = tx.getCommands().get(0);

@@ -1,4 +1,4 @@
-package negotiation.flows;
+package net.corda.samples.negotiation.flows;
 
 import com.google.common.collect.ImmutableList;
 import net.corda.core.contracts.UniqueIdentifier;
