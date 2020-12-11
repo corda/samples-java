@@ -10,7 +10,7 @@ import org.junit.Test;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class ProposalFlowTests extends FlowTestsBase {
+public class ProposalFlowTests extends FlowTestBase {
 
     @Test
     public void proposalFlowCreatesTheCorrectProposalsInBothNodesVaultsWhenInitiatorIsBuyer() throws ExecutionException, InterruptedException {
@@ -22,12 +22,11 @@ public class ProposalFlowTests extends FlowTestsBase {
         testProposal(false);
     }
 
-
     private void testProposal(Boolean isBuyer) throws ExecutionException, InterruptedException {
         int amount = 1;
         Party counterparty = b.getInfo().getLegalIdentitiesAndCerts().get(0).getParty();
         nodeACreatesProposal(isBuyer, amount, counterparty);
-        ImmutableList.of(a,b).forEach(node -> {
+        ImmutableList.of(a, b).forEach(node -> {
             node.transaction(() -> {
                 List<StateAndRef<ProposalState>> proposals = node.getServices().getVaultService().queryBy(ProposalState.class).getStates();
                 Assert.assertEquals(1, proposals.size());
@@ -38,10 +37,10 @@ public class ProposalFlowTests extends FlowTestsBase {
                 Party buyer;
                 Party seller;
 
-                if(isBuyer){
+                if (isBuyer) {
                     buyer = a.getInfo().getLegalIdentitiesAndCerts().get(0).getParty();
                     seller = b.getInfo().getLegalIdentitiesAndCerts().get(0).getParty();
-                }else{
+                } else {
                     seller = a.getInfo().getLegalIdentitiesAndCerts().get(0).getParty();
                     buyer = b.getInfo().getLegalIdentitiesAndCerts().get(0).getParty();
                 }

@@ -11,12 +11,13 @@ import net.corda.core.transactions.LedgerTransaction;
 import static net.corda.core.contracts.ContractsDSL.requireThat;
 
 public class ProposalAndTradeContract implements Contract {
-    public static String ID = "ProposalAndTradeContract";
+    public static String ID = "net.corda.samples.negotiation.contracts.ProposalAndTradeContract";
+
     @Override
     public void verify(LedgerTransaction tx) throws IllegalArgumentException {
         final CommandWithParties command = tx.getCommands().get(0);
 
-        if( command.getValue() instanceof  Commands.Propose) {
+        if (command.getValue() instanceof Commands.Propose) {
             requireThat(require -> {
                 require.using("There are no inputs", tx.getInputs().isEmpty());
                 require.using("Only one output state should be created.", tx.getOutputs().size() == 1);
@@ -29,7 +30,7 @@ public class ProposalAndTradeContract implements Contract {
                 require.using("The proposee is a required signer", command.getSigners().contains(output.getProposee().getOwningKey()));
                 return null;
             });
-        }else if(command.getValue() instanceof Commands.Accept){
+        } else if (command.getValue() instanceof Commands.Accept) {
             requireThat(require -> {
                 require.using("There is exactly one input", tx.getInputStates().size() == 1);
                 require.using("The single input is of type ProposalState", tx.inputsOfType(ProposalState.class).size() == 1);
@@ -49,8 +50,8 @@ public class ProposalAndTradeContract implements Contract {
                 require.using("The proposee is a required signer", command.getSigners().contains(input.getProposee().getOwningKey()));
                 return null;
             });
-        }else if(command.getValue() instanceof Commands.Modify){
-            requireThat(require ->{
+        } else if (command.getValue() instanceof Commands.Modify) {
+            requireThat(require -> {
                 require.using("There is exactly one input", tx.getInputStates().size() == 1);
                 require.using("The single input is of type ProposalState", tx.inputsOfType(ProposalState.class).size() == 1);
                 require.using("There is exactly one output", tx.getOutputs().size() == 1);
@@ -70,7 +71,7 @@ public class ProposalAndTradeContract implements Contract {
                 return null;
 
             });
-        }else{
+        } else {
             throw new IllegalArgumentException("Command of incorrect type");
         }
 
@@ -78,8 +79,19 @@ public class ProposalAndTradeContract implements Contract {
 
 
     public interface Commands extends CommandData {
-        class Propose implements Commands{};
-        class Accept implements Commands{};
-        class Modify implements Commands{};
+        class Propose implements Commands {
+        }
+
+        ;
+
+        class Accept implements Commands {
+        }
+
+        ;
+
+        class Modify implements Commands {
+        }
+
+        ;
     }
 }

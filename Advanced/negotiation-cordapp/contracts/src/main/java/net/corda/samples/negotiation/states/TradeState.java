@@ -51,6 +51,6 @@ public class TradeState implements LinearState {
 
     @Override
     public List<AbstractParty> getParticipants() {
-        return ImmutableList.of(buyer,seller);
+        return ImmutableList.of(buyer, seller);
     }
 }

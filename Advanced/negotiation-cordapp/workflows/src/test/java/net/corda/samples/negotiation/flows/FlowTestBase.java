@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-abstract class FlowTestsBase {
+abstract class FlowTestBase {
     protected MockNetwork network;
     protected StartedMockNode a;
     protected StartedMockNode b;

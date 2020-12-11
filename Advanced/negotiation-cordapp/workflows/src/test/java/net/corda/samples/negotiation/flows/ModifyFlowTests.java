@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-public class ModifyFlowTests extends FlowTestsBase {
+public class ModifyFlowTests extends FlowTestBase {
 
     @Test
     public void modificationFlowConsumesTheProposalsInBothNodesVaultsAndReplacesWithEquivWithNEwAmountsWhenInitiatorISBuyer() throws ExecutionException, InterruptedException {

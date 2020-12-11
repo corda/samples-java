@@ -14,7 +14,7 @@ import static net.corda.testing.node.NodeTestUtils.ledger;
 
 public class AcceptanceContractTests {
 
-    private MockServices ledgerServices = new MockServices(ImmutableList.of("negotiation.contracts"));
+    private MockServices ledgerServices = new MockServices(ImmutableList.of("net.corda.samples.negotiation.contracts"));
     private TestIdentity alice = new TestIdentity(new net.corda.core.identity.CordaX500Name("alice","New York", "US"));
     private TestIdentity bob = new TestIdentity(new net.corda.core.identity.CordaX500Name("bob","Tokyo", "JP"));
     private TestIdentity charlie = new TestIdentity(new net.corda.core.identity.CordaX500Name("charlie","London", "GB"));
