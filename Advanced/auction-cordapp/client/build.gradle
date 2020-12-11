@@ -38,5 +38,5 @@ springBoot {
 
 task runAuctionClient(type: JavaExec, dependsOn: assemble) {
     classpath = sourceSets.main.runtimeClasspath
-    main = 'net.corda.samples.client.Starter'
+    main = 'net.corda.samples.auction.client.Starter'
 }
