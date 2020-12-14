@@ -1,11 +1,11 @@
-package net.corda.examples.bikemarket.flows;
+package net.corda.samples.bikemarket.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import com.r3.corda.lib.tokens.contracts.types.TokenPointer;
 import com.r3.corda.lib.tokens.workflows.flows.rpc.RedeemNonFungibleTokens;
 import com.r3.corda.lib.tokens.workflows.flows.rpc.RedeemNonFungibleTokensHandler;
-import net.corda.examples.bikemarket.states.FrameTokenState;
-import net.corda.examples.bikemarket.states.WheelsTokenState;
+import net.corda.samples.bikemarket.states.FrameTokenState;
+import net.corda.samples.bikemarket.states.WheelsTokenState;
 import net.corda.core.contracts.StateAndRef;
 import net.corda.core.flows.*;
 import net.corda.core.identity.Party;
@@ -22,17 +22,17 @@ public class TotalParts {
     @StartableByRPC
     public static class TotalPart extends FlowLogic<String> {
 
-        private String frameModel;
-        private String wheelModel;
+        private String frameSerial;
+        private String wheelsSerial;
         private boolean frame = false;
 
 
         public TotalPart(String part, String serialNumber) {
             if (part.equals("frame")) {
                 this.frame = true;
-                this.frameModel = serialNumber;
+                this.frameSerial = serialNumber;
             } else {
-                this.wheelModel = serialNumber;
+                this.wheelsSerial = serialNumber;
             }
         }
 
@@ -43,8 +43,8 @@ public class TotalParts {
             if (frame) {
                 StateAndRef<FrameTokenState> frameStateAndRef = getServiceHub().getVaultService().
                         queryBy(FrameTokenState.class).getStates().stream()
-                        .filter(sf -> sf.getState().getData().getModelNum().equals(this.frameModel)).findAny()
-                        .orElseThrow(() -> new IllegalArgumentException("StockState symbol=\"" + this.frameModel + "\" not found from vault"));
+                        .filter(sf -> sf.getState().getData().getserialNum().equals(this.frameSerial)).findAny()
+                        .orElseThrow(() -> new IllegalArgumentException("wheel token with serial=" + this.frameSerial + " not found from vault"));
 
                 //get the TokenType object
                 FrameTokenState frametokentype = frameStateAndRef.getState().getData();
@@ -59,9 +59,8 @@ public class TotalParts {
             } else {
                 //Step 2: Wheels Token
                 StateAndRef<WheelsTokenState> wheelStateStateAndRef = getServiceHub().getVaultService().
-                        queryBy(WheelsTokenState.class).getStates().stream().filter(sf -> sf.getState().getData().getModelNum().equals(this.wheelModel)).findAny()
-                        .orElseThrow(() -> new IllegalArgumentException("StockState symbol=\""
-                                + this.wheelModel + "\" not found from vault"));
+                        queryBy(WheelsTokenState.class).getStates().stream().filter(sf -> sf.getState().getData().getserialNum().equals(this.wheelsSerial)).findAny()
+                        .orElseThrow(() -> new IllegalArgumentException("wheel token with serial=" + this.wheelsSerial + " not found from vault"));
 
                 //get the TokenType object
                 WheelsTokenState wheeltokentype = wheelStateStateAndRef.getState().getData();

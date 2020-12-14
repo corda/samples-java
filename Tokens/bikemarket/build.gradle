@@ -73,15 +73,6 @@ apply plugin: 'net.corda.plugins.cordapp'
 apply plugin: 'net.corda.plugins.cordformation'
 apply plugin: 'net.corda.plugins.quasar-utils'
 
-cordapp {
-    info {
-        name "CorDapp bikemarket"
-        vendor "Corda Open Source"
-        targetPlatformVersion corda_platform_version.toInteger()
-        minimumPlatformVersion corda_platform_version.toInteger()
-    }
-}
-
 sourceSets {
     main {
         resources {
@@ -115,14 +106,7 @@ dependencies {
     cordapp "$confidential_id_release_group:ci-workflows:$confidential_id_release_version"
 
 }
-cordapp {
-    info {
-        name "CorDapp Template"
-        vendor "Corda Open Source"
-        targetPlatformVersion corda_platform_version
-        minimumPlatformVersion corda_platform_version
-    }
-}
+
 task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
     nodeDefaults {
         projectCordapp {

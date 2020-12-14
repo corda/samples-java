@@ -1,17 +1,15 @@
-package net.corda.examples.bikemarket.flows;
+package net.corda.samples.bikemarket.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import com.r3.corda.lib.tokens.contracts.types.TokenPointer;
 import com.r3.corda.lib.tokens.workflows.flows.move.MoveTokensUtilities;
-import com.r3.corda.lib.tokens.workflows.flows.rpc.MoveNonFungibleTokens;
 import com.r3.corda.lib.tokens.workflows.flows.rpc.MoveNonFungibleTokensHandler;
 import com.r3.corda.lib.tokens.workflows.internal.flows.distribution.UpdateDistributionListFlow;
 import com.r3.corda.lib.tokens.workflows.internal.flows.finality.ObserverAwareFinalityFlow;
-import com.r3.corda.lib.tokens.workflows.types.PartyAndToken;
 import com.r3.corda.lib.tokens.workflows.utilities.NotaryUtilities;
 import net.corda.core.transactions.TransactionBuilder;
-import net.corda.examples.bikemarket.states.FrameTokenState;
-import net.corda.examples.bikemarket.states.WheelsTokenState;
+import net.corda.samples.bikemarket.states.FrameTokenState;
+import net.corda.samples.bikemarket.states.WheelsTokenState;
 import net.corda.core.contracts.StateAndRef;
 import net.corda.core.flows.*;
 import net.corda.core.identity.Party;
@@ -26,13 +24,13 @@ public class TransferBikeTokens {
     @StartableByRPC
     public static class TransferBikeToken extends FlowLogic<String> {
 
-        private final String frameModel;
-        private final String wheelsModel;
+        private final String frameSerial;
+        private final String wheelsSerial;
         private final Party holder;
 
-        public TransferBikeToken(String frameSerial, String wheelSerial, Party holder) {
-            this.frameModel = frameSerial;
-            this.wheelsModel = wheelSerial;
+        public TransferBikeToken(String frameSerial, String wheelsSerial, Party holder) {
+            this.frameSerial = frameSerial;
+            this.wheelsSerial = wheelsSerial;
             this.holder = holder;
         }
 
@@ -43,8 +41,8 @@ public class TransferBikeTokens {
             //get frame states on ledger
             StateAndRef<FrameTokenState> frameStateAndRef = getServiceHub().getVaultService().
                     queryBy(FrameTokenState.class).getStates().stream()
-                    .filter(sf -> sf.getState().getData().getModelNum().equals(this.frameModel)).findAny()
-                    .orElseThrow(() -> new IllegalArgumentException("StockState symbol=\"" + this.frameModel + "\" not found from vault"));
+                    .filter(sf -> sf.getState().getData().getserialNum().equals(this.frameSerial)).findAny()
+                    .orElseThrow(() -> new IllegalArgumentException("Frame token with serial = " + this.frameSerial + " not found from vault"));
 
             //get the TokenType object
             FrameTokenState frametokentype = frameStateAndRef.getState().getData();
@@ -54,8 +52,8 @@ public class TransferBikeTokens {
 
             //Step 2: Wheels Token
             StateAndRef<WheelsTokenState> wheelStateStateAndRef = getServiceHub().getVaultService().
-                    queryBy(WheelsTokenState.class).getStates().stream().filter(sf -> sf.getState().getData().getModelNum().equals(this.wheelsModel)).findAny()
-                    .orElseThrow(() -> new IllegalArgumentException("StockState symbol=\"" + this.wheelsModel + "\" not found from vault"));
+                    queryBy(WheelsTokenState.class).getStates().stream().filter(sf -> sf.getState().getData().getserialNum().equals(this.wheelsSerial)).findAny()
+                    .orElseThrow(() -> new IllegalArgumentException("wheel token with serial=" + this.wheelsSerial + " not found from vault"));
 
             //get the TokenType object
             WheelsTokenState wheeltokentype = wheelStateStateAndRef.getState().getData();
@@ -78,7 +76,7 @@ public class TransferBikeTokens {
             //Add the new token holder to the distribution list
             subFlow(new UpdateDistributionListFlow(ftx));
 
-            return "\nTransfer ownership of a bike (Frame serial#: "+ this.frameModel + ", Wheels serial#: " + this.wheelsModel + ") to "
+            return "\nTransfer ownership of a bike (Frame serial#: "+ this.frameSerial + ", Wheels serial#: " + this.wheelsSerial + ") to "
                     + this.holder.getName().getOrganisation() + "\nTransaction IDs: "
                     + ftx.getId();
         }

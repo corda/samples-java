@@ -1,10 +1,10 @@
-package net.corda.examples.bikemarket.states;
+package net.corda.samples.bikemarket.states;
 
 import com.google.common.collect.ImmutableList;
 import com.r3.corda.lib.tokens.contracts.states.EvolvableTokenType;
 import com.r3.corda.lib.tokens.contracts.types.TokenPointer;
 import net.corda.core.contracts.LinearPointer;
-import net.corda.examples.bikemarket.contracts.FrameContract;
+import net.corda.samples.bikemarket.contracts.FrameContract;
 import net.corda.core.contracts.BelongsToContract;
 import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.identity.Party;
@@ -18,17 +18,17 @@ public class FrameTokenState extends EvolvableTokenType {
     private final Party maintainer;
     private final UniqueIdentifier uniqueIdentifier;
     private final int fractionDigits;
-    private final String ModelNum;
+    private final String serialNum;
 
-    public FrameTokenState(Party maintainer, UniqueIdentifier uniqueIdentifier, int fractionDigits, String ModelNum) {
+    public FrameTokenState(Party maintainer, UniqueIdentifier uniqueIdentifier, int fractionDigits, String serialNum) {
         this.maintainer = maintainer;
         this.uniqueIdentifier = uniqueIdentifier;
         this.fractionDigits = fractionDigits;
-        this.ModelNum = ModelNum;
+        this.serialNum = serialNum;
     }
 
-    public String getModelNum() {
-        return ModelNum;
+    public String getserialNum() {
+        return serialNum;
     }
 
 

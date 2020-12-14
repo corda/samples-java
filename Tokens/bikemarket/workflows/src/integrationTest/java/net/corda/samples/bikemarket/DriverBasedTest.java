@@ -1,4 +1,4 @@
-package net.corda.examples.bikemarket;
+package net.corda.samples.bikemarket;
 
 import com.google.common.collect.ImmutableList;
 import net.corda.core.concurrent.CordaFuture;
