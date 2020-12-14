@@ -1,4 +1,4 @@
-package net.corda.examples.dollartohousetoken.contracts;
+package net.corda.samples.dollartohousetoken;
 
 import com.google.common.collect.ImmutableList;
 import net.corda.core.concurrent.CordaFuture;

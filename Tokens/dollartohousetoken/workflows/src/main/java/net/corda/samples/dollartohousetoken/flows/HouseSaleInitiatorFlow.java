@@ -1,8 +1,8 @@
-package net.corda.examples.dollartohousetoken.flows;
+package net.corda.samples.dollartohousetoken.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import com.r3.corda.lib.tokens.workflows.flows.move.MoveTokensUtilities;
-import net.corda.examples.dollartohousetoken.states.HouseState;
+import net.corda.samples.dollartohousetoken.states.HouseState;
 import com.google.common.collect.ImmutableList;
 import com.r3.corda.lib.tokens.contracts.states.FungibleToken;
 import com.r3.corda.lib.tokens.workflows.internal.flows.distribution.UpdateDistributionListFlow;

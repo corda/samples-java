@@ -1,6 +1,6 @@
-package net.corda.examples.dollartohousetoken.states;
+package net.corda.samples.dollartohousetoken.states;
 
-import net.corda.examples.dollartohousetoken.contracts.HouseContract;
+import net.corda.samples.dollartohousetoken.contracts.HouseContract;
 import com.google.common.collect.ImmutableList;
 import com.r3.corda.lib.tokens.contracts.states.EvolvableTokenType;
 import com.r3.corda.lib.tokens.contracts.types.TokenPointer;

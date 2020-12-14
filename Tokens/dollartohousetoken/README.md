@@ -68,7 +68,7 @@ We can now check the issued house token in PartyB's vault. Since we issued it as
 
 Note that HouseState token is an evolvable token which is a [LinearState](https://docs.corda.net/docs/corda-os/api-states.html#linearstate), thus we can check PartyB's vault to view the [EvolvableToken](https://training.corda.net/libraries/tokens-sdk/#evolvabletokentype)
 
-    run vaultQuery contractStateType: net.corda.examples.dollartohousetoken.states.HouseState
+    run vaultQuery contractStateType: HouseState
 
 Note the linearId of the HouseState token from the previous step, we will need it to perform our DvP opearation. Goto PartyB's shell to initiate the token sale.
 

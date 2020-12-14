@@ -1,12 +1,10 @@
-package net.corda.examples.dollartohousetoken.flows;
+package net.corda.samples.dollartohousetoken.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import com.r3.corda.lib.tokens.workflows.utilities.NonFungibleTokenBuilder;
-import net.corda.examples.dollartohousetoken.states.HouseState;
+import net.corda.samples.dollartohousetoken.states.HouseState;
 import com.google.common.collect.ImmutableList;
 import com.r3.corda.lib.tokens.contracts.states.NonFungibleToken;
-import com.r3.corda.lib.tokens.contracts.types.IssuedTokenType;
-import com.r3.corda.lib.tokens.contracts.utilities.TransactionUtilitiesKt;
 import com.r3.corda.lib.tokens.workflows.flows.rpc.CreateEvolvableTokens;
 import com.r3.corda.lib.tokens.workflows.flows.rpc.IssueTokens;
 import net.corda.core.contracts.Amount;
@@ -36,7 +34,9 @@ public class HouseTokenCreateAndIssueFlow extends FlowLogic<String> {
     private final String additionInfo;
     private final String address;
 
-    public HouseTokenCreateAndIssueFlow(Party owner, Amount<Currency> valuation, int noOfBedRooms, String constructionArea, String additionInfo, String address) {
+    public HouseTokenCreateAndIssueFlow(Party owner, Amount<Currency> valuation,
+                                        int noOfBedRooms, String constructionArea,
+                                        String additionInfo, String address) {
         this.owner = owner;
         this.valuation = valuation;
         this.noOfBedRooms = noOfBedRooms;

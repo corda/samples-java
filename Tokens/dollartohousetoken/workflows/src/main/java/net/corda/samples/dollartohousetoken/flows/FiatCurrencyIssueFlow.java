@@ -1,4 +1,4 @@
-package net.corda.examples.dollartohousetoken.flows;
+package net.corda.samples.dollartohousetoken.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import com.google.common.collect.ImmutableList;
