@@ -33,6 +33,7 @@ public class WheelsTokenState extends EvolvableTokenType {
     public Party getIssuer() {
         return maintainer;
     }
+
     @Override
     public int getFractionDigits() {
         return this.fractionDigits;

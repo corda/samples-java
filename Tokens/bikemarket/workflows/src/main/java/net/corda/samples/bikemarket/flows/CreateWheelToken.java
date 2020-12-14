@@ -32,10 +32,10 @@ public class CreateWheelToken extends FlowLogic<String> {
 
         //create non-fungible frame token
         UniqueIdentifier uuid = new UniqueIdentifier();
-        WheelsTokenState frame = new WheelsTokenState(getOurIdentity(), uuid, 0 , this.wheelModel);
+        WheelsTokenState wheel = new WheelsTokenState(getOurIdentity(), uuid, 0 , this.wheelModel);
 
         //wrap it with transaction state specifying the notary
-        TransactionState transactionState = new TransactionState(frame, notary);
+        TransactionState transactionState = new TransactionState(wheel, notary);
 
         //call built in sub flow CreateEvolvableTokens. This can be called via rpc or in unit testing
         subFlow(new CreateEvolvableTokens(transactionState));

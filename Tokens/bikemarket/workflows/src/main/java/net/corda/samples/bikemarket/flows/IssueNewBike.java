@@ -48,7 +48,7 @@ public class IssueNewBike extends FlowLogic<String> {
         FrameTokenState frametokentype = frameStateAndRef.getState().getData();
 
         //get the pointer to the frame
-        TokenPointer frametokenPointer = frametokentype.toPointer(frametokentype.getClass());
+        //TokenPointer frametokenPointer = frametokentype.toPointer(frametokentype.getClass());
 
         //mention the current holder also
         NonFungibleToken frametoken = new NonFungibleTokenBuilder()
@@ -66,7 +66,7 @@ public class IssueNewBike extends FlowLogic<String> {
         WheelsTokenState wheeltokentype = wheelStateStateAndRef.getState().getData();
 
         //get the pointer pointer to the wheel
-        TokenPointer wheeltokenPointer = wheeltokentype.toPointer(wheeltokentype.getClass());
+        //TokenPointer wheeltokenPointer = wheeltokentype.toPointer(wheeltokentype.getClass());
 
         //mention the current holder also
         NonFungibleToken wheeltoken = new NonFungibleTokenBuilder()
