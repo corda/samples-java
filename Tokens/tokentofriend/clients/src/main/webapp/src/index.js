@@ -5,7 +5,7 @@ import retrieveToken from './component/retrieveToken';
 import App from './component/App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
-
+import santaGameCreated from './component/santaGameCreated'
 // Importing the Bootstrap CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -14,6 +14,7 @@ ReactDOM.render(
       <Switch>
         <Route exact path="/" component={App} />
         <Route path="/retrieveToken" component={retrieveToken} />
+        <Route path="/created" component={santaGameCreated} />
       </Switch>
     </Router>,
   document.getElementById('root')

@@ -3,7 +3,6 @@ buildscript {
     file("$projectDir/../constants.properties").withInputStream { constants.load(it) }
 
     ext {
-
         corda_release_group = constants.getProperty("cordaReleaseGroup")
         corda_release_version = constants.getProperty("cordaVersion")
         corda_gradle_plugins_version = constants.getProperty("gradlePluginsVersion")
@@ -13,12 +12,10 @@ buildscript {
         slf4j_version = constants.getProperty("slf4jVersion")
         corda_platform_version = constants.getProperty("platformVersion").toInteger()
         guava_version = constants.getProperty("guavaVersion")
+
         //Tokens
         tokens_release_group = 'com.r3.corda.lib.tokens'
         tokens_release_version = '1.2'
-        //CI
-        confidential_id_release_group = "com.r3.corda.lib.ci"
-        confidential_id_release_version = "1.0"
     }
 
     repositories {
@@ -45,9 +42,10 @@ allprojects {
         mavenCentral()
         maven { url 'https://software.r3.com/artifactory/corda' }
         maven { url 'https://jitpack.io' }
-        // Can be removed post-release - used to get nightly snapshot build.
+        //SDK lib
         maven { url 'https://software.r3.com/artifactory/corda-lib' }
-        maven { url 'https://software.r3.com/artifactory/corda-tokens-dev' }
+        //Gradle Plugins
+        maven { url 'https://repo.gradle.org/gradle/libs-releases' }
     }
 
     tasks.withType(JavaCompile) {
@@ -101,10 +99,6 @@ dependencies {
     // Token SDK dependencies.
     cordapp "$tokens_release_group:tokens-contracts:$tokens_release_version"
     cordapp "$tokens_release_group:tokens-workflows:$tokens_release_version"
-
-    // CI dependencies
-    cordapp "$confidential_id_release_group:ci-workflows:$confidential_id_release_version"
-
 }
 
 task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
@@ -114,7 +108,6 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         }
         cordapp("$tokens_release_group:tokens-contracts:$tokens_release_version")
         cordapp("$tokens_release_group:tokens-workflows:$tokens_release_version")
-        cordapp("$confidential_id_release_group:ci-workflows:$confidential_id_release_version")
         cordapp project(':contracts')
         cordapp project(':workflows')
 	runSchemaMigration = true

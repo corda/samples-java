@@ -118,6 +118,11 @@ public class Controller {
         }
     }
 
+    @RequestMapping(value = "/created", method = RequestMethod.GET)
+    public void created(){
+
+    }
+
 
 
 

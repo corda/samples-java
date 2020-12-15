@@ -1,31 +1,23 @@
-package net.corda.examples.tokenizedhouse.flows;
+package net.corda.samples.tokenizedhouse.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import com.google.common.collect.ImmutableList;
 import com.r3.corda.lib.tokens.contracts.states.FungibleToken;
-import com.r3.corda.lib.tokens.contracts.types.IssuedTokenType;
-import com.r3.corda.lib.tokens.contracts.types.TokenPointer;
 import com.r3.corda.lib.tokens.contracts.types.TokenType;
-import com.r3.corda.lib.tokens.contracts.utilities.TransactionUtilitiesKt;
 import com.r3.corda.lib.tokens.workflows.flows.rpc.*;
 import com.r3.corda.lib.tokens.workflows.utilities.FungibleTokenBuilder;
-import net.corda.examples.tokenizedhouse.states.FungibleHouseTokenState;
+import net.corda.samples.tokenizedhouse.states.FungibleHouseTokenState;
 import kotlin.Unit;
 import net.corda.core.contracts.*;
 import net.corda.core.flows.*;
 import net.corda.core.identity.Party;
 import net.corda.core.transactions.SignedTransaction;
 
-import java.math.BigDecimal;
-
 /**
  * Create,Issue,Move,Redeem token flows for a house asset on ledger
+ * This is all-in-one implementation style.
  */
 public class RealEstateEvolvableFungibleTokenFlow {
-
-    private RealEstateEvolvableFungibleTokenFlow() {
-        //Instantiation not allowed
-    }
 
     /**
      * Create Fungible Token for a house asset on ledger
@@ -34,10 +26,10 @@ public class RealEstateEvolvableFungibleTokenFlow {
     public static class CreateHouseTokenFlow extends FlowLogic<SignedTransaction> {
 
         // valuation property of a house can change hence we are considering house as a evolvable asset
-        private final BigDecimal valuation;
+        private final int valuation;
         private final String symbol;
 
-        public CreateHouseTokenFlow(String symbol, BigDecimal valuation) {
+        public CreateHouseTokenFlow(String symbol, int valuation) {
             this.valuation = valuation;
             this.symbol = symbol;
         }
@@ -161,45 +153,5 @@ public class RealEstateEvolvableFungibleTokenFlow {
             return subFlow(new MoveFungibleTokensHandler(counterSession));
         }
     }
-
-    /**
-     *  Holder Redeems fungible token issued by issuer. The code below is a demonstration for how to redeem a toke.
-     *
-     *  Or we have to define an issuance celling for the fungible token,
-     *  and you can redeem for the non-fungible asset, the house in this case, when you have all the fungible tokens.
-     */
-//    @StartableByRPC
-//    public static class RedeemHouseFungibleTokenFlow extends FlowLogic<SignedTransaction> {
-//
-//        private final String symbol;
-//        private final Party issuer;
-//        private final int quantity;
-//
-//        public RedeemHouseFungibleTokenFlow(String symbol, Party issuer, int quantity) {
-//            this.symbol = symbol;
-//            this.issuer = issuer;
-//            this.quantity = quantity;
-//        }
-//
-//        @Override
-//        @Suspendable
-//        public SignedTransaction call() throws FlowException {
-//            //get house states on ledger with uuid as input tokenId
-//            StateAndRef<FungibleHouseTokenState> stateAndRef = getServiceHub().getVaultService().
-//                    queryBy(FungibleHouseTokenState.class).getStates().stream()
-//                    .filter(sf->sf.getState().getData().getSymbol().equals(symbol)).findAny()
-//                    .orElseThrow(()-> new IllegalArgumentException("FungibleHouseTokenState symbol=\""+symbol+"\" not found from vault"));
-//
-//            //get the RealEstateEvolvableTokenType object
-//            FungibleHouseTokenState evolvableTokenType = stateAndRef.getState().getData();
-//
-//            //specify how much amount quantity of tokens of type token parameter
-//            Amount<TokenType> amount =
-//                    new Amount<>(quantity, evolvableTokenType.toPointer(FungibleHouseTokenState.class));
-//
-//            //call built in redeem flow to redeem tokens with issuer
-//            return subFlow(new RedeemFungibleTokens(amount, issuer));
-//        }
-//    }
 }
 

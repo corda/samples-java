@@ -2,9 +2,6 @@ package net.corda.samples.bikemarket;
 
 import com.google.common.collect.ImmutableList;
 import net.corda.core.contracts.StateAndRef;
-import net.corda.core.contracts.UniqueIdentifier;
-import net.corda.core.node.NetworkParameters;
-import net.corda.core.node.services.vault.QueryCriteria;
 import net.corda.samples.bikemarket.flows.CreateFrameToken;
 import net.corda.samples.bikemarket.flows.CreateWheelToken;
 import net.corda.samples.bikemarket.states.FrameTokenState;
@@ -16,8 +13,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import net.corda.testing.node.StartedMockNode;
-import java.util.*;
-import java.time.Instant;
 import java.util.concurrent.Future;
 
 public class FlowTests {

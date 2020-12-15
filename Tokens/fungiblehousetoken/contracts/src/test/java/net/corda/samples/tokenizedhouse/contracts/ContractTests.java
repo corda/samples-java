@@ -1,13 +1,11 @@
-package net.corda.samples.dollartohousetoken.contracts;
+package net.corda.samples.tokenizedhouse.contracts;
 
-import net.corda.core.contracts.Amount;
 import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.identity.CordaX500Name;
-import net.corda.samples.dollartohousetoken.states.HouseState;
+import net.corda.samples.tokenizedhouse.states.FungibleHouseTokenState;
 import net.corda.testing.core.TestIdentity;
 import net.corda.testing.node.MockServices;
 import org.junit.Test;
-import java.util.Arrays;
 import static net.corda.testing.node.NodeTestUtils.ledger;
 
 public class ContractTests {
@@ -17,24 +15,20 @@ public class ContractTests {
     //sample tests
     @Test
     public void valuationCannotBeZero() {
-        HouseState tokenPass = new HouseState(new UniqueIdentifier(),
-                Arrays.asList(Operator.getParty()),
-                Amount.parseCurrency("1000 USD"),
-                10,"500sqft",
-                "none","NYC");
-        HouseState tokenFail = new HouseState(new UniqueIdentifier(),
-                Arrays.asList(Operator.getParty()),
-                Amount.parseCurrency("0 USD"),
-                10,"500sqft",
-                "none","NYC");
+        FungibleHouseTokenState tokenPass = new FungibleHouseTokenState(10000,Operator.getParty(),
+                new UniqueIdentifier(),
+                0,"NYCHelena");
+        FungibleHouseTokenState tokenFail = new FungibleHouseTokenState(0,Operator.getParty(),
+                new UniqueIdentifier(),
+                0,"NYCHelena");
         ledger(ledgerServices, l -> {
             l.transaction(tx -> {
-                tx.output(HouseContract.CONTRACT_ID, tokenFail);
+                tx.output(HouseTokenStateContract.CONTRACT_ID, tokenFail);
                 tx.command(Operator.getPublicKey(), new com.r3.corda.lib.tokens.contracts.commands.Create());
                 return tx.fails();
             });
             l.transaction(tx -> {
-                tx.output(HouseContract.CONTRACT_ID, tokenPass);
+                tx.output(HouseTokenStateContract.CONTRACT_ID, tokenPass);
                 tx.command(Operator.getPublicKey(), new com.r3.corda.lib.tokens.contracts.commands.Create());
                 return tx.verifies();
             });

@@ -1,8 +1,8 @@
-package net.corda.examples.tokenizedhouse.states;
+package net.corda.samples.tokenizedhouse.states;
 
 import com.google.common.collect.ImmutableList;
 import com.r3.corda.lib.tokens.contracts.states.EvolvableTokenType;
-import net.corda.examples.tokenizedhouse.contracts.HouseTokenStateContract;
+import net.corda.samples.tokenizedhouse.contracts.HouseTokenStateContract;
 import net.corda.core.contracts.BelongsToContract;
 import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.identity.Party;
@@ -15,13 +15,13 @@ import java.util.Objects;
 @BelongsToContract(HouseTokenStateContract.class)
 public class FungibleHouseTokenState extends EvolvableTokenType {
 
-    private final BigDecimal valuation;
+    private final int valuation;
     private final Party maintainer;
     private final UniqueIdentifier uniqueIdentifier;
     private final String symbol;
     private final int fractionDigits;
 
-    public FungibleHouseTokenState(BigDecimal valuation, Party maintainer,
+    public FungibleHouseTokenState(int valuation, Party maintainer,
                                    UniqueIdentifier uniqueIdentifier, int fractionDigits, String symbol) {
         this.valuation = valuation;
         this.maintainer = maintainer;
@@ -30,7 +30,7 @@ public class FungibleHouseTokenState extends EvolvableTokenType {
         this.fractionDigits = fractionDigits;
     }
 
-    public BigDecimal getValuation() {
+    public int getValuation() {
         return valuation;
     }
 
@@ -58,17 +58,13 @@ public class FungibleHouseTokenState extends EvolvableTokenType {
         return this.uniqueIdentifier;
     }
 
-    public UniqueIdentifier getUniqueIdentifier() {
-        return uniqueIdentifier;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FungibleHouseTokenState that = (FungibleHouseTokenState) o;
         return getFractionDigits() == that.getFractionDigits() &&
-                getValuation().equals(that.getValuation()) &&
+                getValuation() == (that.getValuation()) &&
                 getMaintainer().equals(that.getMaintainer()) &&
                 uniqueIdentifier.equals(that.uniqueIdentifier);
     }

@@ -1,11 +1,11 @@
-package net.corda.examples.tokenizedhouse.flows;
+package net.corda.samples.tokenizedhouse.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import com.r3.corda.lib.tokens.contracts.types.TokenPointer;
 import com.r3.corda.lib.tokens.contracts.types.TokenType;
 import com.r3.corda.lib.tokens.workflows.utilities.QueryUtilities;
 import net.corda.core.contracts.TransactionState;
-import net.corda.examples.tokenizedhouse.states.FungibleHouseTokenState;
+import net.corda.samples.tokenizedhouse.states.FungibleHouseTokenState;
 import net.corda.core.contracts.Amount;
 import net.corda.core.contracts.StateAndRef;
 import net.corda.core.flows.FlowException;
@@ -13,7 +13,6 @@ import net.corda.core.flows.FlowLogic;
 import net.corda.core.flows.InitiatingFlow;
 import net.corda.core.flows.StartableByRPC;
 import net.corda.core.utilities.ProgressTracker;
-
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -24,7 +23,6 @@ public class QueryTokens {
     public static class GetTokenBalance extends FlowLogic<String> {
         private final ProgressTracker progressTracker = new ProgressTracker();
         private final String symbol;
-
 
         public GetTokenBalance(String symbol) {
             this.symbol = symbol;
@@ -50,13 +48,14 @@ public class QueryTokens {
             // Save the result
             String result="";
 
+            // Technically the set will only have one element, because we are query by symbol.
             for (FungibleHouseTokenState evolvableTokenType : evolvableTokenTypeSet){
                 //get the pointer pointer to the house
                 TokenPointer<FungibleHouseTokenState> tokenPointer = evolvableTokenType.toPointer(FungibleHouseTokenState.class);
                 //query balance or each different Token
                 Amount<TokenType> amount = QueryUtilities.tokenBalance(getServiceHub().getVaultService(), tokenPointer);
-                result += "\n You currently have "+ amount.getQuantity()+ " " + symbol + " Tokens issued by "+evolvableTokenType.getMaintainer()+"\n";
-
+                result += "\nYou currently have "+ amount.getQuantity()+ " " + symbol + " Tokens issued by "
+                        +evolvableTokenType.getMaintainer().getName().getOrganisation()+"\n";
             }
             return result;
         }
