@@ -1,4 +1,4 @@
-package net.corda.examples.stockpaydividend.flows;
+package net.corda.samples.stockpaydividend.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import com.google.common.collect.ImmutableList;

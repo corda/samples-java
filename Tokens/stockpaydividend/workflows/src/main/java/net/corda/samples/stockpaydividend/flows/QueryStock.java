@@ -1,4 +1,4 @@
-package net.corda.examples.stockpaydividend.flows;
+package net.corda.samples.stockpaydividend.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import com.r3.corda.lib.tokens.contracts.types.TokenPointer;
@@ -11,8 +11,8 @@ import net.corda.core.flows.FlowLogic;
 import net.corda.core.flows.InitiatingFlow;
 import net.corda.core.flows.StartableByRPC;
 import net.corda.core.utilities.ProgressTracker;
-import net.corda.examples.stockpaydividend.flows.utilities.CustomQuery;
-import net.corda.examples.stockpaydividend.states.StockState;
+import net.corda.samples.stockpaydividend.flows.utilities.CustomQuery;
+import net.corda.samples.stockpaydividend.states.StockState;
 
 public class QueryStock {
 
@@ -36,14 +36,14 @@ public class QueryStock {
         public String call() throws FlowException {
             TokenPointer<StockState> stockPointer = CustomQuery.queryStockPointer(symbol, getServiceHub());
             Amount<TokenType> amount = QueryUtilities.tokenBalance(getServiceHub().getVaultService(), stockPointer);
-            return "\n You currently have "+ amount.getQuantity()+ " " +this.symbol + " stocks\n";
+            return "\nYou currently have "+ amount.getQuantity()+ " " +this.symbol + " stocks\n";
         }
     }
 
 
     @InitiatingFlow
     @StartableByRPC
-    public static class GetFiatBalance extends FlowLogic<Amount<TokenType>> {
+    public static class GetFiatBalance extends FlowLogic<String> {
         private final ProgressTracker progressTracker = new ProgressTracker();
         private final String currencyCode;
 
@@ -58,10 +58,10 @@ public class QueryStock {
 
         @Override
         @Suspendable
-        public Amount<TokenType> call() throws FlowException {
+        public String call() throws FlowException {
             TokenType fiatTokenType = FiatCurrency.Companion.getInstance(currencyCode);
             Amount<TokenType> amount = QueryUtilities.tokenBalance(getServiceHub().getVaultService(), fiatTokenType);
-            return amount;
+            return "\nYou currently have "+ amount.getQuantity()/100+ " "  + amount.getToken().getTokenIdentifier();
         }
     }
 

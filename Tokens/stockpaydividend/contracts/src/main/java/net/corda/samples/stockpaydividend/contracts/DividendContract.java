@@ -1,9 +1,9 @@
-package net.corda.examples.stockpaydividend.contracts;
+package net.corda.samples.stockpaydividend.contracts;
 
 import net.corda.core.contracts.*;
 import net.corda.core.identity.AbstractParty;
 import net.corda.core.transactions.LedgerTransaction;
-import net.corda.examples.stockpaydividend.states.DividendState;
+import net.corda.samples.stockpaydividend.states.DividendState;
 
 import java.security.PublicKey;
 import java.util.List;
@@ -14,7 +14,7 @@ import static net.corda.core.contracts.ContractsDSL.requireSingleCommand;
 import static net.corda.core.contracts.ContractsDSL.requireThat;
 
 public class DividendContract implements Contract {
-    public static final String ID = "net.corda.examples.stockpaydividend.contracts.DividendContract";
+    public static final String ID = "net.corda.samples.stockpaydividend.contracts.DividendContract";
 
     @Override
     public void verify(LedgerTransaction tx) throws IllegalArgumentException {

@@ -1,7 +1,6 @@
-package net.corda.examples.stockpaydividend;
+package net.corda.samples.stockpaydividend;
 
 import com.google.common.collect.ImmutableList;
-import com.r3.corda.lib.tokens.contracts.types.TokenPointer;
 import com.r3.corda.lib.tokens.contracts.types.TokenType;
 import com.r3.corda.lib.tokens.money.FiatCurrency;
 import com.r3.corda.lib.tokens.workflows.utilities.QueryUtilities;
@@ -14,9 +13,9 @@ import net.corda.core.identity.CordaX500Name;
 import net.corda.core.identity.Party;
 import net.corda.core.node.NetworkParameters;
 import net.corda.core.transactions.SignedTransaction;
-import net.corda.examples.stockpaydividend.flows.*;
-import net.corda.examples.stockpaydividend.states.DividendState;
-import net.corda.examples.stockpaydividend.states.StockState;
+import net.corda.samples.stockpaydividend.states.DividendState;
+import net.corda.samples.stockpaydividend.states.StockState;
+import net.corda.samples.stockpaydividend.flows.*;
 import net.corda.testing.core.TestIdentity;
 import net.corda.testing.node.MockNetwork;
 import net.corda.testing.node.MockNetworkParameters;
@@ -27,7 +26,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
@@ -77,8 +75,8 @@ public class FlowTests {
                         1,
                         emptyMap()))
                 .withCordappsForAllNodes(ImmutableList.of(
-                        TestCordapp.findCordapp("net.corda.examples.stockpaydividend.contracts"),
-                        TestCordapp.findCordapp("net.corda.examples.stockpaydividend.flows"),
+                        TestCordapp.findCordapp("net.corda.samples.stockpaydividend.contracts"),
+                        TestCordapp.findCordapp("net.corda.samples.stockpaydividend.flows"),
                         TestCordapp.findCordapp("com.r3.corda.lib.tokens.contracts"),
                         TestCordapp.findCordapp("com.r3.corda.lib.tokens.workflows")
                 ))
@@ -161,7 +159,8 @@ public class FlowTests {
     @Test
     public void announceDividendTest() throws ExecutionException, InterruptedException {
         // Issue Stock
-        CordaFuture<String> future = company.startFlow(new CreateAndIssueStock(STOCK_SYMBOL, STOCK_NAME, STOCK_CURRENCY, STOCK_PRICE, ISSUING_STOCK_QUANTITY, notaryParty));
+        CordaFuture<String> future = company.startFlow(
+                new CreateAndIssueStock(STOCK_SYMBOL, STOCK_NAME, STOCK_CURRENCY, STOCK_PRICE, ISSUING_STOCK_QUANTITY, notaryParty));
         network.runNetwork();
         future.get();
 

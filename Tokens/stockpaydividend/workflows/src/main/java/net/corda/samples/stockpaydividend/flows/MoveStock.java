@@ -1,20 +1,17 @@
-package net.corda.examples.stockpaydividend.flows;
+package net.corda.samples.stockpaydividend.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import com.r3.corda.lib.tokens.contracts.types.TokenPointer;
 import com.r3.corda.lib.tokens.contracts.types.TokenType;
-import com.r3.corda.lib.tokens.workflows.flows.move.MoveTokensUtilities;
 import com.r3.corda.lib.tokens.workflows.flows.rpc.MoveFungibleTokens;
 import com.r3.corda.lib.tokens.workflows.flows.rpc.MoveFungibleTokensHandler;
-import com.r3.corda.lib.tokens.workflows.utilities.NotaryUtilities;
 import kotlin.Unit;
 import net.corda.core.contracts.Amount;
 import net.corda.core.flows.*;
 import net.corda.core.identity.Party;
 import net.corda.core.transactions.SignedTransaction;
-import net.corda.core.transactions.TransactionBuilder;
-import net.corda.examples.stockpaydividend.flows.utilities.CustomQuery;
-import net.corda.examples.stockpaydividend.states.StockState;
+import net.corda.samples.stockpaydividend.flows.utilities.CustomQuery;
+import net.corda.samples.stockpaydividend.states.StockState;
 
 /**
  * Designed initiating node : Company

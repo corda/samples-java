@@ -1,11 +1,10 @@
-package net.corda.examples.stockpaydividend.flows;
+package net.corda.samples.stockpaydividend.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.r3.corda.lib.tokens.contracts.types.TokenPointer;
 import com.r3.corda.lib.tokens.contracts.types.TokenType;
-import com.r3.corda.lib.tokens.workflows.types.PartyAndAmount;
 import com.r3.corda.lib.tokens.workflows.utilities.QueryUtilities;
 import net.corda.core.contracts.*;
 import net.corda.core.crypto.SecureHash;
@@ -15,10 +14,10 @@ import net.corda.core.serialization.CordaSerializable;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
 import net.corda.core.utilities.ProgressTracker;
-import net.corda.examples.stockpaydividend.contracts.DividendContract;
-import net.corda.examples.stockpaydividend.flows.utilities.CustomQuery;
-import net.corda.examples.stockpaydividend.states.DividendState;
-import net.corda.examples.stockpaydividend.states.StockState;
+import net.corda.samples.stockpaydividend.contracts.DividendContract;
+import net.corda.samples.stockpaydividend.flows.utilities.CustomQuery;
+import net.corda.samples.stockpaydividend.states.DividendState;
+import net.corda.samples.stockpaydividend.states.StockState;
 
 import java.math.BigDecimal;
 import java.security.PublicKey;

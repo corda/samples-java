@@ -1,4 +1,4 @@
-package net.corda.examples.stockpaydividend.states;
+package net.corda.samples.stockpaydividend.states;
 
 import com.google.common.collect.ImmutableList;
 import com.r3.corda.lib.tokens.contracts.states.EvolvableTokenType;
@@ -6,7 +6,7 @@ import com.r3.corda.lib.tokens.contracts.types.TokenPointer;
 import net.corda.core.contracts.LinearPointer;
 import net.corda.core.schemas.StatePersistable;
 import net.corda.core.serialization.CordaSerializable;
-import net.corda.examples.stockpaydividend.contracts.StockContract;
+import net.corda.samples.stockpaydividend.contracts.StockContract;
 import net.corda.core.contracts.BelongsToContract;
 import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.identity.Party;

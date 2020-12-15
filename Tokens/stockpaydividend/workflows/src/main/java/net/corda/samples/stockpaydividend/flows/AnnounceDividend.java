@@ -1,4 +1,4 @@
-package net.corda.examples.stockpaydividend.flows;
+package net.corda.samples.stockpaydividend.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import com.google.common.collect.ImmutableList;
@@ -9,8 +9,8 @@ import net.corda.core.flows.*;
 import net.corda.core.identity.Party;
 import net.corda.core.node.services.IdentityService;
 import net.corda.core.transactions.SignedTransaction;
-import net.corda.examples.stockpaydividend.flows.utilities.CustomQuery;
-import net.corda.examples.stockpaydividend.states.StockState;
+import net.corda.samples.stockpaydividend.flows.utilities.CustomQuery;
+import net.corda.samples.stockpaydividend.states.StockState;
 
 import java.math.BigDecimal;
 import java.util.*;

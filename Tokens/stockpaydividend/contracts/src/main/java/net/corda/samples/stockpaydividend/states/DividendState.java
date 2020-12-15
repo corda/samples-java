@@ -1,4 +1,4 @@
-package net.corda.examples.stockpaydividend.states;
+package net.corda.samples.stockpaydividend.states;
 
 import com.google.common.collect.ImmutableList;
 import com.r3.corda.lib.tokens.contracts.types.TokenType;
@@ -8,7 +8,7 @@ import net.corda.core.contracts.LinearState;
 import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.identity.AbstractParty;
 import net.corda.core.identity.Party;
-import net.corda.examples.stockpaydividend.contracts.DividendContract;
+import net.corda.samples.stockpaydividend.contracts.DividendContract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;

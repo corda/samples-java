@@ -1,15 +1,13 @@
-package net.corda.examples.stockpaydividend.flows;
+package net.corda.samples.stockpaydividend.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import com.google.common.collect.ImmutableList;
 import com.r3.corda.lib.tokens.contracts.states.FungibleToken;
-import com.r3.corda.lib.tokens.contracts.types.IssuedTokenType;
 import com.r3.corda.lib.tokens.workflows.flows.rpc.CreateEvolvableTokens;
 import com.r3.corda.lib.tokens.workflows.flows.rpc.IssueTokens;
 import com.r3.corda.lib.tokens.workflows.utilities.FungibleTokenBuilder;
 import net.corda.core.node.services.IdentityService;
-import net.corda.examples.stockpaydividend.states.StockState;
-import net.corda.core.contracts.Amount;
+import net.corda.samples.stockpaydividend.states.StockState;
 import net.corda.core.contracts.TransactionState;
 import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.flows.FlowException;
@@ -22,8 +20,6 @@ import net.corda.core.transactions.SignedTransaction;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-
-import static net.corda.examples.stockpaydividend.flows.AnnounceDividend.getObserverLegalIdenties;
 
 /**
  * Designed initiating node : Company
@@ -60,7 +56,7 @@ public class CreateAndIssueStock extends FlowLogic<String> {
 
         // Sample specific - retrieving the hard-coded observers
         IdentityService identityService = getServiceHub().getIdentityService();
-        List<Party> observers = getObserverLegalIdenties(identityService);
+        List<Party> observers = AnnounceDividend.getObserverLegalIdenties(identityService);
 
         Party company = getOurIdentity();
 

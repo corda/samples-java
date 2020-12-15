@@ -1,9 +1,9 @@
-package net.corda.examples.stockpaydividend.flows.utilities;
+package net.corda.samples.stockpaydividend.flows.utilities;
 
 import com.r3.corda.lib.tokens.contracts.types.TokenPointer;
 import net.corda.core.contracts.StateAndRef;
 import net.corda.core.node.ServiceHub;
-import net.corda.examples.stockpaydividend.states.StockState;
+import net.corda.samples.stockpaydividend.states.StockState;
 
 import java.util.List;
 
