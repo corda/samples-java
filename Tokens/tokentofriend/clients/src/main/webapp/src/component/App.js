@@ -56,7 +56,7 @@ class App extends React.Component {
             <img src="https://www.corda.net/wp-content/uploads/2016/11/fg005_corda_b.png" alt="Corda" width="200" className="App-logo"/>
             <Row>
               <Col md="auto"><h1>CorDapp Token-To-Friend</h1></Col>
-              <Col md={{offset:2}}><button className="btn btn-primary disabled" >Create a Token</button> <Link to="/created" ><button className="btn btn-primary" >Retrieve a Token</button></Link></Col>
+              <Col md={{offset:2}}><button className="btn btn-primary disabled" >Create a Token</button> <Link to="/retrieveToken" ><button className="btn btn-primary" >Retrieve a Token</button></Link></Col>
             </Row>
             <p>In this example CorDapp, you will be able to issue your friend a token that carries a secret message.
               You will receive the information of the tokenID and where the token is stored. Your friend would need these

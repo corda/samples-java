@@ -14,7 +14,6 @@ ReactDOM.render(
       <Switch>
         <Route exact path="/" component={App} />
         <Route path="/retrieveToken" component={retrieveToken} />
-        <Route path="/created" component={santaGameCreated} />
       </Switch>
     </Router>,
   document.getElementById('root')
