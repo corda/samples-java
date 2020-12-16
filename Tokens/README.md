@@ -1,4 +1,4 @@
-## samples-java/token-cordapps
+## Tokens CorDapp Samples
 
 This folder features [TokenSDK](https://training.corda.net/libraries/tokens-sdk/) sample projects.
 
