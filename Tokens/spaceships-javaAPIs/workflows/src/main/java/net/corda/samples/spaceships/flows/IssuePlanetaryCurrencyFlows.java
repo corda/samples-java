@@ -1,4 +1,4 @@
-package net.corda.examples.spaceships.flows;
+package net.corda.samples.spaceships.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import com.r3.corda.lib.tokens.contracts.states.FungibleToken;

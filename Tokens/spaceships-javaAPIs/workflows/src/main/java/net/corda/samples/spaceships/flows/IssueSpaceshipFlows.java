@@ -1,4 +1,4 @@
-package net.corda.examples.spaceships.flows;
+package net.corda.samples.spaceships.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import com.r3.corda.lib.tokens.contracts.states.FungibleToken;
@@ -17,11 +17,11 @@ import net.corda.core.flows.FlowLogic;
 import net.corda.core.flows.StartableByRPC;
 import net.corda.core.identity.Party;
 import net.corda.core.transactions.SignedTransaction;
-import net.corda.examples.spaceships.states.SpaceshipTokenType;
+import net.corda.samples.spaceships.states.SpaceshipTokenType;
 
 import java.util.Collections;
 
-import static net.corda.examples.spaceships.flows.FlowHelpers.parseAmountFromString;
+import static net.corda.samples.spaceships.flows.FlowHelpers.parseAmountFromString;
 
 /**
  * The contained flows are initiated from the perspective of a manufacturer (initiating node)

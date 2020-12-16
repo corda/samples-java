@@ -1,4 +1,4 @@
-package net.corda.examples.spaceships.states;
+package net.corda.samples.spaceships.states;
 
 import com.r3.corda.lib.tokens.contracts.states.EvolvableTokenType;
 import com.r3.corda.lib.tokens.contracts.types.TokenPointer;
@@ -9,7 +9,7 @@ import net.corda.core.contracts.LinearPointer;
 import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.identity.Party;
 import net.corda.core.serialization.ConstructorForDeserialization;
-import net.corda.examples.spaceships.contracts.SpaceshipTokenContract;
+import net.corda.samples.spaceships.contracts.SpaceshipTokenContract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;

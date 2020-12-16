@@ -1,4 +1,4 @@
-package net.corda.examples.spaceships.flows;
+package net.corda.samples.spaceships.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import com.r3.corda.lib.tokens.contracts.states.FungibleToken;
@@ -13,7 +13,7 @@ import net.corda.core.crypto.SecureHash;
 import net.corda.core.flows.*;
 import net.corda.core.identity.Party;
 import net.corda.core.transactions.SignedTransaction;
-import net.corda.examples.spaceships.states.SpaceshipTokenType;
+import net.corda.samples.spaceships.states.SpaceshipTokenType;
 
 import java.math.BigDecimal;
 import java.util.UUID;

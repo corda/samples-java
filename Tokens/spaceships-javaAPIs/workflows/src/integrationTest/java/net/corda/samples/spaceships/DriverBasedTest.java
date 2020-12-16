@@ -1,4 +1,4 @@
-package net.corda.examples.spaceships;
+package net.corda.samples.spaceships;
 
 import com.google.common.collect.ImmutableList;
 import net.corda.core.concurrent.CordaFuture;

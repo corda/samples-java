@@ -1,4 +1,4 @@
-package net.corda.examples.spaceships.flows;
+package net.corda.samples.spaceships.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import com.r3.corda.lib.tokens.contracts.states.FungibleToken;
@@ -21,7 +21,7 @@ import net.corda.core.node.StatesToRecord;
 import net.corda.core.node.services.VaultService;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
-import net.corda.examples.spaceships.states.SpaceshipTokenType;
+import net.corda.samples.spaceships.states.SpaceshipTokenType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;

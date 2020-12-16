@@ -1,4 +1,4 @@
-package net.corda.examples.spaceships.flows;
+package net.corda.samples.spaceships.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import com.r3.corda.lib.tokens.contracts.types.TokenType;
@@ -9,7 +9,7 @@ import net.corda.core.flows.FlowException;
 import net.corda.core.flows.FlowLogic;
 import net.corda.core.flows.StartableByRPC;
 import net.corda.core.transactions.SignedTransaction;
-import net.corda.examples.spaceships.states.SpaceshipTokenType;
+import net.corda.samples.spaceships.states.SpaceshipTokenType;
 
 /**
  * UpdateSpaceShipFlow is for the maintainer/s of the EvolvableTokenType

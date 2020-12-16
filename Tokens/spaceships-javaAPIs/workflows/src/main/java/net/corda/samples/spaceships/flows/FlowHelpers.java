@@ -1,4 +1,4 @@
-package net.corda.examples.spaceships.flows;
+package net.corda.samples.spaceships.flows;
 
 import com.google.common.collect.ImmutableMap;
 import com.r3.corda.lib.tokens.contracts.types.TokenType;
@@ -9,7 +9,7 @@ import net.corda.core.contracts.Amount;
 import net.corda.core.contracts.StateAndRef;
 import net.corda.core.node.services.VaultService;
 import net.corda.core.node.services.vault.QueryCriteria;
-import net.corda.examples.spaceships.states.SpaceshipTokenType;
+import net.corda.samples.spaceships.states.SpaceshipTokenType;
 
 import java.util.Collections;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package net.corda.examples.spaceships;
+package net.corda.samples.spaceships;
 
 import com.google.common.collect.ImmutableList;
 import com.r3.corda.lib.tokens.contracts.states.FungibleToken;
@@ -18,8 +18,8 @@ import net.corda.core.contracts.TransactionResolutionException;
 import net.corda.core.identity.Party;
 import net.corda.core.node.services.VaultService;
 import net.corda.core.transactions.SignedTransaction;
-import net.corda.examples.spaceships.flows.*;
-import net.corda.examples.spaceships.states.SpaceshipTokenType;
+import net.corda.samples.spaceships.flows.*;
+import net.corda.samples.spaceships.states.SpaceshipTokenType;
 import net.corda.testing.common.internal.ParametersUtilitiesKt;
 import net.corda.testing.node.MockNetwork;
 import net.corda.testing.node.MockNetworkParameters;
@@ -47,8 +47,8 @@ public class FlowTests {
                         .withCordappsForAllNodes(ImmutableList.of(
                                 TestCordapp.findCordapp("com.r3.corda.lib.tokens.contracts"),
                                 TestCordapp.findCordapp("com.r3.corda.lib.tokens.workflows"),
-                                TestCordapp.findCordapp("net.corda.examples.spaceships.flows"),
-                                TestCordapp.findCordapp("net.corda.examples.spaceships.contracts")
+                                TestCordapp.findCordapp("net.corda.samples.spaceships.flows"),
+                                TestCordapp.findCordapp("net.corda.samples.spaceships.contracts")
                         ))
                         .withNetworkParameters(ParametersUtilitiesKt.testNetworkParameters(
                                 Collections.emptyList(), 4
