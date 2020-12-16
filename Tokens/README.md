@@ -7,6 +7,9 @@ This Cordapp serves as a basic example to demostrate how to tokenize an asset in
 
 ### [bike market](./bikemarket):
 This sample Cordapp demonstrate all four out-of-box TokenSDK flows (Create, Issue, Move, and Redeem flows). The cordapp demonstrate how to tokenize an asset as non-fungible tokens and excute a few transacting procedures. 
+<p align="center">
+  <img src="./bikemarket/diagram/pic1.png" alt="Corda" width="500">
+</p>
 
 ### [dollar to house token](./dollartohousetoken):
 This CorDapp demonstrate a DvP (Delivery vs Payment) of an [Evolvable](https://training.corda.net/libraries/tokens-sdk/#evolvabletokentype), [NonFungible](https://training.corda.net/libraries/tokens-sdk/#nonfungibletoken) house token in Corda utilizing the TokenSDK. 
@@ -19,3 +22,6 @@ This CorDapp contains examples using new [Java APIs](https://medium.com/corda/co
 
 ### [token to friend](./tokentofriend):
 This CorDapp showcase a simple token issuance use case. You can attach a secret message with the token and your friend can retrive it with the credential that you inputed when creating the token. This cordapp come with a nice looking front end using Reactjs. Feel free to give a try on the app!
+<p align="center">
+  <img src="./tokentofriend/diagram.png" alt="Corda" width="600">
+</p>
