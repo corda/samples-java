@@ -1,13 +1,5 @@
 apply plugin: 'org.springframework.boot'
 
-//sourceSets {
-//    main {
-//        resources {
-//            srcDir rootProject.file("config/dev")
-//        }
-//    }
-//}
-
 dependencies {
     // Corda dependencies.
     compile "$corda_release_group:corda-rpc:$corda_release_version"
@@ -33,7 +25,7 @@ dependencies {
 }
 
 springBoot {
-    mainClassName = "net.corda.samples.client.Starter"
+    mainClassName = "net.corda.samples.auction.client.Starter"
 }
 
 task runAuctionClient(type: JavaExec, dependsOn: assemble) {

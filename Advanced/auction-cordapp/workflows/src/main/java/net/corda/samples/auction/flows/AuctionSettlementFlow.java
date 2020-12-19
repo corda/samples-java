@@ -5,6 +5,8 @@ import net.corda.core.contracts.Amount;
 import net.corda.core.flows.FlowException;
 import net.corda.core.flows.FlowLogic;
 import net.corda.core.flows.StartableByRPC;
+import net.corda.samples.auction.flows.AuctionDvPFlow;
+import net.corda.samples.auction.flows.AuctionExitFlow;
 
 import java.util.Currency;
 import java.util.UUID;
@@ -39,8 +41,8 @@ public class AuctionSettlementFlow extends FlowLogic<Void> {
     @Override
     @Suspendable
     public Void call() throws FlowException {
-        subFlow(new AuctionDvPFlow.Initiator(auctionId, amount));
-        subFlow(new AuctionExitFlow.Initiator(auctionId));
+        subFlow(new AuctionDvPFlow.AuctionDvPInitiator(auctionId, amount));
+        subFlow(new AuctionExitFlow.AuctionExitInitiator(auctionId));
         return null;
     }
 }

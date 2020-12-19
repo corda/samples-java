@@ -71,7 +71,7 @@ public class Controller {
     @PostMapping("create")
     public APIResponse<Void> createAuction(@RequestBody Forms.CreateAuctionForm auctionForm){
         try {
-            activeParty.startFlowDynamic(CreateAuctionFlow.Initiator.class,
+            activeParty.startFlowDynamic(CreateAuctionFlow.CreateAuctionInitiator.class,
                     Amount.parseCurrency(auctionForm.getBasePrice() + " USD"),
                     UUID.fromString(auctionForm.getAssetId()),
                     LocalDateTime.parse(auctionForm.getDeadline(),
@@ -91,7 +91,7 @@ public class Controller {
     @PostMapping("delete/{auctionId}")
     public APIResponse<Void> deleteAuction(@PathVariable String auctionId){
         try {
-            activeParty.startFlowDynamic(AuctionExitFlow.Initiator.class, UUID.fromString(auctionId)).getReturnValue().get();
+            activeParty.startFlowDynamic(AuctionExitFlow.AuctionExitInitiator.class, UUID.fromString(auctionId)).getReturnValue().get();
             return APIResponse.success();
         }catch (ExecutionException e){
             if(e.getCause() != null && e.getCause().getClass().equals(TransactionVerificationException.ContractRejection.class)){
@@ -107,7 +107,7 @@ public class Controller {
     @PostMapping("placeBid")
     public APIResponse<Void> placeBid(@RequestBody Forms.BidForm bidForm){
         try{
-            activeParty.startFlowDynamic(BidFlow.Initiator.class,
+            activeParty.startFlowDynamic(BidFlow.BidInitiator.class,
                     Amount.parseCurrency(bidForm.getAmount() + " USD"),
                     UUID.fromString(bidForm.getAuctionId()))
                     .getReturnValue().get();

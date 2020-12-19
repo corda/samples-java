@@ -29,7 +29,7 @@ public class AuctionDvPFlow {
 
     @StartableByRPC
     @InitiatingFlow
-    public static class Initiator extends FlowLogic<SignedTransaction>{
+    public static class AuctionDvPInitiator extends FlowLogic<SignedTransaction>{
 
         private final UUID auctionId;
         private final Amount<Currency> payment;
@@ -41,7 +41,7 @@ public class AuctionDvPFlow {
          * @param payment is the bid amount which is required to be transferred from the highest bidded to auctioneer to
          *              settle the auction.
          */
-        public Initiator(UUID auctionId, Amount<Currency> payment) {
+        public AuctionDvPInitiator(UUID auctionId, Amount<Currency> payment) {
             this.auctionId = auctionId;
             this.payment = payment;
         }
@@ -124,12 +124,12 @@ public class AuctionDvPFlow {
         }
     }
 
-    @InitiatedBy(Initiator.class)
-    public static class Responder extends FlowLogic<SignedTransaction>{
+    @InitiatedBy(AuctionDvPInitiator.class)
+    public static class AuctionDvPResponder extends FlowLogic<SignedTransaction>{
 
         private FlowSession otherPartySession;
 
-        public Responder(FlowSession otherPartySession) {
+        public AuctionDvPResponder(FlowSession otherPartySession) {
             this.otherPartySession = otherPartySession;
         }
 

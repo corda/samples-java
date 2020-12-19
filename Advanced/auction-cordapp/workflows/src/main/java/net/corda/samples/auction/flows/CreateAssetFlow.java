@@ -17,7 +17,6 @@ import java.util.Collections;
  * This flows is used to build a transaction to issue an asset on the Corda Ledger, which can later be put on auction.
  * It creates a self issues transaction, the states is only issued on the ledger of the party who executes the flows.
  */
-@InitiatingFlow
 @StartableByRPC
 public class CreateAssetFlow extends FlowLogic<SignedTransaction> {
 

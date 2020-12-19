@@ -1,4 +1,4 @@
-package net.corda.samples.auction.flows;
+package net.corda.samples.auction;
 
 import com.google.common.collect.ImmutableList;
 import net.corda.core.concurrent.CordaFuture;

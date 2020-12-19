@@ -12,7 +12,7 @@ import net.corda.samples.auction.states.AuctionState;
 // ************
 public class AuctionContract implements Contract {
     // This is used to identify our contracts when building a transaction.
-    public static final String ID = "AuctionContract";
+    public static final String ID = "net.corda.samples.auction.contracts.AuctionContract";
 
     // A transaction is valid if the verify() function of the contracts of all the transaction's input and output states
     // does not throw an exception.

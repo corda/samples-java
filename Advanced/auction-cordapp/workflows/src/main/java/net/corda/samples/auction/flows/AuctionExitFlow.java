@@ -25,18 +25,16 @@ import java.util.UUID;
  */
 public class AuctionExitFlow {
 
-    private AuctionExitFlow(){}
-
     @StartableByRPC
     @InitiatingFlow
-    public static class Initiator extends FlowLogic<SignedTransaction>{
+    public static class AuctionExitInitiator extends FlowLogic<SignedTransaction>{
         private UUID auctionId;
 
         /**
          *
          * @param auctionId is the unique id of the auction to be consumed.
          */
-        public Initiator(UUID auctionId) {
+        public AuctionExitInitiator(UUID auctionId) {
             this.auctionId = auctionId;
         }
 
@@ -106,11 +104,11 @@ public class AuctionExitFlow {
         }
     }
 
-    @InitiatedBy(Initiator.class)
-    public static class Responder extends FlowLogic<SignedTransaction> {
+    @InitiatedBy(AuctionExitInitiator.class)
+    public static class AuctionExitResponder extends FlowLogic<SignedTransaction> {
         private FlowSession otherPartySession;
 
-        public Responder(FlowSession otherPartySession) {
+        public AuctionExitResponder(FlowSession otherPartySession) {
             this.otherPartySession = otherPartySession;
         }
 

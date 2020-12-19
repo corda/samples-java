@@ -14,23 +14,21 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * This is a scheduled flows, scheduled to run when the auction deadline is reached. It marks the auction as inactive so
+ * This is a scheduled flow, scheduled to run when the auction deadline is reached. It marks the auction as inactive so
  * that no new bids are accepted.
  */
 public class EndAuctionFlow {
 
-    private EndAuctionFlow() {}
-
     //Scheduled Flows must be annotated with @SchedulableFlow.
     @SchedulableFlow
     @InitiatingFlow
-    public static class Initiator extends FlowLogic<SignedTransaction>{
+    public static class EndAuctionInitiator extends FlowLogic<SignedTransaction>{
         private final UUID auctionId;
 
         /**
          * @param auctionId is the unique identifier of the auction to be closed.
          */
-        public Initiator(UUID auctionId) {
+        public EndAuctionInitiator(UUID auctionId) {
             this.auctionId = auctionId;
         }
 
@@ -38,8 +36,8 @@ public class EndAuctionFlow {
         @Suspendable
         public SignedTransaction call() throws FlowException {
 
-            // Query the vault to fetch a list of all AuctionState states, and filter the results based on the auctionId
-            // to fetch the desired AuctionState states from the vault. This filtered states would be used as input to the
+            // Query the vault to fetch a list of all AuctionState state, and filter the results based on the auctionId
+            // to fetch the desired AuctionState state from the vault. This filtered state would be used as input to the
             // transaction.
             List<StateAndRef<AuctionState>> auctionStateAndRefs = getServiceHub().getVaultService()
                     .queryBy(AuctionState.class).getStates();
@@ -48,13 +46,13 @@ public class EndAuctionFlow {
                 return auctionState.getAuctionId().toString().equals(this.auctionId.toString());
             }).findAny().orElseThrow(() -> new IllegalArgumentException("Auction Not Found"));
 
-            //get the notary from the input states.
+            //get the notary from the input state.
             Party notary = inputStateAndRef.getState().getNotary();
             AuctionState inputState = inputStateAndRef.getState().getData();
 
-            // Check used to restrict the flows execution to be only done by the auctioneer.
+            // Check used to restrict the flow execution to be only done by the auctioneer.
             if (getOurIdentity().getName().toString().equals(inputState.getAuctioneer().getName().toString())) {
-                // Create the output states, mark tge auction as inactive
+                // Create the output state, mark tge auction as inactive
                 AuctionState outputState = new AuctionState(inputState.getAuctionItem(), inputState.getAuctionId(),
                         inputState.getBasePrice(), inputState.getHighestBid(), inputState.getHighestBidder(),
                         inputState.getBidEndTime(), inputState.getHighestBid(), false, inputState.getAuctioneer(),
@@ -66,7 +64,7 @@ public class EndAuctionFlow {
                         .addOutputState(outputState)
                         .addCommand(new AuctionContract.Commands.EndAuction(), getOurIdentity().getOwningKey());
 
-                //Verify the transaction against the contracts
+                //Verify the transaction against the contract
                 transactionBuilder.verify(getServiceHub());
 
                 //Sign the transaction.
@@ -84,12 +82,12 @@ public class EndAuctionFlow {
     }
 
 
-    @InitiatedBy(Initiator.class)
-    public static class Responder extends FlowLogic<SignedTransaction> {
+    @InitiatedBy(EndAuctionInitiator.class)
+    public static class EndAuctionResponder extends FlowLogic<SignedTransaction> {
 
         private FlowSession counterpartySession;
 
-        public Responder(FlowSession counterpartySession) {
+        public EndAuctionResponder(FlowSession counterpartySession) {
             this.counterpartySession = counterpartySession;
         }
 

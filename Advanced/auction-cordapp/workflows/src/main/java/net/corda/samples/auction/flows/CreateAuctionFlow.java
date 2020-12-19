@@ -1,5 +1,6 @@
 package net.corda.samples.auction.flows;
 
+
 import co.paralleluniverse.fibers.Suspendable;
 import net.corda.core.contracts.Amount;
 import net.corda.core.contracts.LinearPointer;
@@ -19,15 +20,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * This flows is used to create a auction for an asset.
+ * This flow is used to create a auction for an asset.
  */
 public class CreateAuctionFlow {
 
-    private CreateAuctionFlow(){}
-
     @InitiatingFlow
     @StartableByRPC
-    public static class Initiator extends FlowLogic<SignedTransaction> {
+    public static class CreateAuctionInitiator extends FlowLogic<SignedTransaction> {
 
         private final ProgressTracker progressTracker = new ProgressTracker();
 
@@ -36,13 +35,13 @@ public class CreateAuctionFlow {
         private final LocalDateTime bidDeadLine;
 
         /**
-         * Constructor to initialise flows parameters received from rpc.
+         * Constructor to initialise flow parameters received from rpc.
          *
          * @param basePrice of the asset to be put of auction.
          * @param auctionItem is the uuid of the asset to be put on auction
          * @param bidDeadLine is the time till when the auction will be active
          */
-        public Initiator(Amount<Currency> basePrice, UUID auctionItem, LocalDateTime bidDeadLine) {
+        public CreateAuctionInitiator(Amount<Currency> basePrice, UUID auctionItem, LocalDateTime bidDeadLine) {
             this.basePrice = basePrice;
             this.auctionItem = auctionItem;
             this.bidDeadLine = bidDeadLine;
@@ -58,7 +57,7 @@ public class CreateAuctionFlow {
         public SignedTransaction call() throws FlowException {
             // Obtain a reference to a notary we wish to use.
             /** METHOD 1: Take first notary on network, WARNING: use for test, non-prod environments, and single-notary networks only!*
-             *  METHOD 2: Explicit selection of notary by CordaX500Name - argument can by coded in flows or parsed from config (Preferred)
+             *  METHOD 2: Explicit selection of notary by CordaX500Name - argument can by coded in flow or parsed from config (Preferred)
              *
              *  * - For production you always want to use Method 2 as it guarantees the expected notary is returned.
              */
@@ -68,15 +67,15 @@ public class CreateAuctionFlow {
             Party auctioneer = getOurIdentity();
 
             // Fetch all parties from the network map and remove the auctioneer and notary. All the parties are added as
-            // participants to the auction states so that its visible to all the parties in the network.
+            // participants to the auction state so that its visible to all the parties in the network.
             List<Party> bidders = getServiceHub().getNetworkMapCache().getAllNodes().stream()
                     .map(nodeInfo -> nodeInfo.getLegalIdentities().get(0))
                     .collect(Collectors.toList());
             bidders.remove(auctioneer);
             bidders.remove(notary);
 
-            // Create the output states. Use a linear pointer to point to the asset on auction. The asset would be added
-            // as a reference states to the transaction and hence we won't spend it.
+            // Create the output state. Use a linear pointer to point to the asset on auction. The asset would be added
+            // as a reference state to the transaction and hence we won't spend it.
             AuctionState auctionState = new AuctionState(
                     new LinearPointer<>(new UniqueIdentifier(null, auctionItem), LinearState.class),
                     UUID.randomUUID(), basePrice, null, null,
@@ -85,8 +84,8 @@ public class CreateAuctionFlow {
 
             // Build the transaction
             TransactionBuilder builder = new TransactionBuilder(notary)
-                .addOutputState(auctionState)
-                .addCommand(new AuctionContract.Commands.CreateAuction(), Arrays.asList(auctioneer.getOwningKey()));
+                    .addOutputState(auctionState)
+                    .addCommand(new AuctionContract.Commands.CreateAuction(), Arrays.asList(auctioneer.getOwningKey()));
 
             // Verify the transaction
             builder.verify(getServiceHub());
@@ -103,12 +102,12 @@ public class CreateAuctionFlow {
         }
     }
 
-    @InitiatedBy(Initiator.class)
-    public static class Responder extends FlowLogic<SignedTransaction> {
+    @InitiatedBy(CreateAuctionInitiator.class)
+    public static class CreateAuctionResponder extends FlowLogic<SignedTransaction> {
 
         private FlowSession counterpartySession;
 
-        public Responder(FlowSession counterpartySession) {
+        public CreateAuctionResponder(FlowSession counterpartySession) {
             this.counterpartySession = counterpartySession;
         }
 

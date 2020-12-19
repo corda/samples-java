@@ -17,11 +17,9 @@ import java.util.*;
  */
 public class BidFlow {
 
-    private BidFlow(){}
-
     @InitiatingFlow
     @StartableByRPC
-    public static class Initiator extends FlowLogic<SignedTransaction>{
+    public static class BidInitiator extends FlowLogic<SignedTransaction>{
 
         private final Amount<Currency> bidAmount;
         private final UUID auctionId;
@@ -32,7 +30,7 @@ public class BidFlow {
          * @param bidAmount is the amount the bidder is bidding for for the asset on auction.
          * @param auctionId is the unique identifier of the auction on which this bid it put.
          */
-        public Initiator(Amount<Currency> bidAmount, UUID auctionId) {
+        public BidInitiator(Amount<Currency> bidAmount, UUID auctionId) {
             this.bidAmount = bidAmount;
             this.auctionId = auctionId;
         }
@@ -86,12 +84,12 @@ public class BidFlow {
         }
     }
 
-    @InitiatedBy(Initiator.class)
-    public static class Responder extends FlowLogic<SignedTransaction> {
+    @InitiatedBy(BidInitiator.class)
+    public static class BidResponder extends FlowLogic<SignedTransaction> {
 
         private FlowSession counterpartySession;
 
-        public Responder(FlowSession counterpartySession) {
+        public BidResponder(FlowSession counterpartySession) {
             this.counterpartySession = counterpartySession;
         }
 

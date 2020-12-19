@@ -1,10 +1,12 @@
-package net.corda.samples.auction.flows;
+package net.corda.samples.auction;
 
 import com.google.common.collect.ImmutableList;
 import net.corda.core.concurrent.CordaFuture;
 import net.corda.core.contracts.Amount;
 import net.corda.core.node.NetworkParameters;
 import net.corda.core.transactions.SignedTransaction;
+import net.corda.samples.auction.flows.CreateAssetFlow;
+import net.corda.samples.auction.flows.CreateAuctionFlow;
 import net.corda.samples.auction.states.Asset;
 import net.corda.samples.auction.states.AuctionState;
 import net.corda.testing.node.MockNetwork;
@@ -32,8 +34,8 @@ public class FlowTests {
         network = new MockNetwork(
                 new MockNetworkParameters(
                         ImmutableList.of(
-                            TestCordapp.findCordapp("net.corda.samples.flows"),
-                            TestCordapp.findCordapp("net.corda.samples.contracts")
+                                TestCordapp.findCordapp("net.corda.samples.auction.flows"),
+                                TestCordapp.findCordapp("net.corda.samples.auction.contracts")
                         )
                 ).withNetworkParameters(new NetworkParameters(4, Collections.emptyList(),
                         10485760, 10485760 * 50, Instant.now(), 1,
@@ -66,7 +68,7 @@ public class FlowTests {
         network.runNetwork();
         SignedTransaction signedTransaction = future.get();
         Asset asset = (Asset) signedTransaction.getTx().getOutput(0);
-        CreateAuctionFlow.Initiator auctionFlow = new CreateAuctionFlow.Initiator(Amount.parseCurrency("1000 USD"),
+        CreateAuctionFlow.CreateAuctionInitiator auctionFlow = new CreateAuctionFlow.CreateAuctionInitiator(Amount.parseCurrency("1000 USD"),
                 asset.getLinearId().getId(), LocalDateTime.ofInstant(Instant.now().plusMillis(30000), ZoneId.systemDefault()));
         CordaFuture<SignedTransaction> future1 = a.startFlow(auctionFlow);
         network.runNetwork();

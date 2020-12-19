@@ -78,7 +78,7 @@ public class AuctionState implements SchedulableState {
             return null;
 
         FlowLogicRef flowLogicRef = flowLogicRefFactory.create(
-                "net.corda.samples.flows.EndAuctionFlow$Initiator", auctionId);
+                "net.corda.samples.auction.flows.EndAuctionFlow$EndAuctionInitiator", auctionId);
         return new ScheduledActivity(flowLogicRef, bidEndTime);
     }
 
