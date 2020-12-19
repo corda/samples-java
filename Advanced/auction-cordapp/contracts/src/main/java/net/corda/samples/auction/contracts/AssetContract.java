@@ -7,6 +7,9 @@ import org.jetbrains.annotations.NotNull;
 
 //TODO
 public class AssetContract implements Contract {
+    // This is used to identify our contracts when building a transaction.
+    public static final String ID = "net.corda.samples.auction.contracts.AssetContract";
+
     @Override
     public void verify(@NotNull LedgerTransaction tx) throws IllegalArgumentException {
         // Contract Verification code goes here. Left blank for simplicity
