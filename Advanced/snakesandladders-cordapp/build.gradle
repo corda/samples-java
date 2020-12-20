@@ -49,9 +49,11 @@ allprojects {
         jcenter()
         mavenCentral()
         maven { url 'https://software.r3.com/artifactory/corda' }
+        maven { url 'https://jitpack.io' }
+        //SDK lib
         maven { url 'https://software.r3.com/artifactory/corda-lib' }
-        maven { url 'https://software.r3.com/artifactory/corda-lib-dev' }
-        maven { url "https://repo.gradle.org/gradle/libs-releases-local" }
+        //Gradle Plugins
+        maven { url 'https://repo.gradle.org/gradle/libs-releases' }
     }
 
     tasks.withType(JavaCompile) {
@@ -101,29 +103,6 @@ dependencies {
     cordapp "$accounts_release_group:accounts-contracts:$accounts_release_version"
     cordapp "$confidential_id_release_group:ci-workflows:$confidential_id_release_version"
     cordapp "$accounts_release_group:accounts-workflows:$accounts_release_version"
-}
-
-cordapp {
-    info {
-        name "CorDapp Snakes And Ladders"
-        vendor "Corda Open Source"
-        targetPlatformVersion corda_platform_version
-        minimumPlatformVersion corda_platform_version
-    }
-}
-
-task ganache {
-    subprojects {
-        if (it.project.name != "clients") {
-            dependsOn jar
-            doLast {
-                copy {
-                    from "${buildDir}/libs"
-                    into "${rootDir}/build/libs"
-                }
-            }
-        }
-    }
 }
 
 task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
@@ -182,6 +161,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         cordapp project(":oracle-flows")
     }
 }
+
 task installQuasar(type: Copy) {
     destinationDir rootProject.file("lib")
     from(configurations.quasar) {

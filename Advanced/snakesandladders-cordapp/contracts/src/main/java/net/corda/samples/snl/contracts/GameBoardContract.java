@@ -1,10 +1,10 @@
-package net.corda.sample.snl.contracts;
+package net.corda.samples.snl.contracts;
 
 import net.corda.core.contracts.CommandData;
 import net.corda.core.contracts.Contract;
 import net.corda.core.transactions.LedgerTransaction;
-import net.corda.sample.snl.states.BoardConfig;
-import net.corda.sample.snl.states.GameBoard;
+import net.corda.samples.snl.states.BoardConfig;
+import net.corda.samples.snl.states.GameBoard;
 import org.jetbrains.annotations.NotNull;
 
 public class GameBoardContract implements Contract {

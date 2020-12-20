@@ -10,7 +10,7 @@ import net.corda.core.flows.InitiatingFlow;
 import net.corda.core.flows.StartableByRPC;
 import net.corda.core.node.services.Vault;
 import net.corda.core.node.services.vault.QueryCriteria;
-import net.corda.sample.snl.states.GameBoard;
+import net.corda.samples.snl.states.GameBoard;
 
 import java.util.Collections;
 import java.util.List;

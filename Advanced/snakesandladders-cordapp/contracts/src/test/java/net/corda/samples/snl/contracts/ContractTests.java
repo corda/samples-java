@@ -1,8 +1,7 @@
-package net.corda.sample.snl.contracts;
+package net.corda.samples.snl.contracts;
 
 import net.corda.core.identity.CordaX500Name;
-import net.corda.sample.snl.contracts.BoardConfigContract;
-import net.corda.sample.snl.states.BoardConfig;
+import net.corda.samples.snl.states.BoardConfig;
 import net.corda.testing.core.TestIdentity;
 import net.corda.testing.node.MockServices;
 import org.junit.Test;
@@ -10,7 +9,6 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 import static net.corda.testing.node.NodeTestUtils.transaction;
 
