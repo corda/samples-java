@@ -1,6 +1,6 @@
 buildscript { //properties that you need to build the project
     Properties constants = new Properties()
-    file("$projectDir/./constants.properties").withInputStream { constants.load(it) }
+    file("$projectDir/../constants.properties").withInputStream { constants.load(it) }
 
     ext {
         corda_release_group = constants.getProperty("cordaReleaseGroup")
@@ -106,21 +106,6 @@ dependencies {
     cordaCompile "org.slf4j:jul-to-slf4j:$slf4j_version"
     cordaCompile "org.apache.logging.log4j:log4j-web:${log4j_version}"
     cordaCompile "org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}"
-}
-
-//Task to build the jar for ganache.
-task ganache {
-    subprojects {
-        if (it.project.name != "clients") {
-            dependsOn jar
-            doLast {
-                copy {
-                    from "${buildDir}/libs"
-                    into "${rootDir}/build/libs"
-                }
-            }
-        }
-    }
 }
 
 //Task to deploy the nodes in order to bootstrap a network
