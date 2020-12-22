@@ -45,21 +45,3 @@ dependencies {
 tasks.withType(JavaCompile) {
     options.compilerArgs << "-parameters" // Required for shell commands.
 }
-
-task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
-    node {
-        name "O=PartyA,L=London,C=GB"
-        p2pPort 10005
-        rpcSettings {
-            address("localhost:10006")
-            adminAddress("localhost:10046")
-        }
-        cordapps = []
-        rpcUsers = [[user: "user1", "password": "test", "permissions": [
-                "StartFlow.com.flowdb.AddTokenValueFlow",
-                "StartFlow.com.flowdb.UpdateTokenValueFlow",
-                "StartFlow.com.flowdb.QueryTokenValueFlow"
-        ]]]
-	runSchemaMigration = true
-    }
-}
