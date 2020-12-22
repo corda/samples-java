@@ -1,9 +1,8 @@
-# fungible and nonfungible realestate token sample CorDapp
+# Fungible House token sample CorDapp
 
-This CorDapp serves as a basic example to create, issue, and move [Fungible](https://training.corda.net/libraries/tokens-sdk/#fungibletoken) tokens in Corda utilizing the Token SDK. In this specific fungible token sample, we will not 
-talk about the redeem method of the Token SDK because the redeem process will take the physical asset off the [ledger](https://training.corda.net/prepare-and-discover/design-corda/#orchestration-and-ledger-layers) and destroy the token. Thus, this sample will be a 
-simple walk though of the creation, issuance, and transfer of the tokens.
+This CorDapp serves as a basic example to create, issue, and move [Fungible](https://training.corda.net/libraries/tokens-sdk/#fungibletoken) tokens in Corda utilizing the Token SDK. In this specific fungible token sample, we will not talk about the redeem method of the Token SDK because the redeem process will take the physical asset off the ledger and destroy the token. Thus, this sample will be a simple walk though of the creation, issuance, and transfer of the tokens.
 
+Quick blog about TokenSDK see [here](https://medium.com/corda/introduction-to-token-sdk-in-corda-9b4dbcf71025)
 
 
 ## Concepts
@@ -94,9 +93,8 @@ public SignedTransaction call() throws FlowException {
 
 ## Pre-Requisites
 
-See https://docs.corda.net/getting-set-up.html.
+For development environment setup, please refer to: [Setup Guide](https://docs.corda.net/getting-set-up.html).
 
-For a brief introduction to Token SDK in Corda, see [here](https://medium.com/corda/introduction-to-token-sdk-in-corda-9b4dbcf71025)
 
 ## Usage
 
