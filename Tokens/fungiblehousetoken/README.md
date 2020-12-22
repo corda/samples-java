@@ -96,7 +96,7 @@ public SignedTransaction call() throws FlowException {
 
 See https://docs.corda.net/getting-set-up.html.
 
-For a brief introduction to Token SDK in Corda, see https://medium.com/corda/introduction-to-token-sdk-in-corda-9b4dbcf71025
+For a brief introduction to Token SDK in Corda, see [here](https://medium.com/corda/introduction-to-token-sdk-in-corda-9b4dbcf71025)
 
 ## Usage
 
