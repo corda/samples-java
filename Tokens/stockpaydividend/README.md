@@ -1,13 +1,9 @@
-# stock pay dividend [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Tokens/stockpaydividend)
+# stock pay dividend
 
 This CorDapp aims to demonstrate the usage of [TokenSDK](https://training.corda.net/libraries/tokens-sdk/), especially the concept of [EvolvableToken](https://training.corda.net/libraries/tokens-sdk/#evolvabletokentype) which represents stock.
 You will find the StockState extends from EvolvableToken which allows the stock details(eg. announcing dividends) to be updated without affecting the parties who own the stock.
 
-* [Concepts](#concepts)
-* [Usage](#usage)
-
 ## Concepts
-
 
 ### Parties
 
@@ -41,10 +37,8 @@ This Stock Exchange CorDapp includes:
 *Note that some date constraint(eg. payday) is being commented out to make sure the sample can be ran smoothly
 
 ### States
-* **[StockState](contracts/src/main/java/net/corda/examples/stockpaydividend/states/StockState.java)** -
-which holds the underlying information of a stock like stock name, symbol, dividend, etc.
-* **[DividendState](contracts/src/main/java/net/corda/examples/stockpaydividend/states/DividendState.java)** -
-represents the dividend to be paid off by the company to the shareholder.
+* `StockState` - which holds the underlying information of a stock like stock name, symbol, dividend, etc.
+* `DividendState` - represents the dividend to be paid off by the company to the shareholder.
 
 
 ### Flows
@@ -54,28 +48,24 @@ We'll list the flows here in the order that they execute in our example.
 
 ##### Pre-requisite. IssueMoney - Bank
 
-First, the bank issues money to WayneCo using [IssueMoney.java](./workflows/src/main/java/net/corda/examples/stockpaydividend/flows/IssueMoney.java#L37-L2)
-
+First, the bank issues money to WayneCo using `IssueMoney.java`
 
 ##### 1. IssueStock - Stock Issuer
 WayneCo creates a StockState and issues some stock tokens associated to the created StockState.
 
-That stock is issused in [IssueStock.java](./workflows/src/main/java/net/corda/examples/stockpaydividend/flows/IssueStock.java#L57-L97).
-
+That stock is issused in `IssueStock.java`
 
 ##### 2. MoveStock - Stock Issuer
 
 WayneCo transfers some stock tokens to the Shareholder.
 
 
-This flow is in [MoveStock.java](./workflows/src/main/java/net/corda/examples/stockpaydividend/flows/MoveStock.java#L40-L53)
-
+This flow is in `MoveStock.java`
 
 ##### 3. AnnounceDividend - Stock Issuer
 WayneCo announces the dividends that will be paid on the payday.
 
-This happens through [AnnounceDividend.java](./workflows/src/main/java/net/corda/examples/stockpaydividend/flows/AnnounceDividend.java#L48-L77)
-
+This happens through `AnnounceDividend.java`
 
 
 
@@ -83,28 +73,25 @@ This happens through [AnnounceDividend.java](./workflows/src/main/java/net/corda
 Shareholders retrieves the newest stock state from the company.
 
 
-We see this happen in [GetStockUpdate.java](./workflows/src/main/java/net/corda/examples/stockpaydividend/flows/GetStockUpdate.java#L33-L52)
-
+We see this happen in `GetStockUpdate.java`
 
 
 ##### 5. ClaimDividendReceivable - Shareholder
 
 Shareholders finds the dividend is announced and claims the dividends base on the owning stock.
 
-Implemented in [ClaimDividendReceivable.java](./workflows/src/main/java/net/corda/examples/stockpaydividend/flows/ClaimDividendReceivable.java#L51-L96)
-
+Implemented in `ClaimDividendReceivable.java`
 
 
 ##### 6. PayDividend - Company
 On the payday, the company pay off the stock with fiat currencies.
 
 
-This is implemented in [PayDividend.java](./workflows/src/main/java/net/corda/examples/stockpaydividend/flows/PayDividend.java#L46-L108).
-
+This is implemented in `PayDividend.java`
 ##### 7. Get token balances - Any node
 Query the balances of different nodes. This can be executed at anytime.
 
-This is found in two different flows, where we make requests using `GetStockBalances` or `GetFiatBalances` for stock or fiat with [QueryStock.java](./workflows/src/main/java/net/corda/examples/stockpaydividend/flows/QueryStock.java)
+This is found in two different flows, where we make requests using `GetStockBalances` or `GetFiatBalances` for stock or fiat with `QueryStock.java`
 
 
 ## Usage
