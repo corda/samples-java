@@ -1,7 +1,11 @@
+# Token To Friend
+In this Cordapp, you will be able to create a token and attached a few message strings. You can later retrieve the token and the strings via query. 
+
+## Concept
+We have built a front end interface to make the interaction easier. Clone the app and give a try! 
 <p align="center">
-  <img src="https://www.corda.net/wp-content/uploads/2016/11/fg005_corda_b.png" alt="Corda" width="500">
+  <img src="./diagram.png" alt="Corda" width="600">
 </p>
-# tokentofriend
  
  ## Running the applications 
  ```
@@ -13,7 +17,6 @@
  Go to the operator node: 
  ```
  flow start CreateMyToken myEmail: 1@gmail.com, recipients: 2@gmail.com, msg: Corda Number 1! 
-
  ```
  then record the returned uuid
  ```
