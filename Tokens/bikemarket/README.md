@@ -33,24 +33,11 @@ Throughout the sample, we will see how to create, transact, and redeem a Token.
 
 
 ### Flows
-
-
-We'll create bike parts using the flows for CreateFrameToken and CreateWheelToken.
-
-
-We can create the Tokens with [CreateFrameToken](./workflows/src/main/java/net/corda/examples/bikemarket/flows/CreateFrameToken.java) and [CreateWheelToken](./workflows/src/main/java/net/corda/examples/bikemarket/flows/CreateWheelToken.java).
-
-
-We'll create a bike with the [IssueNewBike](./workflows/src/main/java/net/corda/examples/bikemarket/flows/IssueNewBike.java) flow.
-
-
-We can transfer bike Tokens using the [TransferBikeToken](./workflows/src/main/java/net/corda/examples/bikemarket/flows/TransferBikeTokens.java) flow.
-
-
-We can total bike Tokens using the [TotalPart](./workflows/src/main/java/net/corda/examples/bikemarket/flows/TotalParts.java) flow.
-
-
-We can transfer part Tokens using the [TransferPartToken](./workflows/src/main/java/net/corda/examples/bikemarket/flows/TransferPartTokens.java) flow.
+1. We'll create bike parts using the flows for `CreateFrameToken` and `CreateWheelToken`.
+2. We'll create a bike with the `IssueNewBike` flow.
+3. We can transfer bike Tokens using the `TransferBikeToken` flow.
+4. We can total bike Tokens using the `TotalPart` flow.
+5. We can transfer part Tokens using the `TransferPartToken` flow.
 
 
 ## Usage
