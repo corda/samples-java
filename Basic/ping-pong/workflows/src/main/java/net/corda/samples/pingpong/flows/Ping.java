@@ -1,4 +1,4 @@
-package net.corda.examples.pingpong.flows;
+package net.corda.samples.pingpong.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import net.corda.core.flows.*;

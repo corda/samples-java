@@ -1,4 +1,4 @@
-package net.corda.examples.pingpong;
+package net.corda.samples.pingpong;
 
 import net.corda.client.rpc.CordaRPCClient;
 import net.corda.client.rpc.CordaRPCConnection;
@@ -7,7 +7,7 @@ import net.corda.core.identity.CordaX500Name;
 import net.corda.core.identity.Party;
 import net.corda.core.messaging.CordaRPCOps;
 import net.corda.core.utilities.NetworkHostAndPort;
-import net.corda.examples.pingpong.flows.Ping;
+import net.corda.samples.pingpong.flows.Ping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
