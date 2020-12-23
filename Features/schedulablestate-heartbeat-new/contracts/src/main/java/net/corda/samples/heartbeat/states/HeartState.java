@@ -60,6 +60,6 @@ public class HeartState implements SchedulableState {
         // We get the time when the scheduled activity will occur in the constructor rather than in this method. This is
         // because calling Instant.now() in nextScheduledActivity returns the time at which the function is called, rather
         // than the time at which the state was created.
-        return new ScheduledActivity(flowLogicRefFactory.create("com.heartbeat.flows.HeartbeatFlow", thisStateRef), nextActivityTime);
+        return new ScheduledActivity(flowLogicRefFactory.create("net.corda.samples.heartbeat.flows.HeartbeatFlow", thisStateRef), nextActivityTime);
     }
 }
