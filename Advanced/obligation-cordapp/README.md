@@ -4,13 +4,7 @@ This Cordapp is the complete implementation of our signature IOU (I-owe-you) dem
 
 ## Concepts
 
-An IOU is someone who has cash that is paying it back to someone they owe it to.
-
-You have to have the original concept of the debt itself, (the IOU), and the cash.
-
-Then the ability to exchange assets like cash or assets, and then the ability to settle up.
-
-Given this is intended to implement an IOU, our cordapp consists of three flows `issue`, `transfer` and `settle` flows.
+An IOU is someone who has cash that is paying it back to someone they owe it to. You have to have the original concept of the debt itself, (the IOU), and the cash. Then the ability to exchange assets like cash or assets, and then the ability to settle up. Given this is intended to implement an IOU, our cordapp consists of three flows `issue`, `transfer` and `settle` flows.
 
 
 ### Flows
