@@ -1,4 +1,4 @@
-package net.corda.examples.sendfile.flows;
+package net.corda.samples.sendfile.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import com.google.common.collect.ImmutableList;
@@ -9,13 +9,15 @@ import net.corda.core.flows.FlowLogic;
 import net.corda.core.flows.InitiatingFlow;
 import net.corda.core.flows.StartableByRPC;
 import net.corda.core.identity.Party;
-import net.corda.core.node.services.Vault;
 import net.corda.core.node.services.vault.QueryCriteria;
 import net.corda.core.utilities.ProgressTracker;
-import net.corda.examples.sendfile.states.InvoiceState;
+import net.corda.samples.sendfile.states.InvoiceState;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 // *********
 // * Flows *

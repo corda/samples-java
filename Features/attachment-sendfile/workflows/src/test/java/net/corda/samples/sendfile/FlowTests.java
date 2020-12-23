@@ -1,10 +1,10 @@
-package net.corda.examples.sendfile;
+package net.corda.samples.sendfile;
 
 import com.google.common.collect.ImmutableList;
 import net.corda.core.concurrent.CordaFuture;
 import net.corda.core.transactions.SignedTransaction;
-import net.corda.examples.sendfile.flows.DownloadAttachment;
-import net.corda.examples.sendfile.flows.SendAttachment;
+import net.corda.samples.sendfile.flows.DownloadAttachment;
+import net.corda.samples.sendfile.flows.SendAttachment;
 import net.corda.testing.node.MockNetwork;
 import net.corda.testing.node.MockNetworkParameters;
 import net.corda.testing.node.StartedMockNode;
@@ -17,8 +17,8 @@ import java.util.concurrent.ExecutionException;
 
 public class FlowTests {
     private final MockNetwork network = new MockNetwork(new MockNetworkParameters().withCordappsForAllNodes(ImmutableList.of(
-            TestCordapp.findCordapp("net.corda.examples.sendfile.contracts"),
-            TestCordapp.findCordapp("net.corda.examples.sendfile.flows")
+            TestCordapp.findCordapp("net.corda.samples.sendfile.contracts"),
+            TestCordapp.findCordapp("net.corda.samples.sendfile.flows")
     )));
     private final StartedMockNode a = network.createNode();
     private final StartedMockNode b = network.createNode();

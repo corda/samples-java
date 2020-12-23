@@ -1,4 +1,4 @@
-package net.corda.examples.sendfile;
+package net.corda.samples.sendfile;
 
 import com.google.common.collect.ImmutableSet;
 import net.corda.core.identity.CordaX500Name;
@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutionException;
  */
 public class NodeDriver {
     public static void main(String[] args) {
-        List<User> rpcUsers = Collections.singletonList((new User("user1", "test", ImmutableSet.of("ALL"))));
+        List<User> rpcUsers = Collections.singletonList((new User("user1", "src/test", ImmutableSet.of("ALL"))));
 
         Driver.driver(new DriverParameters().withStartNodesInProcess(true).withWaitForAllNodesToFinish(true), driver -> {
 

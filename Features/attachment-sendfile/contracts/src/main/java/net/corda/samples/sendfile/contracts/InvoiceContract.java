@@ -1,21 +1,23 @@
-package net.corda.examples.sendfile.contracts;
+package net.corda.samples.sendfile.contracts;
 
 import net.corda.core.contracts.CommandData;
 import net.corda.core.contracts.CommandWithParties;
 import net.corda.core.contracts.Contract;
 import net.corda.core.transactions.LedgerTransaction;
-import net.corda.examples.sendfile.states.InvoiceState;
+import net.corda.samples.sendfile.states.InvoiceState;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import static net.corda.core.contracts.ContractsDSL.*;
+import static net.corda.core.contracts.ContractsDSL.requireSingleCommand;
+import static net.corda.core.contracts.ContractsDSL.requireThat;
+
 // ************
 // * Contract *
 // ************
 public class InvoiceContract implements Contract {
     // Used to identify our contract when building a transaction.
-    public final static String ID = "net.corda.examples.sendfile.contracts.InvoiceContract";
+    public final static String ID = "net.corda.samples.sendfile.contracts.InvoiceContract";
 
     @Override
     public void verify(@NotNull LedgerTransaction tx) throws IllegalArgumentException {
@@ -32,6 +34,7 @@ public class InvoiceContract implements Contract {
     }
 
     public interface Commands extends CommandData {
-        class Issue implements Commands {}
+        class Issue implements Commands {
+        }
     }
 }

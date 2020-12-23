@@ -1,14 +1,12 @@
-package net.corda.examples.sendfile.states;
+package net.corda.samples.sendfile.states;
 
 import net.corda.core.contracts.BelongsToContract;
 import net.corda.core.contracts.ContractState;
 import net.corda.core.identity.AbstractParty;
-import net.corda.core.identity.Party;
-import net.corda.examples.sendfile.contracts.InvoiceContract;
+import net.corda.samples.sendfile.contracts.InvoiceContract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 // *********
 // * State *

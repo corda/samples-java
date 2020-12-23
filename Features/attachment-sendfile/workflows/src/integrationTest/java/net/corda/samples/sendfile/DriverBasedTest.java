@@ -1,4 +1,4 @@
-package net.corda.examples.sendfile;
+package net.corda.samples.sendfile;
 
 import net.corda.core.identity.CordaX500Name;
 import net.corda.testing.core.TestIdentity;

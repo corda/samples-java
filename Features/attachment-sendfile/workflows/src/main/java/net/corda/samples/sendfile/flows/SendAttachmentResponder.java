@@ -1,4 +1,4 @@
-package net.corda.examples.sendfile.flows;
+package net.corda.samples.sendfile.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import net.corda.core.flows.*;

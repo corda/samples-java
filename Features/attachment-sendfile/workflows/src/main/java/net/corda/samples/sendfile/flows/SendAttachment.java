@@ -1,4 +1,4 @@
-package net.corda.examples.sendfile.flows;
+package net.corda.samples.sendfile.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import com.google.common.collect.ImmutableList;
@@ -9,8 +9,8 @@ import net.corda.core.node.ServiceHub;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
 import net.corda.core.utilities.ProgressTracker;
-import net.corda.examples.sendfile.contracts.InvoiceContract;
-import net.corda.examples.sendfile.states.InvoiceState;
+import net.corda.samples.sendfile.contracts.InvoiceContract;
+import net.corda.samples.sendfile.states.InvoiceState;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
