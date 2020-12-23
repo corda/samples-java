@@ -36,63 +36,12 @@ This Stock Exchange CorDapp includes:
 
 *Note that some date constraint(eg. payday) is being commented out to make sure the sample can be ran smoothly
 
+
 ### States
-* `StockState` - which holds the underlying information of a stock like stock name, symbol, dividend, etc.
-* `DividendState` - represents the dividend to be paid off by the company to the shareholder.
-
-
-### Flows
-
-We'll list the flows here in the order that they execute in our example.
-
-
-##### Pre-requisite. IssueMoney - Bank
-
-First, the bank issues money to WayneCo using `IssueMoney.java`
-
-##### 1. IssueStock - Stock Issuer
-WayneCo creates a StockState and issues some stock tokens associated to the created StockState.
-
-That stock is issused in `IssueStock.java`
-
-##### 2. MoveStock - Stock Issuer
-
-WayneCo transfers some stock tokens to the Shareholder.
-
-
-This flow is in `MoveStock.java`
-
-##### 3. AnnounceDividend - Stock Issuer
-WayneCo announces the dividends that will be paid on the payday.
-
-This happens through `AnnounceDividend.java`
-
-
-
-##### 4. GetStockUpdate - Shareholder
-Shareholders retrieves the newest stock state from the company.
-
-
-We see this happen in `GetStockUpdate.java`
-
-
-##### 5. ClaimDividendReceivable - Shareholder
-
-Shareholders finds the dividend is announced and claims the dividends base on the owning stock.
-
-Implemented in `ClaimDividendReceivable.java`
-
-
-##### 6. PayDividend - Company
-On the payday, the company pay off the stock with fiat currencies.
-
-
-This is implemented in `PayDividend.java`
-##### 7. Get token balances - Any node
-Query the balances of different nodes. This can be executed at anytime.
-
-This is found in two different flows, where we make requests using `GetStockBalances` or `GetFiatBalances` for stock or fiat with `QueryStock.java`
-
+* **[StockState](./contracts/src/main/java/net/corda/samples/stockpaydividend/states/StockState.java)** -
+which holds the underlying information of a stock like stock name, symbol, dividend, etc.  
+* **[DividendState](./contracts/src/main/java/net/corda/samples/stockpaydividend/states/DividendState.java)** -
+represents the dividend to be paid off by the company to the shareholder. 
 
 ## Usage
 
