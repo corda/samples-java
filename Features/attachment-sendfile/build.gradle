@@ -45,7 +45,6 @@ allprojects {
         options.compilerArgs << "-parameters" // Required for shell commands.
     }
 
-
     jar {
         // This makes the JAR's SHA-256 hash repeatable.
         preserveFileTimestamps = false
