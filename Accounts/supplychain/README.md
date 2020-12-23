@@ -1,4 +1,4 @@
-# Accounts_SupplyChain [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Accounts/supplychain)
+# Accounts_SupplyChain
 
 For More information regarding the Accounts Library, please read at: https://github.com/corda/accounts/blob/master/docs.md
 
