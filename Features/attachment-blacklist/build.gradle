@@ -54,6 +54,11 @@ allprojects {
     }
 }
 
+apply plugin: 'net.corda.plugins.cordapp'
+apply plugin: 'net.corda.plugins.quasar-utils'
+apply plugin: 'net.corda.plugins.cordformation'
+apply plugin: 'java'
+
 task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
     nodeDefaults {
         cordapp project(':workflows')
