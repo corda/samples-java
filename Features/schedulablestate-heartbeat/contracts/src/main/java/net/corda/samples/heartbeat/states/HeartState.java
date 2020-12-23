@@ -1,4 +1,4 @@
-package com.heartbeat.contracts;
+package net.corda.samples.heartbeat.states;
 
 import net.corda.core.contracts.BelongsToContract;
 import net.corda.core.contracts.SchedulableState;
@@ -8,6 +8,7 @@ import net.corda.core.flows.FlowLogicRefFactory;
 import net.corda.core.identity.AbstractParty;
 import net.corda.core.identity.Party;
 import net.corda.core.serialization.ConstructorForDeserialization;
+import net.corda.samples.heartbeat.contracts.HeartContract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

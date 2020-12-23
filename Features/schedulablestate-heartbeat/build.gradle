@@ -28,7 +28,6 @@ buildscript {
 }
 
 allprojects {
-
     repositories {
         mavenLocal()
         jcenter()
@@ -36,5 +35,33 @@ allprojects {
         maven { url 'https://jitpack.io' }
         maven { url 'https://software.r3.com/artifactory/corda' }
         maven { url 'https://repo.gradle.org/gradle/libs-releases' }
+    }
+}
+
+task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
+    nodeDefaults {
+        cordapp project("contracts")
+        cordapp project("workflows")
+    }
+    node {
+        name "O=Notary,L=London,C=GB"
+        notary = [validating : true]
+        p2pPort 10002
+        rpcSettings {
+            address("localhost:10003")
+            adminAddress("localhost:10043")
+        }
+        cordapps = []
+        runSchemaMigration = true
+    }
+    node {
+        name "O=PartyA,L=London,C=GB"
+        p2pPort 10004
+        rpcSettings {
+            address("localhost:10006")
+            adminAddress("localhost:10046")
+        }
+        cordapps = []
+        rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
     }
 }

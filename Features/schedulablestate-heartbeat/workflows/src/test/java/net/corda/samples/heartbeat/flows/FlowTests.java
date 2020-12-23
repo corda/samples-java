@@ -1,4 +1,4 @@
-package com.heartbeat.flows;
+package net.corda.samples.heartbeat.flows;
 
 import com.google.common.collect.ImmutableList;
 import net.corda.core.transactions.SignedTransaction;
@@ -10,7 +10,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -26,8 +25,8 @@ public class FlowTests {
                 .withThreadPerNode(true)
                 .withCordappsForAllNodes(
                         ImmutableList.of(
-                                TestCordapp.findCordapp("com.heartbeat.flows"),
-                                TestCordapp.findCordapp("com.heartbeat.contracts")
+                                TestCordapp.findCordapp("net.corda.samples.heartbeat.flows"),
+                                TestCordapp.findCordapp("net.corda.samples.heartbeat.contracts")
                         )
                 ));
         node = network.createNode();
