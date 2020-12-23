@@ -1,4 +1,4 @@
-package net.corda.examples.attachments.contracts;
+package net.corda.samples.blacklist.contracts;
 
 import com.google.common.base.Charsets;
 import net.corda.core.contracts.*;
@@ -6,7 +6,7 @@ import net.corda.core.crypto.SecureHash;
 import net.corda.core.identity.AbstractParty;
 import net.corda.core.identity.Party;
 import net.corda.core.transactions.LedgerTransaction;
-import net.corda.examples.attachments.states.AgreementState;
+import net.corda.samples.blacklist.states.AgreementState;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,7 +20,7 @@ import java.util.jar.JarInputStream;
 import java.util.stream.Collectors;
 
 public class AgreementContract implements Contract {
-    public static final String AGREEMENT_CONTRACT_ID = "net.corda.examples.attachments.contracts.AgreementContract";
+    public static final String AGREEMENT_CONTRACT_ID = "net.corda.samples.blacklist.contracts.AgreementContract";
     private static SecureHash BLACKLIST_JAR_HASH = SecureHash.parse("4CEC607599723D7E0393EB5F05F24562732CD1B217DEAEDEABD4C25AFE5B333A");
 
     @Override
@@ -40,7 +40,7 @@ public class AgreementContract implements Contract {
             return null;
         });
 
-        // Constraints on the included attachments.
+        // Constraints on the included blacklist.
         List<Attachment> nonContractAttachments = tx.getAttachments()
                 .stream()
                 .filter(p -> !(p instanceof ContractAttachment))
@@ -55,7 +55,7 @@ public class AgreementContract implements Contract {
 
             // TODO: Switch to constraint on the jar's signer.
             // In the future, Corda will support singing of jars. We will then be able to restrict
-            // the attachments used to just those signed by party X.
+            // the blacklist used to just those signed by party X.
             req.using("The jar's hash should be correct", attached.getId().equals(BLACKLIST_JAR_HASH));
             return null;
         });
@@ -118,6 +118,7 @@ public class AgreementContract implements Contract {
     }
 
     public interface Commands extends CommandData {
-        class Agree extends TypeOnlyCommandData implements Commands {}
+        class Agree extends TypeOnlyCommandData implements Commands {
+        }
     }
 }

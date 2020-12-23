@@ -1,4 +1,4 @@
-package net.corda.examples.attachments;
+package net.corda.samples.blacklist;
 
 import com.google.common.collect.ImmutableList;
 import net.corda.core.concurrent.CordaFuture;
@@ -8,7 +8,7 @@ import net.corda.core.contracts.TransactionVerificationException;
 import net.corda.core.crypto.SecureHash;
 import net.corda.core.identity.Party;
 import net.corda.core.transactions.SignedTransaction;
-import net.corda.examples.attachments.states.AgreementState;
+import net.corda.samples.blacklist.states.AgreementState;
 import net.corda.testing.node.MockNetwork;
 import net.corda.testing.node.MockNetworkParameters;
 import net.corda.testing.node.StartedMockNode;
@@ -27,8 +27,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import static net.corda.examples.attachments.Constants.BLACKLIST_JAR_PATH;
-import static net.corda.examples.attachments.Constants.INCORRECT_JAR_PATH;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -44,22 +42,22 @@ public class FlowTests {
 
     @Before
     public void setup() throws FileNotFoundException {
-        network = new MockNetwork(new MockNetworkParameters().withCordappsForAllNodes(ImmutableList.of(
-                TestCordapp.findCordapp("net.corda.examples.attachments.contracts"))));
-        a = network.createNode();
-        b = network.createNode();
-        aIdentity = a.getInfo().getLegalIdentities().get(0);
-        bIdentity = b.getInfo().getLegalIdentities().get(0);
+        this.network = new MockNetwork(new MockNetworkParameters().withCordappsForAllNodes(ImmutableList.of(
+                TestCordapp.findCordapp("net.corda.samples.blacklist.contracts"))));
+        this.a = this.network.createNode();
+        this.b = this.network.createNode();
+        this.aIdentity = this.a.getInfo().getLegalIdentities().get(0);
+        this.bIdentity = this.b.getInfo().getLegalIdentities().get(0);
 
-        agreementTxt = aIdentity.getName() + " agrees with " + bIdentity.getName() + " that...";
+        this.agreementTxt = this.aIdentity.getName() + " agrees with " + this.bIdentity.getName() + " that...";
 
         // We upload the valid attachment to the first node, who will propagate it to the other node as part of the
         // flow.
-        FileInputStream attachmentInputStream = new FileInputStream(new File(BLACKLIST_JAR_PATH));
+        FileInputStream attachmentInputStream = new FileInputStream(new File(Constants.BLACKLIST_JAR_PATH));
 
-        a.transaction(() -> {
+        this.a.transaction(() -> {
             try {
-                blacklistAttachment = a.getServices().getAttachments().importAttachment(attachmentInputStream, "user", "blacklist");
+                this.blacklistAttachment = this.a.getServices().getAttachments().importAttachment(attachmentInputStream, "user", "blacklist");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -68,24 +66,24 @@ public class FlowTests {
 
         // We upload the invalid attachment to the first node, who will propagate it to the other node as part of the
         // flow.
-        FileInputStream incorrectAttachmentInputStream = new FileInputStream(new File(INCORRECT_JAR_PATH));
+        FileInputStream incorrectAttachmentInputStream = new FileInputStream(new File(Constants.INCORRECT_JAR_PATH));
 
-        a.transaction(() -> {
+        this.a.transaction(() -> {
             try {
-                incorrectAttachment = a.getServices().getAttachments().importAttachment(incorrectAttachmentInputStream, "user", "blacklist");
+                this.incorrectAttachment = this.a.getServices().getAttachments().importAttachment(incorrectAttachmentInputStream, "user", "blacklist");
             } catch (IOException e) {
                 e.printStackTrace();
             }
             return null;
         });
 
-        b.registerInitiatedFlow(AgreeFlow.class);
-        network.runNetwork();
+        this.b.registerInitiatedFlow(AgreeFlow.class);
+        this.network.runNetwork();
     }
 
     @After
     public void tearDown() {
-        network.stopNodes();
+        this.network.stopNodes();
     }
 
     @Rule
@@ -93,29 +91,29 @@ public class FlowTests {
 
     @Test
     public void flowRejectsAttachmentsThatDoNotMeetTheConstraintsOfAttachmentContract() throws ExecutionException, InterruptedException {
-        thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(TransactionVerificationException.class));
+        this.thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(TransactionVerificationException.class));
 
         // The attachment being passed to the propose flow is INVALID, will be rejected.
-        ProposeFlow flow = new ProposeFlow(agreementTxt, incorrectAttachment, bIdentity);
-        CordaFuture future = a.startFlow(flow);
-        network.runNetwork();
+        ProposeFlow flow = new ProposeFlow(this.agreementTxt, this.incorrectAttachment, this.bIdentity);
+        CordaFuture future = this.a.startFlow(flow);
+        this.network.runNetwork();
         future.get();
     }
 
     @Test
     public void flowRecordsTheCorrectTransactionInBothPartiesTransactionStorages() throws ExecutionException, InterruptedException {
-        reachAgreement();
+        this.reachAgreement();
 
         // We check the recorded agreement in both vaults.
-        for (StartedMockNode node : ImmutableList.of(a, b)) {
+        for (StartedMockNode node : ImmutableList.of(this.a, this.b)) {
             node.transaction(() -> {
                 List<StateAndRef<AgreementState>> agreements = node.getServices().getVaultService().queryBy(AgreementState.class).getStates();
                 assertEquals(1, agreements.size());
 
                 AgreementState recordedState = agreements.get(0).getState().getData();
-                assertEquals(aIdentity, recordedState.getPartyA());
-                assertEquals(bIdentity, recordedState.getPartyB());
-                assertEquals(agreementTxt, recordedState.getTxt());
+                assertEquals(this.aIdentity, recordedState.getPartyA());
+                assertEquals(this.bIdentity, recordedState.getPartyB());
+                assertEquals(this.agreementTxt, recordedState.getTxt());
 
                 return null;
             });
@@ -124,10 +122,10 @@ public class FlowTests {
 
     @Test
     public void flowPropagatesTheAttachmentToBsAttachmentStorage() throws ExecutionException, InterruptedException {
-        reachAgreement();
+        this.reachAgreement();
 
-        b.transaction(() -> {
-            Attachment blacklist = b.getServices().getAttachments().openAttachment(blacklistAttachment);
+        this.b.transaction(() -> {
+            Attachment blacklist = this.b.getServices().getAttachments().openAttachment(this.blacklistAttachment);
             assertNotNull(blacklist);
 
             return null;
@@ -135,9 +133,9 @@ public class FlowTests {
     }
 
     private SignedTransaction reachAgreement() throws ExecutionException, InterruptedException {
-        ProposeFlow flow = new ProposeFlow(agreementTxt, blacklistAttachment, bIdentity);
-        CordaFuture future = a.startFlow(flow);
-        network.runNetwork();
+        ProposeFlow flow = new ProposeFlow(this.agreementTxt, this.blacklistAttachment, this.bIdentity);
+        CordaFuture future = this.a.startFlow(flow);
+        this.network.runNetwork();
         return (SignedTransaction) future.get();
     }
 }

@@ -1,4 +1,4 @@
-package net.corda.examples.attachments.states;
+package net.corda.samples.blacklist.states;
 
 import net.corda.core.contracts.ContractState;
 import net.corda.core.identity.CordaX500Name;

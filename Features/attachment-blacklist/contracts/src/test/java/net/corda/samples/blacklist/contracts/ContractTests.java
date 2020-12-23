@@ -1,9 +1,10 @@
-package net.corda.examples.attachments.contracts;
+package net.corda.samples.blacklist.contracts;
 
 import net.corda.core.crypto.SecureHash;
 import net.corda.core.identity.CordaX500Name;
 import net.corda.core.identity.Party;
-import net.corda.examples.attachments.states.AgreementState;
+import net.corda.samples.blacklist.Constants;
+import net.corda.samples.blacklist.states.AgreementState;
 import net.corda.testing.core.TestIdentity;
 import net.corda.testing.node.MockServices;
 import org.junit.Test;
@@ -16,26 +17,24 @@ import java.security.PublicKey;
 
 import static java.util.Arrays.asList;
 import static net.corda.core.crypto.CryptoUtils.generateKeyPair;
-import static net.corda.examples.attachments.Constants.BLACKLISTED_PARTIES;
-import static net.corda.examples.attachments.Constants.BLACKLIST_JAR_PATH;
-import static net.corda.examples.attachments.contracts.AgreementContract.AGREEMENT_CONTRACT_ID;
+import static net.corda.samples.blacklist.contracts.AgreementContract.AGREEMENT_CONTRACT_ID;
 import static net.corda.testing.core.TestUtils.getTestPartyAndCertificate;
 import static net.corda.testing.node.MockServicesKt.makeTestIdentityService;
 import static net.corda.testing.node.NodeTestUtils.ledger;
 
 
 public class ContractTests {
-    static private final MockServices ledgerServices = new MockServices(asList("net.corda.examples.attachments.contracts"),  new TestIdentity(new CordaX500Name("TestIdentity", "", "GB")), makeTestIdentityService());
+    static private final MockServices ledgerServices = new MockServices(asList("net.corda.samples.blacklist.contracts"), new TestIdentity(new CordaX500Name("TestIdentity", "", "GB")), makeTestIdentityService());
     static private final CordaX500Name megaCorpName = new CordaX500Name("MegaCorp", "London", "GB");
     static private final CordaX500Name miniCorpName = new CordaX500Name("MiniCorp", "London", "GB");
     static private final TestIdentity megaCorp = new TestIdentity(megaCorpName);
     static private final TestIdentity miniCorp = new TestIdentity(miniCorpName);
 
     static private final String agreementTxt = megaCorpName + " agrees with " + miniCorpName + " that...";
-    static private final File validAttachment = new File(BLACKLIST_JAR_PATH);
+    static private final File validAttachment = new File(Constants.BLACKLIST_JAR_PATH);
     static private final KeyPair blacklistedPartyKeyPair = generateKeyPair();
     static private final PublicKey blacklistedPartyPubKey = blacklistedPartyKeyPair.getPublic();
-    static private final CordaX500Name blacklistedPartyName = new CordaX500Name(BLACKLISTED_PARTIES.get(0), "London", "GB");
+    static private final CordaX500Name blacklistedPartyName = new CordaX500Name(Constants.BLACKLISTED_PARTIES.get(0), "London", "GB");
     static private final Party blacklistedParty = getTestPartyAndCertificate(blacklistedPartyName, blacklistedPartyPubKey).getParty();
 
     @Test

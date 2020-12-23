@@ -1,4 +1,4 @@
-package net.corda.examples.attachments;
+package net.corda.samples.blacklist;
 
 import net.corda.core.crypto.SecureHash;
 

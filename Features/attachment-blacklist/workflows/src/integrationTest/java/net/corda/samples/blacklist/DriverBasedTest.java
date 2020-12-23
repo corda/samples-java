@@ -1,4 +1,4 @@
-package net.corda.examples.attachments;
+package net.corda.samples.blacklist;
 
 import com.google.common.collect.ImmutableList;
 import net.corda.core.concurrent.CordaFuture;
@@ -7,7 +7,6 @@ import net.corda.testing.core.TestIdentity;
 import net.corda.testing.driver.DriverParameters;
 import net.corda.testing.driver.NodeHandle;
 import net.corda.testing.driver.NodeParameters;
-import net.corda.testing.driver.PortAllocation;
 import org.junit.Test;
 
 import java.util.List;

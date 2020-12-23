@@ -1,4 +1,4 @@
-package net.corda.examples.attachments;
+package net.corda.samples.blacklist;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -14,11 +14,10 @@ import static net.corda.testing.driver.Driver.driver;
 /**
  * Allows you to run your nodes through an IDE (as opposed to using deployNodes). Do not use in a production
  * environment.
- *
  */
 public class NodeDriver {
     public static void main(String[] args) {
-        final List<User> rpcUsers =
+        List<User> rpcUsers =
                 ImmutableList.of(new User("user1", "test", ImmutableSet.of("ALL")));
 
         driver(new DriverParameters().withStartNodesInProcess(true).withWaitForAllNodesToFinish(true), dsl -> {

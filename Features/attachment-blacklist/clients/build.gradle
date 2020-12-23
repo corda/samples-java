@@ -27,17 +27,17 @@ dependencies {
 }
 
 springBoot {
-    mainClassName = "net.corda.examples.attachments.webserver.Server"
+    mainClassName = "net.corda.samples.blacklist.webserver.Server"
 }
 
 task runWebServer(type: JavaExec, dependsOn: assemble) {
     classpath = sourceSets.main.runtimeClasspath
-    main = 'net.corda.examples.attachments.webserver.Starter'
+    main = 'net.corda.samples.blacklist.webserver.Starter'
     args '--server.port=10050', '--config.rpc.host=localhost', '--config.rpc.port=10006', '--config.rpc.username=user1', '--config.rpc.password=test'
 }
 
 task uploadBlacklist(type: JavaExec, dependsOn: assemble) {
     classpath = sourceSets.main.runtimeClasspath
-    main = 'net.corda.examples.attachments.client.Client'
+    main = 'net.corda.samples.blacklist.clients.Client'
     args 'localhost:10006', 'localhost:10009', 'localhost:10012'
 }

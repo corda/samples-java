@@ -1,4 +1,4 @@
-package net.corda.examples.attachments.client;
+package net.corda.samples.blacklist.client;
 
 import com.google.common.base.Charsets;
 import net.corda.client.rpc.CordaRPCClient;
@@ -6,6 +6,7 @@ import net.corda.client.rpc.CordaRPCConnection;
 import net.corda.core.crypto.SecureHash;
 import net.corda.core.messaging.CordaRPCOps;
 import net.corda.core.utilities.NetworkHostAndPort;
+import net.corda.samples.blacklist.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,8 +15,6 @@ import java.nio.file.FileAlreadyExistsException;
 import java.util.List;
 import java.util.jar.JarInputStream;
 import java.util.stream.Collectors;
-
-import static net.corda.examples.attachments.Constants.*;
 
 public class Client {
 
@@ -37,13 +36,13 @@ public class Client {
             CordaRPCConnection rpcConnection = new CordaRPCClient(nodeAddress).start("user1", "test");
             CordaRPCOps proxy = rpcConnection.getProxy();
 
-            SecureHash attachmentHash = BLACKLIST_JAR_HASH;
+            SecureHash attachmentHash = Constants.BLACKLIST_JAR_HASH;
 
             // take relative path using substring of constant BLACKLIST_JAR_PATH, check if node contains blacklist already
             if (!proxy.attachmentExists(attachmentHash)) {
                 System.out.println("Working Directory = " +
                         System.getProperty("user.dir"));
-                attachmentHash = uploadAttachment(proxy, BLACKLIST_JAR_PATH);
+                attachmentHash = uploadAttachment(proxy, Constants.BLACKLIST_JAR_PATH);
                 Companion.logger.info("Blacklist uploaded to node at " + nodeAddress);
             } else {
                 Companion.logger.info("Node already contains Blacklist, skipping upload at " + nodeAddress);
@@ -52,7 +51,7 @@ public class Client {
             JarInputStream attachmentJar = downloadAttachment(proxy, attachmentHash);
             Companion.logger.info("Blacklist downloaded from node at " + nodeAddress);
 
-            checkAttachment(attachmentJar, ATTACTMENT_FILE_NAME, ATTACHMENT_EXPECTED_CONTENTS);
+            checkAttachment(attachmentJar, Constants.ATTACTMENT_FILE_NAME, Constants.ATTACHMENT_EXPECTED_CONTENTS);
             Companion.logger.info("Attachment contents checked on node at " + nodeAddress);
         }
 
@@ -83,7 +82,7 @@ public class Client {
             name = attachmentJar.getNextEntry().getName();
         }
 
-        BufferedInputStream bisAttachmentJar = new BufferedInputStream(attachmentJar, (8*1024));
+        BufferedInputStream bisAttachmentJar = new BufferedInputStream(attachmentJar, (8 * 1024));
         InputStreamReader isrAttachmentJar = new InputStreamReader(bisAttachmentJar, Charsets.UTF_8);
         BufferedReader brAttachmentJar = new BufferedReader(isrAttachmentJar);
 

@@ -1,10 +1,10 @@
-package net.corda.examples.attachments;
+package net.corda.samples.blacklist;
 
 import co.paralleluniverse.fibers.Suspendable;
 import net.corda.core.crypto.SecureHash;
 import net.corda.core.flows.*;
 import net.corda.core.transactions.SignedTransaction;
-import net.corda.examples.attachments.states.AgreementState;
+import net.corda.samples.blacklist.states.AgreementState;
 import org.jetbrains.annotations.NotNull;
 
 import java.security.SignatureException;
@@ -34,7 +34,7 @@ public class AgreeFlow extends FlowLogic<SignedTransaction> {
             }
         };
 
-        final SecureHash txId = subFlow(signTransactionFlow).getId();
+        SecureHash txId = subFlow(signTransactionFlow).getId();
         return subFlow(new ReceiveFinalityFlow(counterPartySession, txId));
     }
 }
