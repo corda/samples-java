@@ -1,4 +1,4 @@
-# obligation-cordap [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Advanced/obligation-cordapp)
+# Obligation Cordap
 
 This Cordapp is the complete implementation of our signature IOU (I-owe-you) demonstration.
 
@@ -15,12 +15,12 @@ Given this is intended to implement an IOU, our cordapp consists of three flows 
 
 ### Flows
 
-The first flows are the ones that issue the original cash and assets. You can find that the cash flow [here](./workflows/src/main/java/net/corda/samples/flows/SelfIssueCashFlow.java#L24-L32) and the IOU issurance in [IOUIssueFlow.java](./workflows/src/main/java/net/corda/samples/flows/IOUIssueFlow.java#L40-L80).
+The first flows are the ones that issue the original cash and assets. You can find that the cash flow at `SelfIssueCashFlow.java` and the IOU issurance in `IOUIssueFlow.java`.
 
-The next flow is the one that transfers ownership of that asset over to another party. That can be found in [IOUTransferFlow.java](./workflows/src/main/java/net/corda/samples/flows/IOUTransferFlow.java#L132-L159).
+The next flow is the one that transfers ownership of that asset over to another party. That can be found in `IOUTransferFlow.java`.
 
 
-Finally, once we have the ability to transfer assets, we just need to settle up. That functiionality can be found here in [IOUSettleFlow.java](./workflows/src/main/java/net/corda/samples/flows/IOUSettleFlow.java#L54-L116)
+Finally, once we have the ability to transfer assets, we just need to settle up. That functiionality can be found here in `IOUSettleFlow.java`
 
 
 
