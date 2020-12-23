@@ -15,18 +15,22 @@ Be aware that support of database accesses in flows is currently limited:
 * The operation must be idempotent. If the flow fails and has to restart from a checkpoint, the operation will also be replayed
 
 
-## Pre-requisites:
+## Pre-Requisites
 
-See https://docs.corda.net/getting-set-up.html.
+For development environment setup, please refer to: [Setup Guide](https://docs.corda.net/getting-set-up.html).
 
 
-## Usage
+## Running the nodes
 
-### Running the nodes:
 
-See https://docs.corda.net/tutorial-cordapp.html#running-the-example-cordapp.
-
-Java use the `workflows-java:deployNodes` task and `./workflows-java/build/nodes/runnodes` script.
+Open a terminal and go to the project root directory and type: (to deploy the nodes using bootstrapper)
+```
+./gradlew clean deployNodes
+```
+Then type: (to run the nodes)
+```
+./build/nodes/runnodes
+```
 
 ### Interacting with the node:
 
