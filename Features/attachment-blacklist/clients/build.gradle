@@ -32,6 +32,6 @@ springBoot {
 
 task uploadBlacklist(type: JavaExec, dependsOn: assemble) {
     classpath = sourceSets.main.runtimeClasspath
-    main = 'net.corda.samples.blacklist.clients.Client'
+    main = 'net.corda.samples.blacklist.client.Client'
     args 'localhost:10006', 'localhost:10009', 'localhost:10012'
 }

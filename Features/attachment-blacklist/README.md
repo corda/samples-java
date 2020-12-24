@@ -54,8 +54,8 @@ be able to *initiate* an agreement. The blacklist can be uploaded via [RPC](http
 project's root folder:
 
 Java version
-* Unix/Mac OSX: ` ./gradlew clients-java:uploadBlacklist`
-* Windows: `gradlew clients-java:uploadBlacklist`
+* Unix/Mac OSX: ` ./gradlew uploadBlacklist`
+* Windows: `gradlew uploadBlacklist`
 
 Or by running the `Upload blacklist` run configuration from IntelliJ.
 
@@ -71,7 +71,7 @@ the shell of Monogram Bank:
 
     start ProposeFlow agreementTxt: "A and B agree Y", counterparty: "Hiseville Deposit Bank", untrustedPartiesAttachment: "4CEC607599723D7E0393EB5F05F24562732CD1B217DEAEDEABD4C25AFE5B333A"
 
-If you now run `run vaultQuery contractStateType: AgreementState` on either the
+If you now run `run vaultQuery contractStateType: net.corda.samples.blacklist.states.AgreementState` on either the
 Monogram Bank or Hiseville Deposit Bank node, you should see the agreement stored:
 
     data: !<net.corda.examples.attachments.state.AgreementState>
