@@ -1,8 +1,7 @@
-package net.corda.samples.sendfile.contracts;
+package net.corda.samples.sendfile.states;
 
 import net.corda.core.identity.CordaX500Name;
 import net.corda.core.identity.Party;
-import net.corda.samples.sendfile.states.InvoiceState;
 import net.corda.testing.core.TestIdentity;
 import org.junit.Test;
 

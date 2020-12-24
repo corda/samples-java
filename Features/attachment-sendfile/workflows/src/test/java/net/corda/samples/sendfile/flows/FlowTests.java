@@ -1,10 +1,8 @@
-package net.corda.samples.sendfile;
+package net.corda.samples.sendfile.flows;
 
 import com.google.common.collect.ImmutableList;
 import net.corda.core.concurrent.CordaFuture;
 import net.corda.core.transactions.SignedTransaction;
-import net.corda.samples.sendfile.flows.DownloadAttachment;
-import net.corda.samples.sendfile.flows.SendAttachment;
 import net.corda.testing.node.MockNetwork;
 import net.corda.testing.node.MockNetworkParameters;
 import net.corda.testing.node.StartedMockNode;
