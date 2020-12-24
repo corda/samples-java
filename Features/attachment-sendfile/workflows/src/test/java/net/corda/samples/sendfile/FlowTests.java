@@ -35,8 +35,6 @@ public class FlowTests {
 
     //Test #1 check attachments list has more than one element
     //one for contract attachment, another one for attached zip
-    //@TODO Make sure change the file path in the SendAttachment flow to "../test.zip" for passing the unit test.
-    //because the unit test are in a different working directory than the running node.
     @Test
     public void attachmentListHasMoreThanOneElement() throws ExecutionException, InterruptedException {
         CordaFuture<SignedTransaction> future = a.startFlow(new SendAttachment(b.getInfo().getLegalIdentities().get(0), true));

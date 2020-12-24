@@ -1,14 +1,13 @@
-package net.corda.samples.sendfile.contracts;
+package net.corda.samples.sendfile.states;
 
 import net.corda.core.identity.CordaX500Name;
 import net.corda.core.identity.Party;
-import net.corda.samples.sendfile.states.InvoiceState;
 import net.corda.testing.core.TestIdentity;
 import org.junit.Test;
 
 import java.util.Arrays;
 
-import static org.jgroups.util.Util.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 public class InvoiceStateTests {
 
@@ -20,7 +19,6 @@ public class InvoiceStateTests {
     @Test
     public void constructorTest() {
         InvoiceState st = new InvoiceState(STRINGID, Arrays.asList(a, b));
-
         assertEquals(STRINGID, st.getInvoiceAttachmentID());
     }
 
