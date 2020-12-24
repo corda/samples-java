@@ -1,12 +1,12 @@
-package net.corda.examples.whistleblower;
+package net.corda.samples.whistleblower;
 
 import net.corda.core.identity.CordaX500Name;
 import net.corda.testing.core.TestIdentity;
+import net.corda.testing.driver.Driver;
 import net.corda.testing.driver.DriverParameters;
 import net.corda.testing.driver.NodeHandle;
 import net.corda.testing.driver.NodeParameters;
 import org.junit.Test;
-import net.corda.testing.driver.Driver;
 
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;

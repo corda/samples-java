@@ -1,16 +1,15 @@
-package net.corda.examples.whistleblower;
+package net.corda.samples.whistleblower.flows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import net.corda.core.identity.CordaX500Name;
+import net.corda.testing.driver.Driver;
 import net.corda.testing.driver.DriverParameters;
 import net.corda.testing.driver.NodeParameters;
 import net.corda.testing.node.User;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
-import net.corda.testing.driver.Driver;
 
 /**
  * Allows you to run your nodes through an IDE (as opposed to using deployNodes). Do not use in a production

@@ -1,10 +1,8 @@
-package net.corda.examples.whistleblower.flows;
+package net.corda.samples.whistleblower.flows;
 
-import co.paralleluniverse.common.util.Pair;
 import co.paralleluniverse.fibers.Suspendable;
 import com.google.common.collect.ImmutableList;
 import net.corda.confidential.SwapIdentitiesFlow;
-import net.corda.core.contracts.Command;
 import net.corda.core.contracts.CommandData;
 import net.corda.core.flows.*;
 import net.corda.core.identity.AnonymousParty;
@@ -12,8 +10,8 @@ import net.corda.core.identity.Party;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
 import net.corda.core.utilities.ProgressTracker;
-import net.corda.examples.whistleblower.contracts.BlowWhistleContract;
-import net.corda.examples.whistleblower.states.BlowWhistleState;
+import net.corda.samples.whistleblower.contracts.BlowWhistleContract;
+import net.corda.samples.whistleblower.states.BlowWhistleState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,10 +19,10 @@ import java.util.LinkedHashMap;
 
 /**
  * Blows the whistle on a company.
- *
+ * <p>
  * Confidential identities are used to preserve the identity of the whistle-blower and the investigator.
  *
- * @param badCompany the company the whistle is being blown on.
+ * @param badCompany   the company the whistle is being blown on.
  * @param investigator the party handling the investigation.
  */
 @InitiatingFlow

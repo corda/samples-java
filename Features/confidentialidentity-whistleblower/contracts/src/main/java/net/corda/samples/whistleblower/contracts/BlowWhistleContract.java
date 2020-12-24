@@ -1,16 +1,17 @@
-package net.corda.examples.whistleblower.contracts;
+package net.corda.samples.whistleblower.contracts;
 
 import net.corda.core.contracts.CommandData;
 import net.corda.core.contracts.CommandWithParties;
 import net.corda.core.contracts.Contract;
 import net.corda.core.identity.AbstractParty;
 import net.corda.core.transactions.LedgerTransaction;
-import net.corda.examples.whistleblower.states.BlowWhistleState;
+import net.corda.samples.whistleblower.states.BlowWhistleState;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.stream.Collectors;
 
-import static net.corda.core.contracts.ContractsDSL.*;
+import static net.corda.core.contracts.ContractsDSL.requireSingleCommand;
+import static net.corda.core.contracts.ContractsDSL.requireThat;
 
 /**
  * A contract supporting two state transitions:
@@ -18,7 +19,7 @@ import static net.corda.core.contracts.ContractsDSL.*;
  * - Transferring an existing case to a new investigator
  */
 public class BlowWhistleContract implements Contract {
-    public final static String ID = "net.corda.examples.whistleblower.contracts.BlowWhistleContract";
+    public final static String ID = "net.corda.samples.whistleblower.contracts.BlowWhistleContract";
 
     @Override
     public void verify(@NotNull LedgerTransaction tx) throws IllegalArgumentException {
@@ -42,7 +43,10 @@ public class BlowWhistleContract implements Contract {
     }
 
     public interface Commands extends CommandData {
-        /** Blowing the whistle on a company. */
-        class BlowWhistleCmd implements Commands {}
+        /**
+         * Blowing the whistle on a company.
+         */
+        class BlowWhistleCmd implements Commands {
+        }
     }
 }

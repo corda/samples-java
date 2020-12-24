@@ -1,4 +1,4 @@
-package net.corda.examples.whistleblower.flows;
+package net.corda.samples.whistleblower.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import net.corda.confidential.SwapIdentitiesFlow;

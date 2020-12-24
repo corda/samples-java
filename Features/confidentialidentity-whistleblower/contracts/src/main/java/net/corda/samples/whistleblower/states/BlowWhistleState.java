@@ -1,4 +1,4 @@
-package net.corda.examples.whistleblower.states;
+package net.corda.samples.whistleblower.states;
 
 import com.google.common.collect.ImmutableList;
 import net.corda.core.contracts.BelongsToContract;
@@ -7,14 +7,14 @@ import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.identity.AbstractParty;
 import net.corda.core.identity.AnonymousParty;
 import net.corda.core.identity.Party;
-import net.corda.examples.whistleblower.contracts.BlowWhistleContract;
+import net.corda.samples.whistleblower.contracts.BlowWhistleContract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 /**
  * A state representing a whistle-blowing case.
- *
+ * <p>
  * The identity of both the whistle-blower and the investigator is kept confidential through the
  * use of [AnonymousParty].
  *
