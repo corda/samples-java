@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-import static org.jgroups.util.Util.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 public class InvoiceStateTests {
 
@@ -19,7 +19,6 @@ public class InvoiceStateTests {
     @Test
     public void constructorTest() {
         InvoiceState st = new InvoiceState(STRINGID, Arrays.asList(a, b));
-
         assertEquals(STRINGID, st.getInvoiceAttachmentID());
     }
 
