@@ -1,10 +1,10 @@
-package net.corda.examples.autopayroll.states;
+package net.corda.samples.autopayroll.states;
 
 import net.corda.core.contracts.BelongsToContract;
 import net.corda.core.contracts.ContractState;
 import net.corda.core.identity.AbstractParty;
 import net.corda.core.identity.Party;
-import net.corda.examples.autopayroll.contracts.PaymentRequestContract;
+import net.corda.samples.autopayroll.contracts.PaymentRequestContract;
 
 import java.util.List;
 

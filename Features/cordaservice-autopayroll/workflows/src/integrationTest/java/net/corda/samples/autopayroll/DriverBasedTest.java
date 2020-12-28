@@ -1,4 +1,4 @@
-package net.corda.examples.autopayroll;
+package net.corda.samples.autopayroll;
 
 import com.google.common.collect.ImmutableList;
 import net.corda.core.concurrent.CordaFuture;

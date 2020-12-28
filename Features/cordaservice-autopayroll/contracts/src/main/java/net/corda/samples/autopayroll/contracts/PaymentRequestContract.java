@@ -1,19 +1,19 @@
-package net.corda.examples.autopayroll.contracts;
+package net.corda.samples.autopayroll.contracts;
 
 import net.corda.core.contracts.CommandData;
 import net.corda.core.contracts.CommandWithParties;
 import net.corda.core.contracts.Contract;
 import net.corda.core.transactions.LedgerTransaction;
-import net.corda.examples.autopayroll.states.MoneyState;
+import net.corda.samples.autopayroll.states.PaymentRequestState;
 
 import static net.corda.core.contracts.ContractsDSL.*;
 
 // ************
 // * Contract *
 // ************
-public class MoneyStateContract implements Contract {
+public class PaymentRequestContract implements Contract {
     // Used to identify our contract when building a transaction.
-    public static final String ID = "net.corda.examples.autopayroll.contracts.MoneyStateContract";
+    public static final String ID = "net.corda.samples.autopayroll.contracts.PaymentRequestContract";
 
     // A transaction is valid if the verify() function of the contract of all the transaction's input and output states
     // does not throw an exception.
@@ -22,10 +22,9 @@ public class MoneyStateContract implements Contract {
         // Verification logic goes here.
         CommandWithParties<Commands> cmd = requireSingleCommand(tx.getCommands(), Commands.class);
 
-        if (cmd.getValue() instanceof Commands.Pay) {
+        if (cmd.getValue() instanceof Commands.Request) {
             requireThat(req -> {
-                MoneyState output = tx.outputsOfType(MoneyState.class).get(0);
-                req.using("Money payment is positive", output.getAmount() > 0);
+                req.using("The single output is of type PaymentRequestState", tx.getOutputs().get(0).getData() instanceof PaymentRequestState);
                 return null;
             });
         } else {
@@ -35,6 +34,6 @@ public class MoneyStateContract implements Contract {
 
     // Used to indicate the transaction's intent.
     public interface Commands extends CommandData {
-        class Pay implements Commands {}
+        class Request implements Commands {}
     }
 }

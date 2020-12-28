@@ -1,7 +1,6 @@
-package net.corda.examples.autopayroll.flows;
+package net.corda.samples.autopayroll.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
-import com.google.common.collect.ImmutableList;
 import net.corda.core.contracts.CommandData;
 import net.corda.core.flows.*;
 import net.corda.core.identity.CordaX500Name;
@@ -10,10 +9,12 @@ import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
 import net.corda.core.utilities.ProgressTracker;
 import net.corda.core.utilities.ProgressTracker.Step;
-import net.corda.examples.autopayroll.contracts.PaymentRequestContract;
-import net.corda.examples.autopayroll.states.PaymentRequestState;
+import net.corda.samples.autopayroll.contracts.PaymentRequestContract;
+import net.corda.samples.autopayroll.states.PaymentRequestState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Arrays;
 
 // *********
 // * Flows *
@@ -66,7 +67,7 @@ public class RequestFlow {
             // final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB")); // METHOD 2
 
             Party bank = getServiceHub().getNetworkMapCache().getPeerByLegalName(new CordaX500Name("BankOperator", "Toronto", "CA"));
-            PaymentRequestState output = new PaymentRequestState(amount, towhom, ImmutableList.of(getOurIdentity(), bank));
+            PaymentRequestState output = new PaymentRequestState(amount, towhom, Arrays.asList(getOurIdentity(), bank));
 
             TransactionBuilder txBuilder = new TransactionBuilder(notary);
             CommandData commandData = new PaymentRequestContract.Commands.Request();
@@ -78,8 +79,8 @@ public class RequestFlow {
             FlowSession session = initiateFlow(bank);
             SignedTransaction ptx = getServiceHub().signInitialTransaction(txBuilder);
             progressTracker.setCurrentStep(FINALISING_TRANSACTION);
-            SignedTransaction stx = subFlow(new CollectSignaturesFlow(ptx, ImmutableList.of(session)));
-            return subFlow(new FinalityFlow(stx, ImmutableList.of(session)));
+            SignedTransaction stx = subFlow(new CollectSignaturesFlow(ptx, Arrays.asList(session)));
+            return subFlow(new FinalityFlow(stx, Arrays.asList(session)));
         }
     }
 

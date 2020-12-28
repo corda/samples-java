@@ -1,11 +1,11 @@
-package net.corda.examples.autopayroll.flows;
+package net.corda.samples.autopayroll.flows;
 
 import net.corda.core.contracts.TransactionState;
 import net.corda.core.identity.CordaX500Name;
 import net.corda.core.node.AppServiceHub;
 import net.corda.core.node.services.CordaService;
 import net.corda.core.serialization.SingletonSerializeAsToken;
-import net.corda.examples.autopayroll.states.PaymentRequestState;
+import net.corda.samples.autopayroll.states.PaymentRequestState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import net.corda.core.identity.Party;

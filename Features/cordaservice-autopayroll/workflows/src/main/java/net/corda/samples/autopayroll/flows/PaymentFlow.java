@@ -1,7 +1,6 @@
-package net.corda.examples.autopayroll.flows;
+package net.corda.samples.autopayroll.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
-import com.google.common.collect.ImmutableList;
 import net.corda.core.contracts.CommandData;
 import net.corda.core.contracts.StateAndRef;
 import net.corda.core.flows.*;
@@ -10,12 +9,13 @@ import net.corda.core.identity.Party;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
 import net.corda.core.utilities.ProgressTracker;
-import net.corda.examples.autopayroll.contracts.MoneyStateContract;
-import net.corda.examples.autopayroll.states.MoneyState;
-import net.corda.examples.autopayroll.states.PaymentRequestState;
+import net.corda.samples.autopayroll.contracts.MoneyStateContract;
+import net.corda.samples.autopayroll.states.MoneyState;
+import net.corda.samples.autopayroll.states.PaymentRequestState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class PaymentFlow {
@@ -57,13 +57,13 @@ public class PaymentFlow {
 
             FlowSession session = initiateFlow(vaultState.getTowhom());
             SignedTransaction ptx = getServiceHub().signInitialTransaction(txBuilder);
-            SignedTransaction stx = subFlow(new CollectSignaturesFlow(ptx, ImmutableList.of(session)));
+            SignedTransaction stx = subFlow(new CollectSignaturesFlow(ptx, Arrays.asList(session)));
 
-            return subFlow(new FinalityFlow(stx, ImmutableList.of(session)));
+            return subFlow(new FinalityFlow(stx, Arrays.asList(session)));
         }
     }
 
-    @InitiatedBy(net.corda.examples.autopayroll.flows.PaymentFlow.PaymentFlowInitiator.class)
+    @InitiatedBy(PaymentFlow.PaymentFlowInitiator.class)
     public static class PaymentFlowResponder extends FlowLogic<Void> {
         private final FlowSession counterPartySession;
 
