@@ -17,7 +17,7 @@ public class ContractTests {
     TestIdentity partyb = new TestIdentity(new CordaX500Name("Bob",  "TestLand",  "US"));
 
     @Test
-    public void GameCanOnlyCreatedWhenTwoDifferentPlayerPresented() {
+    public void NoNegativePayCheckValue() {
         MoneyState tokenPass = new MoneyState(10,partyb.getParty());
         MoneyState tokenfail = new MoneyState(-10,partyb.getParty());
 
