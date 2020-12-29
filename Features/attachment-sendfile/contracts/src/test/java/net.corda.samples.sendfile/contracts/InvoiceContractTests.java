@@ -27,7 +27,6 @@ public class InvoiceContractTests {
             Arrays.asList("net.corda.samples.sendfile.contracts")
     );
 
-
     private TestIdentity a = new TestIdentity(new CordaX500Name("Alice", "", "GB"));
     private TestIdentity b = new TestIdentity(new CordaX500Name("Bob", "", "GB"));
 
@@ -44,7 +43,6 @@ public class InvoiceContractTests {
     public void InvoiceContractImplementsContract() {
         assert (new InvoiceContract() instanceof Contract);
     }
-
 
     @Test
     public void contractRequiresOneCommandInTheTransaction() {
