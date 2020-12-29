@@ -1,4 +1,4 @@
-package net.corda.examples.notarychange.flows;
+package net.corda.samples.notarychange.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import net.corda.core.contracts.StateAndRef;
@@ -8,7 +8,7 @@ import net.corda.core.identity.Party;
 import net.corda.core.node.services.Vault;
 import net.corda.core.node.services.vault.QueryCriteria;
 import net.corda.core.utilities.ProgressTracker;
-import net.corda.examples.notarychange.states.IOUState;
+import net.corda.samples.notarychange.states.IOUState;
 
 import java.util.Collections;
 

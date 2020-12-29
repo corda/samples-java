@@ -1,4 +1,4 @@
-package net.corda.examples.notarychange.flows;
+package net.corda.samples.notarychange.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import net.corda.core.contracts.Command;
@@ -8,8 +8,8 @@ import net.corda.core.identity.Party;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
 import net.corda.core.utilities.ProgressTracker;
-import net.corda.examples.notarychange.contracts.IOUContract;
-import net.corda.examples.notarychange.states.IOUState;
+import net.corda.samples.notarychange.contracts.IOUContract;
+import net.corda.samples.notarychange.states.IOUState;
 
 import java.util.Arrays;
 

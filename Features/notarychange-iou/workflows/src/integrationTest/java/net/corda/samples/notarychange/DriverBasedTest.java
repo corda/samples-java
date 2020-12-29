@@ -1,4 +1,4 @@
-package net.corda.examples.notarychange;
+package net.corda.samples.notarychange;
 
 import com.google.common.collect.ImmutableList;
 import net.corda.core.concurrent.CordaFuture;
