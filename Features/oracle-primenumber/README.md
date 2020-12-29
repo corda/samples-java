@@ -19,7 +19,7 @@ This repo is split into three CorDapps:
 1. A [base CorDapp](./base/src/main/java/net/corda/examples/oracle/base/flow) which includes the state and contract definition, as well as some utility flows that need to be
    shared by both the Oracle service and the client
 2. A client CorDapp which [implements a flow](./client/src/main/java/net/corda/examples/oracle/client/flow/CreatePrime.java#L65-L107) to create numbers involving oracle-validated prime numbers
-3. A [service](./service/src/main/java/net/corda/examples/oracle/service/service/Oracle.java#L55-L63) which implements the primes oracle
+3. A [service](services/src/main/java/net/corda/examples/oracle/service/service/Oracle.java#L55-L63) which implements the primes oracle
 
 
 ## Usage
@@ -47,5 +47,5 @@ Go to the [CRaSH](https://docs.corda.net/docs/corda-os/shell.html) shell for Par
 
 We can then see the state wrapping the 5th prime (11) in our vault by running:
 
-    run vaultQuery contractStateType: net.corda.examples.oracle.base.contract.PrimeState
+    run vaultQuery contractStateType: net.corda.examples.oracle.base.states.PrimeState
 
