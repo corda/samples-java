@@ -42,7 +42,7 @@ flow start RequestFlowInitiator amount: 500, towhom: GeorgeJefferson
 ```
 As a result, we can check for the payment at GeorgeJefferson's node shell by running:
 ```
-run vaultQuery contractStateType: net.corda.examples.autopayroll.states.MoneyState
+run vaultQuery contractStateType: net.corda.samples.autopayroll.states.MoneyState
 ```
 We will see that George Jefferson received a `MoneyState` with amount $500.
 
