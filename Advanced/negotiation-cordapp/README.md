@@ -27,7 +27,8 @@ In the `AcceptanceFlow.java`, we receive the modified ProposalState and it's con
 
 
 ## Usage
-## Pre-Requisites
+
+### Pre-Requisites
 For development environment setup, please refer to: [Setup Guide](https://docs.corda.net/getting-set-up.html).
 
 
