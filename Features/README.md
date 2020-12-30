@@ -17,7 +17,7 @@ This CorDapp is a simple showcase of [confidential identities](https://docs.cord
 ### [Autopayroll -- CordaService](./cordaservice-autopayroll):
 This Cordapp shows how to trigger a flow with vault update(completion of prior flows) using [CordaService](https://training.corda.net/corda-details/automation/#services) & [trackby](https://training.corda.net/corda-details/automation-solution/#track-and-notify).  
 <p align="center">
-  <img src=".//cordaservice-autopayroll/webpic/Business%20Logic.png" alt="Corda" width="500">
+  <img src="./cordaservice-autopayroll/webpic/Business%20Logic.png" alt="Corda" width="500">
 </p>
 
 ### [Trade Reporting -- ObservableStates](./observablestates-tradereporting):
@@ -40,4 +40,6 @@ This CorDapp allows two nodes to enter into an IOU agreement, but enforces that 
 
 ### [Heartbeat -- SchedulableState](./schedulablestate-heartbeat):
 This CorDapp is a simple showcase of [scheduled activities](https://docs.corda.net/docs/corda-os/event-scheduling.html#how-to-implement-scheduled-events) (i.e. activities started by a node at a specific time without direct input from the node owner).  
-
+<p align="center">
+  <img src="./schedulablestate-heartbeat/heart.jpg" alt="Corda" width="500">
+</p>
