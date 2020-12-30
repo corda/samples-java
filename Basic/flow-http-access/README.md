@@ -20,7 +20,7 @@ Be aware that support of HTTP requests in flows is currently limited:
 Be careful when making HTTP calls in flows; they have to be blocking.
 In addition, if the flow fails and is restarted, the HTTP request will be replayed as-is.
 
-You'll find our HTTP request example within [HTTPCallFlow.java](./workflows-java/src/main/java/net/corda/samples/flowhttp/HttpCallFlow.java#L27-L43)
+You'll find our HTTP request example within HTTPCallFlow.java
 
 It works mostly as you'd expect, using a request builder to make a request at a client and use the result.
 
