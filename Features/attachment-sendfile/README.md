@@ -1,5 +1,4 @@
-# attachzip -- attachment demo [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Features/attachment-sendfile)
-
+# Sendfile Cordapp
 This Cordapp shows how to upload and download an [attachment](https://training.corda.net/corda-details/attachments/) via flow.
 
 
@@ -12,8 +11,7 @@ In this Cordapp, there are two parties:
 
 ### States
 
-You'll want to take a quick look at [InvoiceState.java](./contracts/src/main/java/net/corda/examples/sendfile/states/InvoiceState.java#L21)
-
+You'll want to take a quick look at `InvoiceState.java`
 ```java
 public InvoiceState(String invoiceAttachmentID, List<AbstractParty> participants) {
     this.invoiceAttachmentID = invoiceAttachmentID;
@@ -24,7 +22,7 @@ public InvoiceState(String invoiceAttachmentID, List<AbstractParty> participants
 
 ### Flows
 
-There are two flows [`sendAttachment`](./workflows/src/main/java/net/corda/examples/sendfile/flows/SendAttachment.java#L47-L67) and [`downloadAttachment`](./workflows/src/main/java/net/corda/examples/sendfile/flows/DownloadAttachment.java#L47-L66).
+There are two flows `sendAttachment`and `downloadAttachment`.
 
 The flow logic is the following:
 
