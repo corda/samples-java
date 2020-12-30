@@ -1,2 +1,2 @@
-include 'workflows-java'
-include 'client-java'
+include 'workflows'
+include 'client'
