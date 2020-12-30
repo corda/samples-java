@@ -1,17 +1,15 @@
-package com.example.flow;
+package net.corda.samples.referencestates.referencestates.flows;
 
-import com.example.state.SanctionedEntities;
 import com.google.common.collect.ImmutableList;
 import net.corda.core.contracts.StateAndRef;
+import net.corda.samples.referencestates.states.SanctionedEntities;
 import net.corda.testing.node.MockNetwork;
 import net.corda.testing.node.StartedMockNode;
-import org.hibernate.Transaction;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.swing.plaf.nimbus.State;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -24,14 +22,14 @@ public class SanctionsFlowTests {
     StartedMockNode c;
 
     @Before
-    public void setup(){
+    public void setup() {
         network = new MockNetwork(
-                ImmutableList.of("com.example.contract"));
+                ImmutableList.of("net.corda.samples.referencestates.contracts"));
         a = network.createPartyNode(null);
         b = network.createPartyNode(null);
         c = network.createPartyNode(null);
 
-        ImmutableList.of(a,b).forEach(node->{
+        ImmutableList.of(a, b).forEach(node -> {
             node.registerInitiatedFlow(GetSanctionsListFlow.Acceptor.class);
         });
 
@@ -39,7 +37,7 @@ public class SanctionsFlowTests {
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         network.stopNodes();
     }
 
@@ -59,7 +57,7 @@ public class SanctionsFlowTests {
         Future issueListFuture = a.startFlow(issueFlow);
         network.runNetwork();
         StateAndRef issueListFutureData = (StateAndRef) issueListFuture.get();
-        Assert.assertEquals(a.getInfo().getLegalIdentities().get(0),((SanctionedEntities) issueListFutureData.getState().getData()).getIssuer());
+        Assert.assertEquals(a.getInfo().getLegalIdentities().get(0), ((SanctionedEntities) issueListFutureData.getState().getData()).getIssuer());
 
         GetSanctionsListFlow.Initiator getFlow = new GetSanctionsListFlow.Initiator(a.getInfo().getLegalIdentities().get(0));
         Future getListFuture = b.startFlow(getFlow);
@@ -68,7 +66,7 @@ public class SanctionsFlowTests {
         System.out.println(getListFutureList.size());
         StateAndRef getListFutureData = (StateAndRef) getListFutureList.get(0);
 
-        Assert.assertEquals(((SanctionedEntities) issueListFutureData.getState().getData()).getLinearId(),((SanctionedEntities) getListFutureData.getState().getData()).getLinearId());
+        Assert.assertEquals(((SanctionedEntities) issueListFutureData.getState().getData()).getLinearId(), ((SanctionedEntities) getListFutureData.getState().getData()).getLinearId());
 
     }
 
@@ -79,7 +77,7 @@ public class SanctionsFlowTests {
         Future issueListFuture = a.startFlow(issueFlow);
         network.runNetwork();
         StateAndRef issueListFutureData = (StateAndRef) issueListFuture.get();
-        Assert.assertEquals(a.getInfo().getLegalIdentities().get(0),((SanctionedEntities) issueListFutureData.getState().getData()).getIssuer());
+        Assert.assertEquals(a.getInfo().getLegalIdentities().get(0), ((SanctionedEntities) issueListFutureData.getState().getData()).getIssuer());
 
         GetSanctionsListFlow.Initiator getFlow = new GetSanctionsListFlow.Initiator(a.getInfo().getLegalIdentities().get(0));
         Future getListFuture = b.startFlow(getFlow);
@@ -88,7 +86,7 @@ public class SanctionsFlowTests {
         System.out.println(getListFutureList.size());
         StateAndRef getListFutureData = (StateAndRef) getListFutureList.get(0);
 
-        Assert.assertEquals(((SanctionedEntities) issueListFutureData.getState().getData()).getLinearId(),((SanctionedEntities) getListFutureData.getState().getData()).getLinearId());
+        Assert.assertEquals(((SanctionedEntities) issueListFutureData.getState().getData()).getLinearId(), ((SanctionedEntities) getListFutureData.getState().getData()).getLinearId());
 
         UpdateSanctionsListFlow.Initiator updateFlow = new UpdateSanctionsListFlow.Initiator(c.getInfo().getLegalIdentities().get(0));
         Future updateListFuture = a.startFlow(updateFlow);
@@ -103,7 +101,7 @@ public class SanctionsFlowTests {
         List getListUpdatedList = (ArrayList) getUpdatedList.get();
         StateAndRef getUpdatedListFutureData = (StateAndRef) getListUpdatedList.get(0);
 
-        Assert.assertEquals(((SanctionedEntities) updateListFutureData.getState().getData()).getLinearId(),((SanctionedEntities) getUpdatedListFutureData.getState().getData()).getLinearId());
+        Assert.assertEquals(((SanctionedEntities) updateListFutureData.getState().getData()).getLinearId(), ((SanctionedEntities) getUpdatedListFutureData.getState().getData()).getLinearId());
 
 
     }

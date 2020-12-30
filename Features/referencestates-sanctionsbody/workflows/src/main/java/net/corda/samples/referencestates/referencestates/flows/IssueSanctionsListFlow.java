@@ -1,8 +1,8 @@
-package com.example.flow;
+package net.corda.samples.referencestates.referencestates.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
-import com.example.contract.SanctionedEntitiesContract;
-import com.example.state.SanctionedEntities;
+import net.corda.samples.referencestates.contracts.SanctionedEntitiesContract;
+import net.corda.samples.referencestates.states.SanctionedEntities;
 import net.corda.core.contracts.Command;
 import net.corda.core.contracts.StateAndRef;
 import net.corda.core.flows.*;
@@ -14,7 +14,7 @@ import net.corda.core.utilities.ProgressTracker;
 import java.util.Collections;
 
 /**
- * This flow allows a party to issue a sanctions list.
+ * This flows allows a party to issue a sanctions list.
  * This sanctions list will be used by other parties when they are making their
  * IOU agreements to determine whether the counter party is trustworthy.
  *
@@ -25,7 +25,7 @@ public class IssueSanctionsListFlow {
     @StartableByRPC
     public static class Initiator extends FlowLogic<StateAndRef<SanctionedEntities>>{
         /**
-         * The progress tracker checkpoints each stage of the flow and outputs the specified messages when each
+         * The progress tracker checkpoints each stage of the flows and outputs the specified messages when each
          * checkpoint is reached in the code. See the 'progressTracker.currentStep' expressions within the call() function.
          */
         ProgressTracker.Step GENERATING_TRANSACTION = new ProgressTracker.Step("Generating Transaction");
@@ -43,14 +43,14 @@ public class IssueSanctionsListFlow {
 
 
         /**
-         * The flow logic is encapsulated within the call() method.
+         * The flows logic is encapsulated within the call() method.
          */
         @Suspendable
         @Override
         public  StateAndRef<SanctionedEntities> call() throws FlowException {
             // Obtain a reference to a notary we wish to use.
             /** METHOD 1: Take first notary on network, WARNING: use for test, non-prod environments, and single-notary networks only!*
-             *  METHOD 2: Explicit selection of notary by CordaX500Name - argument can by coded in flow or parsed from config (Preferred)
+             *  METHOD 2: Explicit selection of notary by CordaX500Name - argument can by coded in flows or parsed from config (Preferred)
              *
              *  * - For production you always want to use Method 2 as it guarantees the expected notary is returned.
              */

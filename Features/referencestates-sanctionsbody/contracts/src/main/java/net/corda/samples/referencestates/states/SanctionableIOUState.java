@@ -1,6 +1,6 @@
-package com.example.state;
+package net.corda.samples.referencestates.states;
 
-import com.example.contract.SanctionableIOUContract;
+import net.corda.samples.referencestates.contracts.SanctionableIOUContract;
 import com.google.common.collect.ImmutableList;
 import net.corda.core.contracts.BelongsToContract;
 import net.corda.core.contracts.LinearState;
@@ -12,9 +12,9 @@ import net.corda.core.serialization.ConstructorForDeserialization;
 import java.util.List;
 
 /**
- * The state object recording IOU agreements between two parties.
+ * The states object recording IOU agreements between two parties.
  *
- * A state must implement [ContractState] or one of its descendants.
+ * A states must implement [ContractState] or one of its descendants.
  *
  */
 @BelongsToContract(SanctionableIOUContract.class)

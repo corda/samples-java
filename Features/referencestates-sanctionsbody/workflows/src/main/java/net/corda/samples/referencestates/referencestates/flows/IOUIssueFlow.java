@@ -1,9 +1,9 @@
-package com.example.flow;
+package net.corda.samples.referencestates.referencestates.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
-import com.example.contract.SanctionableIOUContract;
-import com.example.state.SanctionableIOUState;
-import com.example.state.SanctionedEntities;
+import net.corda.samples.referencestates.contracts.SanctionableIOUContract;
+import net.corda.samples.referencestates.states.SanctionableIOUState;
+import net.corda.samples.referencestates.states.SanctionedEntities;
 import com.google.common.collect.ImmutableSet;
 import net.corda.core.contracts.Command;
 import net.corda.core.contracts.ContractState;
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static com.example.contract.SanctionableIOUContract.IOU_CONTRACT_ID;
+import static net.corda.samples.referencestates.contracts.SanctionableIOUContract.IOU_CONTRACT_ID;
 
 
 public class IOUIssueFlow {
@@ -40,7 +40,7 @@ public class IOUIssueFlow {
         }
 
         ProgressTracker.Step GENERATING_TRANSACTION = new ProgressTracker.Step("Generating Transaction based on new IOU.");
-        ProgressTracker.Step VERIFYING_TRANSACTION = new ProgressTracker.Step("Verifying contract constraints.");
+        ProgressTracker.Step VERIFYING_TRANSACTION = new ProgressTracker.Step("Verifying contracts constraints.");
         ProgressTracker.Step SIGNING_TRANSACTION = new ProgressTracker.Step("Signing transaction with our private key.");
         ProgressTracker.Step GATHERING_SIGS = new ProgressTracker.Step("Gathering the counterparty's signature.") {
             public ProgressTracker childProgressTracker() {
@@ -67,7 +67,7 @@ public class IOUIssueFlow {
         public SignedTransaction call() throws FlowException {
             // Obtain a reference to a notary we wish to use.
             /** METHOD 1: Take first notary on network, WARNING: use for test, non-prod environments, and single-notary networks only!*
-             *  METHOD 2: Explicit selection of notary by CordaX500Name - argument can by coded in flow or parsed from config (Preferred)
+             *  METHOD 2: Explicit selection of notary by CordaX500Name - argument can by coded in flows or parsed from config (Preferred)
              *
              *  * - For production you always want to use Method 2 as it guarantees the expected notary is returned.
              */
@@ -106,7 +106,7 @@ public class IOUIssueFlow {
 
             // Stage 4
             progressTracker.setCurrentStep(GATHERING_SIGS);
-            //Send the state to the counterparty, and receive it back with their signature
+            //Send the states to the counterparty, and receive it back with their signature
             FlowSession otherPartySession = initiateFlow(otherParty);
             SignedTransaction fullySignedTx = subFlow(
                     new CollectSignaturesFlow(

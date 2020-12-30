@@ -1,6 +1,6 @@
-package com.example.state;
+package net.corda.samples.referencestates.states;
 
-import com.example.contract.SanctionedEntitiesContract;
+import net.corda.samples.referencestates.contracts.SanctionedEntitiesContract;
 import com.google.common.collect.ImmutableList;
 import net.corda.core.contracts.BelongsToContract;
 import net.corda.core.contracts.LinearState;
@@ -12,9 +12,9 @@ import net.corda.core.serialization.ConstructorForDeserialization;
 import java.util.List;
 
 /**
- * The state object recording list of untrusted parties.
+ * The states object recording list of untrusted parties.
  *
- * A state must implement [ContractState] or one of its descendants.
+ * A states must implement [ContractState] or one of its descendants.
  *
  */
 

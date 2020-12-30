@@ -1,7 +1,7 @@
-package com.example.flow;
+package net.corda.samples.referencestates.referencestates.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
-import com.example.state.SanctionedEntities;
+import net.corda.samples.referencestates.states.SanctionedEntities;
 import net.corda.core.contracts.StateAndRef;
 import net.corda.core.flows.*;
 import net.corda.core.identity.Party;

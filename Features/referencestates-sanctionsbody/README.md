@@ -52,7 +52,7 @@ Next, we want to issue an IOU. Run from the IOUPartyA shell:
 
     flow start IOUIssueFlow iouValue: 5, otherParty: IOUPartyB, sanctionsBody: SanctionsBody
 
-We've seen how to successfully send an IOU to a non-sanctioned party, so what if we want to send one to a sanctioned party? First we need to update the sanction list so, from the SanctionsParty shell, run:
+We've seen how to successfully send an IOU to a non-sanctioned party, so what if we want to send one to a sanctioned party? First we need to update the sanction list so, from the SanctionsBody shell, run:
 
     flow start UpdateSanctionsListFlow partyToSanction: DodgyParty
 

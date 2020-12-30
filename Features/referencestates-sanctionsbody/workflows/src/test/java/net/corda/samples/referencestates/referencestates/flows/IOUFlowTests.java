@@ -1,14 +1,12 @@
-package com.example.flow;
+package net.corda.samples.referencestates.referencestates.flows;
 
-import com.example.contract.SanctionedEntitiesContract;
-import com.example.state.SanctionableIOUState;
 import com.google.common.collect.ImmutableList;
 import net.corda.core.contracts.TransactionVerificationException;
-import net.corda.core.flows.FlowSession;
 import net.corda.core.flows.NotaryException;
 import net.corda.core.identity.Party;
 import net.corda.core.node.NetworkParameters;
 import net.corda.core.transactions.SignedTransaction;
+import net.corda.samples.referencestates.states.SanctionableIOUState;
 import net.corda.testing.node.*;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.After;
@@ -20,7 +18,6 @@ import org.junit.rules.ExpectedException;
 import java.security.SignatureException;
 import java.time.Duration;
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -39,14 +36,14 @@ public class IOUFlowTests {
     Party issuerParty;
 
     @Before
-    public void setup(){
+    public void setup() {
         MockNetworkParameters param = new MockNetworkParameters(
                 false,
                 false,
                 new InMemoryMessagingNetwork.ServicePeerAllocationStrategy.Random(),
-                ImmutableList.of(new MockNetworkNotarySpec(DUMMY_NOTARY_NAME,false)),
-                new NetworkParameters(4,emptyList(),10484760, 10484760 * 50, Instant.now(), 1, emptyMap(), Duration.ofDays(30)),
-                 ImmutableList.of(findCordapp("com.example.contract"))
+                ImmutableList.of(new MockNetworkNotarySpec(DUMMY_NOTARY_NAME, false)),
+                new NetworkParameters(4, emptyList(), 10484760, 10484760 * 50, Instant.now(), 1, emptyMap(), Duration.ofDays(30)),
+                ImmutableList.of(findCordapp("net.corda.samples.referencestates.contracts"))
         );
 
         network = new MockNetwork(param);
@@ -57,9 +54,9 @@ public class IOUFlowTests {
 
         issuer = network.createPartyNode(null);
         issuerParty = issuer.getInfo().getLegalIdentities().get(0);
-        // For real nodes this happens automatically, but we have to manually register the flow for tests.
+        // For real nodes this happens automatically, but we have to manually register the flows for tests.
 
-        ImmutableList.of(a,b,c ).forEach(node->{
+        ImmutableList.of(a, b, c).forEach(node -> {
             node.registerInitiatedFlow(IOUIssueFlow.Acceptor.class);
         });
         issuer.registerInitiatedFlow(GetSanctionsListFlow.Acceptor.class);
@@ -68,12 +65,13 @@ public class IOUFlowTests {
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         network.stopNodes();
     }
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
+
     @Test
     public void dealFailsIfThereIsNoIssuedSanctionsList() throws ExecutionException, InterruptedException, SignatureException {
         thrown.expectCause(IsInstanceOf.<Throwable>instanceOf(TransactionVerificationException.class));
@@ -92,7 +90,7 @@ public class IOUFlowTests {
         issuanceFlow.get();
         getSanctionsList(a, issuerParty);
         IOUIssueFlow.Initiator flow = new IOUIssueFlow.Initiator(1, b.getInfo().getLegalIdentities().get(0), issuerParty);
-        Future future  =  a.startFlow(flow);
+        Future future = a.startFlow(flow);
         network.runNetwork();
         SignedTransaction signedTx = (SignedTransaction) future.get();
         signedTx.verifySignaturesExcept(b.getInfo().getLegalIdentities().get(0).getOwningKey());
@@ -222,8 +220,6 @@ public class IOUFlowTests {
 
 
     }
-
-
 
 
 }

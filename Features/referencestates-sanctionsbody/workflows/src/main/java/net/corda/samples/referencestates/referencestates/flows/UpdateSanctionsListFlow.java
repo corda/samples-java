@@ -1,8 +1,8 @@
-package com.example.flow;
+package net.corda.samples.referencestates.referencestates.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
-import com.example.contract.SanctionedEntitiesContract;
-import com.example.state.SanctionedEntities;
+import net.corda.samples.referencestates.contracts.SanctionedEntitiesContract;
+import net.corda.samples.referencestates.states.SanctionedEntities;
 import net.corda.core.contracts.Command;
 import net.corda.core.contracts.StateAndRef;
 import net.corda.core.flows.*;
@@ -45,7 +45,7 @@ public class UpdateSanctionsListFlow {
         public StateAndRef<SanctionedEntities> call() throws FlowException {
             // Obtain a reference to a notary we wish to use.
             /** METHOD 1: Take first notary on network, WARNING: use for test, non-prod environments, and single-notary networks only!*
-             *  METHOD 2: Explicit selection of notary by CordaX500Name - argument can by coded in flow or parsed from config (Preferred)
+             *  METHOD 2: Explicit selection of notary by CordaX500Name - argument can by coded in flows or parsed from config (Preferred)
              *
              *  * - For production you always want to use Method 2 as it guarantees the expected notary is returned.
              */

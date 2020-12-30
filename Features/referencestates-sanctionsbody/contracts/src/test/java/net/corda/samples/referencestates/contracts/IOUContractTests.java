@@ -1,23 +1,24 @@
-package com.example.contract;
+package net.corda.samples.referencestates.contracts;
 
-import com.example.state.SanctionableIOUState;
-import com.example.state.SanctionedEntities;
 import com.google.common.collect.ImmutableList;
 import net.corda.core.identity.CordaX500Name;
 import net.corda.core.identity.Party;
+import net.corda.samples.referencestates.states.SanctionableIOUState;
+import net.corda.samples.referencestates.states.SanctionedEntities;
 import net.corda.testing.core.TestIdentity;
 import net.corda.testing.node.MockNetworkParameters;
 import net.corda.testing.node.MockServices;
 import org.junit.Test;
 
-import static com.example.contract.SanctionableIOUContract.IOU_CONTRACT_ID;
-import static com.example.contract.SanctionedEntitiesContract.SANCTIONS_CONTRACT_ID;
-import static java.util.Collections.*;
-import static net.corda.testing.common.internal.ParametersUtilitiesKt.testNetworkParameters;
-import static net.corda.testing.node.NodeTestUtils.ledger;
-
 import java.time.Duration;
 import java.time.Instant;
+
+import static java.util.Collections.emptyList;
+import static java.util.Collections.emptyMap;
+import static net.corda.samples.referencestates.contracts.SanctionableIOUContract.IOU_CONTRACT_ID;
+import static net.corda.samples.referencestates.contracts.SanctionedEntitiesContract.SANCTIONS_CONTRACT_ID;
+import static net.corda.testing.common.internal.ParametersUtilitiesKt.testNetworkParameters;
+import static net.corda.testing.node.NodeTestUtils.ledger;
 
 public class IOUContractTests {
     CordaX500Name DUMMY_NOTARY_NAME = new CordaX500Name("Notary Service", "Zurich", "CH");
@@ -33,13 +34,13 @@ public class IOUContractTests {
     private MockServices ledgerServices = new MockServices(
             megaCorp,
             testNetworkParameters(emptyList(),
-                    4, Instant.now(),10484760,10484760 * 50, emptyMap(), 1, Duration.ofDays(30), emptyMap()  ));
+                    4, Instant.now(), 10484760, 10484760 * 50, emptyMap(), 1, Duration.ofDays(30), emptyMap()));
 
     private SanctionedEntities sanctions = new SanctionedEntities(ImmutableList.of(naughtyCorp.getParty()), issuer.getParty());
-    private int iouValue =1;
+    private int iouValue = 1;
 
     @Test
-    public void transactionMustIncludeReferenceSanctionsListCommand(){
+    public void transactionMustIncludeReferenceSanctionsListCommand() {
         ledger(ledgerServices, ledger -> {
             ledger.transaction(tx -> {
                 tx.output(IOU_CONTRACT_ID, new SanctionableIOUState(iouValue, miniCorp.getParty(), megaCorp.getParty()));
@@ -51,10 +52,12 @@ public class IOUContractTests {
             });
             return null;
         });
-    };
+    }
+
+    ;
 
     @Test
-    public void shouldNotAllowSenderToBeSanctioned(){
+    public void shouldNotAllowSenderToBeSanctioned() {
         ledger(ledgerServices, ledger -> {
             ledger.transaction(tx -> {
                 tx.output(IOU_CONTRACT_ID, new SanctionableIOUState(iouValue, naughtyCorp.getParty(), megaCorp.getParty()));
@@ -71,8 +74,8 @@ public class IOUContractTests {
     }
 
     @Test
-    public void transactionMustIncludeCreateCommand(){
-        ledger(ledgerServices, ledger ->{
+    public void transactionMustIncludeCreateCommand() {
+        ledger(ledgerServices, ledger -> {
             ledger.transaction(tx -> {
                 tx.output(IOU_CONTRACT_ID, new SanctionableIOUState(iouValue, miniCorp.getParty(), megaCorp.getParty()));
                 tx.reference(SANCTIONS_CONTRACT_ID, sanctions);
@@ -89,8 +92,8 @@ public class IOUContractTests {
     }
 
     @Test
-    public void transactionMustHaveNoInputs(){
-        ledger(ledgerServices, ledger ->{
+    public void transactionMustHaveNoInputs() {
+        ledger(ledgerServices, ledger -> {
             ledger.transaction(tx -> {
                 tx.reference(SANCTIONS_CONTRACT_ID, sanctions);
                 tx.input(IOU_CONTRACT_ID, new SanctionableIOUState(iouValue, miniCorp.getParty(), megaCorp.getParty()));
@@ -107,8 +110,8 @@ public class IOUContractTests {
     }
 
     @Test
-    public void transactionMustHaveOneOutput(){
-        ledger(ledgerServices, ledger ->{
+    public void transactionMustHaveOneOutput() {
+        ledger(ledgerServices, ledger -> {
             ledger.transaction(tx -> {
                 tx.reference(SANCTIONS_CONTRACT_ID, sanctions);
                 tx.output(IOU_CONTRACT_ID, new SanctionableIOUState(iouValue, miniCorp.getParty(), megaCorp.getParty()));
@@ -118,7 +121,7 @@ public class IOUContractTests {
                         ImmutableList.of(megaCorp.getPublicKey(), miniCorp.getPublicKey()),
                         new SanctionableIOUContract.Commands.Create(issuer.getParty())
                 );
-                tx.failsWith("Only one output state should be created.");
+                tx.failsWith("Only one output states should be created.");
                 return null;
             });
             return null;
@@ -126,8 +129,8 @@ public class IOUContractTests {
     }
 
     @Test
-    public void lenderMustSignTransaction(){
-        ledger(ledgerServices, ledger ->{
+    public void lenderMustSignTransaction() {
+        ledger(ledgerServices, ledger -> {
             ledger.transaction(tx -> {
                 tx.reference(SANCTIONS_CONTRACT_ID, sanctions);
                 tx.output(IOU_CONTRACT_ID, new SanctionableIOUState(iouValue, miniCorp.getParty(), megaCorp.getParty()));
@@ -143,8 +146,8 @@ public class IOUContractTests {
     }
 
     @Test
-    public void borrowerMustSignTransaction(){
-        ledger(ledgerServices, ledger ->{
+    public void borrowerMustSignTransaction() {
+        ledger(ledgerServices, ledger -> {
             ledger.transaction(tx -> {
                 tx.reference(SANCTIONS_CONTRACT_ID, sanctions);
                 tx.output(IOU_CONTRACT_ID, new SanctionableIOUState(iouValue, miniCorp.getParty(), megaCorp.getParty()));
@@ -160,8 +163,8 @@ public class IOUContractTests {
     }
 
     @Test
-    public void lenderISNotBorrower(){
-        ledger(ledgerServices, ledger ->{
+    public void lenderISNotBorrower() {
+        ledger(ledgerServices, ledger -> {
             ledger.transaction(tx -> {
                 tx.reference(SANCTIONS_CONTRACT_ID, sanctions);
                 tx.output(IOU_CONTRACT_ID, new SanctionableIOUState(iouValue, megaCorp.getParty(), megaCorp.getParty()));
@@ -177,8 +180,8 @@ public class IOUContractTests {
     }
 
     @Test
-    public void cannotCreateNegativeValueIOUs(){
-        ledger(ledgerServices, ledger ->{
+    public void cannotCreateNegativeValueIOUs() {
+        ledger(ledgerServices, ledger -> {
             ledger.transaction(tx -> {
                 tx.reference(SANCTIONS_CONTRACT_ID, sanctions);
                 tx.output(IOU_CONTRACT_ID, new SanctionableIOUState(-1, miniCorp.getParty(), megaCorp.getParty()));
