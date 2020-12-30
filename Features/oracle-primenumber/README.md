@@ -24,10 +24,9 @@ This repo is split into three CorDapps:
 
 ## Usage
 
+## Pre-Requisites
 
-### Pre-requisites:
-
-See https://docs.corda.net/getting-set-up.html.
+For development environment setup, please refer to: [Setup Guide](https://docs.corda.net/getting-set-up.html).
 
 
 ### Running the CorDapp
