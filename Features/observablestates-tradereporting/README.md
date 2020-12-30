@@ -1,4 +1,4 @@
-# observable states cordapp
+# Trade Reporting -- ObservableStates
 
 This CorDapp shows how Corda's [observable states](https://docs.corda.net/docs/corda-os/4.4/tutorial-observer-nodes.html#observer-nodes) feature works. Observable states is the ability for nodes who are not
 participants in a transaction to still store them if the transactions are sent to them.
@@ -14,7 +14,7 @@ and national regulators. There are two ways to use observable states:
 
 The two approaches are functionally identical.
 
-In this CorDapp, the seller runs [the `TradeAndReport` flow](./workflows-kotlin/src/main/kotlin/com/observable/flows/TradeAndReport.kt) to create [a new `HighlyRegulatedState`](./contracts-kotlin/src/main/kotlin/com/observable/states/HighlyRegulatedState.kt). Then we can see that the seller will:
+In this CorDapp, the seller runs the `TradeAndReport` flow to create a new `HighlyRegulatedState`. Then we can see that the seller will:
 
 * Distribute the state to the buyer and the `state regulator` using `FinalityFlow`
 * Distribute the state to the `national regulator` manually using the `ReportManually` flow
@@ -22,9 +22,9 @@ In this CorDapp, the seller runs [the `TradeAndReport` flow](./workflows-kotlin/
 
 ## Usage
 
-### Pre-requisites:
+## Pre-Requisites
 
-See https://docs.corda.net/getting-set-up.html.
+For development environment setup, please refer to: [Setup Guide](https://docs.corda.net/getting-set-up.html).
 
 
 ### Deploy and run the node

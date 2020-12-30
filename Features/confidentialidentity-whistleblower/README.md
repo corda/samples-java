@@ -1,4 +1,4 @@
-# whistle blower cordapp [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Features/confidentialidentity-whistleblower)
+# Whistleblower -- Confidential Identity 
 
 This CorDapp is a simple showcase of [confidential identities](https://docs.corda.net/docs/corda-os/api-identity.html#confidential-identities) (i.e. anonymous public keys).
 
@@ -12,16 +12,12 @@ who manage to get ahold of the state cannot identity the whistle-blower or inves
 automatically by the `SwapIdentitiesFlow`.
 
 
-You can find `SwapIdentitiesFlow` [here](./workflows/src/main/java/net/corda/examples/whistleblower/flows/BlowWhistleFlow.java#L117-L121).
-
-
-
 ## Usage
 
 
-### Pre-requisites:
+## Pre-Requisites
 
-See https://docs.corda.net/getting-set-up.html.
+For development environment setup, please refer to: [Setup Guide](https://docs.corda.net/getting-set-up.html).
 
 
 ### Running the CorDapp
