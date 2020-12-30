@@ -1,4 +1,4 @@
-# autopayroll -- cordaservice demo [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Features/cordaservice-autopayroll)
+# Auto Payroll -- CordaService
 
 This Cordapp shows how to trigger a flow with vault update(completion of prior flows) using [CordaService](https://training.corda.net/corda-details/automation/#services) & [trackby](https://training.corda.net/corda-details/automation-solution/#track-and-notify).
 
@@ -10,7 +10,7 @@ In this Cordapp, there are four parties:
  - PetersonThomas: worker #1 will accept money
  - GeorgeJefferson: worker #2 will accept money
 
-There are two states [`PaymentRequestState`](./contracts/src/main/java/net/corda/examples/autopayroll/states/PaymentRequestState.java#L20-L24) & [`MoneyState`](./contracts/src/main/java/net/corda/examples/autopayroll/states/MoneyState.java#L23-L26), and two flows `RequestFlow` & `PaymentFlow`. The business logic looks like the following:
+There are two states `PaymentRequestState` & `MoneyState`, and two flows `RequestFlow` & `PaymentFlow`. The business logic looks like the following:
 ![alt text](./webpic/Business%20Logic.png)
 
 1. Finance team put in payroll request to the bank operators
@@ -20,9 +20,9 @@ There are two states [`PaymentRequestState`](./contracts/src/main/java/net/corda
 ## Usage
 
 
-### Pre-Requisites
+## Pre-Requisites
 
-See https://docs.corda.net/getting-set-up.html.
+For development environment setup, please refer to: [Setup Guide](https://docs.corda.net/getting-set-up.html).
 
 ### Running the CorDapp
 
@@ -42,7 +42,7 @@ flow start RequestFlowInitiator amount: 500, towhom: GeorgeJefferson
 ```
 As a result, we can check for the payment at GeorgeJefferson's node shell by running:
 ```
-run vaultQuery contractStateType: net.corda.examples.autopayroll.states.MoneyState
+run vaultQuery contractStateType: net.corda.samples.autopayroll.states.MoneyState
 ```
 We will see that George Jefferson received a `MoneyState` with amount $500.
 

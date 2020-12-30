@@ -1,4 +1,4 @@
-# queryablestate cordapp [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Features/queryablestate-carinsurance)
+# Car Insurance -- QueryableState
 
 This CorDapp demonstrates [QueryableState](https://docs.corda.net/docs/corda-os/api-persistence.html) works in Corda. Corda allows developers
 to have the ability to expose some or all parts of their states to a custom database
@@ -25,16 +25,16 @@ Server](https://spring.io/projects/spring-boot#overview).
 
 There are two flow in this cordapp:
 
-1. [IssueInsuranceInitiator](./workflows/src/main/java/net/corda/examples/carinsurance/flows/IssueInsuranceFlow.java#L39-L67): It creates the insurance state with the associated vehicle
-information.
+1. IssueInsurance: It creates the insurance state with the associated vehicle information.
 
-2. [InsuranceClaimInitiator](./workflows/src/main/java/net/corda/examples/carinsurance/flows/InsuranceClaimFlow.java#L34-L57): It creates the claims against the insurance.
+2. InsuranceClaim: It creates the claims against the insurance.
 
 
 ## Usage
 
-### Pre-requisites:
-See https://docs.corda.net/getting-set-up.html.
+## Pre-Requisites
+
+For development environment setup, please refer to: [Setup Guide](https://docs.corda.net/getting-set-up.html).
 
 ### Running the CorDapp
 

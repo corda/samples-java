@@ -1,29 +1,17 @@
-# reference state cordapp [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Features/referencestates-sanctionsbody)
+# Sanctionbody -- ReferenceState 
 
 This CorDapp demonstrates the use of [reference states](https://training.corda.net/corda-details/reference-states/) in a transaction and in the verification method of a contract.
 
 ## Concepts
-
-
 This CorDapp allows two nodes to enter into an IOU agreement, but enforces that both parties belong to a list of sanctioned entities. This list of sanctioned entities is taken from a referenced SanctionedEntities state.
-
-### Flows
-
-Next, we want to issue an IOU, this happens in [IOUIssueFlow](./workflows/src/main/java/com.example.flow/IOUIssueFlow.java#L150-L173)
-
-
-We've seen how to successfully send an IOU to a non-sanctioned party, so what if we want to send one to a sanctioned party? First we need to update the sanction list which you'll find in [UpdateSanctionsListFlow](./workflows/src/main/java/com.example.flow/UpdateSanctionsListFlow.java#L45-L90).
-
-
-We need to update the reference before we use it in a new transaction, we receive our sanctionslist with the [GetSanctionsListFlow](./workflows/src/main/java/com.example.flow/GetSanctionsListFlow.java#L51-L63)
-
 
 ## Usage
 
 
-### Pre-Requisites
+## Pre-Requisites
 
-See https://docs.corda.net/getting-set-up.html.
+For development environment setup, please refer to: [Setup Guide](https://docs.corda.net/getting-set-up.html).
+
 
 ### Running the CorDapp
 
@@ -35,6 +23,7 @@ Then type: (to run the nodes)
 ```
 ./build/nodes/runnodes
 ```
+
 
 ### Running the flows
 
@@ -52,7 +41,7 @@ Next, we want to issue an IOU. Run from the IOUPartyA shell:
 
     flow start IOUIssueFlow iouValue: 5, otherParty: IOUPartyB, sanctionsBody: SanctionsBody
 
-We've seen how to successfully send an IOU to a non-sanctioned party, so what if we want to send one to a sanctioned party? First we need to update the sanction list so, from the SanctionsParty shell, run:
+We've seen how to successfully send an IOU to a non-sanctioned party, so what if we want to send one to a sanctioned party? First we need to update the sanction list so, from the SanctionsBody shell, run:
 
     flow start UpdateSanctionsListFlow partyToSanction: DodgyParty
 

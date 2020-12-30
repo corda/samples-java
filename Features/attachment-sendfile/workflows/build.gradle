@@ -7,7 +7,7 @@ cordapp {
     targetPlatformVersion corda_platform_version
     minimumPlatformVersion corda_platform_version
     workflow {
-        name "sendfile Flows"
+        name "Attachment Sendfile"
         vendor "Corda Open Source"
         licence "Apache License, Version 2.0"
         versionId 1
@@ -58,39 +58,3 @@ task integrationTest(type: Test, dependsOn: []) {
     classpath = sourceSets.integrationTest.runtimeClasspath
 }
 
-task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
-    nodeDefaults {
-        projectCordapp {
-            deploy = true
-        }
-        cordapp project(':contracts')
-	runSchemaMigration = true
-    }
-    node {
-        name "O=Notary,L=London,C=GB"
-        notary = [validating : false]
-        p2pPort 10002
-        rpcSettings {
-            address("localhost:10003")
-            adminAddress("localhost:10043")
-        }
-    }
-    node {
-        name "O=Buyer,L=London,C=GB"
-        p2pPort 10005
-        rpcSettings {
-            address("localhost:10006")
-            adminAddress("localhost:10046")
-        }
-        rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
-    }
-    node {
-        name "O=Seller,L=New York,C=US"
-        p2pPort 10008
-        rpcSettings {
-            address("localhost:10009")
-            adminAddress("localhost:10049")
-        }
-        rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
-    }
-}

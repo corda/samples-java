@@ -1,5 +1,4 @@
-# Heartbeat CorDapp [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Features/schedulablestate-heartbeat)
-
+# Heartbeat -- Schedulablestate
 This CorDapp is a simple showcase of [scheduled activities](https://docs.corda.net/docs/corda-os/event-scheduling.html#how-to-implement-scheduled-events) (i.e. activities started by a node at a specific time without
 direct input from the node owner).
 
@@ -18,21 +17,11 @@ The new `HeartState` also has a scheduled activity to start the `HeatbeatFlow` i
 
 In this way, calling the `StartHeartbeatFlow` creates an endless chain of `HeartbeatFlow`s one second apart.
 
-
-You can find those flows here :
-
- - [StartHeartBeatFlow](./workflows/src/main/java/com/heartbeat/flows/StartHeartbeatFlow.java#L52-L65)
-
- - [HeartbeatFlow](./workflows/src/main/java/com/heartbeat/flows/HeartbeatFlow.java#L53-L70)
-
-
-
 ## Usage
 
+## Pre-Requisites
 
-### Pre-requisites:
-
-See https://docs.corda.net/getting-set-up.html.
+For development environment setup, please refer to: [Setup Guide](https://docs.corda.net/getting-set-up.html).
 
 
 ### Running the CorDapp
