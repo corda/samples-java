@@ -1,4 +1,4 @@
-# spaceships-javaAPIs token sample cordapp [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Tokens/spaceships-javaAPIs)
+# spaceships-javaAPIs token sample cordapp 
 
 ## IMPORTANT: this project is using TokenSDK Pre-signed developer snapshot pending the formal release. NOT FOR PRODUCTION. This repo will be updated when available.
 
@@ -49,12 +49,9 @@ Examples of the new Java APIs will be used throughout and identified as such.
 
 Flows are executed through the `FlowTests` class in the workflows module. They can also be run through the [CRaSH](https://docs.corda.net/docs/corda-os/shell.html) shell.
 
-
 ## Pre-Requisites
 
-See https://docs.corda.net/getting-set-up.html.
-
-For a brief introduction to Token SDK in Corda, see https://medium.com/corda/introduction-to-token-sdk-in-corda-9b4dbcf71025
+For development environment setup, please refer to: [Setup Guide](https://docs.corda.net/getting-set-up.html).
 
 ## Usage
 

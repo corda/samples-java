@@ -42,9 +42,9 @@ allprojects {
         mavenCentral()
         maven { url 'https://software.r3.com/artifactory/corda' }
         maven { url 'https://jitpack.io' }
-        // Can be removed post-release - used to get nightly snapshot build.
+        //SDK lib
         maven { url 'https://software.r3.com/artifactory/corda-lib' }
-        maven { url 'https://software.r3.com/artifactory/corda-lib-dev' }
+        //Gradle Plugins
         maven { url 'https://repo.gradle.org/gradle/libs-releases' }
     }
 
@@ -67,15 +67,6 @@ allprojects {
 apply plugin: 'net.corda.plugins.cordapp'
 apply plugin: 'net.corda.plugins.cordformation'
 apply plugin: 'net.corda.plugins.quasar-utils'
-
-cordapp {
-    info {
-        name "CorDapp dollartohousetoken"
-        vendor "Corda Open Source"
-        targetPlatformVersion corda_platform_version.toInteger()
-        minimumPlatformVersion corda_platform_version.toInteger()
-    }
-}
 
 sourceSets {
     main {
@@ -105,7 +96,6 @@ dependencies {
     // Token SDK dependencies.
     cordapp "$tokens_release_group:tokens-contracts:$tokens_release_version"
     cordapp "$tokens_release_group:tokens-workflows:$tokens_release_version"
-   // cordapp "$tokens_release_group:tokens-money:$tokens_release_version"
 }
 
 task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
@@ -160,18 +150,6 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
             adminAddress("localhost:10052")
         }
         extraConfig = ['h2Settings.address' : 'localhost:20043']
-
-        rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
-    }
-
-    node {
-        name "O=PartyD,L=Mumbai,C=IN"
-        p2pPort 10016
-        rpcSettings {
-            address("localhost:10017")
-            adminAddress("localhost:10057")
-        }
-        extraConfig = ['h2Settings.address' : 'localhost:20044']
 
         rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
     }

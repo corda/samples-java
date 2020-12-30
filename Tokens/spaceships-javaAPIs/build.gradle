@@ -13,12 +13,8 @@ buildscript {
         log4j_version = constants.getProperty("log4jVersion")
         slf4j_version = constants.getProperty("slf4jVersion")
         corda_platform_version = constants.getProperty("platformVersion").toInteger()
-        //springboot
-        spring_boot_version = '2.0.2.RELEASE'
-        spring_boot_gradle_plugin_version = '2.0.2.RELEASE'
 
         //TokenSDK
-        // FOR USE with snapshot source (pre-release JAVA APIs)
         tokens_release_group = 'com.r3.corda.lib.tokens'
         tokens_release_version = '1.2'
     }
@@ -34,7 +30,6 @@ buildscript {
         classpath "net.corda.plugins:cordapp:$corda_gradle_plugins_version"
         classpath "net.corda.plugins:cordformation:$corda_gradle_plugins_version"
         classpath "net.corda.plugins:quasar-utils:$corda_gradle_plugins_version"
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:$spring_boot_gradle_plugin_version"
     }
 }
 
@@ -47,9 +42,10 @@ allprojects {
         mavenCentral()
         maven { url 'https://software.r3.com/artifactory/corda' }
         maven { url 'https://jitpack.io' }
-        maven { url 'https://repo.gradle.org/gradle/libs-releases' }
+        //SDK lib
         maven { url 'https://software.r3.com/artifactory/corda-lib' }
-        maven { url 'https://software.r3.com/artifactory/corda-lib-dev' }
+        //Gradle Plugins
+        maven { url 'https://repo.gradle.org/gradle/libs-releases' }
     }
 
     tasks.withType(JavaCompile) {
@@ -72,14 +68,7 @@ allprojects {
 apply plugin: 'net.corda.plugins.cordapp'
 apply plugin: 'net.corda.plugins.cordformation'
 apply plugin: 'net.corda.plugins.quasar-utils'
-cordapp {
-    info {
-        name "CorDapp spaceshipstoken"
-        vendor "Corda Open Source"
-        targetPlatformVersion corda_platform_version.toInteger()
-        minimumPlatformVersion corda_platform_version.toInteger()
-    }
-}
+
 sourceSets {
     main {
         resources {
@@ -116,7 +105,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         cordapp("$tokens_release_group:tokens-workflows:$tokens_release_version")
         cordapp project(':contracts')
         cordapp project(':workflows')
-	runSchemaMigration = true
+	    runSchemaMigration = true
     }
     node {
         name "O=Notary,L=London,C=GB"

@@ -8,5 +8,6 @@
 **/.vscode/*
 **/out/
 **/logs/
+**/node_modules/
 corda-nodeinfo/corda-nodeinfo.iml
 *~*

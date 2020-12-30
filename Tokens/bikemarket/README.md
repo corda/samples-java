@@ -33,24 +33,11 @@ Throughout the sample, we will see how to create, transact, and redeem a Token.
 
 
 ### Flows
-
-
-We'll create bike parts using the flows for CreateFrameToken and CreateWheelToken.
-
-
-We can create the Tokens with [CreateFrameToken](./workflows/src/main/java/net/corda/examples/bikemarket/flows/CreateFrameToken.java) and [CreateWheelToken](./workflows/src/main/java/net/corda/examples/bikemarket/flows/CreateWheelToken.java).
-
-
-We'll create a bike with the [IssueNewBike](./workflows/src/main/java/net/corda/examples/bikemarket/flows/IssueNewBike.java) flow.
-
-
-We can transfer bike Tokens using the [TransferBikeToken](./workflows/src/main/java/net/corda/examples/bikemarket/flows/TransferBikeTokens.java) flow.
-
-
-We can total bike Tokens using the [TotalPart](./workflows/src/main/java/net/corda/examples/bikemarket/flows/TotalParts.java) flow.
-
-
-We can transfer part Tokens using the [TransferPartToken](./workflows/src/main/java/net/corda/examples/bikemarket/flows/TransferPartTokens.java) flow.
+1. We'll create bike parts using the flows for `CreateFrameToken` and `CreateWheelToken`.
+2. We'll create a bike with the `IssueNewBike` flow.
+3. We can transfer bike Tokens using the `TransferBikeToken` flow.
+4. We can total bike Tokens using the `TotalPart` flow.
+5. We can transfer part Tokens using the `TransferPartToken` flow.
 
 
 ## Usage
@@ -67,12 +54,12 @@ if you have any questions during setup, please go to https://docs.corda.net/gett
 Once all four nodes are started up, in BikeCo's node shell, run:
 ```
 flow start CreateFrameToken frameSerial: F4561
-flow start CreateWheelToken wheelSerial: W7894
+flow start CreateWheelToken wheelsSerial: W7894
 ```
 After this step, we have created 2 Tokens representing the physical bike part with unique serial number (which will be unique in the manufacturing).
 Then run:
 ```
-flow start IssueNewBike frameSerial: F4561, wheelSerial: W7894, holder: LicensedDealership
+flow start IssueNewBike frameSerial: F4561, wheelsSerial: W7894, holder: LicensedDealership
 ```
 This line of command will transfer the Tokens (2 Tokens together represents a single bike) to the licensed dealership.
 
@@ -82,7 +69,7 @@ run vaultQuery contractStateType: com.r3.corda.lib.tokens.contracts.states.NonFu
 ```
 Continue to the business flow, the licensed dealership will sell the bike to the Buyer. Run:
 ```
-flow start TransferBikeToken frameSerial: F4561, wheelSerial: W7894, holder: Buyer
+flow start TransferBikeToken frameSerial: F4561, wheelsSerial: W7894, holder: Buyer
 ```
 
 Now we can check at the Buyer's node shell to see if the buyer received the Token by running the same `vaultQuery` we just ran at the dealership's shell.
@@ -95,7 +82,7 @@ flow start TotalPart part: frame, serialNumber: F4561
 At the buyer's shell, if we do the [vaultQuery](https://docs.corda.net/docs/corda-os/api-vault-query.html#api-vault-query) again, we will see we now only have a wheel Token (the frame Token is gone). With the wheel Token, we can sell 
 this pair of wheels to the used parts agency. We will achieve it by running:
 ```
-flow start TransferPartToken part: wheel, serialNumber: W7894, holder: UsedPartsAgency
+flow start TransferPartToken part: wheels, serialNumber: W7894, holder: UsedPartsAgency
 ```
 At the end of the flow logic, we will find the frame Token is destroyed and the used parts agency holds the wheel Token.
 
