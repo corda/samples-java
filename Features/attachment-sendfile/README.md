@@ -1,4 +1,4 @@
-# Sendfile Cordapp
+# Sendfile -- Attachment
 This Cordapp shows how to upload and download an [attachment](https://training.corda.net/corda-details/attachments/) via flow.
 
 
