@@ -1,4 +1,4 @@
-# Whistleblower Cordapp 
+# Whistleblower -- Confidential Identity 
 
 This CorDapp is a simple showcase of [confidential identities](https://docs.corda.net/docs/corda-os/api-identity.html#confidential-identities) (i.e. anonymous public keys).
 
