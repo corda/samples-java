@@ -1,4 +1,4 @@
-# negotiation cordapp [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Advanced/negotiation-cordapp)
+# Negotiation Cordapp 
 
 This CorDapp shows how multi-party negotiation is handled on the Corda ledger, in the absence of an API for user
 interaction.
@@ -16,21 +16,20 @@ accept or modify the proposal, this attempt will be rejected automatically at th
 
 ### Flows
 
-We start with the proposal flow implemented in [ProposalFlow.java](./workflows/src/main/java/negotiation/flows/ProposalFlow.java)
+We start with the proposal flow implemented in `ProposalFlow.java`.
 
 
-The modification of the proposal is implemented in [ModificationFlow.java](./workflows/src/main/java/negotiation/flows/ModificationFlow.java#L42-L49).
+The modification of the proposal is implemented in `ModificationFlow.java`.
 
 
-In the [AcceptanceFlow.java](./workflows/src/main/java/negotiation/flows/AcceptanceFlow.java#L42-L75), we receive the modified ProposalState and it's converted into a TradeState.
+In the `AcceptanceFlow.java`, we receive the modified ProposalState and it's converted into a TradeState.
 
 
 
 ## Usage
+## Pre-Requisites
+For development environment setup, please refer to: [Setup Guide](https://docs.corda.net/getting-set-up.html).
 
-### Pre-requisites:
-
-See https://docs.corda.net/getting-set-up.html.
 
 
 ### Running the nodes:

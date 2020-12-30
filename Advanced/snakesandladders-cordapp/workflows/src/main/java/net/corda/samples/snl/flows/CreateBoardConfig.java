@@ -13,7 +13,7 @@ import net.corda.core.identity.AbstractParty;
 import net.corda.core.identity.Party;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
-import net.corda.sample.snl.states.BoardConfig;
+import net.corda.samples.snl.states.BoardConfig;
 
 import java.security.SignatureException;
 import java.util.*;

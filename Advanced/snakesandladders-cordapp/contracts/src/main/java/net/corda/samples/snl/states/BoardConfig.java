@@ -1,10 +1,9 @@
-package net.corda.sample.snl.states;
+package net.corda.samples.snl.states;
 
 import net.corda.core.contracts.BelongsToContract;
 import net.corda.core.contracts.ContractState;
 import net.corda.core.identity.AbstractParty;
-import net.corda.sample.snl.contracts.BoardConfigContract;
-import net.corda.sample.snl.contracts.GameBoardContract;
+import net.corda.samples.snl.contracts.BoardConfigContract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

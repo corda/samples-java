@@ -1,16 +1,11 @@
 package net.corda.samples.snl.flows;
 
 import com.google.common.collect.ImmutableList;
-import com.r3.corda.lib.accounts.contracts.states.AccountInfo;
 import com.r3.corda.lib.accounts.workflows.flows.CreateAccount;
 import net.corda.core.concurrent.CordaFuture;
 import net.corda.core.node.NetworkParameters;
 import net.corda.core.transactions.SignedTransaction;
-import net.corda.sample.snl.states.BoardConfig;
-import net.corda.samples.snl.flows.CreateAndShareAccountFlow;
-import net.corda.samples.snl.flows.CreateBoardConfig;
-import net.corda.samples.snl.flows.CreateGameFlow;
-import net.corda.samples.snl.flows.GameInfo;
+import net.corda.samples.snl.states.BoardConfig;
 import net.corda.testing.node.MockNetwork;
 import net.corda.testing.node.MockNetworkParameters;
 import net.corda.testing.node.StartedMockNode;
@@ -35,7 +30,7 @@ public class FlowTests {
                 new MockNetworkParameters(
                         ImmutableList.of(
                                 TestCordapp.findCordapp("net.corda.samples.snl.flows"),
-                                TestCordapp.findCordapp("net.corda.sample.snl.contracts"),
+                                TestCordapp.findCordapp("net.corda.samples.snl.contracts"),
                                 TestCordapp.findCordapp("com.r3.corda.lib.accounts.contracts"),
                                 TestCordapp.findCordapp("com.r3.corda.lib.accounts.workflows"),
                                 TestCordapp.findCordapp("com.r3.corda.lib.ci"))

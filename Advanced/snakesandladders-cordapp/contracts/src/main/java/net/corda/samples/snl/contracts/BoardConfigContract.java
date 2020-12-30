@@ -1,13 +1,13 @@
-package net.corda.sample.snl.contracts;
+package net.corda.samples.snl.contracts;
 
 import net.corda.core.contracts.CommandData;
 import net.corda.core.contracts.Contract;
 import net.corda.core.transactions.LedgerTransaction;
-import net.corda.sample.snl.states.BoardConfig;
+import net.corda.samples.snl.states.BoardConfig;
 import org.jetbrains.annotations.NotNull;
 
 public class BoardConfigContract implements Contract {
-    public static String ID = "net.corda.sample.snl.contracts.BoardConfigContract";
+    public static String ID = "BoardConfigContract";
 
     @Override
     public void verify(@NotNull LedgerTransaction tx) throws IllegalArgumentException {

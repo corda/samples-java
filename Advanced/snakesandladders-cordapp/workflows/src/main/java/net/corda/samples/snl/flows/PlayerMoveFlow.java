@@ -19,9 +19,9 @@ import net.corda.core.node.services.vault.QueryCriteria;
 import net.corda.core.transactions.FilteredTransaction;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
-import net.corda.sample.snl.contracts.GameBoardContract;
-import net.corda.sample.snl.states.BoardConfig;
-import net.corda.sample.snl.states.GameBoard;
+import net.corda.samples.snl.contracts.GameBoardContract;
+import net.corda.samples.snl.states.BoardConfig;
+import net.corda.samples.snl.states.GameBoard;
 import net.corda.samples.snl.oracle.flows.OracleSignatureFlow;
 
 import java.security.SignatureException;
@@ -152,11 +152,8 @@ public class PlayerMoveFlow {
                     .getNodeByLegalName(CordaX500Name.parse("O=Oracle,L=Mumbai,C=IN")).getLegalIdentities().get(0);
 
             FilteredTransaction ftx = selfSignedTransaction.buildFilteredTransaction(o -> {
-                if (o instanceof Command && ((Command) o).getSigners().contains(oracle.getOwningKey())
-                        && ((Command) o).getValue() instanceof GameBoardContract.Commands.PlayMove) {
-                    return  true;
-                }
-                return false;
+                return o instanceof Command && ((Command) o).getSigners().contains(oracle.getOwningKey())
+                        && ((Command) o).getValue() instanceof GameBoardContract.Commands.PlayMove;
             });
 
             TransactionSignature oracleSignature = subFlow(new OracleSignatureFlow(oracle, ftx));
