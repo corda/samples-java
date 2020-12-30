@@ -1,4 +1,4 @@
-# Cordapp-Example 
+# cordapp-example 
 
 This repo is the implementation of the tutorial cordapp. 
 
