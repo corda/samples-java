@@ -1,6 +1,6 @@
 ## Basic Cordapp Sample
 
-This folder features basic sample projects, each of them demonstrates low level cordapp functionalities, such [RPC connection](https://docs.corda.net/docs/corda-os/api-rpc.html#api-rpc-operations), messaging, etc.
+This folder features basic sample projects, each of them demonstrates low level cordapp functionalities, such as [RPC connection](https://docs.corda.net/docs/corda-os/api-rpc.html#api-rpc-operations), messaging, etc.
 
 ### [Cordapp Example](./cordapp-example):
 A simple exploratory sample for the official [Corda online training](https://training.corda.net).  
