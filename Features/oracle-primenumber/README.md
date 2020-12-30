@@ -1,4 +1,4 @@
-# corda oracle examples [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Features/oracle-primenumber)
+# Prime Number -- Oracle
 
 This CorDapp implements an [oracle service](https://training.corda.net/corda-details/oracles) that allows nodes to:
 
@@ -16,10 +16,10 @@ real world, oracles would instead provide and sign statements about stock prices
 
 This repo is split into three CorDapps:
 
-1. A [base CorDapp](./base/src/main/java/net/corda/examples/oracle/base/flow) which includes the state and contract definition, as well as some utility flows that need to be
+1. A base CorDapp, which includes the state and contract definition, as well as some utility flows that need to be
    shared by both the Oracle service and the client
-2. A client CorDapp which [implements a flow](./client/src/main/java/net/corda/examples/oracle/client/flow/CreatePrime.java#L65-L107) to create numbers involving oracle-validated prime numbers
-3. A [service](services/src/main/java/net/corda/examples/oracle/service/service/Oracle.java#L55-L63) which implements the primes oracle
+2. A client CorDapp, which implements a flow to create numbers involving oracle-validated prime numbers
+3. A service, which implements the primes oracle
 
 
 ## Usage
