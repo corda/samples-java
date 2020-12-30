@@ -15,9 +15,11 @@ buildscript {
         log4j_version = constants.getProperty("log4jVersion")
         slf4j_version = constants.getProperty("slf4jVersion")
         corda_platform_version = constants.getProperty("platformVersion").toInteger()
+
         //springboot
         spring_boot_version = '2.0.2.RELEASE'
         spring_boot_gradle_plugin_version = '2.0.2.RELEASE'
+
         //account
         accounts_release_group = 'com.r3.corda.lib.accounts'
         accounts_release_version = '1.0'
@@ -30,11 +32,7 @@ buildscript {
         mavenLocal()
         mavenCentral()
         jcenter()
-        maven { url 'http://software.r3.com/artifactory/corda-lib-dev' }
-        maven { url 'http://software.r3.com/artifactory/corda-lib' }
-        maven { url 'https://software.r3.com/artifactory/corda' }
-        // Corda dependencies for the patched Quasar version
-        maven { url "https://software.r3.com/artifactory/corda-dependencies" } // access to the patched Quasar version
+        maven { url 'https://software.r3.com/artifactory/corda-releases' }
     }
 
     dependencies {
@@ -55,11 +53,11 @@ allprojects {
         jcenter()
         mavenCentral()
         maven { url 'https://software.r3.com/artifactory/corda' }
-        // Can be removed post-release - used to get nightly snapshot build.
-        maven { url 'https://software.r3.com/artifactory/corda-lib' }
-        maven { url 'https://software.r3.com/artifactory/corda-lib-dev' }
         maven { url 'https://jitpack.io' }
-        maven { url "https://repo.gradle.org/gradle/libs-releases-local" }
+        //SDK lib
+        maven { url 'https://software.r3.com/artifactory/corda-lib' }
+        //Gradle Plugins
+        maven { url 'https://repo.gradle.org/gradle/libs-releases' }
     }
 
     tasks.withType(JavaCompile) {
@@ -109,30 +107,6 @@ dependencies {
     cordapp "$accounts_release_group:accounts-workflows:$accounts_release_version"
 }
 
-cordapp {
-    info {
-        name "CorDapp tictacthor"
-        vendor "Corda Open Source"
-        targetPlatformVersion corda_platform_version
-        minimumPlatformVersion corda_platform_version
-    }
-}
-
-task ganache {
-    subprojects {
-        if (it.project.name != "clients") {
-            dependsOn jar
-            doLast {
-                copy {
-                    from "${buildDir}/libs"
-                    into "${rootDir}/build/libs"
-                }
-            }
-        }
-    }
-}
-
-
 task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
     nodeDefaults {
         projectCordapp {
@@ -173,15 +147,6 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         }
         rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
     }
-//    node {
-//        name "O=Observer,L=Chicago,C=US,CN=John"
-//        p2pPort 10011
-//        rpcSettings {
-//            address("localhost:10010")
-//            adminAddress("localhost:10050")
-//        }
-//        rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
-//    }
 }
 
 task installQuasar(type: Copy) {

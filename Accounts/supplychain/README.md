@@ -1,4 +1,4 @@
-# Accounts_SupplyChain [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Accounts/supplychain)
+# Accounts_SupplyChain
 
 For More information regarding the Accounts Library, please read at: https://github.com/corda/accounts/blob/master/docs.md
 
@@ -89,7 +89,7 @@ Navigate to Seller's node terminal and type in
 ```
 flow start SendShippingRequest whoAmI: SellerInventory, whereTo: BuyerWarehouse, shipper: ShippingCo, Cargo: 10 boxes of Books
 ```
-[Optional verification]: run ```run vaultQuery contractStateType: com.supplychain.states.ShippingRequestState``` at ShippingCo's node terminal 
+[Optional verification]: run ```run vaultQuery contractStateType: ShippingRequestState``` at ShippingCo's node terminal 
 
 ## Step 6: Shipping company sends the cargo to Buyer's warehouse
 Navigate to ShippingCo's node terminal and type in
