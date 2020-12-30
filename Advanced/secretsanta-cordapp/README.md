@@ -8,7 +8,7 @@ It has a material-ui frontend that lets users create and self-service their own 
 
 You can create a game using the web frontend (or just calling the api directly with Postman), and once the game is stored, players can look up their assignments using their game id, and the app also supports an optional sendgrid integration so that you can have emails sent to the players as well.
 
-> One tip if you're using intellij one recommendation is to open the project from the intellij dialog, don't import the project directly.
+> One tip if you're using intellij is to open the project from the intellij dialog, don't import the project directly.
 
 ## Usage
 
