@@ -1,4 +1,4 @@
-# blacklist cordapp [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Features/attachment-blacklist)
+# blacklist cordapp 
 
 This CorDapp allows nodes to reach agreement over arbitrary strings of text, but only with parties that are not included in the blacklist uploaded to the nodes as an [attachment](https://training.corda.net/corda-details/attachments/).
 
@@ -15,22 +15,15 @@ parties as being banned from entering into agreements:
 * Tifton Banking Company
 
 The blacklist jar is uploaded as an attachment when building a transaction, and used in the `AgreementContract` to
-check that the parties to the `AgreementState` are not blacklisted.
-
-### Flows
-
-There aren't many flows here, so it's quick to cover.
-
-There's a [proposal](./workflows/src/main/java/net/corda/examples/attachments/ProposeFlow.java) and [acceptance](./workflows/src/main/java/net/corda/examples/attachments/AgreeFlow.java) flow, and the blacklist is added as an attachment [here](./workflows/src/main/java/net/corda/examples/attachments/ProposeFlow.java#L47-L50).
+check that the parties to the `AgreementState` are not blacklisted. There aren't many flows here, so it's quick to cover. There's a proposal and acceptance flow, and the blacklist is added as an attachment.
 
 
 
 ## Usage
 
+## Pre-Requisites
 
-### Pre-requisites:
-
-See https://docs.corda.net/getting-set-up.html.
+For development environment setup, please refer to: [Setup Guide](https://docs.corda.net/getting-set-up.html).
 
 
 ### Running the CorDapp
