@@ -8,9 +8,10 @@ This CorDapp allows two nodes to enter into an IOU agreement, but enforces that 
 ## Usage
 
 
-### Pre-Requisites
+## Pre-Requisites
 
-See https://docs.corda.net/getting-set-up.html.
+For development environment setup, please refer to: [Setup Guide](https://docs.corda.net/getting-set-up.html).
+
 
 ### Running the CorDapp
 
@@ -22,6 +23,7 @@ Then type: (to run the nodes)
 ```
 ./build/nodes/runnodes
 ```
+
 
 ### Running the flows
 
