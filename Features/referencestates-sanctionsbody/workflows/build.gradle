@@ -7,7 +7,7 @@ cordapp {
     targetPlatformVersion corda_platform_version.toInteger()
     minimumPlatformVersion corda_platform_version.toInteger()
     contract {
-        name "Reference States CorDapp"
+        name "Reference States SanctionsBody"
         vendor "Corda Open Source"
         licence "Apache License, Version 2.0"
         versionId 1
@@ -24,7 +24,7 @@ sourceSets {
             srcDir "../config/dev"
         }
     }
-    test{
+    test {
         java {
             srcDir 'src/test/java'
             java.outputDir = file('bin/test')
@@ -55,60 +55,6 @@ dependencies {
 
     testCompile "$corda_release_group:corda-node-driver:$corda_release_version"
     cordaRuntime "org.apache.logging.log4j:log4j-slf4j-impl:$log4j_version"
+
     cordapp project(":contracts")
-    // CorDapp dependencies.
-}
-
-tasks.withType(JavaCompile) {
-    options.compilerArgs << "-parameters" // Required for shell commands.
-}
-
-
-task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
-    nodeDefaults {
-        cordapp project(':contracts')
-        rpcUsers = [['username': "user1", 'password': "test", 'permissions': [ 'ALL' ]]]
-    }
-
-    node {
-        name "O=Notary,L=London,C=GB"
-        notary = [validating: false]
-        p2pPort 10000
-        rpcSettings {
-            address("localhost:10001")
-            adminAddress("localhost:10002")
-        }
-    }
-    node {
-        name "O=SanctionsBody,L=London,C=GB"
-        p2pPort 10004
-        rpcSettings {
-            address("localhost:10005")
-            adminAddress("localhost:10006")
-        }
-    }
-    node {
-        name "O=IOUPartyA,L=New York,C=US"
-        p2pPort 10008
-        rpcSettings {
-            address("localhost:10009")
-            adminAddress("localhost:10010")
-        }
-    }
-    node {
-        name "O=IOUPartyB,L=Paris,C=FR"
-        p2pPort 10012
-        rpcSettings {
-            address("localhost:10013")
-            adminAddress("localhost:10014")
-        }
-    }
-    node {
-        name "O=DodgyParty,L=Moscow,C=RU"
-        p2pPort 10016
-        rpcSettings {
-            address("localhost:10017")
-            adminAddress("localhost:10018")
-        }
-    }
 }

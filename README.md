@@ -26,26 +26,25 @@ The samples are divided into 5 sections with the following desciption:
 .
 ├── Accounts
 │   ├── supplychain
-│   ├── tictacthor
-│   └── worldcupticketbooking
+│   └── tictacthor
 ├── Advanced
 │   ├── auction-cordapp
 │   ├── negotiation-cordapp
-│   └── obligation-cordapp
+│   ├── obligation-cordapp
+│   ├── secretsanta-cordapp
+│   └── snakesandladders-cordapp
 ├── Basic
 │   ├── cordapp-example
 │   ├── flow-database-access
 │   ├── flow-http-access
 │   ├── flow-send-msg
-│   ├── ping-pong
-│   ├── rpc-nodeinfo
-│   ├── spring-webserver
-│   └── yo-cordapp
+│   └── ping-pong
 ├── Features
 │   ├── attachment-blacklist
 │   ├── attachment-sendfile
 │   ├── confidentialIdentity-whistleblower
 │   ├── cordaService-autopayroll
+│   ├── notarychange-iou
 │   ├── observableStates-tradereporting
 │   ├── oracle-primenumber
 │   ├── queryableState-carinsurance
@@ -56,5 +55,6 @@ The samples are divided into 5 sections with the following desciption:
     ├── dollartohousetoken
     ├── fungiblehousetoken
     ├── stockpaydivident
-    └── spaceships-JavaAPIs
+    ├── spaceships-JavaAPIs
+    └── tokentofriend
 ```

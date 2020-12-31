@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Snakes and Ladders Powered By Corda</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+          crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.2.0/ui-bootstrap-tpls.min.js"></script>
+    <script src="https://npmcdn.com/angular-toastr/dist/angular-toastr.tpls.js"></script>
+    <link rel="stylesheet" href="https://npmcdn.com/angular-toastr/dist/angular-toastr.css" />
+    <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css"/>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/angular-module.js"></script>
+</head>
+<body ng-app="snlApp" ng-controller="AppController as appCtrl">
+    <div class="spinner" ng-show="appCtrl.showSpinner">
+        <div>
+            <image style="width: 100px;" src="/img/spinner.svg"></image>
+        </div>
+    </div>
+    <!-- Common Header -->
+    <div class="header" ng-show="!appCtrl.landingScreen">
+        <div style="display: inline-block;">
+            <div class="logo">
+                Snakes and Ladders
+            </div>
+            <div style="margin-top: -10px; text-align: center;">Powered by
+                <image class="power-by" src="img/corda.png" alt="Corda"/></div>
+        </div>
+    </div>
+
+
+    <div class="container-fluid">
+
+        <!-- Landing Screen -->
+        <div ng-show="appCtrl.landingScreen">
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-6" style="margin-top: 20px;">
+                    <image src="img/snl-banner.png" style="width:100%" />
+                </div>
+                <div class="col-md-4">
+                    <div class="home-btns">
+                        <div class="title">Snakes And Ladders</div>
+                        <div>
+                            <div class='input-group'>
+                                <input type='text' class="form-control" placeholder="Player 1 (You)" ng-model="appCtrl.player1"
+                                       />
+                            </div>
+                            <div class='input-group'>
+                                <input type='text' class="form-control" placeholder="Player 2 (Opposition)" ng-model="appCtrl.player2"
+                                       />
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" ng-click="appCtrl.startGame()">Start Game</button>
+                        <button class="btn btn-secondary" ng-click="appCtrl.openCreateAccountModal()" style="float:right;">Create Gamer Account</button>
+
+                        <div style="margin-top: 80px;">
+                            <div class='input-group'>
+                                <input type='text' class="form-control" placeholder="Game Id" ng-model="appCtrl.gameId"
+                                />
+                            </div>
+                            <button class="btn btn-primary" ng-click="appCtrl.loadGame(appCtrl.gameId, 1)">Join Game As Player 1</button>
+                            <button class="btn btn-primary" ng-click="appCtrl.loadGame(appCtrl.gameId, 2)">Join Game As Player 2</button>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div style="text-align: center; margin-top: 6px; font-size: 13px;">Powered by
+                        <image class="power-by" src="img/corda.png" alt="Corda"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div ng-show="appCtrl.gameScreen" style="margin: 15px 30px">
+            <div class="row">
+                <div class="col-md-6 offset-1">
+                    <div class="board-wrapper">
+                        <img src="img/game-board.jpg" style="height:100%;width: 100%;">
+                        <div class="player" id="player1"></div>
+                        <div class="player" id="player2" style="background: blue; left: 30px;"></div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="box-wrapper col-md-12" style="height: auto;">
+                            <strong>Game Id:</strong> {{appCtrl.game.linearId.id}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="box-wrapper col-md-5">
+                            <div style="font-size: 20px;color: red;font-weight: bold;">
+                                {{appCtrl.game.player1}}
+                            </div>
+                            <div style="float: right;margin-right: 15px;font-size: 58px;">{{appCtrl.game.player1Pos}}</div>
+                        </div>
+                        <div class="box-wrapper col-md-5 offset-1">
+                            <div style="font-size: 20px;color: blue;font-weight: bold;">
+                                {{appCtrl.game.player2}}
+                            </div>
+                            <div style="float: right;margin-right: 15px;font-size: 58px;">{{appCtrl.game.player2Pos}}</div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 50px;">
+                        <div class="col-md-12" style="text-align: center; margin-bottom: 20px;">
+                            <button class="btn btn-lg btn-primary" ng-click="appCtrl.rollDice()">Roll The Dice</button>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="dice-wrapper">
+                                <div class="dice">
+                                    <ol class="die-list"
+                                        ng-class="{'odd-roll':appCtrl.dice.diceRollFlag, 'even-roll':!appCtrl.dice.diceRollFlag}"
+                                        ng-attr-data-roll="{{appCtrl.dice.roll}}" ng-attr-id="{{appCtrl.dice.id}}">
+                                        <li class="die-item" data-side="1">
+                                            <span class="dot"></span>
+                                        </li>
+                                        <li class="die-item" data-side="2">
+                                            <span class="dot"></span>
+                                            <span class="dot"></span>
+                                        </li>
+                                        <li class="die-item" data-side="3">
+                                            <span class="dot"></span>
+                                            <span class="dot"></span>
+                                            <span class="dot"></span>
+                                        </li>
+                                        <li class="die-item" data-side="4">
+                                            <span class="dot"></span>
+                                            <span class="dot"></span>
+                                            <span class="dot"></span>
+                                            <span class="dot"></span>
+                                        </li>
+                                        <li class="die-item" data-side="5">
+                                            <span class="dot"></span>
+                                            <span class="dot"></span>
+                                            <span class="dot"></span>
+                                            <span class="dot"></span>
+                                            <span class="dot"></span>
+                                        </li>
+                                        <li class="die-item" data-side="6">
+                                            <span class="dot"></span>
+                                            <span class="dot"></span>
+                                            <span class="dot"></span>
+                                            <span class="dot"></span>
+                                            <span class="dot"></span>
+                                            <span class="dot"></span>
+                                        </li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 50px;">
+                        <div class="col-md-12 box-wrapper console">
+                            <p ng-repeat="message in appCtrl.consoleMessages">{{message}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Create Account Modal -->
+    <script type="text/ng-template" id="createAccountModal.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Create Gamer Account</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class='input-group'>
+                        <input type='text' class="form-control" placeholder="Account Name"
+                               ng-model="createAccountModalCtrl.form.name"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button ng-click="createAccountModalCtrl.cancel()" type="button" class="btn btn-default">Close</button>
+            <button ng-click="createAccountModalCtrl.create()" type="button" class="btn btn-primary">Create</button>
+        </div>
+    </script>
+
+</body>
+</html>

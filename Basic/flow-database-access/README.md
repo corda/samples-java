@@ -1,5 +1,4 @@
-# Flow Database Access CorDapp [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Basic/flow-database-access)
-
+# Flow Database Access CorDapp 
 This CorDapp provides a simple example of how the node database can be accessed in flows using a [JDBC Connection](https://docs.corda.net/docs/corda-os/api-persistence.html#jdbc-session). In this case, the flows
 maintain a table of cryptocurrency values in the node's database.
 
@@ -8,13 +7,7 @@ maintain a table of cryptocurrency values in the node's database.
 
 ### Flows
 
-The CorDapp defines three flows:
-
-* `AddTokenValueFlow`, [which adds a new token to the database table with an initial value](./workflows-java/src/main/java/net/corda/samples/flowdb/AddTokenValueFlow.java#L34-L48)
-* `UpdateTokenValueFlow`, [which updates the value of an existing token in the database table](./workflows-java/src/main/java/net/corda/samples/flowdb/UpdateTokenValueFlow.java#L34-L42)
-* `QueryTokenValueFlow`, [which reads the value of an existing token from the database table](./workflows-java/src/main/java/net/corda/samples/flowdb/QueryTokenValueFlow.java#L32-L40)
-
-Under the hood, the database accesses are managed by the CryptoValuesDatabaseService [CordaService](https://training.corda.net/corda-details/automation/#services).
+The CorDapp defines three flows: `AddTokenValueFlow`, `UpdateTokenValueFlow`, and `QueryTokenValueFlow`. Under the hood, the database accesses are managed by the CryptoValuesDatabaseService [CordaService](https://training.corda.net/corda-details/automation/#services).
 
 Be aware that support of database accesses in flows is currently limited:
 
@@ -22,18 +15,22 @@ Be aware that support of database accesses in flows is currently limited:
 * The operation must be idempotent. If the flow fails and has to restart from a checkpoint, the operation will also be replayed
 
 
-## Pre-requisites:
+## Pre-Requisites
 
-See https://docs.corda.net/getting-set-up.html.
+For development environment setup, please refer to: [Setup Guide](https://docs.corda.net/getting-set-up.html).
 
 
-## Usage
+## Running the nodes
 
-### Running the nodes:
 
-See https://docs.corda.net/tutorial-cordapp.html#running-the-example-cordapp.
-
-Java use the `workflows-java:deployNodes` task and `./workflows-java/build/nodes/runnodes` script.
+Open a terminal and go to the project root directory and type: (to deploy the nodes using bootstrapper)
+```
+./gradlew clean deployNodes
+```
+Then type: (to run the nodes)
+```
+./build/nodes/runnodes
+```
 
 ### Interacting with the node:
 

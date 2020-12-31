@@ -3,17 +3,18 @@ buildscript {
     file("$projectDir/../constants.properties").withInputStream { constants.load(it) }
 
     ext {
-
         corda_release_group = constants.getProperty("cordaReleaseGroup")
-        corda_release_version = constants.getProperty("cordaVersion")
         corda_core_release_group =  constants.getProperty("cordaCoreReleaseGroup")
+        corda_release_version = constants.getProperty("cordaVersion")
         corda_core_release_version = constants.getProperty("cordaCoreVersion")
         corda_gradle_plugins_version = constants.getProperty("gradlePluginsVersion")
+        kotlin_version = constants.getProperty("kotlinVersion")
         junit_version = constants.getProperty("junitVersion")
         quasar_version = constants.getProperty("quasarVersion")
         log4j_version = constants.getProperty("log4jVersion")
         slf4j_version = constants.getProperty("slf4jVersion")
         corda_platform_version = constants.getProperty("platformVersion").toInteger()
+
         //springboot
         spring_boot_version = '2.0.2.RELEASE'
         spring_boot_gradle_plugin_version = '2.0.2.RELEASE'
@@ -58,9 +59,6 @@ allprojects {
     }
 }
 
-
-
-
 apply plugin: 'net.corda.plugins.cordapp'
 apply plugin: 'net.corda.plugins.cordformation'
 apply plugin: 'net.corda.plugins.quasar-utils'
@@ -87,25 +85,28 @@ dependencies {
     cordaCompile "org.apache.logging.log4j:log4j-web:${log4j_version}"
     cordaCompile "org.slf4j:jul-to-slf4j:$slf4j_version"
 }
+
 cordapp {
     info {
-        name "CorDapp carinsurance"
+        name "Queryablestate Car Insurance"
         vendor "Corda Open Source"
         targetPlatformVersion corda_platform_version
         minimumPlatformVersion corda_platform_version
     }
 }
+
 task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
     nodeDefaults {
         projectCordapp {
             deploy = false
         }
-        cordapp project(':contracts')
-        cordapp project(':workflows')
+        cordapp project(":workflows")
+        cordapp project(":contracts")
         runSchemaMigration = true //This configuration is for any CorDapps with custom schema, We will leave this as true to avoid
         //problems for developers who are not familiar with Corda. If you are not using custom schemas, you can change
         //it to false for quicker project compiling time.
     }
+
     node {
         name "O=Notary,L=London,C=GB"
         notary = [validating : false]
@@ -116,6 +117,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         }
         cordapps.clear()
     }
+
     node {
         name "O=Insurer,L=London,C=GB"
         p2pPort 10005
@@ -126,6 +128,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
         extraConfig = ['h2Settings.address' : 'localhost:20041']
     }
+
     node {
         name "O=Insuree,L=New York,C=US"
         p2pPort 10008
@@ -135,12 +138,5 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         }
         rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
         extraConfig = ['h2Settings.address' : 'localhost:20042']
-    }
-}
-
-task installQuasar(type: Copy) {
-    destinationDir rootProject.file("lib")
-    from(configurations.quasar) {
-        rename 'quasar-core(.*).jar', 'quasar.jar'
     }
 }

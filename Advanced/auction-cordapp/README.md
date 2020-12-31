@@ -1,4 +1,4 @@
-# auction cordapp [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Advanced/auction-cordapp)
+# Auction Cordapp 
 
 This CorDapp serves as a demo of building an auction application on Corda. It leverages
 different features of Corda like [SchedulableState](https://docs.corda.net/docs/corda-os/event-scheduling.html#how-to-implement-scheduled-events), [StatePointer](https://docs.corda.net/docs/corda-os/api-states.html#state-pointers) and [OwnableState](https://docs.corda.net/docs/corda-os/api-states.html#ownablestate). It also demonstrate
@@ -37,19 +37,19 @@ ownership. Left black for simplicity. Has two commands, `CreateAsset` and `Trans
 
 ### Flows:
 
-- `CreateAssetFlow`: This flow is used create an asset. Implemented in [CreateAssetFlow.java](./workflows/src/main/java/net/corda/samples/flows/CreateAssetFlow.java#L44-L66)
+- `CreateAssetFlow`: This flow is used create an asset. Implemented in `CreateAssetFlow.java`
 
-- `CreateAuctionFlow`: This flow is used to create an auction ([CreateAuctionFlow.java can be found here](./workflows/src/main/java/net/corda/samples/flows/CreateAuctionFlow.java#L58-L96)). Once an asset has been created using
+- `CreateAuctionFlow`: This flow is used to create an auction. Once an asset has been created using
 the`CreateAssetFlow`, this flow can be used to put the asset on auction. The `AuctionState`
 references to the `Asset` using a `StatePointer`.
 
 Refer here to learn more about StatePointer: https://medium.com/corda/linking-corda-states-using-statepointer-16e24e5e602
 
 - `BidFlow`: It is used to place a bid on an auction. Bids can be placed only till a predetermined
-deadline defined in the `AuctionState`. Implemented in [BidFlow.java](./workflows/src/main/java/net/corda/samples/flows/BidFlow.java#L42-L86).
+deadline defined in the `AuctionState`. Implemented in `BidFlow.java`.
 
 - `EndAuctionFlow`: This is a scheduled flow, which run automatically on auction deadline to mark
-the corresponding auction as inactive, so that it stop receiving bids.The auction flow can be found [here](./workflows/src/main/java/net/corda/samples/flows/EndAuctionFlow.java#L39-L83)
+the corresponding auction as inactive, so that it stop receiving bids.
 
 - `AuctionSettlementFlow`: It is used to settle an auction once the bidding deadline has passed. It internally triggers two flows:
 
@@ -63,10 +63,9 @@ the corresponding auction as inactive, so that it stop receiving bids.The auctio
 
 
 ## Usage
+## Pre-Requisites
+For development environment setup, please refer to: [Setup Guide](https://docs.corda.net/getting-set-up.html).
 
-### Pre-requisites:
-
-See https://docs.corda.net/getting-set-up.html.
 
 ### Running the nodes:
 Open a terminal and go to the project root directory and type: (to deploy the nodes using bootstrapper)

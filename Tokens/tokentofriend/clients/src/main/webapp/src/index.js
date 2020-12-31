@@ -5,7 +5,7 @@ import retrieveToken from './component/retrieveToken';
 import App from './component/App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
-
+import santaGameCreated from './component/santaGameCreated'
 // Importing the Bootstrap CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
 

@@ -10,7 +10,7 @@ cordapp {
     targetPlatformVersion corda_platform_version.toInteger()
     minimumPlatformVersion corda_platform_version.toInteger()
     contract {
-        name "Blacklist"
+        name "Attachments Blacklist"
         vendor "Corda Open Source"
         licence "Apache License, Version 2.0"
         versionId 1

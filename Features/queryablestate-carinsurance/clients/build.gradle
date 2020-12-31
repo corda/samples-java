@@ -25,5 +25,7 @@ dependencies {
 }
 
 springBoot {
-    mainClassName = "net.corda.examples.carinsurance.webserver.Starter"
+    mainClassName = "net.corda.samples.carinsurance.webserver.Starter"
 }
+
+// Note that the bootRun task is built into gradle so there is no webserver task defined here.

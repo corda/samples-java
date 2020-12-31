@@ -1,5 +1,4 @@
-# Ping-Pong CorDapp [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Basic/ping-pong)
-
+# Ping-Pong CorDapp 
 This CorDapp allows a node to ping any other node on the network that also has this CorDapp installed.
 
 It demonstrates how to use Corda for messaging and passing data using a [flow](https://docs.corda.net/docs/corda-os/flow-state-machines.html#flow-sessions) without saving any states or using any contracts.
@@ -20,7 +19,7 @@ We define a state (the "ping" to be shared), define a contract (the way to make 
 You'll notice in our code we call these two classes ping and pong, the flow that sends the `"ping"`, and the flow that returns with a `"pong"`.
 
 
-Take a look at [Ping.java](./workflows-java/src/main/java/net/corda/examples/pingpong/flows/Ping.java#L20-L28).
+Take a look at `Ping.java`.
 
 You'll notice that this flow does what we expect, which is to send an outbound ping, and expect to receive a pong. If we receive a pong, then our flow is sucessful.
 
@@ -54,18 +53,22 @@ We expect to receive data from a counterparty that contains a ping, when we rece
 ```
 
 
+## Pre-Requisites
 
-# Pre-requisites:
+For development environment setup, please refer to: [Setup Guide](https://docs.corda.net/getting-set-up.html).
 
-See https://docs.corda.net/getting-set-up.html.
 
-# Usage
+## Running the nodes
 
-### Running the CorDapp
 
-See https://docs.corda.net/tutorial-cordapp.html#running-the-example-cordapp.
-
-Java use the `workflows-java:deployNodes` task and `./workflows-java/build/nodes/runnodes` script.
+Open a terminal and go to the project root directory and type: (to deploy the nodes using bootstrapper)
+```
+./gradlew clean deployNodes
+```
+Then type: (to run the nodes)
+```
+./build/nodes/runnodes
+```
 ## Pinging a node:
 
 

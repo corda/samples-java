@@ -41,9 +41,9 @@ allprojects {
         mavenCentral()
         maven { url 'https://software.r3.com/artifactory/corda' }
         maven { url 'https://jitpack.io' }
-        // Can be removed post-release - used to get nightly snapshot build.
+        //SDK lib
         maven { url 'https://software.r3.com/artifactory/corda-lib' }
-        maven { url 'https://software.r3.com/artifactory/corda-lib-dev' }
+        //Gradle Plugins
         maven { url 'https://repo.gradle.org/gradle/libs-releases' }
     }
 
@@ -62,15 +62,6 @@ allprojects {
 apply plugin: 'net.corda.plugins.cordapp'
 apply plugin: 'net.corda.plugins.cordformation'
 apply plugin: 'net.corda.plugins.quasar-utils'
-
-cordapp {
-    info {
-        name "CorDapp stockpaydividend"
-        vendor "Corda Open Source"
-        targetPlatformVersion corda_platform_version.toInteger()
-        minimumPlatformVersion corda_platform_version.toInteger()
-    }
-}
 
 sourceSets {
     main {
@@ -111,7 +102,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         cordapp("$tokens_release_group:tokens-workflows:$tokens_release_version")
         cordapp project(':contracts')
         cordapp project(':workflows')
-	runSchemaMigration = true
+	    runSchemaMigration = true
     }
     node {
         name "O=Notary,L=London,C=GB"

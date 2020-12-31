@@ -27,17 +27,17 @@ dependencies {
 }
 
 springBoot {
-    mainClassName = "com.tictacthor.webserver.Server"
+    mainClassName = "net.corda.samples.tictacthor.webserver"
 }
 
 task bootRunDevRel(type: JavaExec, dependsOn: jar) {
     classpath = sourceSets.main.runtimeClasspath
-    main = 'com.tictacthor.webserver.Starter'
+    main = 'net.corda.samples.tictacthor.webserver.Starter'
     args '--server.port=8080', '--config.rpc.host=localhost', '--config.rpc.port=10006', '--config.rpc.username=user1', '--config.rpc.password=test'
 }
 
 task bootRunSOE(type: JavaExec, dependsOn: jar) {
     classpath = sourceSets.main.runtimeClasspath
-    main = 'com.tictacthor.webserver.Starter'
+    main = 'net.corda.samples.tictacthor.webserver.Starter'
     args '--server.port=8090', '--config.rpc.host=localhost', '--config.rpc.port=10009', '--config.rpc.username=user1', '--config.rpc.password=test'
 }

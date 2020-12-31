@@ -1,9 +1,8 @@
-# fungible and nonfungible realestate token sample CorDapp [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Tokens/fungiblehousetoken)
+# Fungible House token sample CorDapp
 
-This CorDapp serves as a basic example to create, issue, and move [Fungible](https://training.corda.net/libraries/tokens-sdk/#fungibletoken) tokens in Corda utilizing the Token SDK. In this specific fungible token sample, we will not 
-talk about the redeem method of the Token SDK because the redeem process will take the physical asset off the [ledger](https://training.corda.net/prepare-and-discover/design-corda/#orchestration-and-ledger-layers) and destroy the token. Thus, this sample will be a 
-simple walk though of the creation, issuance, and transfer of the tokens.
+This CorDapp serves as a basic example to create, issue, and move [Fungible](https://training.corda.net/libraries/tokens-sdk/#fungibletoken) tokens in Corda utilizing the Token SDK. In this specific fungible token sample, we will not talk about the redeem method of the Token SDK because the redeem process will take the physical asset off the ledger and destroy the token. Thus, this sample will be a simple walk though of the creation, issuance, and transfer of the tokens.
 
+Quick blog about TokenSDK see [here](https://medium.com/corda/introduction-to-token-sdk-in-corda-9b4dbcf71025)
 
 
 ## Concepts
@@ -16,23 +15,18 @@ There are a few flows that enable this project.
 We will create a resource (in this case a house), and then issue tokens for that resource, and then transfer those tokens.
 
 
-We create the representation of a house, within [CreateHouseTokenFlow.java](./workflows/src/main/java/net/corda/examples/tokenizedhouse/flows/RealEstateEvolvableFungibleTokenFlow.java#L47-L61).
+We create the representation of a house, within `CreateHouseTokenFlow.java`.
 
 
 ```java
 public SignedTransaction call() throws FlowException {
     // Obtain a reference to a notary we wish to use.
-    /** METHOD 1: Take first notary on network, WARNING: use for test, non-prod environments, and single-notary networks only!*
-     *  METHOD 2: Explicit selection of notary by CordaX500Name - argument can by coded in flow or parsed from config (Preferred)
-     *
-     *  * - For production you always want to use Method 2 as it guarantees the expected notary is returned.
-     */
     final Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0); // METHOD 1
     // final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB")); // METHOD 2
 
     //create token type
     FungibleHouseTokenState evolvableTokenType = new FungibleHouseTokenState(valuation, getOurIdentity(),
-            new UniqueIdentifier(), 0, this.symbol);
+                    new UniqueIdentifier(), 0, this.symbol);
 
     //wrap it with transaction state specifying the notary
     TransactionState<FungibleHouseTokenState> transactionState = new TransactionState<>(evolvableTokenType, notary);
@@ -42,7 +36,7 @@ public SignedTransaction call() throws FlowException {
 }
 ```
 
-We issue tokens [IssueHouseTokenFlow](./workflows/src/main/java/net/corda/examples/tokenizedhouse/flows/RealEstateEvolvableFungibleTokenFlow.java#L81-L105)
+We issue tokens `IssueHouseTokenFlow`
 
 ```java
 public SignedTransaction call() throws FlowException {
@@ -68,7 +62,7 @@ public SignedTransaction call() throws FlowException {
 }
 ```
 
-We then move the house token. [MoveHouseTokenFlow](./workflows/src/main/java/net/corda/examples/tokenizedhouse/flows/RealEstateEvolvableFungibleTokenFlow.java#L127-L146)
+We then move the house token. `MoveHouseTokenFlow`
 
 ```java
 public SignedTransaction call() throws FlowException {
@@ -92,14 +86,10 @@ public SignedTransaction call() throws FlowException {
 }
 ```
 
-You can find the redemption code commented out [here](./workflows/src/main/java/net/corda/examples/tokenizedhouse/flows/RealEstateEvolvableFungibleTokenFlow.java#L173)
-
-
 ## Pre-Requisites
 
-See https://docs.corda.net/getting-set-up.html.
+For development environment setup, please refer to: [Setup Guide](https://docs.corda.net/getting-set-up.html).
 
-For a brief introduction to Token SDK in Corda, see https://medium.com/corda/introduction-to-token-sdk-in-corda-9b4dbcf71025
 
 ## Usage
 

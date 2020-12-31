@@ -3,7 +3,6 @@ buildscript {
     file("$projectDir/../constants.properties").withInputStream { constants.load(it) }
 
     ext {
-
         corda_release_group = constants.getProperty("cordaReleaseGroup")
         corda_core_release_group =  constants.getProperty("cordaCoreReleaseGroup")
         corda_release_version = constants.getProperty("cordaVersion")
@@ -15,9 +14,11 @@ buildscript {
         log4j_version = constants.getProperty("log4jVersion")
         slf4j_version = constants.getProperty("slf4jVersion")
         corda_platform_version = constants.getProperty("platformVersion").toInteger()
-        //accounts
-        accounts_release_version = '1.0'
+
+        //account
         accounts_release_group = 'com.r3.corda.lib.accounts'
+        accounts_release_version = '1.0'
+        //CI
         confidential_id_release_group = "com.r3.corda.lib.ci"
         confidential_id_release_version = "1.0"
     }
@@ -45,9 +46,11 @@ allprojects {
         jcenter()
         mavenCentral()
         maven { url 'https://software.r3.com/artifactory/corda' }
+        maven { url 'https://jitpack.io' }
+        //SDK lib
         maven { url 'https://software.r3.com/artifactory/corda-lib' }
-        maven { url 'https://software.r3.com/artifactory/corda-lib-dev' }
-        maven { url "https://repo.gradle.org/gradle/libs-releases-local" }
+        //Gradle Plugins
+        maven { url 'https://repo.gradle.org/gradle/libs-releases' }
     }
 
     tasks.withType(JavaCompile) {
@@ -61,9 +64,6 @@ allprojects {
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
 }
-
-
-
 
 apply plugin: 'net.corda.plugins.cordapp'
 apply plugin: 'net.corda.plugins.cordformation'
@@ -95,29 +95,6 @@ dependencies {
     cordapp "$accounts_release_group:accounts-contracts:$accounts_release_version"
     cordapp "$confidential_id_release_group:ci-workflows:$confidential_id_release_version"
     cordapp "$accounts_release_group:accounts-workflows:$accounts_release_version"
-}
-
-cordapp {
-    info {
-        name "CorDapp supplychain"
-        vendor "Corda Open Source"
-        targetPlatformVersion corda_platform_version
-        minimumPlatformVersion corda_platform_version
-    }
-}
-
-task ganache {
-    subprojects {
-        if (it.project.name != "clients") {
-            dependsOn jar
-            doLast {
-                copy {
-                    from "${buildDir}/libs"
-                    into "${rootDir}/build/libs"
-                }
-            }
-        }
-    }
 }
 
 task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
