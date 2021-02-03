@@ -1,6 +1,5 @@
 buildscript {
     Properties constants = new Properties()
-    // file("$projectDir/../constants.properties").withInputStream { constants.load(it) }
     file("$projectDir/../constants.properties").withInputStream { constants.load(it) }
 
     ext {
@@ -82,7 +81,7 @@ dependencies {
 
 cordapp {
     info {
-        name "Yo CorDapp"
+        name "Logging CorDapp"
         vendor "Corda Open Source"
         targetPlatformVersion corda_platform_version
         minimumPlatformVersion corda_platform_version
@@ -103,7 +102,7 @@ task deployNodesJava(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
 
         extraConfig = [
                 custom: [
-                        jvmArgs: ["-Dlog4j.configurationFile=config/dev/log4j2.xml"]
+                        jvmArgs: ["-Dlog4j.configurationFile=$projectDir/config/dev/log4j2.xml"]
                 ]
         ]
     }

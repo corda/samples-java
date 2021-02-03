@@ -1,5 +1,4 @@
-# Logging CorDapp [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Basic/yo-cordapp)
-
+# Logging CorDapp
 
 ## Custom Logging
 
@@ -143,10 +142,10 @@ This will depend on your cordapp setup, if you're running your corda nodes all y
 
 If you're running with the bootstrapped corda network you can run it by simply adding this argument to the result of the runnodes command.
 
+> notice that all we're doing is adding this param to the command we'd otherwise use to run corda in order to specify the log file.
 
 ```
 'cd "/Users/corda/logging-cordapp/build/nodes/PartyA" ; "/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home/jre/bin/java" "-Dcapsule.jvm.args=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5006 -javaagent:drivers/jolokia-jvm-1.6.0-agent.jar=port=7006,logHandlerClass=net.corda.node.JolokiaSlf4jAdapter" "-Dname=PartyA" "-jar" "-Dlog4j.configurationFile=/Users/corda/logging-cordapp/build/resources/main/log4j2.xml" "/Users/corda/logging-cordapp/build/nodes/PartyA/corda.jar" ; and exit'
-
 ```
 
 
