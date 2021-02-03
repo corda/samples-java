@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Be aware that this is a configuration file for Apache log4j,
+This example file will log json files but there are many other configurations
+
+You can also use files such as ../sql.xml as well.
+-->
+
+<Configuration status="info">
+    <Appenders>
+        <Console name="ConsoleJSONAppender" target="SYSTEM_OUT">
+            <JsonLayout complete="false" compact="true"/>
+        </Console>
+        <File name="FileJSONAppender" fileName="logs/node.json" immediateFlush="false" append="true">
+            <JsonLayout complete="false" compact="true" properties="true" eventEol="true"/>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="ConsoleJSONAppender"/>
+            <AppenderRef ref="FileJSONAppender"/>
+        </Root>
+        <Logger name="net.corda" level="info" additivity="false">
+            <AppenderRef ref="ConsoleJSONAppender"/>
+            <AppenderRef ref="FileJSONAppender"/>
+        </Logger>
+        <Logger name="com.r3.corda" level="info" additivity="false">
+            <AppenderRef ref="ConsoleJSONAppender"/>
+            <AppenderRef ref="FileJSONAppender"/>
+        </Logger>
+        <Logger name="org.hibernate" level="info" additivity="false">
+            <AppenderRef ref="ConsoleJSONAppender"/>
+            <AppenderRef ref="FileJSONAppender"/>
+        </Logger>
+    </Loggers>
+</Configuration>
