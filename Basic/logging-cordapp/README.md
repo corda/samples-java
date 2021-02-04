@@ -25,19 +25,28 @@ This can be quite powerful if you're looking to produce a consumable output stre
 You can end up getting log feeds in json that look something like this:
 
 ```json
-{"epochSecond":1612369055,"nanoOfSecond":12000000},"thread":"main","level":"INFO","loggerName":"net.corda.node.internal.Node","message":"Vendor: Corda Open Source","endOfBatch":true,"loggerFqcn":"org.apache.logging.slf4j.Log4jLogger","threadId":1,"threadPriority":5}
+{"instant":{"epochSecond":1612369055,"nanoOfSecond":12000000},"thread":"main","level":"INFO","loggerName":"net.corda.node.internal.Node","message":"Vendor: Corda Open Source","endOfBatch":true,"loggerFqcn":"org.apache.logging.slf4j.Log4jLogger","threadId":1,"threadPriority":5}
 {"instant":{"epochSecond":1612369055,"nanoOfSecond":12000000},"thread":"main","level":"INFO","loggerName":"net.corda.node.internal.Node","message":"Release: 4.6","endOfBatch":false,"loggerFqcn":"org.apache.logging.slf4j.Log4jLogger","threadId":1,"threadPriority":5}
 {"instant":{"epochSecond":1612369055,"nanoOfSecond":12000000},"thread":"main","level":"INFO","loggerName":"net.corda.node.internal.Node","message":"Platform Version: 8","endOfBatch":false,"loggerFqcn":"org.apache.logging.slf4j.Log4jLogger","threadId":1,"threadPriority":5}
 {"instant":{"epochSecond":1612369055,"nanoOfSecond":12000000},"thread":"main","level":"INFO","loggerName":"net.corda.node.internal.Node","message":"Revision: 85e387ea730d9be7d6dc2b23caba1ee18305af74","endOfBatch":false,"loggerFqcn":"org.apache.logging.slf4j.Log4jLogger","threadId":1,"threadPriority":5}
 {"instant":{"epochSecond":1612369055,"nanoOfSecond":13000000},"thread":"main","level":"INFO","loggerName":"net.corda.node.internal.Node","message":"PID: 94369","endOfBatch":false,"loggerFqcn":"org.apache.logging.slf4j.Log4jLogger","threadId":1,"threadPriority":5}
+. . .
+
+
+// when our flow is run we see the log we specified
+{"instant":{"epochSecond":1612460471,"nanoOfSecond":866000000},"thread":"pool-10-thread-2","level":"INFO","loggerName":"net.corda.tools.shell.FlowShellCommand","message":"Executing command \"flow start net.corda.samples.logging.flows.YoFlow target: PartyA\",","endOfBatch":true,"loggerFqcn":"org.apache.logging.slf4j.Log4jLogger","threadId":224,"threadPriority":5}
+{"instant":{"epochSecond":1612460472,"nanoOfSecond":304000000},"thread":"Node thread-1","level":"INFO","loggerName":"net.corda","message":"Initializing the transaction.","endOfBatch":true,"loggerFqcn":"org.apache.logging.slf4j.Log4jLogger","threadId":166,"threadPriority":5}
+{"instant":{"epochSecond":1612460472,"nanoOfSecond":428000000},"thread":"pool-10-thread-2","level":"WARN","loggerName":"net.corda.tools.shell.utlities.StdoutANSIProgressRenderer","message":"Cannot find console appender - progre
 ```
 
 
-## Yo CorDapp Concepts
+## Concepts
 
-In the original yo application, the app sent what is essentially a nudge from one endpoint and another.
+In the original yo application that this sample was based on, the app sent what is essentially a "yo" state from one node to another.
 
 In corda, we can use abstractions to accomplish the same thing.
+
+If you're not interested in how the cordapp works and want to see the logging, feel free to skip down to the usage section.
 
 
 We define a [state](https://training.corda.net/key-concepts/concepts/#states) (the yo to be shared), define a [contract](https://training.corda.net/key-concepts/concepts/#contracts) (the way to make sure the yo is legit), and define the [flow](https://training.corda.net/key-concepts/concepts/#flows) (the control flow of our cordapp).
@@ -133,16 +142,21 @@ To see all the Yo's! other nodes have sent you in your vault (you do not store t
 
 ### Viewing custom logs
 
-This will depend on your cordapp setup, if you're running your corda nodes all you need to do is specify the particular config file. You can do that in a couple of ways.
+This will depend on your cordapp setup, if you're running your corda nodes all you need to do is specify the particular config file.
 
+You can do that in a couple of ways:
 
+ - You can always just run the jar directly
+
+```shell
+java -Dlog4j.configurationFile=logging-cordapp/build/resources/main/log4j2.xml -jar corda.jar
 ```
-"-Dlog4j.configurationFile=logging-cordapp/build/resources/main/log4j2.xml"
-```
 
-If you're running with the bootstrapped corda network you can run it by simply adding this argument to the result of the runnodes command.
+
+- Or if you're running with the bootstrapped corda network you can add this argument to the result of the runnodes command.
 
 > notice that all we're doing is adding this param to the command we'd otherwise use to run corda in order to specify the log file.
+> When you normally run the node bootstrapper on localhost you'll see that it will generate a command that looks like this for each node on your network. All you'd need to do is add the log4j configurationFile flag to that startup command to have access to these logs in your node as well.
 
 ```
 'cd "/Users/corda/logging-cordapp/build/nodes/PartyA" ; "/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home/jre/bin/java" "-Dcapsule.jvm.args=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5006 -javaagent:drivers/jolokia-jvm-1.6.0-agent.jar=port=7006,logHandlerClass=net.corda.node.JolokiaSlf4jAdapter" "-Dname=PartyA" "-jar" "-Dlog4j.configurationFile=/Users/corda/logging-cordapp/build/resources/main/log4j2.xml" "/Users/corda/logging-cordapp/build/nodes/PartyA/corda.jar" ; and exit'
