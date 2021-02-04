@@ -101,11 +101,11 @@ task deployNodesJava(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
 	    runSchemaMigration = false
 
         // there are other ways to specify that config for example
-//        extraConfig = [
-//                custom: [
-//                        jvmArgs: ["-Dlog4j.configurationFile=$projectDir/config/dev/log4j2.xml"]
-//                ]
-//        ]
+        extraConfig = [
+                custom: [
+                        jvmArgs: ["-Dlog4j.configurationFile=$projectDir/config/dev/log4j2.xml"]
+                ]
+        ]
 
     }
 
