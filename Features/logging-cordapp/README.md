@@ -43,63 +43,53 @@ You can end up getting log feeds in json that look something like this:
 ## Concepts
 
 In the original yo application that this sample was based on, the app sent what is essentially a "yo" state from one node to another.
-
-In corda, we can use abstractions to accomplish the same thing.
-
-If you're not interested in how the cordapp works and want to see the logging, feel free to skip down to the usage section.
-
-
-We define a [state](https://training.corda.net/key-concepts/concepts/#states) (the yo to be shared), define a [contract](https://training.corda.net/key-concepts/concepts/#contracts) (the way to make sure the yo is legit), and define the [flow](https://training.corda.net/key-concepts/concepts/#flows) (the control flow of our cordapp).
-
-### States
-We define a [Yo as a state](./contracts/src/main/java/net/corda/examples/yo/states/YoState.java#L31-L35), or a corda fact.
+Here we're highlighting how easy it is to issue log messages with arbitrary key value pairs, we have an example of this in our YoFlow.
 
 ```java
-    public YoState(Party origin, Party target) {
-        this.origin = origin;
-        this.target = target;
-        this.yo = "Yo!";
-    }
+public SignedTransaction call() throws FlowException {
+    // note we're creating a logger first with the shared name from our other example.
+    Logger logger = LoggerFactory.getLogger("net.corda");
+
+    progressTracker.setCurrentStep(CREATING);
+
+    Party me = getOurIdentity();
+
+    // here we have our first opportunity to log out the contents of the flow arguments.
+    ThreadContext.put("initiator", me.getName().toString());
+    ThreadContext.put("target", target.getName().toString());
+    // publish to the log with the additional context
+    logger.info("Initializing the transaction.");
+    // flush the threadContext
+    ThreadContext.removeAll(Arrays.asList("initiator", "target"));
+
+    // Obtain a reference to a notary.
+    final Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0);
+
+    Command<YoContract.Commands.Send> command = new Command<YoContract.Commands.Send>(new YoContract.Commands.Send(), Arrays.asList(me.getOwningKey()));
+    YoState state = new YoState(me, target);
+    StateAndContract stateAndContract = new StateAndContract(state, YoContract.ID);
+    TransactionBuilder utx = new TransactionBuilder(notary).withItems(stateAndContract, command);
+
+    progressTracker.setCurrentStep(VERIFYING);
+    utx.verify(getServiceHub());
+
+    progressTracker.setCurrentStep(SIGNING);
+    SignedTransaction stx = getServiceHub().signInitialTransaction(utx);
+
+    // inject details to the threadcontext to be exported as json
+    ThreadContext.put("tx_id", stx.getId().toString());
+    ThreadContext.put("notary", notary.getName().toString());
+    // publish to the log with the additional context
+    logger.info("Finalizing the transaction.");
+    // flush the threadContext
+    ThreadContext.removeAll(Arrays.asList("tx_id", "notary"));
+
+    progressTracker.setCurrentStep(FINALISING);
+    FlowSession targetSession = initiateFlow(target);
+    return subFlow(new FinalityFlow(stx, Arrays.asList(targetSession), Objects.requireNonNull(FINALISING.childProgressTracker())));
+}
 ```
 
-
-### Contracts
-We define the ["Yo Social Contract"](./contracts/src/main/java/net/corda/examples/yo/contracts/YoContract.java#L21-L32), which, in this case, verifies some basic assumptions about a Yo.
-
-```java
-    @Override
-    public void verify(@NotNull LedgerTransaction tx) throws IllegalArgumentException {
-        CommandWithParties<Commands.Send> command = requireSingleCommand(tx.getCommands(), Commands.Send.class);
-        requireThat(req -> {
-            req.using("There can be no inputs when Yo'ing other parties", tx.getInputs().isEmpty());
-            req.using("There must be one output: The Yo!", tx.getOutputs().size() == 1);
-            YoState yo = tx.outputsOfType(YoState.class).get(0);
-            req.using("No sending Yo's to yourself!", !yo.getTarget().equals(yo.getOrigin()));
-            req.using("The Yo! must be signed by the sender.", command.getSigners().contains(yo.getOrigin().getOwningKey()));
-            return null;
-        });
-    }
-
-```
-
-
-### Flows
-And then we send the Yo [within a flow](./workflows/src/main/java/net/corda/examples/yo/flows/YoFlow.java#L59-L64).
-
-```java
-        Party me = getOurIdentity();
-        Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0);
-        Command<YoContract.Commands.Send> command = new Command<YoContract.Commands.Send>(new YoContract.Commands.Send(), ImmutableList.of(me.getOwningKey()));
-        YoState state = new YoState(me, target);
-        StateAndContract stateAndContract = new StateAndContract(state, YoContract.ID);
-        TransactionBuilder utx = new TransactionBuilder(notary).withItems(stateAndContract, command);
-```
-
-On the receiving end, the other corda node will simply receive the Yo using corda provided subroutines, or subflows.
-
-```java
-    return subFlow(new ReceiveFinalityFlow(counterpartySession));
-```
 
 
 ## Usage
@@ -123,6 +113,7 @@ Then type: (to run the nodes)
 ```
 
 When the nodes run you'll see the log entries in json on STDOUT, and you'll also be able to see the node's json log files in each folder.
+This logging configuration will add a new file that you can view.
 
 ```shell
 cat ./build/nodes/PartyA/logs/node.json
@@ -151,35 +142,20 @@ To see all the Yo's! other nodes have sent you in your vault (you do not store t
     run vaultQuery contractStateType: YoState
 ```
 
-### Viewing custom logs
+### Other ways to use this log configuration
 
-This will depend on your cordapp setup, if you're running your corda nodes all you need to do is specify the particular config file.
+The above method will run all nodes together but if you're running your corda node manually all you need to do is specify the particular config file.
 
-You can do that in a couple of ways:
-
- - You can always just run the jar directly
+You can do that by just running the jar directly:
 
 ```shell
 java -Dlog4j.configurationFile=logging-cordapp/build/resources/main/log4j2.xml -jar corda.jar
 ```
 
-
-- Or if you're running with the bootstrapped corda network you can add this argument to the result of the runnodes command.
-
 > notice that all we're doing is adding this param to the command we'd otherwise use to run corda in order to specify the log file.
-> When you normally run the node bootstrapper on localhost you'll see that it will generate a command that looks like this for each node on your network. All you'd need to do is add the log4j configurationFile flag to that startup command to have access to these logs in your node as well.
-
-```
-'cd "/Users/corda/logging-cordapp/build/nodes/PartyA" ; "/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home/jre/bin/java" "-Dcapsule.jvm.args=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5006 -javaagent:drivers/jolokia-jvm-1.6.0-agent.jar=port=7006,logHandlerClass=net.corda.node.JolokiaSlf4jAdapter" "-Dname=PartyA" "-jar" "-Dlog4j.configurationFile=/Users/corda/logging-cordapp/build/resources/main/log4j2.xml" "/Users/corda/logging-cordapp/build/nodes/PartyA/corda.jar" ; and exit'
-```
-
 
 
 ## Attribution
 
-This example was built in collaboration with [Splunk](https://splunk.com), and they have our thanks.
-
-
-
-
+This example was built with help from [Splunk](https://splunk.com), and they have our thanks.
 
