@@ -122,6 +122,17 @@ Then type: (to run the nodes)
 ./build/nodes/runnodes
 ```
 
+When the nodes run you'll see the log entries in json on STDOUT, and you'll also be able to see the node's json log files in each folder.
+
+```shell
+cat ./build/nodes/PartyA/logs/node.json
+
+{"instant":{"epochSecond":1612543764,"nanoOfSecond":930000000},"thread":"main","level":"INFO","loggerName":"net.corda.cliutils.CliWrapperBase","message":"Application Args: run-migration-scripts --core-schemas --app-schemas","endOfBatch":true,"loggerFqcn":"org.apache.logging.slf4j.Log4jLogger","contextMap":{},"threadId":1,"threadPriority":5}
+{"instant":{"epochSecond":1612543766,"nanoOfSecond":300000000}
+
+. . .
+```
+
 ### Sending a Yo
 
 We will interact with the nodes via their specific shells. When the nodes are up and running, use the following command to send a

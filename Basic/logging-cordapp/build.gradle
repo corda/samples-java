@@ -41,7 +41,6 @@ allprojects {
 
     tasks.withType(JavaCompile) {
         options.compilerArgs << "-parameters" // Required for shell commands.
-        // jvmArgs = "-Dlog4j.configurationFile=config/dev/log4j2.xml"
     }
 
     jar {
@@ -103,7 +102,7 @@ task deployNodesJava(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         // there are other ways to specify that config for example
         extraConfig = [
                 custom: [
-                        jvmArgs: ["-Dlog4j.configurationFile=$projectDir/config/dev/log4j2.xml"]
+                        jvmArgs: ["-Dlog4j.configurationFile="+projectDir+"/config/dev/log4j2.xml"]
                 ]
         ]
 
