@@ -45,8 +45,7 @@ dependencies {
     testCompile "junit:junit:$junit_version"
 
     // Corda dependencies.
-    // cordaCompile 'org.apache.logging.log4j:log4j-core:2.13.3'
-    cordaCompile 'org.apache.logging.log4j:log4j-core:2.13.3'
+    cordaCompile "org.apache.logging.log4j:log4j-core:${log4j_version}"
     cordaCompile "$corda_release_group:corda-core:$corda_release_version"
     cordaRuntime "$corda_release_group:corda:$corda_release_version"
 

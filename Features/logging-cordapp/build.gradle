@@ -72,7 +72,7 @@ dependencies {
     cordapp project(":contracts")
 
     // specific dependency for log4j2 core
-    cordaCompile 'org.apache.logging.log4j:log4j-core:2.13.3'
+    cordaCompile "org.apache.logging.log4j:log4j-core:${log4j_version}"
     cordaCompile "org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}"
     cordaCompile "org.apache.logging.log4j:log4j-web:${log4j_version}"
     cordaCompile "org.slf4j:jul-to-slf4j:$slf4j_version"
