@@ -14,8 +14,4 @@ This CorDapp provides a simple example of how HTTP requests can be made in flows
 ### [Ping Pong](./ping-pong):
 This CorDapp allows a node to ping any other node on the network, demonstrating stateless communication between nodes.
 
-### [Logging Cordapp](./logging-cordapp):
-This cordapp has some examples on how to setup custom logging with corda for either json logging and other tooling.
-
-
 
