@@ -19,7 +19,7 @@ In this example not only do the node logs output in json but we can add arbitrar
     logger.info("Initializing the transaction.");
 ```
 
-When we log this informational message, it gets output along with the other key value pairs we've specified in a JSON formatt:
+When we log this message, it gets output along with the other key value pairs we've specified in a JSON format:
 ```
 {
   "instant": {
@@ -64,7 +64,6 @@ You can end up getting log feeds in json that look something like this:
 {"instant":{"epochSecond":1612460472,"nanoOfSecond":304000000},"thread":"Node thread-1","level":"INFO","loggerName":"net.corda","message":"Initializing the transaction.","endOfBatch":true,"loggerFqcn":"org.apache.logging.slf4j.Log4jLogger","threadId":166,"threadPriority":5}
 {"instant":{"epochSecond":1612460472,"nanoOfSecond":428000000},"thread":"pool-10-thread-2","level":"WARN","loggerName":"net.corda.tools.shell.utlities.StdoutANSIProgressRenderer","message":"Cannot find console appender - progre
 ```
-
 
 ## Usage
 
