@@ -17,19 +17,19 @@ You can also use files such as ../sql.xml as well.
     </Appenders>
     <Loggers>
         <Root level="info">
-            <AppenderRef ref="ConsoleJSONAppender"/>
+            <!-- <AppenderRef ref="ConsoleJSONAppender"/> -->
             <AppenderRef ref="FileJSONAppender"/>
         </Root>
         <Logger name="net.corda" level="info" additivity="false">
-            <AppenderRef ref="ConsoleJSONAppender"/>
+            <!-- <AppenderRef ref="ConsoleJSONAppender"/> -->
             <AppenderRef ref="FileJSONAppender"/>
         </Logger>
         <Logger name="com.r3.corda" level="info" additivity="false">
-            <AppenderRef ref="ConsoleJSONAppender"/>
+            <!-- <AppenderRef ref="ConsoleJSONAppender"/> -->
             <AppenderRef ref="FileJSONAppender"/>
         </Logger>
         <Logger name="org.hibernate" level="info" additivity="false">
-            <AppenderRef ref="ConsoleJSONAppender"/>
+            <!-- <AppenderRef ref="ConsoleJSONAppender"/> -->
             <AppenderRef ref="FileJSONAppender"/>
         </Logger>
     </Loggers>

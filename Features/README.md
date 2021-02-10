@@ -46,6 +46,6 @@ This CorDapp is a simple showcase of [scheduled activities](https://docs.corda.n
 </p>
 
 
-### [Logging Cordapp](./logging-cordapp):
+### [CustomLogging -- YoCordapp](./customlogging-yocordapp):
 This cordapp has some examples on how to setup custom logging with corda for either json logging and other tooling.
 
