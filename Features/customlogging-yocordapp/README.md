@@ -19,7 +19,7 @@ In this example not only do the node logs output in json but we can add arbitrar
     logger.info("Initializing the transaction.");
 ```
 
-When we log this informational message, it gets output along with the other key value pairs we've specified in a JSON formatt: 
+When we log this informational message, it gets output along with the other key value pairs we've specified in a JSON formatt:
 ```
 {
   "instant": {
