@@ -1,7 +1,6 @@
-package net.corda.examples.yo.flows;
+package net.corda.samples.dockerform.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
-//import com.google.common.collect.ImmutableList;
 import net.corda.core.contracts.Command;
 import net.corda.core.contracts.StateAndContract;
 import net.corda.core.flows.*;
@@ -9,12 +8,14 @@ import net.corda.core.identity.Party;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
 import net.corda.core.utilities.ProgressTracker;
-import net.corda.examples.yo.contracts.YoContract;
-import net.corda.examples.yo.states.YoState;
+import net.corda.samples.dockerform.contracts.YoContract;
+import net.corda.samples.dockerform.states.YoState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Objects;
+
 
 // *********
 // * Flows *
@@ -43,7 +44,7 @@ public class YoFlow extends FlowLogic<SignedTransaction> {
     @Nullable
     @Override
     public ProgressTracker getProgressTracker() {
-        return progressTracker;
+        return this.progressTracker;
     }
 
     private final Party target;
@@ -55,23 +56,23 @@ public class YoFlow extends FlowLogic<SignedTransaction> {
     @Suspendable
     @Override
     public SignedTransaction call() throws FlowException {
-        progressTracker.setCurrentStep(CREATING);
+        this.progressTracker.setCurrentStep(CREATING);
 
         Party me = getOurIdentity();
         Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0);
         Command<YoContract.Commands.Send> command = new Command<YoContract.Commands.Send>(new YoContract.Commands.Send(), Arrays.asList(me.getOwningKey()));
-        YoState state = new YoState(me, target);
+        YoState state = new YoState(me, this.target);
         StateAndContract stateAndContract = new StateAndContract(state, YoContract.ID);
         TransactionBuilder utx = new TransactionBuilder(notary).withItems(stateAndContract, command);
 
-        progressTracker.setCurrentStep(VERIFYING);
+        this.progressTracker.setCurrentStep(VERIFYING);
         utx.verify(getServiceHub());
 
-        progressTracker.setCurrentStep(SIGNING);
+        this.progressTracker.setCurrentStep(SIGNING);
         SignedTransaction stx = getServiceHub().signInitialTransaction(utx);
 
-        progressTracker.setCurrentStep(FINALISING);
-        FlowSession targetSession = initiateFlow(target);
-        return subFlow(new FinalityFlow(stx, Arrays.asList(targetSession), Objects.requireNonNull(FINALISING.childProgressTracker())));
+        this.progressTracker.setCurrentStep(FINALISING);
+        FlowSession targetSession = initiateFlow(this.target);
+        return subFlow(new FinalityFlow(stx, Collections.singletonList(targetSession), Objects.requireNonNull(FINALISING.childProgressTracker())));
     }
 }

@@ -1,4 +1,4 @@
-package net.corda.examples.yo;
+package net.corda.samples.dockerform;
 
 import net.corda.core.identity.CordaX500Name;
 import net.corda.testing.core.TestIdentity;

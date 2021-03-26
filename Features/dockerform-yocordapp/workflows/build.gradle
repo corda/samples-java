@@ -5,7 +5,7 @@ cordapp {
     targetPlatformVersion corda_platform_version
     minimumPlatformVersion corda_platform_version
     workflow {
-        name "yo Flows"
+        name "DockerForm Yo Cordapp"
         vendor "Corda Open Source"
         licence "Apache License, Version 2.0"
         versionId 1
@@ -18,6 +18,7 @@ sourceSets {
             srcDir rootProject.file("config/dev")
         }
     }
+
     test {
         resources {
             srcDir rootProject.file("config/test")

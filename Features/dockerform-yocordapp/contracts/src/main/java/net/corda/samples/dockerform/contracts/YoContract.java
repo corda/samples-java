@@ -1,13 +1,14 @@
-package net.corda.examples.yo.contracts;
+package net.corda.samples.dockerform.contracts;
 
 import net.corda.core.contracts.CommandData;
 import net.corda.core.contracts.CommandWithParties;
 import net.corda.core.contracts.Contract;
 import net.corda.core.transactions.LedgerTransaction;
-import net.corda.examples.yo.states.YoState;
+import net.corda.samples.dockerform.states.YoState;
 import org.jetbrains.annotations.NotNull;
 
-import static net.corda.core.contracts.ContractsDSL.*;
+import static net.corda.core.contracts.ContractsDSL.requireSingleCommand;
+import static net.corda.core.contracts.ContractsDSL.requireThat;
 
 // ************
 // * Contract *
@@ -15,7 +16,7 @@ import static net.corda.core.contracts.ContractsDSL.*;
 // Contract and state.
 public class YoContract implements Contract {
     // Used to identify our contract when building a transaction.
-    public static final String ID = "net.corda.examples.yo.contracts.YoContract";
+    public static final String ID = "net.corda.samples.dockerform.contracts.YoContract";
 
     // Contract code.
     @Override
@@ -35,6 +36,7 @@ public class YoContract implements Contract {
 
     // Used to indicate the transaction's intent.
     public interface Commands extends CommandData {
-        class Send implements Commands {}
+        class Send implements Commands {
+        }
     }
 }

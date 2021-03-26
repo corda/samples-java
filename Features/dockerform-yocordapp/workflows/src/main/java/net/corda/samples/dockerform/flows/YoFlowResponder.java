@@ -1,4 +1,4 @@
-package net.corda.examples.yo.flows;
+package net.corda.samples.dockerform.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import net.corda.core.flows.*;
@@ -15,6 +15,6 @@ public class YoFlowResponder extends FlowLogic<SignedTransaction> {
     @Suspendable
     @Override
     public SignedTransaction call() throws FlowException {
-        return subFlow(new ReceiveFinalityFlow(counterpartySession));
+        return subFlow(new ReceiveFinalityFlow(this.counterpartySession));
     }
 }

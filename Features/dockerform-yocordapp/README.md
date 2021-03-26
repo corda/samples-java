@@ -50,7 +50,7 @@ Welcome to the Corda interactive shell.
 You can see the available commands by typing 'help'.
 
 # you'll see the corda shell available and can run flows
-Fri May 15 18:23:03 GMT 2020>>> flow start YoFlow target: PartyB
+Fri May 15 18:23:03 GMT 2020>>> flow start YoFlow target: PartyA
 
  ✓ Starting
  ✓ Creating a new Yo!

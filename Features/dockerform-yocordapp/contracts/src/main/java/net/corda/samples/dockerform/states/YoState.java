@@ -1,15 +1,14 @@
-package net.corda.examples.yo.states;
+package net.corda.samples.dockerform.states;
 
 import net.corda.core.contracts.BelongsToContract;
 import net.corda.core.contracts.ContractState;
 import net.corda.core.identity.AbstractParty;
 import net.corda.core.identity.Party;
 import net.corda.core.serialization.ConstructorForDeserialization;
-import net.corda.core.serialization.CordaSerializable;
-import net.corda.examples.yo.contracts.YoContract;
+import net.corda.samples.dockerform.contracts.YoContract;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 // *********
@@ -35,25 +34,25 @@ public class YoState implements ContractState {
     }
 
     public Party getOrigin() {
-        return origin;
+        return this.origin;
     }
 
     public Party getTarget() {
-        return target;
+        return this.target;
     }
 
     public String getYo() {
-        return yo;
+        return this.yo;
     }
 
     @NotNull
     @Override
     public List<AbstractParty> getParticipants() {
-        return Arrays.asList(target);
+        return Collections.singletonList(this.target);
     }
 
     @Override
     public String toString() {
-        return origin.getName() + ": " + yo;
+        return this.origin.getName() + ": " + this.yo;
     }
 }
