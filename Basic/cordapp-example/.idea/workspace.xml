@@ -5,33 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae2f70c6-dd38-4990-8c82-5e6cc0a19567" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../cordapp-example-new/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../cordapp-example-new/clients/src/main/java/net/corda/samples/example/Client.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../cordapp-example-new/clients/src/main/java/net/corda/samples/example/webserver/Controller.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../cordapp-example-new/clients/src/main/java/net/corda/samples/example/webserver/NodeRPCConnection.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../cordapp-example-new/clients/src/main/java/net/corda/samples/example/webserver/Starter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../cordapp-example-new/contracts/src/main/java/net/corda/samples/example/contracts/TemplateContract.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../cordapp-example-new/contracts/src/main/java/net/corda/samples/example/states/TemplateState.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../cordapp-example-new/contracts/src/test/java/net/corda/samples/example/contracts/ContractTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../cordapp-example-new/contracts/src/test/java/net/corda/samples/example/contracts/StateTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../cordapp-example-new/workflows/src/integrationTest/java/net/corda/samples/example/DriverBasedTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../cordapp-example-new/workflows/src/main/java/net/corda/samples/example/flows/ExampleFlow.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../cordapp-example-new/workflows/src/test/java/net/corda/samples/example/FlowTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../flow-database-access/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../flow-database-access/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../flow-database-access/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../flow-database-access/gradle.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../flow-database-access/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../flow-database-access/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../flow-database-access/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../flow-database-access/settings.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../flow-database-access/workflows-java/build.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../flow-database-access/workflows-java/src/main/java/net/corda/samples/flowdb/AddTokenValueFlow.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../flow-database-access/workflows-java/src/main/java/net/corda/samples/flowdb/Constants.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../flow-database-access/workflows-java/src/main/java/net/corda/samples/flowdb/CryptoValuesDatabaseService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../flow-database-access/workflows-java/src/main/java/net/corda/samples/flowdb/DatabaseService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../flow-database-access/workflows-java/src/main/java/net/corda/samples/flowdb/QueryTokenValueFlow.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../flow-database-access/workflows-java/src/main/java/net/corda/samples/flowdb/UpdateTokenValueFlow.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../flow-database-access/workflows-java/src/main/resources/log4j2-test.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../flow-database-access/workflows-java/src/test/java/net/corda/samples/flowdb/FlowTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../flow-database-access/workflows-java/src/test/java/net/corda/samples/flowdb/NodeDriver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/clients/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/clients/build.gradle" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,13 +49,6 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="mavenHome" value="$APPLICATION_HOME_DIR$/plugins/maven/lib/maven3" />
-      </MavenGeneralSettings>
-    </option>
-  </component>
   <component name="ProjectId" id="1lyrLNggqOnZplsX0yKPQgsNZ4g" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -91,9 +60,10 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
     <property name="show.unlinked.gradle.project.popup" value="true" />
   </component>
-  <component name="RunManager" selected="Gradle.FlowTests">
+  <component name="RunManager" selected="Gradle.ContractTests">
     <configuration name="ContractTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -110,15 +80,38 @@
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <GradleScriptDebugEnabled>false</GradleScriptDebugEnabled>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="DriverBasedTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="ContractTests.transactionMustIncludeCreateCommand" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="--tests &quot;net.corda.samples.example.DriverBasedTest&quot;" />
+        <option name="scriptParameters" value="--tests &quot;net.corda.samples.example.contracts.ContractTests.transactionMustIncludeCreateCommand&quot;" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":contracts:test" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="DriverBasedTest.nodeTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="--tests &quot;net.corda.samples.example.DriverBasedTest.nodeTest&quot;" />
         <option name="taskDescriptions">
           <list />
         </option>
@@ -129,7 +122,9 @@
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <GradleScriptDebugEnabled>false</GradleScriptDebugEnabled>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
     <configuration name="FlowTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -148,34 +143,17 @@
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <GradleScriptDebugEnabled>false</GradleScriptDebugEnabled>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="FlowTests.flowRejectsInvalidIOUs" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="StateTests.hasAmountFieldOfCorrectType" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="--tests &quot;net.corda.samples.example.FlowTests.flowRejectsInvalidIOUs&quot;" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":workflows:test" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <GradleScriptDebugEnabled>false</GradleScriptDebugEnabled>
-      <method v="2" />
-    </configuration>
-    <configuration name="StateTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="--tests &quot;net.corda.samples.example.contracts.StateTests&quot;" />
+        <option name="scriptParameters" value="--tests &quot;net.corda.samples.example.contracts.StateTests.hasAmountFieldOfCorrectType&quot;" />
         <option name="taskDescriptions">
           <list />
         </option>
@@ -186,16 +164,25 @@
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <GradleScriptDebugEnabled>false</GradleScriptDebugEnabled>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Gradle.ContractTests" />
+      <item itemvalue="Gradle.FlowTests" />
+      <item itemvalue="Gradle.DriverBasedTest.nodeTest" />
+      <item itemvalue="Gradle.ContractTests.transactionMustIncludeCreateCommand" />
+      <item itemvalue="Gradle.StateTests.hasAmountFieldOfCorrectType" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.FlowTests" />
-        <item itemvalue="Gradle.FlowTests.flowRejectsInvalidIOUs" />
-        <item itemvalue="Gradle.DriverBasedTest" />
-        <item itemvalue="Gradle.StateTests" />
         <item itemvalue="Gradle.ContractTests" />
+        <item itemvalue="Gradle.StateTests.hasAmountFieldOfCorrectType" />
+        <item itemvalue="Gradle.ContractTests.transactionMustIncludeCreateCommand" />
+        <item itemvalue="Gradle.DriverBasedTest.nodeTest" />
+        <item itemvalue="Gradle.FlowTests" />
       </list>
     </recent_temporary>
   </component>
@@ -209,31 +196,5 @@
       <updated>1608580114235</updated>
     </task>
     <servers />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="2625" y="287" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1608581224947">
-      <screen x="1920" y="23" width="1920" height="1057" />
-    </state>
-    <state x="2625" y="287" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.23.1920.979/1920.23.1920.1057/-1680.23.1680.1027@1920.23.1920.1057" timestamp="1608581224947" />
-    <state width="1780" height="407" key="GridCell.Tab.0.bottom" timestamp="1608582527731">
-      <screen x="1920" y="23" width="1920" height="1057" />
-    </state>
-    <state width="1780" height="407" key="GridCell.Tab.0.bottom/0.23.1920.979/1920.23.1920.1057/-1680.23.1680.1027@1920.23.1920.1057" timestamp="1608582527731" />
-    <state width="1780" height="407" key="GridCell.Tab.0.center" timestamp="1608582527730">
-      <screen x="1920" y="23" width="1920" height="1057" />
-    </state>
-    <state width="1780" height="407" key="GridCell.Tab.0.center/0.23.1920.979/1920.23.1920.1057/-1680.23.1680.1027@1920.23.1920.1057" timestamp="1608582527730" />
-    <state width="1780" height="407" key="GridCell.Tab.0.left" timestamp="1608582527729">
-      <screen x="1920" y="23" width="1920" height="1057" />
-    </state>
-    <state width="1780" height="407" key="GridCell.Tab.0.left/0.23.1920.979/1920.23.1920.1057/-1680.23.1680.1027@1920.23.1920.1057" timestamp="1608582527729" />
-    <state width="1780" height="407" key="GridCell.Tab.0.right" timestamp="1608582527730">
-      <screen x="1920" y="23" width="1920" height="1057" />
-    </state>
-    <state width="1780" height="407" key="GridCell.Tab.0.right/0.23.1920.979/1920.23.1920.1057/-1680.23.1680.1027@1920.23.1920.1057" timestamp="1608582527730" />
-    <state x="2671" y="288" width="586" height="490" key="find.popup" timestamp="1608592630309">
-      <screen x="1920" y="23" width="1920" height="1057" />
-    </state>
-    <state x="2671" y="288" width="586" height="490" key="find.popup/0.23.1920.979/1920.23.1920.1057/-1680.23.1680.1027@1920.23.1920.1057" timestamp="1608592630309" />
   </component>
 </project>
