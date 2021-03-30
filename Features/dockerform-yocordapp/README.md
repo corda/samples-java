@@ -1,6 +1,6 @@
 # dockerform-yocordapp
 
-This time we've taken the original yo cordapp and modified it to demonstrate an example of how you can use dockerForm to bootstrap a corda network.
+This time we've taken the original yo cordapp and modified it to demonstrate an example of how you can use dockerForm to bootstrap a corda network on a single machine.
 
 For the purposes of this example, we'll use the yo cordapp as a base to create a clear example for how to use the dockerForm gradle build task in a normal cordapp setup.
 
@@ -24,9 +24,6 @@ We define a state (the yo to be shared), define a contract (the way to make sure
 If you have docker installed you can use our gradle tasks to generate a valid docker compose file for your node configuration.
 
 ```bash
-# clone the repository
-git clone https://github.com/davidawad/corda-docker-yo-demo && cd corda-docker-yo-demo
-
 # generate the docker-compose file
 ./gradlew prepareDockerNodes
 
@@ -73,4 +70,10 @@ To see all the Yo's other nodes have sent you in your vault you can run a vault 
 
 ```bash
 run vaultQuery contractStateType: net.corda.examples.yo.states.YoState
+```
+
+As a quick note you can shut down your docker containers with the following command
+
+```bash
+docker-compose -f ./build/nodes/docker-compose.yml stop
 ```
