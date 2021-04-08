@@ -18,12 +18,12 @@ public class ContractTests {
     TestIdentity bob = new TestIdentity(new CordaX500Name("Bob",  "TestLand",  "US"));
 
     @Test
-    public void issuerAndRecipientCannotHaveSameEmail() {
+    public void failsDueToParticipantsAreNotNetworkMembers() {
         InsuranceState insurancestate = new InsuranceState(alice.getParty(), "TEST", bob.getParty(), new UniqueIdentifier().toString(), "Initiating Policy");
         ledger(ledgerServices, l -> {
             l.transaction(tx -> {
                 tx.output(InsuranceStateContract.InsuranceStateContract_ID, insurancestate);
-                tx.command(alice.getPublicKey(), new InsuranceStateContract.Commands.Issue()); // Wrong type.
+                tx.command(alice.getPublicKey(), new InsuranceStateContract.Commands.Issue());
                 return tx.fails();
             });
             return null;
