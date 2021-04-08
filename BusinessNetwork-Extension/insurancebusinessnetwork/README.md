@@ -3,6 +3,10 @@
 
 In this sample, we will showcase the use of business network extension in a mock insurance constorsium cordapp
 
+<p align="center">
+  <img src="./MockDiagram.jpeg" alt="Corda">
+</p>
+
 ### Concept:
 In this app, we will have a global insurance network, where participants are either insurance companies or different kind of health care providers.
 With the help of business network extension, we can further breakdown the global network into smaller pieces as groups, such as APAC_Insurance_Alliance.
