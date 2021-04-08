@@ -47,7 +47,8 @@ Step2: 2 non-member makes the request to join the network. Fill in the networkId
 flow start RequestMembership authorisedParty: NetworkOperator, networkId: <xxxx-xxxx-xxxx-xxxx-xxxxx> 
 ```
 Step3: go back to the admin node, and query all the membership requests.
-```flow start QueryAllMembers
+```
+flow start QueryAllMembers
 ```
 Step4: Admin active membership, two times, ONLY the membership activation
 Insurance: fill in the Insurance node MembershipId that is display in the previous query
@@ -79,7 +80,6 @@ Sanity Check: Query to check, we should be able to see multiple MembershipStates
 ```
 run vaultQuery contractStateType: net.corda.core.contracts.ContractState
 run vaultQuery contractStateType: net.corda.bn.states.MembershipState
-
 ```
 -------------------Network setup is done, and business flow begins--------------------------
 
