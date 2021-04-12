@@ -56,7 +56,7 @@ A network was created with NetworkID: 121577cf-30bf-4e20-9c7d-97f0b4628b06  <- T
 ```
 Step2: 2 non-member makes the request to join the network. Fill in the networkId with what was return from Step1
 ```
-flow start RequestMembership authorisedParty: NetworkOperator, networkId: <xxxx-xxxx-xxxx-xxxx-xxxxx> 
+flow start RequestMembership authorisedParty: NetworkOperator, networkId: <xxxx-xxxx-NETWORK-ID-xxxxx>
 ```
 Step3: go back to the admin node, and query all the membership requests.
 ```
@@ -65,11 +65,11 @@ flow start QueryAllMembers
 Step4: In this step, Network Operator will active the pending memberships
 Insurance: fill in the Insurance node MembershipId that is display in the previous query
 ```
-flow start ActiveMembers membershipId: <xxxx-xxxx-xxxx-xxxx-xxxxx>
+flow start ActiveMembers membershipId: <xxxx-xxxx-INSURANCE-ID-xxxxx>
 ```
 CarePro: fill in the CarePro node MembershipId that is display in the previous query
 ```
-flow start ActiveMembers membershipId: <xxxx-xxxx-xxxx-xxxx-xxxxx>
+flow start ActiveMembers membershipId: <xxxx-xxxx-CAREPRO-ID-xxxxx>
 ```
 
 Step5: Admin create subgroup and add group members. 
@@ -97,7 +97,7 @@ run vaultQuery contractStateType: net.corda.bn.states.MembershipState
 
 Step9: The insurance Company will issue a policy to insuree. The flow initiator (the insurance company) has to be a member of the Business network, has to have a insuranceIdentity, and has to have issuer Role, and has to have issuance permission.
 ```
-flow start IssuePolicyInitiator networkId: 603ec1c1-8b4f-4d4a-968a-8893ba9fdc00, careProvider: CarePro, insuree: PeterLi
+flow start IssuePolicyInitiator networkId: <xxxx-xxxx-NETWORK-ID-xxxxx>, careProvider: CarePro, insuree: PeterLi
 ```
 Step10: Query the state from the CarePro node.
 ```
