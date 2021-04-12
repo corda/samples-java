@@ -17,55 +17,6 @@ The samples are divided into 5 sections with the following desciption:
 * [Accounts](./Accounts): These samples showcases how to utilize [Corda Accounts Libray](https://training.corda.net/libraries/accounts-lib/) to build CorDapps which aim to have massive user volume
 * [Advanced](./Advanced): In these samples, we demonstrate more complex and sophisticated [features](https://training.corda.net/corda-details/introduction/) of Corda.
 * [Basic](./Basic): They demonstrate [fundamental](https://training.corda.net/key-concepts/concepts/) and useful techniques for CorDapp development.
+* [BusinessNetworks](./BusinessNetworks): These include Business Network Extension related samples. Learn more at [bn-extension](https://github.com/corda/bn-extension).
 * [Features](./Features): These samples demonstrate specific Corda [functionalities](https://training.corda.net/corda-details/introduction/).
 * [Tokens](./Tokens): These include TokenSDK related samples. Learn more at [TokenSDK](https://training.corda.net/libraries/tokens-sdk/).
-
-
-
-```
-.
-├── Accounts
-│   ├── README.md
-│   ├── constants.properties
-│   ├── supplychain
-│   └── tictacthor
-├── Advanced
-│   ├── README.md
-│   ├── auction-cordapp
-│   ├── constants.properties
-│   ├── negotiation-cordapp
-│   ├── obligation-cordapp
-│   ├── secretsanta-cordapp
-│   └── snakesandladders-cordapp
-├── Basic
-│   ├── README.md
-│   ├── constants.properties
-│   ├── cordapp-example
-│   ├── flow-database-access
-│   ├── flow-http-access
-│   └── ping-pong
-├── Features
-│   ├── README.md
-│   ├── attachment-blacklist
-│   ├── attachment-sendfile
-│   ├── confidentialidentity-whistleblower
-│   ├── constants.properties
-│   ├── cordaservice-autopayroll
-│   ├── customlogging-yocordapp
-│   ├── notarychange-iou
-│   ├── observablestates-tradereporting
-│   ├── oracle-primenumber
-│   ├── queryablestate-carinsurance
-│   ├── referencestates-sanctionsbody
-│   └── schedulablestate-heartbeat
-├── README.md
-└── Tokens
-    ├── README.md
-    ├── bikemarket
-    ├── constants.properties
-    ├── dollartohousetoken
-    ├── fungiblehousetoken
-    ├── spaceships-javaAPIs
-    ├── stockpaydividend
-    └── tokentofriend
-```
