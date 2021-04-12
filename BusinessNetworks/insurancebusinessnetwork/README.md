@@ -1,7 +1,7 @@
 # Insurance Business Network
 
 
-In this sample, we will showcase the use of business network extension in a mock insurance constorsium cordapp
+This sample will show you how to deploy and manage a business network. Our example use case is a mock insurance consortium. 
 
 <p align="center">
   <img src="./MockDiagram.jpeg" alt="Corda">
@@ -45,7 +45,15 @@ Step1: Create the network in NetwprkOperator's terminal
 ```
 flow start CreateNetwork
 ```
+Sample output: 
+```
+Mon Apr 12 10:35:47 EDT 2021>>> flow start CreateNetwork
 
+ ✅   Starting
+➡️   Done
+Flow completed with result: 
+A network was created with NetworkID: 121577cf-30bf-4e20-9c7d-97f0b4628b06  <- This is what you need in Step 2
+```
 Step2: 2 non-member makes the request to join the network. Fill in the networkId with what was return from Step1
 ```
 flow start RequestMembership authorisedParty: NetworkOperator, networkId: <xxxx-xxxx-xxxx-xxxx-xxxxx> 
@@ -54,7 +62,7 @@ Step3: go back to the admin node, and query all the membership requests.
 ```
 flow start QueryAllMembers
 ```
-Step4: Admin active membership, two times, ONLY the membership activation
+Step4: In this step, Network Operator will active the pending memberships
 Insurance: fill in the Insurance node MembershipId that is display in the previous query
 ```
 flow start ActiveMembers membershipId: <xxxx-xxxx-xxxx-xxxx-xxxxx>
@@ -80,7 +88,7 @@ Step8: Admin assign business identity related ROLE to the member.
 ```
 flow start AssignPolicyIssuerRole membershipId: <xxxx-xxxx-INSURANCE-ID-xxxxx>, networkId: <xxxx-xxxx-NETWORK-ID-xxxxx>
 ```
-Sanity Check: Query to check, we should be able to see multiple MembershipStates and GroupStates
+Now to see our membership states, we can run these vault queries. 
 ```
 run vaultQuery contractStateType: net.corda.core.contracts.ContractState
 run vaultQuery contractStateType: net.corda.bn.states.MembershipState
@@ -91,7 +99,7 @@ Step9: The insurance Company will issue a policy to insuree. The flow initiator 
 ```
 flow start IssuePolicyInitiator networkId: 603ec1c1-8b4f-4d4a-968a-8893ba9fdc00, careProvider: CarePro, insuree: PeterLi
 ```
-Step10: Query the state in the CarePro node.
+Step10: Query the state from the CarePro node.
 ```
 run vaultQuery contractStateType: net.corda.samples.businessmembership.states.InsuranceState
 ```
