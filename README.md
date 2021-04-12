@@ -17,6 +17,6 @@ The samples are divided into 5 sections with the following desciption:
 * [Accounts](./Accounts): These samples showcases how to utilize [Corda Accounts Libray](https://training.corda.net/libraries/accounts-lib/) to build CorDapps which aim to have massive user volume
 * [Advanced](./Advanced): In these samples, we demonstrate more complex and sophisticated [features](https://training.corda.net/corda-details/introduction/) of Corda.
 * [Basic](./Basic): They demonstrate [fundamental](https://training.corda.net/key-concepts/concepts/) and useful techniques for CorDapp development.
-* [BusinessNetworkExtension](./BusinessNetwork-Extension): These include Business Network Extension related samples. Learn more at [bn-extension](https://github.com/corda/bn-extension).
+* [BusinessNetworks](./BusinessNetworks): These include Business Network Extension related samples. Learn more at [bn-extension](https://github.com/corda/bn-extension).
 * [Features](./Features): These samples demonstrate specific Corda [functionalities](https://training.corda.net/corda-details/introduction/).
 * [Tokens](./Tokens): These include TokenSDK related samples. Learn more at [TokenSDK](https://training.corda.net/libraries/tokens-sdk/).
