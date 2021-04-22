@@ -37,7 +37,7 @@ We will interact with the nodes via their specific shells. When the nodes are up
 
 ```sh
 # find the ssh port for PartyA using docker ps
-ssh user1@0.0.0.0 -p 2223
+ssh user1@0.0.0.0 -p 2222
 
 # the password defined in the node config for PartyA is "test"
 Password: test
@@ -47,7 +47,7 @@ Welcome to the Corda interactive shell.
 You can see the available commands by typing 'help'.
 
 # you'll see the corda shell available and can run flows
-Fri May 15 18:23:03 GMT 2020>>> flow start YoFlow target: PartyA
+Fri May 15 18:23:03 GMT 2020>>> flow start YoFlow target: PartyB
 
  ✓ Starting
  ✓ Creating a new Yo!

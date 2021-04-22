@@ -90,54 +90,6 @@ cordapp {
     }
 }
 
-
-task deployNodesJava(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
-
-    nodeDefaults {
-        projectCordapp {
-            deploy = false
-        }
-        cordapp project("contracts")
-        cordapp project("workflows")
-        rpcUsers = [[user: "user1", "password": "test", "permissions": ["ALL"]]]
-    }
-
-    node {
-        name "O=Notary,L=London,C=GB"
-        notary = [validating: false]
-        p2pPort 10001
-        p2pAddress "0.0.0.0"
-        rpcSettings {
-            address("0.0.0.0:10011")
-            adminAddress("0.0.0.0:10041")
-        }
-        sshdPort 2221
-    }
-
-    node {
-        name "O=PartyA,L=London,C=GB"
-        p2pPort 10002
-        p2pAddress "0.0.0.0"
-        rpcSettings {
-            address("0.0.0.0:10012")
-            adminAddress("0.0.0.0:10042")
-        }
-        sshdPort 2222
-    }
-
-    node {
-        name "O=PartyB,L=New York,C=US"
-        p2pPort 10003
-        p2pAddress "0.0.0.0"
-        rpcSettings {
-            address("0.0.0.0:10013")
-            adminAddress("0.0.0.0:10043")
-        }
-        sshdPort 2223
-    }
-}
-
-
 task prepareDockerNodes(type: net.corda.plugins.Dockerform, dependsOn: ['jar']) {
 
     dockerImage = "corda/corda-zulu-java1.8-" + corda_release_version + ":latest"
