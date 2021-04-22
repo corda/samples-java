@@ -131,7 +131,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
                 "dataSourceProperties.dataSource.url"     : "jdbc:postgresql://localhost:5432/postgres",
                 "dataSourceProperties.dataSource.user"    : 'party_a',
                 "dataSourceProperties.dataSource.password": 'test',
-                "jarDirs"                                 : ['${ rootProject.projectDir }/lib']
+                "jarDirs"                                 : ['${ rootProject.projectDir }/drivers']
         ]
 
     }
@@ -149,7 +149,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
                 "dataSourceProperties.dataSource.url"     : "jdbc:postgresql://localhost:5432/postgres",
                 "dataSourceProperties.dataSource.user"    : 'party_b',
                 "dataSourceProperties.dataSource.password": 'test',
-                "jarDirs"                                 : ['${ rootProject.projectDir }/lib']
+                "jarDirs"                                 : ['${ rootProject.projectDir }/drivers']
         ]
     }
 
