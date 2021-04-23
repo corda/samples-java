@@ -25,7 +25,7 @@ the first is that you can have really small command definitions with a lot of fl
 the second is that you now have logical grouping of your contract verification and your command definition.
 
 This makes writing your contract code cleaner and more intuitive.
- */
+*/
 public class RecordPlayerContract extends StandardContract implements Contract {
     // This id must be used to identify our contract when building a transaction.
     public static final String ID = "net.corda.samples.contractsdk.contracts.RecordPlayerContract";
