@@ -12,6 +12,7 @@ import net.corda.samples.contractsdk.states.Needle;
 import net.corda.samples.contractsdk.states.RecordPlayerState;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,7 +60,7 @@ public class IssueRecordPlayerFlow extends FlowLogic<SignedTransaction> {
             n = Needle.ELLIPTICAL;
         }
 
-        RecordPlayerState output = new RecordPlayerState(manufacturer, dealer, n, 100, 700, 10000, 0, new UniqueIdentifier());
+        RecordPlayerState output = new RecordPlayerState(this.manufacturer, this.dealer, n, 100, 700, 10000, 0, new UniqueIdentifier());
 
         // Create a new TransactionBuilder object.
         final TransactionBuilder builder = new TransactionBuilder(notary);
@@ -77,8 +78,11 @@ public class IssueRecordPlayerFlow extends FlowLogic<SignedTransaction> {
         List<Party> otherParties = output.getParticipants().stream().map(el -> (Party) el).collect(Collectors.toList());
         otherParties.remove(getOurIdentity());
 
-        List<FlowSession> sessions = otherParties.stream().map(el -> initiateFlow(el)).collect(Collectors.toList());
+//        FlowSession targetSession = initiateFlow(this.dealer);
+//        return subFlow(new FinalityFlow(ptx, Collections.singletonList(targetSession)));
 
+
+        List<FlowSession> sessions = otherParties.stream().map(el -> initiateFlow(el)).collect(Collectors.toList());
 
         SignedTransaction stx = subFlow(new CollectSignaturesFlow(ptx, sessions));
 

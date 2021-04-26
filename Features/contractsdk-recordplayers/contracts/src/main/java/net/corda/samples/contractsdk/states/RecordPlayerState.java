@@ -59,8 +59,8 @@ public class RecordPlayerState implements ContractState, LinearState, StateWithR
     }
 
     /* Constructor for a CordaGraf with default */
-    public RecordPlayerState(Party manufacturer, Party owner, Needle needle) {
-        this(manufacturer, owner,  needle, 100, 700, 10000, 0, new UniqueIdentifier());
+    public RecordPlayerState(Party manufacturer, Party dealer, Needle needle) {
+        this(manufacturer, dealer,  needle, 100, 700, 10000, 0, new UniqueIdentifier());
     }
 
     public Needle getNeedle() {

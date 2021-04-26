@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 import static org.jgroups.util.Util.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 
 /**
@@ -115,6 +116,7 @@ public class IssueRecordPlayerFlowTests {
         // get some random data from the output to verify
         assertEquals(st.getManufacturer(), output.getManufacturer());
         assertEquals(st.getDealer(), output.getDealer());
+        assertNotEquals(st.getDealer(), output.getManufacturer());
         assertEquals(st.getNeedle(), output.getNeedle());
     }
 

@@ -3,7 +3,7 @@
 
 If you're familiar with record players you probably know how difficult it is to make sure that they run in pristine condition, especially if it's a collectible.
 
-![](blob:https://imgur.com/04eac7f3-0849-424d-93ca-f2c11d9b3d0d)
+![](./cordaphone.png)
 
 
 This cordapp simulates how you could model the process of a limited edition record player (the cordagraf) that is manufactured and issued to specific dealers, and those dealers are the only entities that can service those record players after the fact and report stats back to the manufacturer about how the players are being used.
@@ -37,8 +37,23 @@ If you've written contracts before you might be used to outlining the verify met
 
 Take a look at the small RecordPlayerContract sample in this repository to see how this works in practice.
 
+## Usage
 
-### Sources
+To run the cordapps, just use the gradle wrapper script the same way you normally would.
+
+```
+./gradlew deployNodes
+./build/nodes/runnodes
+
+flow start net.corda.samples.contractsdk.flows.IssueRecordPlayerFlow dealer: "O=Alice Audio,L=New York,C=US", needle: spherical
+
+# you can get your state id with a quick vault query
+run vaultQuery contractStateType: net.corda.samples.contractsdk.states.RecordPlayerState
+
+flow start net.corda.samples.contractsdk.flows.UpdateRecordPlayerFlow stateId: < Place State ID here >, needleId: spherical, magneticStrength: 100, coilTurns: 100, amplifierSNR: 10000, songsPlayed: 100
+```
+
+## Additional Information
 
 If you're looking to find more information on record players specifically, I included some sources for how we modeled record players in the state class.
 

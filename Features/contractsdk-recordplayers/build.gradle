@@ -109,17 +109,17 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
     node {
         name "O=Notary,L=London,C=GB"
         notary = [validating : false]
-        p2pPort 10002
+        p2pPort 10001
         rpcSettings {
-            address("localhost:10010")
-            adminAddress("localhost:10011")
+            address("localhost:10011")
+            adminAddress("localhost:10021")
         }
     }
     node {
         name "O=Manufacturer,L=London,C=GB"
-        p2pPort 10005
+        p2pPort 10002
         rpcSettings {
-            address("localhost:10021")
+            address("localhost:10012")
             adminAddress("localhost:10022")
         }
         rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
@@ -127,30 +127,20 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
 
     node {
         name "O=Alice Audio,L=New York,C=US"
-        p2pPort 10008
+        p2pPort 10003
         rpcSettings {
-            address("localhost:10030")
-            adminAddress("localhost:10033")
+            address("localhost:10013")
+            adminAddress("localhost:10023")
         }
         rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
     }
 
     node {
         name "O=Bob Hustle Records,L=Egypt,C=US"
-        p2pPort 10008
+        p2pPort 10004
         rpcSettings {
-            address("localhost:10040")
-            adminAddress("localhost:10044")
-        }
-        rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
-    }
-
-    node {
-        name "O=Carl Chords,L=Greece,C=US"
-        p2pPort 10008
-        rpcSettings {
-            address("localhost:10040")
-            adminAddress("localhost:10044")
+            address("localhost:10014")
+            adminAddress("localhost:10024")
         }
         rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
     }
