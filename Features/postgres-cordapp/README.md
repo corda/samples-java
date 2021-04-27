@@ -28,7 +28,6 @@ You can then look for the shell for PartyA and run your flows.
 
 
 ```sh
-
 Thu Apr 22 13:03:05 EDT 2021>>> flow start net.corda.samples.postgres.flows.YoFlow target: PartyB
 
  ✅   Starting
@@ -47,6 +46,7 @@ Flow completed with result: SignedTransaction(id=8B3FC06F685FC8FFD29001CC6205DAE
 
 
 ### useful commands for interacting with your postgres container
+Here's a couple convenient postgres commands to get you started.
 
 ```sh
 # to list all databases
@@ -57,25 +57,27 @@ docker exec -i postgres_for_corda psql -U postgres -p 5432 -h localhost postgres
 
 # show all roles
 docker exec -i postgres_for_corda psql -U postgres -p 5432 -h localhost postgres -c "\dg"
-
-# show all tables in a schema
-docker exec -i postgres_for_corda psql -U postgres -p 5432 -h localhost postgres -c "\dt party_a_schema.*"
-
-# select custom table rows
-docker exec -i postgres_for_corda psql -U postgres -p 5432 -h localhost postgres -c "select * from party_a_schema.iou_states"
-
-# drop a schema
-docker exec -i postgres_for_corda psql -U postgres -p 5432 -h localhost postgres -c "drop schema party_a_schema cascade"
-
-# drop a user
-docker exec -i postgres_for_corda psql -U postgres -p 5432 -h localhost postgres -c "REASSIGN OWNED BY party_a TO my_user"
-
-# drop a role
-docker exec -i postgres_for_corda psql -U postgres -p 5432 -h localhost postgres -c "DROP role party_a"
-
-# Show search path
-docker exec -i postgres_for_corda psql -U postgres -p 5432 -h localhost postgres -c "show search_path"
 ```
+
+### Connencting to your database with dbeaver
+
+You can connect to your db with all kinds of tools like dbeaver, just open up a new connection, specify `postgreSQL` in the search bar.
+
+The default username we provided in the command above is `postgres` and the password is `test`.
+
+![](./img/config-1.png)
+
+You can then open the schema editor and try running a couple queries:
+
+```sql
+-- show all schemas
+SELECT schema_name
+FROM information_schema.schemata;
+```
+
+![](./img/config-2.png)
+
+
 
 ### Troubleshooting
 You may run into some errors about node identity when running 'deployNodes', this is because the database will already have the node information, so you will want to make sure to clear the database contents so that you don't run into issues when recompiling the nodes.
