@@ -101,6 +101,76 @@ dependencies {
     cordapp "$accounts_release_group:accounts-workflows:$accounts_release_version"
 }
 
+task prepareDockerNodes(type: net.corda.plugins.Dockerform, dependsOn: ['jar']) {
+
+    dockerImage = "corda/corda-zulu-java1.8-" + corda_release_version + ":latest"
+
+    nodeDefaults {
+        projectCordapp {
+            deploy = false
+        }
+        cordapp project("contracts")
+        cordapp project("workflows")
+        rpcUsers = [[user: "user1", "password": "test", "permissions": ["ALL"]]]
+    }
+
+    node {
+        name "O=Notary,L=London,C=GB"
+        notary = [validating: false]
+        p2pPort 10001
+        p2pAddress "0.0.0.0"
+        rpcSettings {
+            address("0.0.0.0:10011")
+            adminAddress("0.0.0.0:10041")
+        }
+        sshdPort 2221
+    }
+
+    node {
+        name "O=PartyA,L=Washington D.C.,C=US"
+        p2pPort 10002
+        p2pAddress "0.0.0.0"
+        rpcSettings {
+            address("0.0.0.0:10012")
+            adminAddress("0.0.0.0:10042")
+        }
+        sshdPort 2222
+    }
+
+    node {
+        name "O=PartyB,L=Annapolis,C=US"
+        p2pPort 10003
+        p2pAddress "0.0.0.0"
+        rpcSettings {
+            address("0.0.0.0:10013")
+            adminAddress("0.0.0.0:10043")
+        }
+        sshdPort 2223
+    }
+
+    node {
+        name "O=PartyC,L=Baltimore,C=US"
+        p2pPort 10004
+        p2pAddress "0.0.0.0"
+        rpcSettings {
+            address("0.0.0.0:10014")
+            adminAddress("0.0.0.0:10044")
+        }
+        sshdPort 2224
+    }
+
+    node {
+        name "O=PartyD,L=Columbia,C=US"
+        p2pPort 10005
+        p2pAddress "0.0.0.0"
+        rpcSettings {
+            address("0.0.0.0:10015")
+            adminAddress("0.0.0.0:10045")
+        }
+        sshdPort 2225
+    }
+}
+
 task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
     nodeDefaults {
         projectCordapp {
@@ -116,41 +186,54 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
     }
     node {
         name "O=Notary,L=London,C=GB"
-        notary = [validating : false]
+        notary = [validating: false]
+        p2pPort 10001
+        p2pAddress "0.0.0.0"
+        rpcSettings {
+            address("0.0.0.0:10011")
+            adminAddress("0.0.0.0:10041")
+        }
+        sshdPort 2221
+    }
+    node {
+        name "O=PartyA,L=Washington D.C.,C=US"
         p2pPort 10002
+        p2pAddress "0.0.0.0"
         rpcSettings {
-            address("localhost:10003")
-            adminAddress("localhost:10043")
+            address("0.0.0.0:10012")
+            adminAddress("0.0.0.0:10042")
         }
-        cordapps = []
+        sshdPort 2222
     }
     node {
-        name "O=Buyer,L=London,C=GB"
+        name "O=PartyB,L=Annapolis,C=US"
+        p2pPort 10003
+        p2pAddress "0.0.0.0"
+        rpcSettings {
+            address("0.0.0.0:10013")
+            adminAddress("0.0.0.0:10043")
+        }
+        sshdPort 2223
+    }
+    node {
+        name "O=PartyC,L=Baltimore,C=US"
+        p2pPort 10004
+        p2pAddress "0.0.0.0"
+        rpcSettings {
+            address("0.0.0.0:10014")
+            adminAddress("0.0.0.0:10044")
+        }
+        sshdPort 2224
+    }
+    node {
+        name "O=PartyD,L=Columbia,C=US"
         p2pPort 10005
+        p2pAddress "0.0.0.0"
         rpcSettings {
-            address("localhost:10006")
-            adminAddress("localhost:10046")
+            address("0.0.0.0:10015")
+            adminAddress("0.0.0.0:10045")
         }
-        rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
-    }
-    node {
-        name "O=Seller,L=New York,C=US"
-        p2pPort 10008
-        rpcSettings {
-            address("localhost:10009")
-            adminAddress("localhost:10049")
-        }
-        rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
-
-    }
-    node {
-        name "O=ShippingCo,L=New York,C=US"
-        p2pPort 10010
-        rpcSettings {
-            address("localhost:10011")
-            adminAddress("localhost:10052")
-        }
-        rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
+        sshdPort 2225
     }
 }
 task installQuasar(type: Copy) {
