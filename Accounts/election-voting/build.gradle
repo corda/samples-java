@@ -188,50 +188,45 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         name "O=Notary,L=London,C=GB"
         notary = [validating: false]
         p2pPort 10001
-        p2pAddress "0.0.0.0"
         rpcSettings {
-            address("0.0.0.0:10011")
-            adminAddress("0.0.0.0:10041")
+            address("localhost:10011")
+            adminAddress("localhost:10041")
         }
         sshdPort 2221
     }
     node {
         name "O=PartyA,L=Washington D.C.,C=US"
         p2pPort 10002
-        p2pAddress "0.0.0.0"
         rpcSettings {
-            address("0.0.0.0:10012")
-            adminAddress("0.0.0.0:10042")
+            address("localhost:10012")
+            adminAddress("localhost:10042")
         }
         sshdPort 2222
     }
     node {
         name "O=PartyB,L=Annapolis,C=US"
         p2pPort 10003
-        p2pAddress "0.0.0.0"
         rpcSettings {
-            address("0.0.0.0:10013")
-            adminAddress("0.0.0.0:10043")
+            address("localhost:10013")
+            adminAddress("localhost:10043")
         }
         sshdPort 2223
     }
     node {
         name "O=PartyC,L=Baltimore,C=US"
         p2pPort 10004
-        p2pAddress "0.0.0.0"
         rpcSettings {
-            address("0.0.0.0:10014")
-            adminAddress("0.0.0.0:10044")
+            address("localhost:10014")
+            adminAddress("localhost:10044")
         }
         sshdPort 2224
     }
     node {
         name "O=PartyD,L=Columbia,C=US"
         p2pPort 10005
-        p2pAddress "0.0.0.0"
         rpcSettings {
-            address("0.0.0.0:10015")
-            adminAddress("0.0.0.0:10045")
+            address("localhost:10015")
+            adminAddress("localhost:10045")
         }
         sshdPort 2225
     }

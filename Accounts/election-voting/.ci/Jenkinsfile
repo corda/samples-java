@@ -1,6 +1,6 @@
 #!groovy
 /**
- * Jenkins pipeline to build the java CorDapp template
+ * Jenkins pipeline to build the java CorDapp election
  */
 
 /**
