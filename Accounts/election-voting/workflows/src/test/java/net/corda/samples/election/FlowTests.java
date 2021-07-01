@@ -1,50 +1,53 @@
-//package net.corda.samples.election;
-//
-//import com.google.common.collect.ImmutableList;
-//import net.corda.samples.election.flows.Initiator;
+package net.corda.samples.election;
+
+import com.google.common.collect.ImmutableList;
+import net.corda.core.identity.CordaX500Name;
+import net.corda.samples.election.flows.SendVote;
 //import net.corda.samples.election.states.TemplateState;
-//import net.corda.core.node.services.Vault;
-//import net.corda.core.node.services.vault.QueryCriteria;
-//import net.corda.core.transactions.SignedTransaction;
-//import net.corda.testing.node.MockNetwork;
-//import net.corda.testing.node.MockNetworkParameters;
-//import net.corda.testing.node.StartedMockNode;
-//import net.corda.testing.node.TestCordapp;
-//import org.junit.After;
-//import org.junit.Before;
-//import org.junit.Test;
-//
-//import java.util.concurrent.Future;
-//
-//public class FlowTests {
-//    private MockNetwork network;
-//    private StartedMockNode a;
-//    private StartedMockNode b;
-//
-//    @Before
-//    public void setup() {
-//        network = new MockNetwork(new MockNetworkParameters().withCordappsForAllNodes(ImmutableList.of(
-//                TestCordapp.findCordapp("net.corda.samples.election.contracts"),
-//                TestCordapp.findCordapp("net.corda.samples.election.flows"))));
-//        a = network.createPartyNode(null);
-//        b = network.createPartyNode(null);
-//        network.runNetwork();
-//    }
-//
-//    @After
-//    public void tearDown() {
-//        network.stopNodes();
-//    }
-//
-//    @Test
-//    public void dummyTest() {
-//        Initiator flow = new Initiator(b.getInfo().getLegalIdentities().get(0));
-//        Future<SignedTransaction> future = a.startFlow(flow);
-//        network.runNetwork();
-//
-//        //successful query means the state is stored at node b's vault. Flow went through.
-//        QueryCriteria inputCriteria = new QueryCriteria.VaultQueryCriteria().withStatus(Vault.StateStatus.UNCONSUMED);
-//        TemplateState state = b.getServices().getVaultService()
-//                .queryBy(TemplateState.class,inputCriteria).getStates().get(0).getState().getData();
-//    }
-//}
+import net.corda.core.node.services.Vault;
+import net.corda.core.node.services.vault.QueryCriteria;
+import net.corda.core.transactions.SignedTransaction;
+import net.corda.testing.node.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.concurrent.Future;
+
+public class ElectionFlowTests {
+
+    private MockNetwork mockNetwork;
+    private StartedMockNode a, b, c, d;
+
+    @Before
+    public void setup() {
+        MockNetworkParameters mockNetworkParameters = new MockNetworkParameters().withCordappsForAllNodes(
+                Arrays.asList(
+                        TestCordapp.findCordapp("net.corda.samples.contracts")
+                )
+        ).withNotarySpecs(Arrays.asList(new MockNetworkNotarySpec(new CordaX500Name("Notary", "London", "GB"))));
+        mockNetwork = new MockNetwork(mockNetworkParameters);
+        System.out.println(mockNetwork);
+
+        a = mockNetwork.createNode(new MockNodeParameters());
+        b = mockNetwork.createNode(new MockNodeParameters());
+        c = mockNetwork.createNode(new MockNodeParameters());
+        d = mockNetwork.createNode(new MockNodeParameters());
+
+        ArrayList<StartedMockNode> startedNodes = new ArrayList<>();
+        startedNodes.add(a);
+        startedNodes.add(b);
+        startedNodes.add(c);
+
+        // For real nodes this happens automatically, but we have to manually register the flow for tests
+        startedNodes.forEach(el -> el.registerInitiatedFlow(SendVote.SendVoteResponder.class));
+//        startedNodes.forEach(el -> el.registerInitiatedFlow(IOUIssueFlow.ResponderFlow.class));
+        mockNetwork.runNetwork();
+    }
+
+    @After
+    public void tearDown() {
+        mockNetwork.stopNodes();
+    }

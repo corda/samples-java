@@ -1,13 +1,11 @@
 package net.corda.samples.election.states;
 
 import net.corda.samples.election.contracts.VoteStateContract;
-import net.corda.samples.election.contracts.VoteStateContract;
 import net.corda.core.contracts.BelongsToContract;
 import net.corda.core.contracts.ContractState;
 import net.corda.core.identity.AbstractParty;
 import net.corda.core.identity.AnonymousParty;
 import net.corda.core.identity.Party;
-//import net.corda.samples.supplychain.contracts.PaymentStateContract;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -20,10 +20,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//import net.corda.samples.supplychain.accountUtilities.NewKeyForAccount;
-//import net.corda.samples.supplychain.contracts.PaymentStateContract;
-//import net.corda.samples.supplychain.states.PaymentState;
-
 
 // ******************
 // * Initiator flow *
@@ -34,15 +30,12 @@ public class SendVote extends FlowLogic<String> {
 
     //private variables
     private String whoAmI ;
-//    private String whereTo;
     private final Party observer;
     private int candidate;
 
     //public constructor
-//    public SendVote(String whoAmI, String whereTo, int candidate){
     public SendVote(String whoAmI, Party observer, int candidate){
         this.whoAmI = whoAmI;
-//        this.whereTo = whereTo;
         this.observer = observer;
         this.candidate = candidate;
     }
@@ -50,7 +43,6 @@ public class SendVote extends FlowLogic<String> {
     @Suspendable
     @Override
     public String call() throws FlowException {
-        //TODO share vote to node instead of account
         //grab account service
         AccountService accountService = getServiceHub().cordaService(KeyManagementBackedAccountService.class);
         //grab the account information

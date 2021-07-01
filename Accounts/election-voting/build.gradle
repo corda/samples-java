@@ -201,6 +201,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
             address("localhost:10012")
             adminAddress("localhost:10042")
         }
+        extraConfig = ['h2Settings.address' : 'localhost:20042']
         sshdPort 2222
     }
     node {
@@ -210,6 +211,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
             address("localhost:10013")
             adminAddress("localhost:10043")
         }
+        extraConfig = ['h2Settings.address' : 'localhost:20043']
         sshdPort 2223
     }
     node {
@@ -219,6 +221,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
             address("localhost:10014")
             adminAddress("localhost:10044")
         }
+        extraConfig = ['h2Settings.address' : 'localhost:20044']
         sshdPort 2224
     }
     node {
@@ -228,6 +231,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
             address("localhost:10015")
             adminAddress("localhost:10045")
         }
+        extraConfig = ['h2Settings.address' : 'localhost:20045']
         sshdPort 2225
     }
 }
