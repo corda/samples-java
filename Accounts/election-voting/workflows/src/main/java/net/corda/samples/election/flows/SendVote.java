@@ -31,13 +31,13 @@ public class SendVote extends FlowLogic<String> {
     //private variables
     private String whoAmI ;
     private final Party observer;
-    private int candidate;
+    private int choice;
 
     //public constructor
-    public SendVote(String whoAmI, Party observer, int candidate){
+    public SendVote(String whoAmI, Party observer, int choice){
         this.whoAmI = whoAmI;
         this.observer = observer;
-        this.candidate = candidate;
+        this.choice = choice;
     }
 
     @Suspendable
@@ -54,7 +54,7 @@ public class SendVote extends FlowLogic<String> {
         Party observerParty = observer;
 
         //generating State for transfer
-        VoteState output = new VoteState(candidate,new AnonymousParty(myKey), observerParty);
+        VoteState output = new VoteState(choice,new AnonymousParty(myKey), observerParty);
 
         // Obtain a reference to a notary we wish to use.
         /** METHOD 1: Take first notary on network, WARNING: use for test, non-prod environments, and single-notary networks only!*

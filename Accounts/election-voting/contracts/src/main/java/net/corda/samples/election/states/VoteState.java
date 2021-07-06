@@ -16,27 +16,28 @@ import java.util.List;
 @BelongsToContract(VoteStateContract.class)
 public class VoteState implements ContractState {
 
-    private int candidate;
+    private int choice;
     private AnonymousParty voter;
     //TODO Recipient is observer node not account
     private Party observer;
     private List<AbstractParty> participants;
 
-    public VoteState(int candidate, AnonymousParty voter, Party observer) {
-        this.candidate = candidate;
+    public VoteState(int choice, AnonymousParty voter, Party observer) {
+        this.choice = choice;
         this.voter = voter;
         this.observer = observer;
         this.participants = new ArrayList<AbstractParty>();
         participants.add(voter);
         participants.add(observer);
+        //TODO string voting opportunity
     }
 
-    public int getCandidate() {
-        return candidate;
+    public int getChoice() {
+        return choice;
     }
 
-    public void setCandidate(int candidate) {
-        this.candidate = candidate;
+    public void setChoice(int choice) {
+        this.choice = choice;
     }
 
     public AnonymousParty getVoter() {

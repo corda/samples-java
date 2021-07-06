@@ -5,8 +5,6 @@ import com.r3.corda.lib.accounts.workflows.services.KeyManagementBackedAccountSe
 import net.corda.core.contracts.StateAndRef;
 import net.corda.core.flows.*;
 
-;
-
 @StartableByRPC
 @StartableByService
 @InitiatingFlow
@@ -18,11 +16,10 @@ public class CreateNewAccount extends FlowLogic<String>{
         this.acctName = acctName;
     }
 
-
     @Override
     public String call() throws FlowException {
         StateAndRef<AccountInfo> newAccount = null;
-        try {
+       try {
             newAccount = getServiceHub().cordaService(KeyManagementBackedAccountService.class).createAccount(acctName).get();
         } catch (Exception e) {
             e.printStackTrace();

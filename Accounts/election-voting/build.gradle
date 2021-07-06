@@ -127,7 +127,7 @@ task prepareDockerNodes(type: net.corda.plugins.Dockerform, dependsOn: ['jar']) 
     }
 
     node {
-        name "O=PartyA,L=Washington D.C.,C=US"
+        name "O=Observer,L=Washington D.C.,C=US"
         p2pPort 10002
         p2pAddress "0.0.0.0"
         rpcSettings {
@@ -138,7 +138,7 @@ task prepareDockerNodes(type: net.corda.plugins.Dockerform, dependsOn: ['jar']) 
     }
 
     node {
-        name "O=PartyB,L=Annapolis,C=US"
+        name "O=ADistrict,L=Annapolis,C=US"
         p2pPort 10003
         p2pAddress "0.0.0.0"
         rpcSettings {
@@ -149,7 +149,7 @@ task prepareDockerNodes(type: net.corda.plugins.Dockerform, dependsOn: ['jar']) 
     }
 
     node {
-        name "O=PartyC,L=Baltimore,C=US"
+        name "O=BDistrict,L=Baltimore,C=US"
         p2pPort 10004
         p2pAddress "0.0.0.0"
         rpcSettings {
@@ -160,7 +160,7 @@ task prepareDockerNodes(type: net.corda.plugins.Dockerform, dependsOn: ['jar']) 
     }
 
     node {
-        name "O=PartyD,L=Columbia,C=US"
+        name "O=CDistrict,L=Columbia,C=US"
         p2pPort 10005
         p2pAddress "0.0.0.0"
         rpcSettings {
@@ -195,7 +195,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         sshdPort 2221
     }
     node {
-        name "O=PartyA,L=Washington D.C.,C=US"
+        name "O=Observer,L=Washington D.C.,C=US"
         p2pPort 10002
         rpcSettings {
             address("localhost:10012")
@@ -205,7 +205,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         sshdPort 2222
     }
     node {
-        name "O=PartyB,L=Annapolis,C=US"
+        name "O=ADistrict,L=Annapolis,C=US"
         p2pPort 10003
         rpcSettings {
             address("localhost:10013")
@@ -215,7 +215,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         sshdPort 2223
     }
     node {
-        name "O=PartyC,L=Baltimore,C=US"
+        name "O=BDistrict,L=Baltimore,C=US"
         p2pPort 10004
         rpcSettings {
             address("localhost:10014")
@@ -225,7 +225,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         sshdPort 2224
     }
     node {
-        name "O=PartyD,L=Columbia,C=US"
+        name "O=CDistrict,L=Columbia,C=US"
         p2pPort 10005
         rpcSettings {
             address("localhost:10015")
