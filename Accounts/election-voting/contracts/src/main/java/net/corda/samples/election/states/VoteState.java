@@ -4,7 +4,6 @@ import net.corda.samples.election.contracts.VoteStateContract;
 import net.corda.core.contracts.BelongsToContract;
 import net.corda.core.contracts.ContractState;
 import net.corda.core.identity.AbstractParty;
-import net.corda.core.identity.AnonymousParty;
 import net.corda.core.identity.Party;
 
 import java.util.ArrayList;
@@ -17,19 +16,18 @@ import java.util.List;
 public class VoteState implements ContractState {
 
     private int choice;
-    private AnonymousParty voter;
-    //TODO Recipient is observer node not account
+    private String voter;
     private Party observer;
-    private List<AbstractParty> participants;
+    private String opportunity;
+    private final List<AbstractParty> participants;
 
-    public VoteState(int choice, AnonymousParty voter, Party observer) {
+    public VoteState(int choice, String voter, Party observer, String opportunity) {
         this.choice = choice;
         this.voter = voter;
         this.observer = observer;
+        this.opportunity = opportunity;
         this.participants = new ArrayList<AbstractParty>();
-        participants.add(voter);
         participants.add(observer);
-        //TODO string voting opportunity
     }
 
     public int getChoice() {
@@ -40,11 +38,11 @@ public class VoteState implements ContractState {
         this.choice = choice;
     }
 
-    public AnonymousParty getVoter() {
+    public String getVoter() {
         return voter;
     }
 
-    public void setVoter(AnonymousParty voter) {
+    public void setVoter(String voter) {
         this.voter = voter;
     }
 
@@ -54,6 +52,14 @@ public class VoteState implements ContractState {
 
     public void setObserver(Party observer) {
         this.observer = observer;
+    }
+
+    public String getOpportunity() {
+        return opportunity;
+    }
+
+    public void setOpportunity(String opportunity) {
+        this.opportunity = opportunity;
     }
 
     @Override

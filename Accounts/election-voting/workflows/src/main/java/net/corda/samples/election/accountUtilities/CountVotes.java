@@ -13,10 +13,10 @@ import java.util.*;
 @StartableByService
 public class CountVotes extends FlowLogic<List<Integer>> {
 
-//    private final String acctName;
+    private final String opportunity;
 
-//    public CountVotes(String acctname) {
-    public CountVotes() {
+    public CountVotes(String opportunity) {
+        this.opportunity = opportunity;
     }
 
     @Override
@@ -24,13 +24,16 @@ public class CountVotes extends FlowLogic<List<Integer>> {
 
         List<Integer> voteCounts = new ArrayList<Integer>(Collections.nCopies(10,0));
         List<StateAndRef<VoteState>> votes = getServiceHub().getVaultService().queryBy(VoteState.class).getStates();
+        HashMap<String, Integer> voteMap = new HashMap<>();
         for (StateAndRef<VoteState> vote : votes) {
             VoteState recordedVote = vote.getState().getData();
-//            System.out.println("\nRECORDED VOTE DATA: " + recordedVote);
-            int recordedVoteChoice = recordedVote.getChoice();
-            voteCounts.set(recordedVoteChoice, voteCounts.get(recordedVoteChoice) + 1);
+            if (recordedVote.getOpportunity().equals(opportunity)) {
+                voteMap.put(recordedVote.getVoter(), recordedVote.getChoice());
+            }
         }
-
+        for (Integer i : voteMap.values()) {
+            voteCounts.set(i, voteCounts.get(i) + 1);
+        }
         return voteCounts;
     }
 }
