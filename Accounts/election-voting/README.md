@@ -6,7 +6,7 @@
 
 This sample describes the way an election could be run using Corda to handle the Electoral Voting Machine (EVM) system.
 
-The sample uses the Accounts SDK and shows the usage of Anonymous accounts and account-to-node interaction.
+The sample uses the Accounts SDK and shows the usage of account-to-node interaction.
 
 <p align="center">
   <img src="./Node_Visualisation.png" alt="Corda" width="500">
