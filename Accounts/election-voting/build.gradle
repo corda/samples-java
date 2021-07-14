@@ -1,0 +1,243 @@
+buildscript {
+    Properties constants = new Properties()
+    file("$projectDir/../constants.properties").withInputStream { constants.load(it) }
+
+    ext {
+        corda_release_group = constants.getProperty("cordaReleaseGroup")
+        corda_core_release_group =  constants.getProperty("cordaCoreReleaseGroup")
+        corda_release_version = constants.getProperty("cordaVersion")
+        corda_core_release_version = constants.getProperty("cordaCoreVersion")
+        corda_gradle_plugins_version = constants.getProperty("gradlePluginsVersion")
+        kotlin_version = constants.getProperty("kotlinVersion")
+        junit_version = constants.getProperty("junitVersion")
+        quasar_version = constants.getProperty("quasarVersion")
+        log4j_version = constants.getProperty("log4jVersion")
+        slf4j_version = constants.getProperty("slf4jVersion")
+        corda_platform_version = constants.getProperty("platformVersion").toInteger()
+
+        //account
+        accounts_release_group = 'com.r3.corda.lib.accounts'
+        accounts_release_version = '1.0'
+        //CI
+        confidential_id_release_group = "com.r3.corda.lib.ci"
+        confidential_id_release_version = "1.0"
+        //springboot
+        spring_boot_version = '2.0.2.RELEASE'
+        spring_boot_gradle_plugin_version = '2.0.2.RELEASE'
+    }
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+        maven { url 'https://software.r3.com/artifactory/corda-releases' }
+    }
+
+    dependencies {
+        classpath "net.corda.plugins:cordapp:$corda_gradle_plugins_version"
+        classpath "net.corda.plugins:cordformation:$corda_gradle_plugins_version"
+        classpath "net.corda.plugins:quasar-utils:$corda_gradle_plugins_version"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$spring_boot_gradle_plugin_version"
+    }
+}
+
+allprojects {
+    apply from: "${rootProject.projectDir}/repositories.gradle"
+    apply plugin: 'java'
+
+    repositories {
+        mavenLocal()
+        jcenter()
+        mavenCentral()
+        maven { url 'https://software.r3.com/artifactory/corda' }
+        maven { url 'https://jitpack.io' }
+        //SDK lib
+        maven { url 'https://software.r3.com/artifactory/corda-lib' }
+        //Gradle Plugins
+        maven { url 'https://repo.gradle.org/gradle/libs-releases' }
+    }
+
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-parameters" // Required by Corda's serialisation framework.
+    }
+
+    jar {
+        // This makes the JAR's SHA-256 hash repeatable.
+        preserveFileTimestamps = false
+        reproducibleFileOrder = true
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+}
+
+apply plugin: 'net.corda.plugins.cordapp'
+apply plugin: 'net.corda.plugins.cordformation'
+apply plugin: 'net.corda.plugins.quasar-utils'
+
+sourceSets {
+    main {
+        resources {
+            srcDir rootProject.file("config/dev")
+        }
+    }
+}
+
+dependencies {
+    // Corda dependencies.
+    cordaCompile "$corda_core_release_group:corda-core:$corda_core_release_version"
+    cordaCompile "$corda_release_group:corda-node-api:$corda_release_version"
+    cordaRuntime "$corda_release_group:corda:$corda_release_version"
+
+    // CorDapp dependencies.
+    cordapp project(":workflows")
+    cordapp project(":contracts")
+
+    cordaCompile "org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}"
+    cordaCompile "org.apache.logging.log4j:log4j-web:${log4j_version}"
+    cordaCompile "org.slf4j:jul-to-slf4j:$slf4j_version"
+
+    //accounts
+    cordapp "$accounts_release_group:accounts-contracts:$accounts_release_version"
+    cordapp "$confidential_id_release_group:ci-workflows:$confidential_id_release_version"
+    cordapp "$accounts_release_group:accounts-workflows:$accounts_release_version"
+}
+
+task prepareDockerNodes(type: net.corda.plugins.Dockerform, dependsOn: ['jar']) {
+
+    dockerImage = "corda/corda-zulu-java1.8-" + corda_release_version + ":latest"
+
+    nodeDefaults {
+        projectCordapp {
+            deploy = false
+        }
+        cordapp project("contracts")
+        cordapp project("workflows")
+        rpcUsers = [[user: "user1", "password": "test", "permissions": ["ALL"]]]
+    }
+
+    node {
+        name "O=Notary,L=London,C=GB"
+        notary = [validating: false]
+        p2pPort 10001
+        p2pAddress "0.0.0.0"
+        rpcSettings {
+            address("0.0.0.0:10011")
+            adminAddress("0.0.0.0:10041")
+        }
+        sshdPort 2221
+    }
+
+    node {
+        name "O=Observer,L=Washington D.C.,C=US"
+        p2pPort 10002
+        p2pAddress "0.0.0.0"
+        rpcSettings {
+            address("0.0.0.0:10012")
+            adminAddress("0.0.0.0:10042")
+        }
+        sshdPort 2222
+    }
+
+    node {
+        name "O=ADistrict,L=Annapolis,C=US"
+        p2pPort 10003
+        p2pAddress "0.0.0.0"
+        rpcSettings {
+            address("0.0.0.0:10013")
+            adminAddress("0.0.0.0:10043")
+        }
+        sshdPort 2223
+    }
+
+    node {
+        name "O=BDistrict,L=Baltimore,C=US"
+        p2pPort 10004
+        p2pAddress "0.0.0.0"
+        rpcSettings {
+            address("0.0.0.0:10014")
+            adminAddress("0.0.0.0:10044")
+        }
+        sshdPort 2224
+    }
+
+    node {
+        name "O=CDistrict,L=Columbia,C=US"
+        p2pPort 10005
+        p2pAddress "0.0.0.0"
+        rpcSettings {
+            address("0.0.0.0:10015")
+            adminAddress("0.0.0.0:10045")
+        }
+        sshdPort 2225
+    }
+}
+
+task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
+    nodeDefaults {
+        projectCordapp {
+            deploy = false
+        }
+        cordapp("$confidential_id_release_group:ci-workflows:$confidential_id_release_version")
+        cordapp("$accounts_release_group:accounts-contracts:$accounts_release_version")
+        cordapp("$accounts_release_group:accounts-workflows:$accounts_release_version")
+
+        cordapp project(":contracts")
+        cordapp project(":workflows")
+        runSchemaMigration = true
+    }
+    node {
+        name "O=Notary,L=London,C=GB"
+        notary = [validating: false]
+        p2pPort 10001
+        rpcSettings {
+            address("localhost:10011")
+            adminAddress("localhost:10041")
+        }
+        sshdPort 2221
+    }
+    node {
+        name "O=Observer,L=Washington D.C.,C=US"
+        p2pPort 10002
+        rpcSettings {
+            address("localhost:10012")
+            adminAddress("localhost:10042")
+        }
+        extraConfig = ['h2Settings.address' : 'localhost:20042']
+        sshdPort 2222
+    }
+    node {
+        name "O=ADistrict,L=Annapolis,C=US"
+        p2pPort 10003
+        rpcSettings {
+            address("localhost:10013")
+            adminAddress("localhost:10043")
+        }
+        extraConfig = ['h2Settings.address' : 'localhost:20043']
+        sshdPort 2223
+    }
+    node {
+        name "O=BDistrict,L=Baltimore,C=US"
+        p2pPort 10004
+        rpcSettings {
+            address("localhost:10014")
+            adminAddress("localhost:10044")
+        }
+        extraConfig = ['h2Settings.address' : 'localhost:20044']
+        sshdPort 2224
+    }
+    node {
+        name "O=CDistrict,L=Columbia,C=US"
+        p2pPort 10005
+        rpcSettings {
+            address("localhost:10015")
+            adminAddress("localhost:10045")
+        }
+        extraConfig = ['h2Settings.address' : 'localhost:20045']
+        sshdPort 2225
+    }
+}
+task installQuasar(type: Copy) {
+    destinationDir rootProject.file("lib")
+    from(configurations.quasar) {
+        rename 'quasar-core(.*).jar', 'quasar.jar'
+    }
+}
