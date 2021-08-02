@@ -106,6 +106,8 @@ dependencies {
     cordaCompile "org.slf4j:jul-to-slf4j:$slf4j_version"
     cordaCompile "org.apache.logging.log4j:log4j-web:${log4j_version}"
     cordaCompile "org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}"
+
+    compileOnly("org.springframework.boot:spring-boot-devtools")
 }
 
 //Task to deploy the nodes in order to bootstrap a network

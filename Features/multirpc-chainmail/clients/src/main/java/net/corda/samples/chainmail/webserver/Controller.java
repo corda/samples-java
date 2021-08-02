@@ -1,17 +1,11 @@
 package net.corda.samples.chainmail.webserver;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import net.corda.core.contracts.StateAndRef;
-import net.corda.samples.chainmail.flows.CheckAssignedChainMailFlow;
-import net.corda.samples.chainmail.flows.CreateSantaSessionFlow;
-import net.corda.samples.chainmail.flows.GetMessagesForNode;
-import net.corda.samples.chainmail.flows.MessagesInfo;
-import net.corda.samples.chainmail.states.ChainMailSessionState;
-import net.corda.core.contracts.UniqueIdentifier;
+import net.corda.samples.chainmail.flows.*;
 import net.corda.core.identity.CordaX500Name;
 import net.corda.core.identity.Party;
 import net.corda.core.messaging.CordaRPCOps;
@@ -25,13 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.*;
-
-import com.sendgrid.*;
-import com.sendgrid.helpers.mail.Mail;
-import com.sendgrid.helpers.mail.objects.Content;
-import com.sendgrid.helpers.mail.objects.Email;
 
 
 /**
@@ -64,13 +52,20 @@ public class Controller {
     @RequestMapping(value = "/messages", method = RequestMethod.POST)
 //    @RequestMapping(value = "/messages", method = RequestMethod.GET)
     public ResponseEntity<String> checkMessages(@RequestBody String payload) {
+
+//    return ResponseEntity.status(HttpStatus.ACCEPTED).contentType(MediaType.APPLICATION_JSON).body("{\"requestingNode\":\"Alice\",\"messages\":[{\"sender\": \"Alice\", \"message\": \"CATS\"}]}");
+
         System.out.println("ENTERED /messages");
         System.out.println(payload);
+//        JsonObject convertedObject = new Gson().fromJson(payload, JsonElement.class).getAsJsonObject();
         JsonObject convertedObject = new Gson().fromJson(payload, JsonObject.class);
+        System.out.println("OBJECT PARSED");
 //        UniqueIdentifier gameId = UniqueIdentifier.Companion.fromString(convertedObject.get("gameId").getAsString());
-//        UniqueIdentifier requestingNode = UniqueIdentifier.Companion.fromString(convertedObject.get("requestingNode").getAsString());
-        String requestingNode = convertedObject.getAsString();
-        System.out.println(requestingNode);
+//        UniqueIdentifier requestingNode = UniqueIdentifier.Companion.fromString(convertedObject.get("requestingNode").getAsString());:w
+        System.out.println("Attempting String Conversion");
+//        String requestingNode = convertedObject.getAsString();
+        String requestingNode = convertedObject.get("requestingNode").getAsString();
+//        System.out.println(requestingNode);
         // NOTE lowercase the name for easy retrieve
 //        String playerName = "\"" + convertedObject.get("name").getAsString().toLowerCase().trim() + "\"";
         // optional param
@@ -79,9 +74,15 @@ public class Controller {
 //        resp.addProperty("requestingNode", output.getRequestingNode());
         System.out.println("TRYING");
         try {
+            System.out.println("TRY ENTERED");
+            System.out.println(requestingNode);
             // TODO , does this need to be a state?
+//            MessagesInfo output = proxy.startTrackedFlowDynamic(GetMessagesForNode.class, requestingNode).getReturnValue().get();
             MessagesInfo output = proxy.startTrackedFlowDynamic(GetMessagesForNode.class, requestingNode).getReturnValue().get();
+            System.out.println(output.getRequestingNode());
             resp.addProperty("requestingNode", output.getRequestingNode());
+            System.out.println("RESP BEING PRINTED NEXT");
+            System.out.println(resp);
             LinkedHashMap<String, String> messages = null;
             for(StateAndRef<MessageState> messageState: output.getMessageStates()) {
                 String sender = messageState.getState().getData().getSender().getName().toString();
@@ -113,9 +114,21 @@ public class Controller {
 
             return ResponseEntity.status(HttpStatus.ACCEPTED).contentType(MediaType.APPLICATION_JSON).body(resp.toString());
         } catch (Exception e) {
+            System.err.println(e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
+
+
+    @RequestMapping(value = "/messages/sendmessage", method = RequestMethod.POST)
+    public void sendMessage(@RequestBody String payload) {
+        JsonObject convertedObject = new Gson().fromJson(payload, JsonElement.class).getAsJsonObject();
+        String message = convertedObject.getAsString();
+
+        proxy.startTrackedFlowDynamic(SendMessage.class, message).getReturnValue();
+    }
+
 //    @RequestMapping(value = "/node", method = RequestMethod.GET)
 //    private ResponseEntity<String> returnName() {
 //        JsonObject resp = new JsonObject();

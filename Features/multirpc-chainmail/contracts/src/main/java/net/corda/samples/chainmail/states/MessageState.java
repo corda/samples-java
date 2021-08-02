@@ -2,6 +2,7 @@ package net.corda.samples.chainmail.states;
 
 import net.corda.core.identity.AbstractParty;
 import net.corda.core.identity.Party;
+import net.corda.core.serialization.ConstructorForDeserialization;
 import net.corda.samples.chainmail.contracts.MessageContract;
 import net.corda.core.contracts.BelongsToContract;
 import net.corda.core.contracts.ContractState;
@@ -20,6 +21,7 @@ public class MessageState implements ContractState{
     private final List<Party> recipients;
     private final String message;
 
+    @ConstructorForDeserialization
     public MessageState(Party sender, List<Party> recipients, String message) {
         this.sender = sender;
         this.recipients = recipients;
