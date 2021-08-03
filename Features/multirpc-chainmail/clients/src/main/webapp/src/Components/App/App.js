@@ -13,7 +13,6 @@ import './App.css';
 // import SantaGameCreated from '../SantaGameCreated/SantaGameCreated';
 // import SantaCheckSent from '../SantaCheckSent/SantaCheckSent';
 import MessagesContainer from "../MessagesContainer/MessagesContainer";
-
 function App(props) {
 
   return (

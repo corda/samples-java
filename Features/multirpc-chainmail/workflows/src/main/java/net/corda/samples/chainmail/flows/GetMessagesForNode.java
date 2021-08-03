@@ -13,6 +13,7 @@ import java.util.List;
 
 @InitiatingFlow
 @StartableByRPC
+@CordaSerializable
 public class GetMessagesForNode extends FlowLogic<MessagesInfo> {
     private final String requestingNode;
 
@@ -24,11 +25,9 @@ public class GetMessagesForNode extends FlowLogic<MessagesInfo> {
     @Suspendable
     public MessagesInfo call() throws FlowException {
         List<StateAndRef<MessageState>> messageStates = getServiceHub().getVaultService().queryBy(MessageState.class).getStates();
-        System.out.println(messageStates);
-        MessagesInfo messagesInfo = new MessagesInfo(
+        return new MessagesInfo(
                 this.requestingNode,
                 messageStates
         );
-        return messagesInfo;
     }
 }

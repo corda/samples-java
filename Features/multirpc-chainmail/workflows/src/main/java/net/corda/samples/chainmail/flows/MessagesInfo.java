@@ -11,9 +11,9 @@ public class MessagesInfo {
     private String requestingNode;
     private List<StateAndRef<MessageState>> messageStates;
 
-    public MessagesInfo(String requestingNode, List<StateAndRef<MessageState>> messages) {
+    public MessagesInfo(String requestingNode, List<StateAndRef<MessageState>> messageStates) {
         this.requestingNode = requestingNode;
-        this.messageStates = messages;
+        this.messageStates = messageStates;
     }
 
     public String getRequestingNode() {

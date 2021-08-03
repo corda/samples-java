@@ -4,16 +4,30 @@ import axios from "axios";
 import { BACKEND_URL, SEND_EMAIL } from "../CONSTANTS";
 
 function MessageBox(props) {
-    const [message, setMessage] = useState("");
+  const [message, setMessage] = useState("");
 
-
-
-    return (
-        <div>
-            <input></input>
-            <div onClick={()=>{}}>🕊</div>
-        </div>
-    )
+  return (
+    <div>
+      <input
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        placeholder="Enter ChainMail Message"
+      />
+      {/*<button type="submit" disabled={!message}>*/}
+      {/*<button type="submit">*/}
+      {/*  🕊*/}
+      {/*</button>*/}
+      {/*<button onClick={()=> {setMessage(e.)}}>🕊</button>*/}
+      <div
+        onClick={() => {
+          props.onSubmit(message);
+          setMessage("");
+        }}
+      >
+        🕊
+      </div>
+    </div>
+  );
 }
 
 function Message(props) {
@@ -46,7 +60,7 @@ function MessagesContainer(props) {
       })
         .then((res) => res.json())
         .then((res) => {
-          const messages = res.messages;
+          const messages = res;
           console.log("Hello, can you hear me?");
           console.log(messages);
           if (messages !== null) {
@@ -63,7 +77,12 @@ function MessagesContainer(props) {
   }, []);
 
   function sendMessage(message) {
-
+    console.log("SENDING MESSAGE");
+    fetch(BACKEND_URL + "/messages/sendmessage", {
+      headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({"message": message}),
+      method: "POST",
+    });
   }
 
   return (
@@ -72,7 +91,7 @@ function MessagesContainer(props) {
         {messages.map((message) => {
           return <Message message={message} />;
         })}
-          <MessageBox onSubmit={sendMessage}></MessageBox>
+        <MessageBox onSubmit={sendMessage}></MessageBox>
       </main>
       {/*<form onSubmit={sendMessage}>*/}
       {/*    <input value={formValue} onChange={(e) => setFormValue(e.target.value)}/>*/}

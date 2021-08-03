@@ -1,6 +1,5 @@
 package net.corda.samples.chainmail.contracts;
 
-import net.corda.samples.chainmail.states.ChainMailSessionState;
 import junit.framework.TestCase;
 import net.corda.core.contracts.CommandData;
 import net.corda.core.contracts.Contract;

@@ -42,18 +42,18 @@ springBoot {
  * execute your rpc methods in the main method of the client.kt. You can somewhat see this as a quick test of making
  * RPC calls to your nodes.
  */
-task runSantaClient(type: JavaExec, dependsOn: assemble) {
+task runChainMailClient(type: JavaExec, dependsOn: assemble) {
     classpath = sourceSets.main.runtimeClasspath
     main = 'net.corda.samples.chainmail.Client'
     args 'localhost:10016', 'user1', 'test'
 }
 
 /**
- * This task will start the springboot server that connects to the santa node (via RPC connection). All of the http requests
+ * This task will start the springboot server that connects to the chainmail node (via RPC connection). All of the http requests
  * are in the Controller file.
  *
  */
-task runSantaServer(type: JavaExec, dependsOn: assemble) {
+task runChainmailServer(type: JavaExec, dependsOn: assemble) {
     classpath = sourceSets.main.runtimeClasspath
     main = 'net.corda.samples.chainmail.webserver.Starter'
     args '--server.port=10056', '--config.rpc.host=localhost', '--config.rpc.port=10016', '--config.rpc.username=user1', '--config.rpc.password=test'

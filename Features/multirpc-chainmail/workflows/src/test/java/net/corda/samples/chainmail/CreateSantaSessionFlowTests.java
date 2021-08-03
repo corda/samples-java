@@ -1,7 +1,6 @@
 package net.corda.samples.chainmail;
 
 import com.google.common.collect.ImmutableList;
-import net.corda.samples.chainmail.contracts.ChainMailSessionContract;
 import net.corda.samples.chainmail.flows.CreateSantaSessionFlow;
 import net.corda.samples.chainmail.states.ChainMailSessionState;
 import net.corda.core.concurrent.CordaFuture;
