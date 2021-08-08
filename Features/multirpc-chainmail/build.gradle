@@ -110,6 +110,94 @@ dependencies {
     compileOnly("org.springframework.boot:spring-boot-devtools")
 }
 
+/**
+ * generates a spring jar, creates nodes and docker-compose.yml, appends additional service
+ * to docker-compose through prepared spring-compose-entry
+// */
+//task buildSpringDocker(type: Copy, dependsOn: ['bootJar', 'prepareDockerNodes']) {
+//    def nodesDir = new File(project.buildDir, "nodes")
+//    from(project.bootJar.archivePath) // bootjar
+//    // Add additional from statements to copy over your dockerfile and launch script to same dir
+//    from(new FileNameFinder().getFileNames(project.projectDir.absolutePath, "Dockerfile").first())
+//    from(new FileNameFinder().getFileNames(project.projectDir.absolutePath, "run-api.sh").first())
+//    into(nodesDir)
+//    def dockerCompose = new File(nodesDir, "docker-compose.yml")
+//    def springEntry = new File(project.rootDir, "spring-compose-entry.yml")
+//    dockerCompose.append("\n" + springEntry.text)
+//}
+
+task prepareDockerNodes(type: net.corda.plugins.Dockerform, dependsOn: ['jar']) {
+
+    dockerImage = "corda/corda-zulu-java1.8-" + corda_release_version + ":latest"
+
+    nodeDefaults {
+        projectCordapp {
+            deploy = true
+            deploy = true
+        }
+        cordapp project("contracts")
+        cordapp project("workflows")
+        rpcUsers = [[user: "user1", "password": "test", "permissions": ["ALL"]]]
+    }
+
+    node {
+        name "O=Notary,L=London,C=GB"
+        notary = [validating: false]
+        p2pPort 10001
+        rpcSettings {
+            address("localhost:10011")
+            adminAddress("localhost:10041")
+        }
+        sshdPort 2221
+    }
+    node {
+        name "O=Alice,L=Annapolis,C=US"
+        p2pPort 10006
+        rpcSettings {
+            address("localhost:10016")
+            adminAddress("localhost:10046")
+        }
+        rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
+        extraConfig = ['h2Settings.address' : 'localhost:20046']
+        sshdPort 2222
+    }
+    node {
+        name "O=Bob,L=Baltimore,C=US"
+        p2pPort 10003
+        rpcSettings {
+            address("localhost:10013")
+            adminAddress("localhost:10043")
+        }
+        rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
+        extraConfig = ['h2Settings.address' : 'localhost:20043']
+        sshdPort 2223
+    }
+    node {
+        name "O=Charlie,L=Columbia,C=US"
+        p2pPort 10004
+        rpcSettings {
+            address("localhost:10014")
+            adminAddress("localhost:10044")
+        }
+        rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
+        extraConfig = ['h2Settings.address' : 'localhost:20044']
+        sshdPort 2224
+    }
+    node {
+        name "O=David,L=Detroit,C=US"
+        p2pPort 10005
+        rpcSettings {
+            address("localhost:10015")
+            adminAddress("localhost:10045")
+        }
+        rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
+        extraConfig = ['h2Settings.address' : 'localhost:20045']
+        sshdPort 2225
+    }
+
+}
+
+
 //Task to deploy the nodes in order to bootstrap a network
 task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
 

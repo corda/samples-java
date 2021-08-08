@@ -1,0 +1,27 @@
+.App {
+    /*width: 50%;*/
+    text-align: center;
+    max-width: 728px;
+    margin: 0 auto;
+}
+main {
+    padding: 10px;
+    height: 80vh;
+    margin: 10vh 0 10vh;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+}
+.messageItem {
+    align-self: center;
+    background-color: lightgrey;
+}
+
+input {
+    width: 100%;
+    background-color: lightblue;
+}
+
+.sendButton {
+    background-color: lightgrey;
+}

@@ -15,18 +15,21 @@ import java.util.List;
 @StartableByRPC
 @CordaSerializable
 public class GetMessagesForNode extends FlowLogic<MessagesInfo> {
-    private final String requestingNode;
+//    private final String requestingNode;
 
-    public GetMessagesForNode(String requestingNode) {
-        this.requestingNode = requestingNode;
+    public GetMessagesForNode() {
     }
+//    public GetMessagesForNode(String requestingNode) {
+//        this.requestingNode = requestingNode;
+//    }
 
     @Override
     @Suspendable
     public MessagesInfo call() throws FlowException {
         List<StateAndRef<MessageState>> messageStates = getServiceHub().getVaultService().queryBy(MessageState.class).getStates();
+        String requestingNode = getOurIdentity().getName().getOrganisation().toString();
         return new MessagesInfo(
-                this.requestingNode,
+                requestingNode,
                 messageStates
         );
     }

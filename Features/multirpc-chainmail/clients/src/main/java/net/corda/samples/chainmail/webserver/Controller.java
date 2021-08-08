@@ -61,42 +61,24 @@ public class Controller {
     @RequestMapping(value = "/messages", method = RequestMethod.POST)
     public ResponseEntity<String> checkMessages(@RequestBody String payload) {
 
-        JsonObject convertedObject = new Gson().fromJson(payload, JsonObject.class);
-        String requestingNode = convertedObject.get("requestingNode").getAsString();
-
+//        JsonObject convertedObject = new Gson().fromJson(payload, JsonObject.class);
+//        String requestingNode = convertedObject.get("requestingNode").getAsString();
         JsonObject resp = new JsonObject();
 
         try {
-            MessagesInfo output = proxy.startTrackedFlowDynamic(GetMessagesForNode.class, requestingNode).getReturnValue().get();
-            System.out.println(output.getRequestingNode());
+            MessagesInfo output = proxy.startTrackedFlowDynamic(GetMessagesForNode.class).getReturnValue().get();
+//            MessagesInfo output = proxy.startTrackedFlowDynamic(GetMessagesForNode.class, requestingNode).getReturnValue().get();
             resp.addProperty("requestingNode", output.getRequestingNode());
 
-//            LinkedHashMap<String, String> messages = new LinkedHashMap<String, String>();
-            ArrayList<HashMap> messages = new ArrayList();
-            Collection collection = new ArrayList();
+            Collection messages = new ArrayList();
 
             for(StateAndRef<MessageState> messageState: output.getMessageStates()) {
                 String sender = messageState.getState().getData().getSender().getName().getOrganisation();
                 String message = messageState.getState().getData().getMessage().toString();
-                System.out.println("Sender: " + sender + " Message: " + message);
-//                HashMap<String, String> senderMessage = new HashMap<>();
-//                senderMessage.put("sender", sender);
-//                senderMessage.put("message", message);
-//                messages.add(senderMessage);
-
-                collection.add(new Event(sender, message));
-                System.out.println(collection);
-//                System.out.println(messages);
+                messages.add(new Event(sender, message));
             }
-            System.out.println("ADDING PROPERTY");
-//            resp.addProperty("messages", new Gson().toJson(messages, ArrayList.class));
-//            resp.addProperty("messages", collection);
-//            resp.addProperty("messages", String.valueOf(messages));
-            System.out.println(resp);
-
             Gson gson = new Gson();
-//            return ResponseEntity.status(HttpStatus.ACCEPTED).contentType(MediaType.APPLICATION_JSON).body(resp.toString());
-            return ResponseEntity.status(HttpStatus.ACCEPTED).contentType(MediaType.APPLICATION_JSON).body(gson.toJson(collection));
+            return ResponseEntity.status(HttpStatus.ACCEPTED).contentType(MediaType.APPLICATION_JSON).body(gson.toJson(messages));
         } catch (Exception e) {
             System.err.println(e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -105,10 +87,8 @@ public class Controller {
 
     @RequestMapping(value = "/messages/sendmessage", method = RequestMethod.POST)
     public void sendMessage(@RequestBody String payload) {
-        System.out.println("ATTEMPTING MESSAGE SEND");
         JsonObject convertedObject = new Gson().fromJson(payload, JsonElement.class).getAsJsonObject();
         String message = convertedObject.get("message").getAsString();
-        System.out.println("SENDING: " + message);
 
         proxy.startTrackedFlowDynamic(SendMessage.class, message).getReturnValue();
     }
