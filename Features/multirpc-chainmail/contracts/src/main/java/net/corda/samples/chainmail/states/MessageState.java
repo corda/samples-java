@@ -6,16 +6,16 @@ import net.corda.core.serialization.ConstructorForDeserialization;
 import net.corda.samples.chainmail.contracts.MessageContract;
 import net.corda.core.contracts.BelongsToContract;
 import net.corda.core.contracts.ContractState;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 // *********
 // * State *
 // *********
 @BelongsToContract(MessageContract.class)
-public class MessageState implements ContractState{
+public class MessageState implements ContractState {
 
     private final Party sender;
     private final List<Party> recipients;
@@ -31,9 +31,16 @@ public class MessageState implements ContractState{
     public Party getSender() {
         return sender;
     }
+
     public String getMessage() {
         return message;
     }
+
+    public List<Party> getRecipients() {
+        return recipients;
+    }
+
+    @NotNull
     @Override
     public List<AbstractParty> getParticipants() {
         List<AbstractParty> allParties = new ArrayList<>(recipients);

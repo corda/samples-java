@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -32,15 +34,31 @@ public class NodeRPCConnection implements AutoCloseable {
     @Value("${config.rpc.port}")
     private int rpcPort;
 
-//    private CordaRPCConnection rpcConnection;
+
+    public String getUsername() {
+        return username;
+    }
+
+
+    //    private CordaRPCConnection rpcConnection;
 //    private MultiRPCClient rpcConnection;
     private CompletableFuture<RPCConnection<CordaRPCOps>> rpcConnection;
     CordaRPCOps proxy;
 
     @PostConstruct
     public void initialiseNodeRPCConnection() throws ExecutionException, InterruptedException {
+        System.out.println("INITIALISING NODE RPC CONNECTION");
+        List<NetworkHostAndPort> haAddressPool = new ArrayList<>();
+        System.out.println("1");
         NetworkHostAndPort rpcAddress = new NetworkHostAndPort(host, rpcPort);
-        MultiRPCClient client = new MultiRPCClient(rpcAddress, CordaRPCOps.class, username, password);
+        System.out.println("2");
+        haAddressPool.add(rpcAddress);
+        System.out.println("3");
+        haAddressPool.add(new NetworkHostAndPort(host, 10013));
+        System.out.println("ATTEMPTING MULTIRPC WITH HAADDRESSPOOL");
+        
+//        MultiRPCClient client = new MultiRPCClient(rpcAddress, CordaRPCOps.class, username, password);
+        MultiRPCClient client = new MultiRPCClient(haAddressPool, CordaRPCOps.class, username, password);
         System.out.println("ATTEMPTING CLIENT START FROM NODERPCCONNECTION");
         System.out.println("RPCADDRESS: " + rpcAddress + host + rpcPort);
         rpcConnection = client.start();

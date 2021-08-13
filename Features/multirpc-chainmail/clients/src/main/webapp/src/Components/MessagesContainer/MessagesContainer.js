@@ -43,8 +43,7 @@ useEffect(() => {
     const i = setInterval(() => {
       fetch(BACKEND_URL + "/messages", {
         headers: { "Content-Type": "application/json" },
-          body: "hi",
-        // body: JSON.stringify(data),
+        body: JSON.stringify({requestingNode: "Alice"}),
         method: "POST",
       })
         .then((res) => res.json())
@@ -78,8 +77,8 @@ useEffect(() => {
           {messages.map((message) => {
             return <Message message={message} />;
           })}
-          <MessageInputBox onSubmit={sendMessage}></MessageInputBox>
         </main>
+      <MessageInputBox onSubmit={sendMessage}></MessageInputBox>
       </div>
     </>
   );

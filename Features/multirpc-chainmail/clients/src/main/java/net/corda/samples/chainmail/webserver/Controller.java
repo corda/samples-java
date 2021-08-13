@@ -41,7 +41,8 @@ class Event {
 @CrossOrigin(origins = "*")
 public class Controller {
     private final CordaRPCOps proxy;
-    private final CordaX500Name me;
+//    private final CordaX500Name me;
+    private final String me;
     private final static Logger logger = LoggerFactory.getLogger(Controller.class);
 
     private boolean isMe(NodeInfo nodeInfo){
@@ -55,19 +56,23 @@ public class Controller {
 
     public Controller(NodeRPCConnection rpc) {
         this.proxy = rpc.proxy;
-        this.me = proxy.nodeInfo().getLegalIdentities().get(0).getName();
+//        this.me = proxy.nodeInfo().getLegalIdentities().get(0).getName();
+        this.me = rpc.getUsername();
     }
+
 
     @RequestMapping(value = "/messages", method = RequestMethod.POST)
     public ResponseEntity<String> checkMessages(@RequestBody String payload) {
 
-//        JsonObject convertedObject = new Gson().fromJson(payload, JsonObject.class);
-//        String requestingNode = convertedObject.get("requestingNode").getAsString();
+        JsonObject convertedObject = new Gson().fromJson(payload, JsonObject.class);
+        String requestingNode = convertedObject.get("requestingNode").getAsString();
+//        String requestingNode = payload.toString();
         JsonObject resp = new JsonObject();
 
         try {
-            MessagesInfo output = proxy.startTrackedFlowDynamic(GetMessagesForNode.class).getReturnValue().get();
+//            MessagesInfo output = proxy.startTrackedFlowDynamic(GetMessagesForNode.class).getReturnValue().get();
 //            MessagesInfo output = proxy.startTrackedFlowDynamic(GetMessagesForNode.class, requestingNode).getReturnValue().get();
+            MessagesInfo output = proxy.startTrackedFlowDynamic(GetMessagesForNode.class, me).getReturnValue().get();
             resp.addProperty("requestingNode", output.getRequestingNode());
 
             Collection messages = new ArrayList();
