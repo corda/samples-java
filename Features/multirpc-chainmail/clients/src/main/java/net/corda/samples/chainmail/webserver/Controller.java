@@ -6,7 +6,6 @@ import com.google.gson.JsonObject;
 
 import net.corda.core.contracts.StateAndRef;
 import net.corda.samples.chainmail.flows.*;
-import net.corda.core.identity.CordaX500Name;
 import net.corda.core.identity.Party;
 import net.corda.core.messaging.CordaRPCOps;
 import net.corda.core.node.NodeInfo;
@@ -19,7 +18,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 class Event {
@@ -41,7 +39,6 @@ class Event {
 @CrossOrigin(origins = "*")
 public class Controller {
     private final CordaRPCOps proxy;
-//    private final CordaX500Name me;
     private final String me;
     private final static Logger logger = LoggerFactory.getLogger(Controller.class);
 
@@ -56,22 +53,17 @@ public class Controller {
 
     public Controller(NodeRPCConnection rpc) {
         this.proxy = rpc.proxy;
-//        this.me = proxy.nodeInfo().getLegalIdentities().get(0).getName();
         this.me = rpc.getUsername();
     }
-
 
     @RequestMapping(value = "/messages", method = RequestMethod.POST)
     public ResponseEntity<String> checkMessages(@RequestBody String payload) {
 
         JsonObject convertedObject = new Gson().fromJson(payload, JsonObject.class);
         String requestingNode = convertedObject.get("requestingNode").getAsString();
-//        String requestingNode = payload.toString();
         JsonObject resp = new JsonObject();
 
         try {
-//            MessagesInfo output = proxy.startTrackedFlowDynamic(GetMessagesForNode.class).getReturnValue().get();
-//            MessagesInfo output = proxy.startTrackedFlowDynamic(GetMessagesForNode.class, requestingNode).getReturnValue().get();
             MessagesInfo output = proxy.startTrackedFlowDynamic(GetMessagesForNode.class, me).getReturnValue().get();
             resp.addProperty("requestingNode", output.getRequestingNode());
 

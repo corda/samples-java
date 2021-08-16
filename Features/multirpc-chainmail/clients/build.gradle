@@ -56,7 +56,7 @@ task runChainMailClient(type: JavaExec, dependsOn: assemble) {
 task runChainmailServer(type: JavaExec, dependsOn: assemble) {
     classpath = sourceSets.main.runtimeClasspath
     main = 'net.corda.samples.chainmail.webserver.Starter'
-    args '--server.port=10056', '--config.rpc.host=localhost', '--config.rpc.port=10016', '--config.rpc.username=user1', '--config.rpc.password=test'
+    args '--server.port=10052', '--config.rpc.host=localhost', '--config.rpc.port=10012,10013,10014,10015', '--config.rpc.username=user1', '--config.rpc.password=test'
 }
 
 //task runChainmailServerBob(type: JavaExec, dependsOn: assemble) {
