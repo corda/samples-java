@@ -39,7 +39,7 @@ function Message(props) {
         <div className="message-item">
             <table>
                 <td className="td-from">
-                    <p className="message-from">From: {props.message.sender} |</p>
+                    <p className="message-from">Node: {props.message.sender} |</p>
                 </td>
                 <td className="td-content">
                     <p className="message-content">{props.message.message}</p>
