@@ -1,32 +1,27 @@
 ![](./clients/src/main/webapp/src/Components/img/secret_corda.png)
 
-# Corda Secret Santa
+# ChainMail - Corda Multi RPC
 
-This is an imlementation of Secret Santa using Corda as a tool to store multiple game states.
+This in an implementation of a group messaging client using Corda. It's purpose is to show the capabilities of using MultiRPC for node failover in a High Availability scenario.
 
-It has a material-ui frontend that lets users create and self-service their own secret santa games. The frontend is implemented in ReactJS and the backend is implemented with a Spring Boot server and some corda flows.
-
-You can create a game using the web frontend (or just calling the api directly with Postman), and once the game is stored, players can look up their assignments using their game id, and the app also supports an optional sendgrid integration so that you can have emails sent to the players as well.
-
-> One tip if you're using intellij is to open the project from the intellij dialog, don't import the project directly.
+This app has a React frontend that allows users to message eachother. Messages are only displayed when all participants have signed and finalised receipt of the message.
 
 ## Usage
 
-There's essentially five processes you'll need to be aware of.
+There's essentially seven processes you'll need to be aware of.
 
-- Three Corda nodes, a notary, santa, and an elf
+- Five Corda nodes, a notary, and a node for Alice, Bob, Charlie, and David
 - The backend webserver that runs the REST endpoints for the corda nodes
-- The frontend webserver, a react app that sends requests to the backend.
+- The frontend webserver, a React app that sends requests to the backend.
 
 
 #### Pre-Requisites
 
 If you've never built a cordapp before you may need to configure gradle and java in order for this code example to run. See [our setup guide](https://docs.corda.net/getting-set-up.html).
 
-
 ### Running these services
 
-#### The three Corda nodes
+#### The five Corda nodes
 To run the corda nodes you just need to run the `deployNodes` gradle task and the nodes will be available for you to run directly.
 
 ```
@@ -36,25 +31,26 @@ To run the corda nodes you just need to run the `deployNodes` gradle task and th
 
 #### The backend webserver
 
-Run the `runSantaServer` Gradle task. By default, it connects to the node with RPC address `localhost:10006` with
-the username `user1` and the password `test`, and serves the webserver on port `localhost:10052`.
+Run the `runChainmailServer` Gradle task.
+This will connect using MultiRPC to all the ports defined in the `build.gradle` file inside of the clients directory.
+the username `user1` and the password `test`, and serves the webserver on port `localhost:10052` which the React frontend connects to as defined in the `CONSTANTS.js` file.
 
 ```
-./gradlew runSantaServer
+./gradlew runChainMailServer
 ```
-
-The frontend will be visible on [localhost:10052](http://localhost:10052)
+Multi RPC allows for a node to go offline and the server will failover to the next defined node in a round-robin fashion.
+With the way the Cordapp is built, this will allow the UI to remain served, however, in order to validate a message, all nodes need to receive a message, so new messages will only appear in the chat once all parties have signed and finalised the transaction.
 
 ##### Background Information
 
-`clients/src/main/java/com/secretsanta/webserver/` defines a simple Spring webserver that connects to a node via RPC and allows you to interact with the node over HTTP.
+`clients/src/main/java/com/chainmail/webserver/` defines a Spring webserver that connects to the nodes via Multi RPC and allows you to interact with the node over HTTP.
 
-The API endpoints are defined in `clients/src/main/java/com/secretsanta/webserver/Controller.java`
+The API endpoints are defined in `clients/src/main/java/com/chainmail/webserver/Controller.java`
 
 
 #### The frontend webserver
 
-The react server can be started by going to `clients/src/main/webapp`, running `npm install` and then `npm start`.
+The React server can be started by going to `clients/src/main/webapp`, running `npm install` and then `npm start`.
 
 ```
 cd clients/src/main/webapp
@@ -62,24 +58,8 @@ npm install
 npm start
 ```
 
-The frontend will be visible on [localhost:8888](http://localhost:8888)
-
-#### Configuring Email with SendGrid
-
-If you'd like to start sending email you'll need to make an account on [sendgrid.com](http://sendgrid.com) and configure a verified sender identity.
-
-Once you've done that, create an API key and place it into `Controller.java`(the webserver for the corda nodes). After which point you can set the `sendEmail` param to `true` in your requests. In order to configure the frontend to send emails, just open `CONSTANTS.js` and set the `SEND_EMAIL` param to `true` instead of `false`.
-
-
-### Testing Utilities
-
-
-#### Using Postman for backend testing
-
-I've included some simple postman tests to run against the santa server that will be helpful to you if you plan on using this. You'll find them in the `postman` folder.
-
+The frontend will be visible on [localhost:3000](http://localhost:3000)
 
 #### Running tests inside IntelliJ
 
 There are unit tests for the corda state, contract, and tests for both flows used here. You'll find them inside of the various test folders.
-

@@ -7,13 +7,16 @@
 
 .message-container{
   width: 100%;
-  max-width: 728px;
+  /*max-width: 728px;*/
+  height: 600px;
+  /*height: auto;*/
+  /*float: bottom;*/
   margin: 0 auto;
 }
 
 .message-item {
   float: top;
-  margin: 10px;
+  margin: 7px;
   color: white;
   background-color: grey;
   border-radius: 10px;
@@ -56,9 +59,8 @@ main::-webkit-scrollbar-thumb {
   border-radius: 10px;
 }
 
-.logo {
-  width: 70px;
-  height: 70px;
+h1 {
+  margin: 0;
 }
 
 .send-button {
@@ -81,8 +83,7 @@ button:disabled {
 }
 
 img {
-  width: 40px;
-  height: 40px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
-  margin: 2px 5px;
 }

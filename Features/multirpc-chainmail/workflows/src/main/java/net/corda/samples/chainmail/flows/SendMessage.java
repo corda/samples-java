@@ -3,6 +3,7 @@ package net.corda.samples.chainmail.flows;
 import co.paralleluniverse.fibers.Suspendable;
 import net.corda.core.contracts.Command;
 import net.corda.core.contracts.ContractState;
+import net.corda.core.crypto.SecureHash;
 import net.corda.core.flows.*;
 import net.corda.core.identity.Party;
 import net.corda.core.transactions.SignedTransaction;
@@ -12,7 +13,6 @@ import net.corda.samples.chainmail.contracts.MessageContract;
 import net.corda.samples.chainmail.states.MessageState;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -92,7 +92,9 @@ public class SendMessage extends FlowLogic<SignedTransaction> {
         MessageState messageState = new MessageState(me, recipients, message);
         final Command<MessageContract.Commands.Create> txCommand = new Command<>(
                 new MessageContract.Commands.Create(),
-                Arrays.asList(messageState.getSender().getOwningKey()));
+                recipients.stream().map(Party::getOwningKey).collect(Collectors.toList()));
+//                Arrays.asList(messageState.getSender().getOwningKey()));
+
         final TransactionBuilder txBuilder = new TransactionBuilder(notary)
                 .addOutputState(messageState, MessageContract.ID)
                 .addCommand(txCommand);
@@ -112,6 +114,8 @@ public class SendMessage extends FlowLogic<SignedTransaction> {
 
         // Create FlowSessions for all recipients
         List<FlowSession> recipientSessions = new ArrayList<>();
+        System.out.println("RECIPIENTS");
+        System.out.println(recipients);
         for(Party recipient: recipients) {
             recipientSessions.add(initiateFlow(recipient));
         }
@@ -119,6 +123,9 @@ public class SendMessage extends FlowLogic<SignedTransaction> {
         // Send the state to the counterparties, and receive it back with their signatures.
         final SignedTransaction fullySignedTx = subFlow(
                 new CollectSignaturesFlow(partSignedTx, recipientSessions, CollectSignaturesFlow.Companion.tracker()));
+
+        System.out.println(fullySignedTx);
+        System.out.println("COLLECT SIGNATURE FLOW COMPLETED");
 
         // Stage 5.
         progressTracker.setCurrentStep(FINALISING_TRANSACTION);
@@ -155,7 +162,7 @@ class Acceptor extends FlowLogic<SignedTransaction> {
                 });
             }
         }
-        new SignTxFlow(otherPartySession, SignTransactionFlow.Companion.tracker());
+        SecureHash idOfTxWeSigned = subFlow(new SignTxFlow(otherPartySession, SignTransactionFlow.Companion.tracker())).getId();
         return subFlow(new ReceiveFinalityFlow(otherPartySession));
     }
 }

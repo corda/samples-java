@@ -2,8 +2,10 @@ package net.corda.samples.chainmail.webserver;
 
 import net.corda.client.rpc.RPCConnection;
 import net.corda.client.rpc.ext.MultiRPCClient;
+import net.corda.client.rpc.ext.RPCConnectionListener;
 import net.corda.core.messaging.CordaRPCOps;
 import net.corda.core.utilities.NetworkHostAndPort;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -36,14 +38,10 @@ public class NodeRPCConnection implements AutoCloseable {
     private String rpcPortsString;
 //    private int rpcPort;
 
-
     public String getUsername() {
         return username;
     }
 
-
-    //    private CordaRPCConnection rpcConnection;
-//    private MultiRPCClient rpcConnection;
     private CompletableFuture<RPCConnection<CordaRPCOps>> rpcConnection;
     CordaRPCOps proxy;
 
@@ -51,29 +49,39 @@ public class NodeRPCConnection implements AutoCloseable {
     public void initialiseNodeRPCConnection() throws ExecutionException, InterruptedException {
         System.out.println("INITIALISING NODE RPC CONNECTION");
         List<NetworkHostAndPort> haAddressPool = new ArrayList<>();
+        // Create list of addresses from ports input argument
         List<String> rpcPorts = Arrays.asList(rpcPortsString.split(","));
         for (String rpcPort: rpcPorts) {
             NetworkHostAndPort rpcAddress = new NetworkHostAndPort(host, Integer.parseInt(rpcPort));
             haAddressPool.add(rpcAddress);
         }
         System.out.println("ATTEMPTING MULTIRPC WITH HAADDRESSPOOL");
-        
-//        MultiRPCClient client = new MultiRPCClient(rpcAddress, CordaRPCOps.class, username, password);
+
         MultiRPCClient client = new MultiRPCClient(haAddressPool, CordaRPCOps.class, username, password);
         System.out.println("ATTEMPTING CLIENT START FROM NODERPCCONNECTION");
+
+        RPCConnectionListener listener = new RPCConnectionListener() {
+            @Override
+            public void onConnect(@NotNull ConnectionContext context) {
+                System.out.println("LISTENER: CONNECTED");
+            }
+            @Override
+            public void onDisconnect(@NotNull ConnectionContext context) {
+                System.out.println("LISTENER: DISCONNECTED");
+            }
+            @Override
+            public void onPermanentFailure(@NotNull ConnectionContext context) {
+                System.out.println("LISTENER: PERMANENT FAILURE");
+            }
+        };
+       // adds the connection listener to the RPC Client
+        client.addConnectionListener(listener);
+
         rpcConnection = client.start();
-//            try(RPCConnection<CordaRPCOps> conn = connFuture.get()) {
         RPCConnection<CordaRPCOps> conn = rpcConnection.get();
         System.out.println("TRIED RPCCONNECTION");
         System.out.println(conn.getProxy().nodeInfo());
-//                assertNotNull(conn.getProxy().nodeInfo());
         proxy = conn.getProxy();
-
-
-//        NetworkHostAndPort rpcAddress = new NetworkHostAndPort(host, rpcPort);
-//        CordaRPCClient rpcClient = new CordaRPCClient(rpcAddress);
-//        rpcConnection = rpcClient.start(username, password);
-//        proxy = rpcConnection.getProxy();
     }
 
     @PreDestroy
@@ -87,4 +95,4 @@ public class NodeRPCConnection implements AutoCloseable {
             e.printStackTrace();
         }
     }
-}
+

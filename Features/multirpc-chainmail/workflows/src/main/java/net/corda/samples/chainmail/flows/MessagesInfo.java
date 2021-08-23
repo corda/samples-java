@@ -28,8 +28,4 @@ public class MessagesInfo {
         return messageStates;
     }
 
-//    public void setMessageStates(List<StateAndRef<MessageState>> messageStates) {
-//        this.messageStates = messageStates;
-//    }
-
 }
