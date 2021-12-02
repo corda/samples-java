@@ -30,6 +30,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
+import net.corda.core.identity.CordaX500Name;
 
 public class PlayerMoveFlow {
 
@@ -52,7 +53,9 @@ public class PlayerMoveFlow {
         @Override
         @Suspendable
         public SignedTransaction call() throws FlowException {
-            Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0);
+            /** Explicit selection of notary by CordaX500Name - argument can by coded in flows or parsed from config (Preferred)*/
+            final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB"));
+
             AccountService accountService = getServiceHub().cordaService(KeyManagementBackedAccountService.class);
 
             //Get current player account info

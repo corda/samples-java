@@ -14,6 +14,7 @@ import net.corda.core.utilities.ProgressTracker;
 import static java.util.Collections.singletonList;
 
 import java.util.*;
+import net.corda.core.identity.CordaX500Name;
 
 
 /**
@@ -65,7 +66,8 @@ public class CreateSantaSessionFlow extends FlowLogic<SignedTransaction> {
     public SignedTransaction call() throws FlowException {
         // run an issuance transaction for a new secret santa game
         progressTracker.setCurrentStep(CREATING);
-        Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0);
+        /** Explicit selection of notary by CordaX500Name - argument can by coded in flows or parsed from config (Preferred)*/
+        final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB"));
         Party issuer = getOurIdentity();
 
         SantaSessionState newSantaState = new SantaSessionState(playerNames, playerEmails, issuer, owner);

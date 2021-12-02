@@ -17,6 +17,7 @@ import net.corda.samples.snl.states.BoardConfig;
 
 import java.security.SignatureException;
 import java.util.*;
+import net.corda.core.identity.CordaX500Name;
 
 public class CreateBoardConfig {
     private CreateBoardConfig() {}
@@ -36,7 +37,9 @@ public class CreateBoardConfig {
         @Override
         @Suspendable
         public SignedTransaction call() throws FlowException {
-            Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0);
+            /** Explicit selection of notary by CordaX500Name - argument can by coded in flows or parsed from config (Preferred)*/
+            final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB"));
+
             AccountService accountService = getServiceHub().cordaService(KeyManagementBackedAccountService.class);
 
             List<StateAndRef<AccountInfo>> p1accountInfo = accountService.accountInfo(player1);

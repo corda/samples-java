@@ -111,6 +111,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
 
     nodeDefaults {
         cordapp project(':contracts')
+        cordapp project(':workflows')
         runSchemaMigration = true
     }
 

@@ -14,6 +14,7 @@ import net.corda.core.identity.Party;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import net.corda.core.identity.CordaX500Name;
 
 @StartableByRPC
 @InitiatingFlow
@@ -33,7 +34,9 @@ public class CreateAndShareAccountFlow extends FlowLogic<String> {
         StateAndRef<AccountInfo> accountInfoStateAndRef =
                 (StateAndRef<AccountInfo>) subFlow(new CreateAccount(accountName));
 
-        final Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0);
+        /** Explicit selection of notary by CordaX500Name - argument can by coded in flows or parsed from config (Preferred)*/
+        final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB"));
+
         Party oracle = getServiceHub().getNetworkMapCache()
                 .getNodeByLegalName(CordaX500Name.parse("O=Oracle,L=Mumbai,C=IN")).getLegalIdentities().get(0);
 

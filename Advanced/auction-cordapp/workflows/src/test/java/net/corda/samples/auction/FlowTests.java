@@ -3,16 +3,14 @@ package net.corda.samples.auction;
 import com.google.common.collect.ImmutableList;
 import net.corda.core.concurrent.CordaFuture;
 import net.corda.core.contracts.Amount;
+import net.corda.core.identity.CordaX500Name;
 import net.corda.core.node.NetworkParameters;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.samples.auction.flows.CreateAssetFlow;
 import net.corda.samples.auction.flows.CreateAuctionFlow;
 import net.corda.samples.auction.states.Asset;
 import net.corda.samples.auction.states.AuctionState;
-import net.corda.testing.node.MockNetwork;
-import net.corda.testing.node.MockNetworkParameters;
-import net.corda.testing.node.StartedMockNode;
-import net.corda.testing.node.TestCordapp;
+import net.corda.testing.node.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,7 +37,8 @@ public class FlowTests {
                         )
                 ).withNetworkParameters(new NetworkParameters(4, Collections.emptyList(),
                         10485760, 10485760 * 50, Instant.now(), 1,
-                        Collections.emptyMap()))
+                        Collections.emptyMap())
+                ).withNotarySpecs(ImmutableList.of(new MockNetworkNotarySpec(CordaX500Name.parse("O=Notary,L=London,C=GB"))))
         );
         a = network.createPartyNode(null);
         b = network.createPartyNode(null);
