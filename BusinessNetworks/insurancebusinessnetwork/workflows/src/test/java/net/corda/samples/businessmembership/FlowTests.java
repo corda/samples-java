@@ -3,13 +3,11 @@ package net.corda.samples.businessmembership;
 import com.google.common.collect.ImmutableList;
 import net.corda.bn.states.MembershipState;
 import net.corda.core.contracts.StateAndRef;
+import net.corda.core.identity.CordaX500Name;
 import net.corda.core.node.services.Vault;
 import net.corda.core.node.services.vault.QueryCriteria;
 import net.corda.samples.businessmembership.flows.membershipFlows.CreateNetwork;
-import net.corda.testing.node.MockNetwork;
-import net.corda.testing.node.MockNetworkParameters;
-import net.corda.testing.node.StartedMockNode;
-import net.corda.testing.node.TestCordapp;
+import net.corda.testing.node.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +27,9 @@ public class FlowTests {
                 TestCordapp.findCordapp("net.corda.samples.businessmembership.contracts"),
                 TestCordapp.findCordapp("net.corda.samples.businessmembership.flows"),
                 TestCordapp.findCordapp("net.corda.bn.flows"),
-                TestCordapp.findCordapp("net.corda.bn.states"))));
+                TestCordapp.findCordapp("net.corda.bn.states")))
+                .withNotarySpecs(ImmutableList.of(new MockNetworkNotarySpec(CordaX500Name.parse("O=Notary,L=London,C=GB"))))
+        );
         a = network.createPartyNode(null);
         b = network.createPartyNode(null);
         network.runNetwork();
