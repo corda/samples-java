@@ -1,5 +1,6 @@
 package net.corda.samples.example;
 
+import net.corda.core.identity.CordaX500Name;
 import net.corda.samples.example.flows.ExampleFlow;
 import net.corda.samples.example.states.IOUState;
 import com.google.common.collect.ImmutableList;
@@ -9,10 +10,7 @@ import net.corda.core.contracts.StateAndRef;
 import net.corda.core.contracts.TransactionState;
 import net.corda.core.contracts.TransactionVerificationException;
 import net.corda.core.transactions.SignedTransaction;
-import net.corda.testing.node.MockNetwork;
-import net.corda.testing.node.MockNetworkParameters;
-import net.corda.testing.node.StartedMockNode;
-import net.corda.testing.node.TestCordapp;
+import net.corda.testing.node.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -34,7 +32,9 @@ public class FlowTests {
 
         network = new MockNetwork(new MockNetworkParameters().withCordappsForAllNodes(ImmutableList.of(
                 TestCordapp.findCordapp("net.corda.samples.example.contracts"),
-                TestCordapp.findCordapp("net.corda.samples.example.flows"))));
+                TestCordapp.findCordapp("net.corda.samples.example.flows")))
+                .withNotarySpecs(ImmutableList.of(new MockNetworkNotarySpec(CordaX500Name.parse("O=Notary,L=London,C=GB"))))
+        );
         a = network.createPartyNode(null);
         b = network.createPartyNode(null);
         network.runNetwork();
