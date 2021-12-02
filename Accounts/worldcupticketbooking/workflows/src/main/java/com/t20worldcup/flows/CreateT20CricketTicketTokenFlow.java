@@ -11,6 +11,7 @@ import net.corda.core.flows.InitiatingFlow;
 import net.corda.core.flows.StartableByRPC;
 import net.corda.core.identity.Party;
 import net.corda.core.transactions.SignedTransaction;
+import net.corda.core.identity.CordaX500Name;
 
 /**
  * This flow should be run by BCCI node. BCCI node will take care of issuing the base token type for the Ipl ticket. The token type will be craeted on the BCCI node
@@ -31,13 +32,8 @@ public class CreateT20CricketTicketTokenFlow extends FlowLogic<String> {
     @Suspendable
     public String call() throws FlowException {
         // Obtain a reference to a notary we wish to use.
-        /** METHOD 1: Take first notary on network, WARNING: use for test, non-prod environments, and single-notary networks only!*
-         *  METHOD 2: Explicit selection of notary by CordaX500Name - argument can by coded in flow or parsed from config (Preferred)
-         *
-         *  * - For production you always want to use Method 2 as it guarantees the expected notary is returned.
-         */
-        final Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0); // METHOD 1
-        // final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB")); // METHOD 2
+        /** Explicit selection of notary by CordaX500Name - argument can by coded in flows or parsed from config (Preferred)*/
+        final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB"));
 
         //create token type by passing in the name of the ipl match. specify the maintainer as BCCI
         UniqueIdentifier id = new UniqueIdentifier();
