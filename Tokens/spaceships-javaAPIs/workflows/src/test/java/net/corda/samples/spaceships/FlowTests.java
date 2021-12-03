@@ -15,16 +15,14 @@ import net.corda.core.concurrent.CordaFuture;
 import net.corda.core.contracts.Amount;
 import net.corda.core.contracts.StateAndRef;
 import net.corda.core.contracts.TransactionResolutionException;
+import net.corda.core.identity.CordaX500Name;
 import net.corda.core.identity.Party;
 import net.corda.core.node.services.VaultService;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.samples.spaceships.flows.*;
 import net.corda.samples.spaceships.states.SpaceshipTokenType;
 import net.corda.testing.common.internal.ParametersUtilitiesKt;
-import net.corda.testing.node.MockNetwork;
-import net.corda.testing.node.MockNetworkParameters;
-import net.corda.testing.node.StartedMockNode;
-import net.corda.testing.node.TestCordapp;
+import net.corda.testing.node.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -53,6 +51,7 @@ public class FlowTests {
                         .withNetworkParameters(ParametersUtilitiesKt.testNetworkParameters(
                                 Collections.emptyList(), 4
                         ))
+                        .withNotarySpecs(ImmutableList.of(new MockNetworkNotarySpec(CordaX500Name.parse("O=Notary,L=London,C=GB"))))
         );
         a = network.createPartyNode(null);
         b = network.createPartyNode(null);

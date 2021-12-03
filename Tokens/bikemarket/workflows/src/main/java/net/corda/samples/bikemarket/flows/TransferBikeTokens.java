@@ -7,6 +7,7 @@ import com.r3.corda.lib.tokens.workflows.flows.rpc.MoveNonFungibleTokensHandler;
 import com.r3.corda.lib.tokens.workflows.internal.flows.distribution.UpdateDistributionListFlow;
 import com.r3.corda.lib.tokens.workflows.internal.flows.finality.ObserverAwareFinalityFlow;
 import com.r3.corda.lib.tokens.workflows.utilities.NotaryUtilities;
+import net.corda.core.identity.CordaX500Name;
 import net.corda.core.transactions.TransactionBuilder;
 import net.corda.samples.bikemarket.states.FrameTokenState;
 import net.corda.samples.bikemarket.states.WheelsTokenState;
@@ -61,9 +62,12 @@ public class TransferBikeTokens {
             //get the pointer to the wheel
             TokenPointer wheeltokenPointer = wheeltokentype.toPointer(wheeltokentype.getClass());
 
+            // Obtain a reference to a notary we wish to use.
+            /** Explicit selection of notary by CordaX500Name - argument can by coded in flows or parsed from config (Preferred)*/
+            final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB"));
 
             FlowSession sellerSession = initiateFlow(holder);
-            TransactionBuilder txBuilder = new TransactionBuilder(NotaryUtilities.getPreferredNotary(getServiceHub()));
+            TransactionBuilder txBuilder = new TransactionBuilder(notary);
             MoveTokensUtilities.addMoveNonFungibleTokens(txBuilder, getServiceHub(), frametokenPointer, holder);
             MoveTokensUtilities.addMoveNonFungibleTokens(txBuilder, getServiceHub(), wheeltokenPointer, holder);
 

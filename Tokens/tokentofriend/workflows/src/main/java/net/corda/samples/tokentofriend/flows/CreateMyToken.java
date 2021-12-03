@@ -2,6 +2,7 @@ package net.corda.samples.tokentofriend.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import com.r3.corda.lib.tokens.workflows.flows.rpc.CreateEvolvableTokens;
+import net.corda.core.identity.CordaX500Name;
 import net.corda.samples.tokentofriend.states.CustomTokenState;
 import net.corda.core.contracts.TransactionState;
 import net.corda.core.contracts.UniqueIdentifier;
@@ -28,15 +29,9 @@ public class CreateMyToken extends FlowLogic<UniqueIdentifier>{
     @Suspendable
     public UniqueIdentifier call() throws FlowException {
 
-        // Obtain a reference from a notary we wish to use.
-        /**
-         *  METHOD 1: Take first notary on network, WARNING: use for test, non-prod environments, and single-notary networks only!*
-         *  METHOD 2: Explicit selection of notary by CordaX500Name - argument can by coded in flow or parsed from config (Preferred)
-         *
-         *  * - For production you always want to use Method 2 as it guarantees the expected notary is returned.
-         */
-        Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0);
-        // val notary = serviceHub.networkMapCache.getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB")) // METHOD 2
+        // Obtain a reference to a notary we wish to use.
+        /** Explicit selection of notary by CordaX500Name - argument can by coded in flows or parsed from config (Preferred)*/
+        final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB"));
 
         UniqueIdentifier uuid = new UniqueIdentifier();
         CustomTokenState tokenState = new CustomTokenState(myEmail,recipients,msg,getOurIdentity(),0,uuid);

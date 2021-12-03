@@ -2,6 +2,7 @@ package net.corda.samples.tokentofriend;
 
 import com.google.common.collect.ImmutableList;
 import com.r3.corda.lib.tokens.contracts.states.NonFungibleToken;
+import net.corda.core.identity.CordaX500Name;
 import net.corda.samples.tokentofriend.flows.IssueToken;
 import net.corda.samples.tokentofriend.states.CustomTokenState;
 import net.corda.samples.tokentofriend.flows.CreateMyToken;
@@ -10,13 +11,11 @@ import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.node.NetworkParameters;
 import net.corda.core.node.services.Vault;
 import net.corda.core.node.services.vault.QueryCriteria;
-import net.corda.testing.node.MockNetwork;
-import net.corda.testing.node.MockNetworkParameters;
-import net.corda.testing.node.TestCordapp;
+import net.corda.testing.node.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import net.corda.testing.node.StartedMockNode;
+
 import java.util.*;
 import java.time.Instant;
 import java.util.concurrent.ExecutionException;
@@ -41,7 +40,9 @@ public class FlowTests {
                 TestCordapp.findCordapp("net.corda.samples.tokentofriend.contracts"),
                 TestCordapp.findCordapp("net.corda.samples.tokentofriend.flows"),
                 TestCordapp.findCordapp("com.r3.corda.lib.tokens.contracts"),
-                TestCordapp.findCordapp("com.r3.corda.lib.tokens.workflows"))).withNetworkParameters(testNetworkParameters));
+                TestCordapp.findCordapp("com.r3.corda.lib.tokens.workflows"))).withNetworkParameters(testNetworkParameters)
+                .withNotarySpecs(ImmutableList.of(new MockNetworkNotarySpec(CordaX500Name.parse("O=Notary,L=London,C=GB"))))
+        );
         a = network.createPartyNode(null);
         b = network.createPartyNode(null);
         c = network.createPartyNode(null);
