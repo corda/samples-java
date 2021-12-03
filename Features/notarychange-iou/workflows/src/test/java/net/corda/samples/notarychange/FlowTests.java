@@ -32,7 +32,7 @@ public class FlowTests {
                 ))
             .withNotarySpecs(
                     Arrays.asList(
-                            new MockNetworkNotarySpec(new CordaX500Name("NotaryA", "Toronto", "CA")),
+                            new MockNetworkNotarySpec(new CordaX500Name("Notary", "London", "GB")),//"O=Notary,L=London,C=GB"
                             new MockNetworkNotarySpec(new CordaX500Name("NotaryB", "Toronto", "CA"))))
     );
 

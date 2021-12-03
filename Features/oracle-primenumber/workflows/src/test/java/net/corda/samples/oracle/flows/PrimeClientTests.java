@@ -20,7 +20,7 @@ public class PrimeClientTests {
             ImmutableList.of(
                     TestCordapp.findCordapp("net.corda.samples.oracle.services"),
                     TestCordapp.findCordapp("net.corda.samples.oracle.contracts")
-            ))
+            )).withNotarySpecs(ImmutableList.of(new MockNetworkNotarySpec(CordaX500Name.parse("O=Notary,L=London,C=GB"))))
     );
 
     private final StartedMockNode a = mockNet.createNode();

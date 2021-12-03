@@ -2,9 +2,9 @@ package net.corda.samples.referencestates.referencestates.flows;
 
 import com.google.common.collect.ImmutableList;
 import net.corda.core.contracts.StateAndRef;
+import net.corda.core.identity.CordaX500Name;
 import net.corda.samples.referencestates.states.SanctionedEntities;
-import net.corda.testing.node.MockNetwork;
-import net.corda.testing.node.StartedMockNode;
+import net.corda.testing.node.*;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -23,8 +23,11 @@ public class SanctionsFlowTests {
 
     @Before
     public void setup() {
-        network = new MockNetwork(
-                ImmutableList.of("net.corda.samples.referencestates.contracts"));
+        network = new MockNetwork(new MockNetworkParameters(ImmutableList.of(
+                TestCordapp.findCordapp("net.corda.samples.referencestates.contracts")
+        )).withNotarySpecs(ImmutableList.of(new MockNetworkNotarySpec(CordaX500Name.parse("O=Notary,L=London,C=GB"))))
+        );
+
         a = network.createPartyNode(null);
         b = network.createPartyNode(null);
         c = network.createPartyNode(null);

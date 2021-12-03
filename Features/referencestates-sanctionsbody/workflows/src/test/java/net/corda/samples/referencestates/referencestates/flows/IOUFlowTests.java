@@ -3,6 +3,7 @@ package net.corda.samples.referencestates.referencestates.flows;
 import com.google.common.collect.ImmutableList;
 import net.corda.core.contracts.TransactionVerificationException;
 import net.corda.core.flows.NotaryException;
+import net.corda.core.identity.CordaX500Name;
 import net.corda.core.identity.Party;
 import net.corda.core.node.NetworkParameters;
 import net.corda.core.transactions.SignedTransaction;
@@ -44,7 +45,7 @@ public class IOUFlowTests {
                 ImmutableList.of(new MockNetworkNotarySpec(DUMMY_NOTARY_NAME, false)),
                 new NetworkParameters(4, emptyList(), 10484760, 10484760 * 50, Instant.now(), 1, emptyMap(), Duration.ofDays(30)),
                 ImmutableList.of(findCordapp("net.corda.samples.referencestates.contracts"))
-        );
+        ).withNotarySpecs(ImmutableList.of(new MockNetworkNotarySpec(CordaX500Name.parse("O=Notary,L=London,C=GB"))));
 
         network = new MockNetwork(param);
 

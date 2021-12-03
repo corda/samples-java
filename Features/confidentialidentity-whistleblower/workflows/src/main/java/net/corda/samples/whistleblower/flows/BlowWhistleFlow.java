@@ -6,6 +6,7 @@ import net.corda.confidential.SwapIdentitiesFlow;
 import net.corda.core.contracts.CommandData;
 import net.corda.core.flows.*;
 import net.corda.core.identity.AnonymousParty;
+import net.corda.core.identity.CordaX500Name;
 import net.corda.core.identity.Party;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
@@ -95,15 +96,10 @@ public class BlowWhistleFlow extends FlowLogic<SignedTransaction> {
         BlowWhistleState output = new BlowWhistleState(badCompany, anonymousMe, anonymousInvestigator);
         CommandData command = new BlowWhistleContract.Commands.BlowWhistleCmd();
 
-        // Obtain a reference to a notary we wish to use.
-        /** METHOD 1: Take first notary on network, WARNING: use for test, non-prod environments, and single-notary networks only!*
-         *  METHOD 2: Explicit selection of notary by CordaX500Name - argument can by coded in flow or parsed from config (Preferred)
-         *
-         *  * - For production you always want to use Method 2 as it guarantees the expected notary is returned.
-         */
-        final Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0); // METHOD 1
-        // final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB")); // METHOD 2
 
+        // Obtain a reference to a notary we wish to use.
+        /** Explicit selection of notary by CordaX500Name - argument can by coded in flows or parsed from config (Preferred)*/
+        final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB"));
         TransactionBuilder txBuilder = new TransactionBuilder(notary)
                 .addOutputState(output, BlowWhistleContract.ID)
                 .addCommand(command, ImmutableList.of(anonymousMe.getOwningKey(), anonymousInvestigator.getOwningKey()));

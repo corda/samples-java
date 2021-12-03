@@ -6,13 +6,11 @@ import net.corda.core.contracts.Attachment;
 import net.corda.core.contracts.StateAndRef;
 import net.corda.core.contracts.TransactionVerificationException;
 import net.corda.core.crypto.SecureHash;
+import net.corda.core.identity.CordaX500Name;
 import net.corda.core.identity.Party;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.samples.blacklist.states.AgreementState;
-import net.corda.testing.node.MockNetwork;
-import net.corda.testing.node.MockNetworkParameters;
-import net.corda.testing.node.StartedMockNode;
-import net.corda.testing.node.TestCordapp;
+import net.corda.testing.node.*;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.After;
 import org.junit.Before;
@@ -43,7 +41,9 @@ public class FlowTests {
     @Before
     public void setup() throws FileNotFoundException {
         this.network = new MockNetwork(new MockNetworkParameters().withCordappsForAllNodes(ImmutableList.of(
-                TestCordapp.findCordapp("net.corda.samples.blacklist.contracts"))));
+                TestCordapp.findCordapp("net.corda.samples.blacklist.contracts")))
+                .withNotarySpecs(ImmutableList.of(new MockNetworkNotarySpec(CordaX500Name.parse("O=Notary,L=London,C=GB"))))
+        );
         this.a = this.network.createNode();
         this.b = this.network.createNode();
         this.aIdentity = this.a.getInfo().getLegalIdentities().get(0);
