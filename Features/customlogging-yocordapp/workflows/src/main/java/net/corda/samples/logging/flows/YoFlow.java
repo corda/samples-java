@@ -5,6 +5,7 @@ import co.paralleluniverse.fibers.Suspendable;
 import net.corda.core.contracts.Command;
 import net.corda.core.contracts.StateAndContract;
 import net.corda.core.flows.*;
+import net.corda.core.identity.CordaX500Name;
 import net.corda.core.identity.Party;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
@@ -73,8 +74,9 @@ public class YoFlow extends FlowLogic<SignedTransaction> {
         // flush the threadContext
         ThreadContext.removeAll(Arrays.asList("initiator", "target"));
 
-        // Obtain a reference to a notary.
-        final Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0);
+        // Obtain a reference to a notary we wish to use.
+        /** Explicit selection of notary by CordaX500Name - argument can by coded in flows or parsed from config (Preferred)*/
+        final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB"));
 
         Command<YoContract.Commands.Send> command = new Command<YoContract.Commands.Send>(new YoContract.Commands.Send(), Arrays.asList(me.getOwningKey()));
         YoState state = new YoState(me, target);

@@ -6,6 +6,7 @@ import com.r3.corda.lib.accounts.workflows.services.AccountService;
 import com.r3.corda.lib.accounts.workflows.services.KeyManagementBackedAccountService;
 import net.corda.core.contracts.StateAndRef;
 import net.corda.core.contracts.UniqueIdentifier;
+import net.corda.core.identity.CordaX500Name;
 import net.corda.core.node.NetworkParameters;
 import net.corda.core.node.services.Vault;
 import net.corda.core.node.services.vault.QueryCriteria;
@@ -13,13 +14,11 @@ import net.corda.samples.supplychain.accountUtilities.CreateNewAccount;
 import net.corda.samples.supplychain.accountUtilities.ShareAccountTo;
 import net.corda.samples.supplychain.flows.SendInvoice;
 import net.corda.samples.supplychain.states.InvoiceState;
-import net.corda.testing.node.MockNetwork;
-import net.corda.testing.node.MockNetworkParameters;
-import net.corda.testing.node.TestCordapp;
+import net.corda.testing.node.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import net.corda.testing.node.StartedMockNode;
+
 import java.util.*;
 import java.time.Instant;
 import java.util.concurrent.ExecutionException;
@@ -42,7 +41,9 @@ public class FlowTests {
                 TestCordapp.findCordapp("net.corda.samples.supplychain.contracts"),
                 TestCordapp.findCordapp("net.corda.samples.supplychain.flows"),
                 TestCordapp.findCordapp("com.r3.corda.lib.accounts.contracts"),
-                TestCordapp.findCordapp("com.r3.corda.lib.accounts.workflows"))).withNetworkParameters(testNetworkParameters));
+                TestCordapp.findCordapp("com.r3.corda.lib.accounts.workflows"))).withNetworkParameters(testNetworkParameters)
+                .withNotarySpecs(ImmutableList.of(new MockNetworkNotarySpec(CordaX500Name.parse("O=Notary,L=London,C=GB"))))
+        );
         a = network.createPartyNode(null);
         b = network.createPartyNode(null);
         network.runNetwork();

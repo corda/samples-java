@@ -6,6 +6,7 @@ import com.r3.corda.lib.tokens.contracts.states.FungibleToken;
 import com.r3.corda.lib.tokens.contracts.types.TokenType;
 import com.r3.corda.lib.tokens.workflows.flows.rpc.*;
 import com.r3.corda.lib.tokens.workflows.utilities.FungibleTokenBuilder;
+import net.corda.core.identity.CordaX500Name;
 import net.corda.samples.tokenizedhouse.states.FungibleHouseTokenState;
 import kotlin.Unit;
 import net.corda.core.contracts.*;
@@ -38,14 +39,8 @@ public class RealEstateEvolvableFungibleTokenFlow {
         @Suspendable
         public SignedTransaction call() throws FlowException {
             // Obtain a reference to a notary we wish to use.
-            /** METHOD 1: Take first notary on network, WARNING: use for test, non-prod environments, and single-notary networks only!*
-             *  METHOD 2: Explicit selection of notary by CordaX500Name - argument can by coded in flow or parsed from config (Preferred)
-             *
-             *  * - For production you always want to use Method 2 as it guarantees the expected notary is returned.
-             */
-            final Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0); // METHOD 1
-            // final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB")); // METHOD 2
-
+            /** Explicit selection of notary by CordaX500Name - argument can by coded in flows or parsed from config (Preferred)*/
+            final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB"));
             //create token type
             FungibleHouseTokenState evolvableTokenType = new FungibleHouseTokenState(valuation, getOurIdentity(),
                     new UniqueIdentifier(), 0, this.symbol);

@@ -8,10 +8,7 @@ import net.corda.samples.observable.flows.ReportManuallyResponder;
 import net.corda.samples.observable.flows.TradeAndReport;
 import net.corda.samples.observable.flows.TradeAndReportResponder;
 import net.corda.samples.observable.states.HighlyRegulatedState;
-import net.corda.testing.node.MockNetwork;
-import net.corda.testing.node.MockNetworkParameters;
-import net.corda.testing.node.StartedMockNode;
-import net.corda.testing.node.TestCordapp;
+import net.corda.testing.node.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +23,7 @@ public class FlowTests {
                             TestCordapp.findCordapp("net.corda.samples.observable.contracts"),
                             TestCordapp.findCordapp("net.corda.samples.observable.flows")
                     )
-            )
+            ).withNotarySpecs(ImmutableList.of(new MockNetworkNotarySpec(CordaX500Name.parse("O=Notary,L=London,C=GB"))))
     );
 
     private final StartedMockNode a = network.createNode();

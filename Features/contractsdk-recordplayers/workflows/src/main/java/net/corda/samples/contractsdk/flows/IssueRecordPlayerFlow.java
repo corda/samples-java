@@ -3,6 +3,7 @@ package net.corda.samples.contractsdk.flows;
 import co.paralleluniverse.fibers.Suspendable;
 import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.flows.*;
+import net.corda.core.identity.CordaX500Name;
 import net.corda.core.identity.Party;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
@@ -52,7 +53,9 @@ public class IssueRecordPlayerFlow extends FlowLogic<SignedTransaction> {
         // ideally this is only run by the manufacturer
         this.manufacturer = getOurIdentity();
 
-        final Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0);
+        // Obtain a reference to a notary we wish to use.
+        /** Explicit selection of notary by CordaX500Name - argument can by coded in flows or parsed from config (Preferred)*/
+        final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB"));
 
         Needle n = Needle.SPHERICAL;
 

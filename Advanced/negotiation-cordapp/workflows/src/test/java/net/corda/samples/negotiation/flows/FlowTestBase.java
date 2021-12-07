@@ -2,14 +2,14 @@ package net.corda.samples.negotiation.flows;
 
 import com.google.common.collect.ImmutableList;
 import net.corda.core.contracts.UniqueIdentifier;
+import net.corda.core.identity.CordaX500Name;
 import net.corda.core.identity.Party;
-import net.corda.testing.node.MockNetwork;
-import net.corda.testing.node.MockNetworkParameters;
-import net.corda.testing.node.StartedMockNode;
-import net.corda.testing.node.TestCordapp;
+import net.corda.testing.driver.VerifierType;
+import net.corda.testing.node.*;
 import org.junit.After;
 import org.junit.Before;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -21,11 +21,11 @@ abstract class FlowTestBase {
 
     @Before
     public void setup() {
-        network = new MockNetwork(new MockNetworkParameters(ImmutableList.of(
-                TestCordapp.findCordapp("net.corda.samples.negotiation.flows"),
-                TestCordapp.findCordapp("net.corda.samples.negotiation.contracts")
-        )
-        ));
+        network = new MockNetwork(new MockNetworkParameters(
+                ImmutableList.of(
+                        TestCordapp.findCordapp("net.corda.samples.negotiation.flows"),
+                        TestCordapp.findCordapp("net.corda.samples.negotiation.contracts"))
+        ).withNotarySpecs(ImmutableList.of(new MockNetworkNotarySpec(CordaX500Name.parse("O=Notary,L=London,C=GB")))));
         a = network.createPartyNode(null);
         b = network.createPartyNode(null);
 

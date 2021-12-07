@@ -5,9 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae2f70c6-dd38-4990-8c82-5e6cc0a19567" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/clients/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/clients/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/workflows/src/main/java/net/corda/samples/example/flows/ExampleFlow.java" beforeDir="false" afterPath="$PROJECT_DIR$/workflows/src/main/java/net/corda/samples/example/flows/ExampleFlow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/workflows/src/test/java/net/corda/samples/example/FlowTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/workflows/src/test/java/net/corda/samples/example/FlowTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/main/java/com/tutorial/flows/CreateAndIssueAppleStamp.java" beforeDir="false" afterPath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/main/java/com/tutorial/flows/CreateAndIssueAppleStamp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/main/java/com/tutorial/flows/PackageApples.java" beforeDir="false" afterPath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/main/java/com/tutorial/flows/PackageApples.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/main/java/com/tutorial/flows/RedeemApples.java" beforeDir="false" afterPath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/main/java/com/tutorial/flows/RedeemApples.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/main/java/com/tutorial/flows/TemplateInitiator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/main/java/com/tutorial/flows/TemplateInitiator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/test/java/com/tutorial/CreateAndIssueAppleStampTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/test/java/com/tutorial/CreateAndIssueAppleStampTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/test/java/com/tutorial/FarmerSelfCreateBasketOfAppleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/test/java/com/tutorial/FarmerSelfCreateBasketOfAppleTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/test/java/com/tutorial/FlowTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/test/java/com/tutorial/FlowTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/test/java/com/tutorial/RedeemApplesWithStampTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/test/java/com/tutorial/RedeemApplesWithStampTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,11 +67,12 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
     <property name="show.unlinked.gradle.project.popup" value="true" />
   </component>
-  <component name="RunManager" selected="Gradle.ContractTests">
+  <component name="RunManager" selected="Gradle.FlowTests">
     <configuration name="ContractTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -106,12 +115,12 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="DriverBasedTest.nodeTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="DriverBasedTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="--tests &quot;net.corda.samples.example.DriverBasedTest.nodeTest&quot;" />
+        <option name="scriptParameters" value="--tests &quot;net.corda.samples.example.DriverBasedTest&quot;" />
         <option name="taskDescriptions">
           <list />
         </option>
@@ -171,18 +180,18 @@
     </configuration>
     <list>
       <item itemvalue="Gradle.ContractTests" />
-      <item itemvalue="Gradle.FlowTests" />
-      <item itemvalue="Gradle.DriverBasedTest.nodeTest" />
       <item itemvalue="Gradle.ContractTests.transactionMustIncludeCreateCommand" />
       <item itemvalue="Gradle.StateTests.hasAmountFieldOfCorrectType" />
+      <item itemvalue="Gradle.DriverBasedTest" />
+      <item itemvalue="Gradle.FlowTests" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.FlowTests" />
+        <item itemvalue="Gradle.DriverBasedTest" />
         <item itemvalue="Gradle.ContractTests" />
         <item itemvalue="Gradle.StateTests.hasAmountFieldOfCorrectType" />
         <item itemvalue="Gradle.ContractTests.transactionMustIncludeCreateCommand" />
-        <item itemvalue="Gradle.DriverBasedTest.nodeTest" />
-        <item itemvalue="Gradle.FlowTests" />
       </list>
     </recent_temporary>
   </component>

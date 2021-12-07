@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import net.corda.core.identity.CordaX500Name;
 
 public class CreateGameFlow {
 
@@ -43,7 +44,9 @@ public class CreateGameFlow {
         @Override
         @Suspendable
         public String call() throws FlowException {
-            Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0);
+            /** Explicit selection of notary by CordaX500Name - argument can by coded in flows or parsed from config (Preferred)*/
+            final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB"));
+
             AccountService accountService = getServiceHub().cordaService(KeyManagementBackedAccountService.class);
 
             List<StateAndRef<AccountInfo>> p1accountInfo = accountService.accountInfo(player1);

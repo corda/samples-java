@@ -2,17 +2,16 @@ package net.corda.samples.bikemarket;
 
 import com.google.common.collect.ImmutableList;
 import net.corda.core.contracts.StateAndRef;
+import net.corda.core.identity.CordaX500Name;
 import net.corda.samples.bikemarket.flows.CreateFrameToken;
 import net.corda.samples.bikemarket.flows.CreateWheelToken;
 import net.corda.samples.bikemarket.states.FrameTokenState;
 import net.corda.samples.bikemarket.states.WheelsTokenState;
-import net.corda.testing.node.MockNetwork;
-import net.corda.testing.node.MockNetworkParameters;
-import net.corda.testing.node.TestCordapp;
+import net.corda.testing.node.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import net.corda.testing.node.StartedMockNode;
+
 import java.util.concurrent.Future;
 
 public class FlowTests {
@@ -27,7 +26,9 @@ public class FlowTests {
                 TestCordapp.findCordapp("net.corda.samples.bikemarket.contracts"),
                 TestCordapp.findCordapp("net.corda.samples.bikemarket.flows"),
                 TestCordapp.findCordapp("com.r3.corda.lib.tokens.contracts"),
-                TestCordapp.findCordapp("com.r3.corda.lib.tokens.workflows"))));
+                TestCordapp.findCordapp("com.r3.corda.lib.tokens.workflows")))
+                .withNotarySpecs(ImmutableList.of(new MockNetworkNotarySpec(CordaX500Name.parse("O=Notary,L=London,C=GB"))))
+        );
         a = network.createPartyNode(null);
         b = network.createPartyNode(null);
         network.runNetwork();

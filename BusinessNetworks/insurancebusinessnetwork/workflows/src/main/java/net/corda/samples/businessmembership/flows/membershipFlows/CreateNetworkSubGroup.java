@@ -6,6 +6,7 @@ import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.flows.FlowException;
 import net.corda.core.flows.FlowLogic;
 import net.corda.core.flows.StartableByRPC;
+import net.corda.core.identity.CordaX500Name;
 import net.corda.core.identity.Party;
 
 import java.util.Set;
@@ -26,7 +27,9 @@ public class CreateNetworkSubGroup extends FlowLogic<String> {
     @Override
     @Suspendable
     public String call() throws FlowException {
-        Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0);
+        // Obtain a reference to a notary we wish to use.
+        /** Explicit selection of notary by CordaX500Name - argument can by coded in flows or parsed from config (Preferred)*/
+        final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB"));
         UniqueIdentifier groupId = new UniqueIdentifier();
         subFlow(new CreateGroupFlow(this.networkId,groupId,this.groupName,this.groupParticipants,notary));
         String result = "\n "+ this.groupName+ " has created under BN network ("+this.networkId+")"+

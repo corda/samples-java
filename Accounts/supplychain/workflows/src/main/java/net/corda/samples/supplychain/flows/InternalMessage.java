@@ -6,6 +6,7 @@ import com.r3.corda.lib.accounts.workflows.services.AccountService;
 import com.r3.corda.lib.accounts.workflows.flows.RequestKeyForAccount;
 import com.r3.corda.lib.accounts.workflows.services.KeyManagementBackedAccountService;
 import com.sun.istack.NotNull;
+import net.corda.core.identity.CordaX500Name;
 import net.corda.samples.supplychain.accountUtilities.NewKeyForAccount;
 import net.corda.samples.supplychain.contracts.InternalMessageStateContract;
 import net.corda.samples.supplychain.states.InternalMessageState;
@@ -81,13 +82,8 @@ public class InternalMessage extends FlowLogic<String> {
         InternalMessageState output = new InternalMessageState(message,new AnonymousParty(myKey),targetAcctAnonymousParty);
 
         // Obtain a reference to a notary we wish to use.
-        /** METHOD 1: Take first notary on network, WARNING: use for test, non-prod environments, and single-notary networks only!*
-         *  METHOD 2: Explicit selection of notary by CordaX500Name - argument can by coded in flow or parsed from config (Preferred)
-         *
-         *  * - For production you always want to use Method 2 as it guarantees the expected notary is returned.
-         */
-        final Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0); // METHOD 1
-        // final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB")); // METHOD 2
+        /** Explicit selection of notary by CordaX500Name - argument can by coded in flows or parsed from config (Preferred)*/
+        final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB"));
 
         TransactionBuilder txbuilder = new TransactionBuilder(notary)
                 .addOutputState(output)

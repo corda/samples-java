@@ -83,7 +83,7 @@ public class UpdateRecordPlayerFlow extends FlowLogic<SignedTransaction> {
             throw new IllegalArgumentException("Only the dealer that sold this record player can service it!");
         }
 
-        final Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0);
+        final Party notary = inputStateAndRef.getState().getNotary();
 
         Command<RecordPlayerContract.Commands.Update> command = new Command<>(
                 new RecordPlayerContract.Commands.Update(),

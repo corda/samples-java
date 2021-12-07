@@ -9,6 +9,7 @@ import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
 
 import java.util.Collections;
+import net.corda.core.identity.CordaX500Name;
 
 public class PackageApples {
 
@@ -28,13 +29,9 @@ public class PackageApples {
         @Suspendable
         public SignedTransaction call() throws FlowException {
 
-            /* Obtain a reference to a notary we wish to use.
-             * METHOD 1: Take first notary on network, WARNING: use for test, non-prod environments, and single-notary networks only!*
-             *  METHOD 2: Explicit selection of notary by CordaX500Name - argument can by coded in flows or parsed from config (Preferred)
-             *  * - For production you always want to use Method 2 as it guarantees the expected notary is returned.
-             */
-            final Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0); // METHOD 1
-            //final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB")); // METHOD 2
+            // Obtain a reference to a notary we wish to use.
+            /** Explicit selection of notary by CordaX500Name - argument can by coded in flows or parsed from config (Preferred)*/
+            final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB"));
 
             //Create the output object
             BasketOfApple basket = new BasketOfApple(this.appleDescription,this.getOurIdentity(),this.weight);

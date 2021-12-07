@@ -8,6 +8,7 @@ import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
 import net.corda.samples.duediligence.contracts.CorporateRecordsContract;
 import net.corda.samples.duediligence.states.CorporateRecordsAuditRequest;
+import net.corda.core.identity.CordaX500Name;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,7 +34,8 @@ public class RequestToValidateCorporateRecords {
         @Override
         public String call() throws FlowException {
             //notary
-            Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0);
+            /** Explicit selection of notary by CordaX500Name - argument can by coded in flows or parsed from config (Preferred)*/
+            final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB"));
 
             //Initiate Corporate Records validation
             CorporateRecordsAuditRequest cr = new CorporateRecordsAuditRequest(getOurIdentity(),this.validater,this.numberOfFiles);

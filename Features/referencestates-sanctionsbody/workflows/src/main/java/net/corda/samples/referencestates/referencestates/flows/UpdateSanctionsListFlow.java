@@ -43,14 +43,7 @@ public class UpdateSanctionsListFlow {
         @Suspendable
         @Override
         public StateAndRef<SanctionedEntities> call() throws FlowException {
-            // Obtain a reference to a notary we wish to use.
-            /** METHOD 1: Take first notary on network, WARNING: use for test, non-prod environments, and single-notary networks only!*
-             *  METHOD 2: Explicit selection of notary by CordaX500Name - argument can by coded in flows or parsed from config (Preferred)
-             *
-             *  * - For production you always want to use Method 2 as it guarantees the expected notary is returned.
-             */
-            final Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0); // METHOD 1
-            // final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB")); // METHOD 2
+
 
             StateAndRef<SanctionedEntities> oldList  = getServiceHub().getVaultService().queryBy(SanctionedEntities.class).getStates().get(0);
             SanctionedEntities oldStateData = oldList.getState().getData();
@@ -61,6 +54,8 @@ public class UpdateSanctionsListFlow {
                     oldStateData.getIssuer(),
                     oldStateData.getLinearId()
             );
+
+            Party notary = oldList.getState().getNotary();
 
             // Stage 1
             progressTracker.setCurrentStep(GENERATING_TRANSACTION);

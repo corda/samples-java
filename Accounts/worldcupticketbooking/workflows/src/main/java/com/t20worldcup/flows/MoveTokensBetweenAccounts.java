@@ -19,6 +19,7 @@ import net.corda.core.contracts.StateAndRef;
 import net.corda.core.flows.*;
 import net.corda.core.identity.AbstractParty;
 import net.corda.core.identity.AnonymousParty;
+import net.corda.core.identity.CordaX500Name;
 import net.corda.core.identity.Party;
 import net.corda.core.node.services.vault.QueryCriteria;
 import net.corda.core.transactions.SignedTransaction;
@@ -88,8 +89,9 @@ public class MoveTokensBetweenAccounts extends FlowLogic<String> {
         Pair<List<StateAndRef<FungibleToken>>, List<FungibleToken>> inputsAndOutputs =
                 tokenSelection.generateMove(Arrays.asList(partyAndAmount), buyerAccount, new TokenQueryBy(), getRunId().getUuid());
 
-        Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0);
-
+        // Obtain a reference to a notary we wish to use.
+        /** Explicit selection of notary by CordaX500Name - argument can by coded in flows or parsed from config (Preferred)*/
+        final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB"));
         TransactionBuilder transactionBuilder = new TransactionBuilder(notary);
 
         MoveTokensUtilitiesKt.addMoveTokens(transactionBuilder, inputsAndOutputs.getFirst(), inputsAndOutputs.getSecond());
