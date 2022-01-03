@@ -70,6 +70,8 @@ otherwise one can spend the "encumbrance" (Expiry) state, which would freeze the
 That's why we also make Expiry dependent on Avatar. (See how we have added encumbrance index's to the output states in 
 both the flows.)
 
+To read more about encumbrance visit the docs site. https://training.corda.net/corda-details/reference-states/#encumbrances
+
 ## Reminder
 
 This project is open source under an Apache 2.0 licence. That means you
