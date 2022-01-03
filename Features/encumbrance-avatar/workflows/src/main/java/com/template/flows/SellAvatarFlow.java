@@ -36,21 +36,25 @@ public class SellAvatarFlow extends FlowLogic<SignedTransaction> {
 
         Party buyerParty = getServiceHub().getIdentityService().partiesFromName(buyer, true).iterator().next();
 
-                Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0);
+        Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0);
 
+        //get avatar from db
         Vault.Page<Avatar> avatarPage = getServiceHub().getVaultService().queryBy(Avatar.class);
         StateAndRef<Avatar> avatarStateAndRef = avatarPage.getStates().stream().filter(i ->
                 i.getState().getData().getAvatarId().equalsIgnoreCase(avatarId)).findAny().orElseThrow(() ->
                 new CordaRuntimeException("No avatar found with avatar id as : " + avatarId));;
 
+        //get expiry from db
         Vault.Page<Expiry> expiryPage = getServiceHub().getVaultService().queryBy(Expiry.class);
         StateAndRef<Expiry> expiryStateAndRef = expiryPage.getStates().stream().filter(i ->
                 i.getState().getData().getAvatarId().equalsIgnoreCase(avatarId)).findAny().orElseThrow(() ->
                 new CordaRuntimeException("No expiry found with avatar id as " + avatarId));
 
+        //change owner
         Avatar avatar = new Avatar(buyerParty, avatarId);
-        Expiry expiry = new Expiry(expiryStateAndRef.getState().getData().getExpiry(), avatarId, avatar.getOwner());
+        Expiry expiry = new Expiry(expiryStateAndRef.getState().getData().getExpiry(), avatarId, buyerParty);
 
+        //consume existing states, encumbering states will trigger the expiry contract to run
         TransactionBuilder transactionBuilder = new TransactionBuilder(notary)
                 .addInputState(avatarStateAndRef)
                 .addInputState(expiryStateAndRef)

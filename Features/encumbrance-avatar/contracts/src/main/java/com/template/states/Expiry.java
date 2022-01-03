@@ -11,6 +11,8 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 
+//Expiry represents an expiry date beyond which the avatar cannot be sold. This is the encumbrance state which encumbers
+//the Avatar state.
 @BelongsToContract(ExpiryContract.class)
 public class Expiry implements ContractState {
 

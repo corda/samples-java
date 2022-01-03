@@ -10,6 +10,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Objects;
 
+//Avatar can be thought of as any metaverse avatar which needs to be created and sold on at an exchange. This entity
+//has an id and owner associated with it. We will see how this avatar can only be sold within a certain time limit.
 @BelongsToContract(AvatarContract.class)
 public class Avatar implements ContractState {
     private final AbstractParty owner;

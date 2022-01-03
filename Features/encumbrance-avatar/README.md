@@ -58,11 +58,17 @@ Create the Avatar on PartyA node
 
 Sell the Avatar to PartyB node from PartyA node
 
-      start SellAvatarFlow avatarId : 1, buyer : PartyB , includeEncumbrance : true
+      start SellAvatarFlow avatarId : 1, buyer : PartyB
 
 Confirm if PartyB owns the Avatar
 
       run vaultQuery contractStateType : com.template.states.Avatar
+
+Note
+As you can see in both the flows, Avatar is encumbered by Expiry. But Encumbrances should form a complete directed cycle, 
+otherwise one can spend the "encumbrance" (Expiry) state, which would freeze the "encumbered" (Avatar) state for ever.
+That's why we also make Expiry dependent on Avatar. (See how we have added encumbrance index's to the output states in 
+both the flows.)
 
 ## Reminder
 
