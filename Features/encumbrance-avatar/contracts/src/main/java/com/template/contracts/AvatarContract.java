@@ -34,6 +34,9 @@ public class AvatarContract implements Contract {
                 Avatar avatar = tx.outputsOfType(Avatar.class).get(0);
                 require.using("Avatar Owner must always sign the newly created Avatar.", signers.contains(avatar.getOwner().getOwningKey()));
 
+                Integer avatarEncumbrance = tx.getOutputs().stream().filter(o -> o.getData() instanceof Avatar).findFirst().get().getEncumbrance();
+                require.using("Avatar needs to be encumbered", avatarEncumbrance != null);
+
                 return null;
             });
         } else if (value instanceof Commands.Transfer) {

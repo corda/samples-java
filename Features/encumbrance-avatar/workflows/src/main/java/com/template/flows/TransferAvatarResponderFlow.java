@@ -5,11 +5,11 @@ import net.corda.core.crypto.SecureHash;
 import net.corda.core.flows.*;
 import net.corda.core.transactions.SignedTransaction;
 
-@InitiatedBy(SellAvatarFlow.class)
-public class SellAvatarResponderFlow extends FlowLogic<SignedTransaction> {
+@InitiatedBy(TransferAvatarFlow.class)
+public class TransferAvatarResponderFlow extends FlowLogic<SignedTransaction> {
     private final FlowSession counterpartySession;
 
-    public SellAvatarResponderFlow(FlowSession counterpartySession) {
+    public TransferAvatarResponderFlow(FlowSession counterpartySession) {
         this.counterpartySession = counterpartySession;
     }
 

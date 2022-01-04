@@ -20,12 +20,12 @@ import java.util.Collections;
 
 @InitiatingFlow
 @StartableByRPC
-public class SellAvatarFlow extends FlowLogic<SignedTransaction> {
+public class TransferAvatarFlow extends FlowLogic<SignedTransaction> {
 
     private final String avatarId;
     private final String buyer;
 
-    public SellAvatarFlow(String avatarId, String buyer) {
+    public TransferAvatarFlow(String avatarId, String buyer) {
         this.avatarId = avatarId;
         this.buyer = buyer;
     }

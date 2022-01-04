@@ -38,6 +38,8 @@ public class CreateAvatarFlow extends FlowLogic<SignedTransaction> {
         Expiry expiry = new Expiry(Instant.now().plus(expiryAfterMinutes, ChronoUnit.MINUTES), avatarId, avatar.getOwner());
 
         //add expiry and avatar as outputs by specifying encumbrance as index. add time window
+        //encumbrance can be identified by the output index. expiry is at output index 1 so we add 1 as the encumbrance
+        //value while adding avatar as an output state and vice versa.
         TransactionBuilder txBuilder = new TransactionBuilder(notary)
                 .addOutputState(avatar, AvatarContract.AVATAR_CONTRACT_ID, notary, 1) //specify the encumbrance as the 3rd parameter
                 .addOutputState(expiry, ExpiryContract.EXPIRY_CONTRACT_ID, notary, 0) //specify the encumbrance as the 3rd parameter
