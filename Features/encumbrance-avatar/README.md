@@ -58,7 +58,7 @@ Create the Avatar on PartyA node
 
 Sell the Avatar to PartyB node from PartyA node
 
-      start SellAvatarFlow avatarId : 1, buyer : PartyB
+      start TransferAvatarFlow avatarId : 1, buyer : PartyB
 
 Confirm if PartyB owns the Avatar
 
