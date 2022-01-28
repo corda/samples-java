@@ -1,7 +1,7 @@
 package com.tutorial.contracts;
 
 import com.tutorial.states.AppleStamp;
-import com.tutorial.states.BasketOfApple;
+import com.tutorial.states.BasketOfApples;
 import net.corda.core.contracts.CommandData;
 import net.corda.core.contracts.Contract;
 import net.corda.core.transactions.LedgerTransaction;
@@ -29,8 +29,8 @@ public class AppleStampContract implements Contract {
                 require.using("The output AppleStamp state should have clear description of the type of redeemable goods", !output.getStampDesc().equals(""));
                 return null;
             });
-        }else if(commandData instanceof BasketOfAppleContract.Commands.Redeem){
-            //Transaction verification will happen in BasketOfApple Contract
+        }else if(commandData instanceof BasketOfApplesContract.Commands.Redeem){
+            //Transaction verification will happen in BasketOfApples Contract
         }
         else{
             //Unrecognized Command type

@@ -1,8 +1,8 @@
 package com.tutorial.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
-import com.tutorial.contracts.BasketOfAppleContract;
-import com.tutorial.states.BasketOfApple;
+import com.tutorial.contracts.BasketOfApplesContract;
+import com.tutorial.states.BasketOfApples;
 import net.corda.core.flows.*;
 import net.corda.core.identity.Party;
 import net.corda.core.transactions.SignedTransaction;
@@ -34,12 +34,12 @@ public class PackageApples {
             final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB"));
 
             //Create the output object
-            BasketOfApple basket = new BasketOfApple(this.appleDescription,this.getOurIdentity(),this.weight);
+            BasketOfApples basket = new BasketOfApples(this.appleDescription,this.getOurIdentity(),this.weight);
 
             //Building transaction
             TransactionBuilder txBuilder = new TransactionBuilder(notary)
                     .addOutputState(basket)
-                    .addCommand(new BasketOfAppleContract.Commands.packToBasket(), this.getOurIdentity().getOwningKey());
+                    .addCommand(new BasketOfApplesContract.Commands.packBasket(), this.getOurIdentity().getOwningKey());
 
             // Verify the transaction
             txBuilder.verify(getServiceHub());
@@ -55,4 +55,4 @@ public class PackageApples {
 }
 
 //flow start PackApplesInitiator appleDescription: Fuji4072, weight: 10
-//run vaultQuery contractStateType: com.tutorial.states.BasketOfApple
+//run vaultQuery contractStateType: com.tutorial.states.BasketOfApples

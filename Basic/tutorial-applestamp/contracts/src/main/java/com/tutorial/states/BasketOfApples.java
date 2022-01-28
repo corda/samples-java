@@ -1,6 +1,6 @@
 package com.tutorial.states;
 
-import com.tutorial.contracts.BasketOfAppleContract;
+import com.tutorial.contracts.BasketOfApplesContract;
 import net.corda.core.contracts.BelongsToContract;
 import net.corda.core.contracts.ContractState;
 import net.corda.core.identity.AbstractParty;
@@ -11,8 +11,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-@BelongsToContract(BasketOfAppleContract.class)
-public class BasketOfApple implements ContractState {
+@BelongsToContract(BasketOfApplesContract.class)
+public class BasketOfApples implements ContractState {
 
     //Private Variables
     private String description; //Brand or type
@@ -25,7 +25,7 @@ public class BasketOfApple implements ContractState {
 
     //Constructors
     //Basket of Apple creation. Only farm name is stored.
-    public BasketOfApple(String description, Party farm, int weight) {
+    public BasketOfApples(String description, Party farm, int weight) {
         this.description = description;
         this.farm = farm;
         this.owner=farm;
@@ -36,7 +36,7 @@ public class BasketOfApple implements ContractState {
 
     //Constructor for object creation during transaction
     @ConstructorForDeserialization
-    public BasketOfApple(String description, Party farm, Party owner, int weight) {
+    public BasketOfApples(String description, Party farm, Party owner, int weight) {
         this.description = description;
         this.farm = farm;
         this.owner = owner;
@@ -69,8 +69,8 @@ public class BasketOfApple implements ContractState {
         return weight;
     }
 
-    public BasketOfApple changeOwner(Party buyer){
-        BasketOfApple newOwnerState = new BasketOfApple(this.description,this.farm,buyer,this.weight);
+    public BasketOfApples changeOwner(Party buyer){
+        BasketOfApples newOwnerState = new BasketOfApples(this.description,this.farm,buyer,this.weight);
         return newOwnerState;
     }
 
