@@ -2,9 +2,9 @@ package com.tutorial.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import com.tutorial.contracts.AppleStampContract;
-import com.tutorial.contracts.BasketOfAppleContract;
+import com.tutorial.contracts.BasketOfApplesContract;
 import com.tutorial.states.AppleStamp;
-import com.tutorial.states.BasketOfApple;
+import com.tutorial.states.BasketOfApples;
 import net.corda.core.contracts.StateAndRef;
 import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.flows.*;
@@ -42,25 +42,25 @@ public class RedeemApples {
                     .withRelevancyStatus(Vault.RelevancyStatus.RELEVANT);
             StateAndRef appleStampStateAndRef = getServiceHub().getVaultService().queryBy(AppleStamp.class, inputCriteria).getStates().get(0);
 
-            //Query output basketOfApple
+            //Query output BasketOfApples
             QueryCriteria outputCriteria = new QueryCriteria.VaultQueryCriteria()
                     .withStatus(Vault.StateStatus.UNCONSUMED)
                     .withRelevancyStatus(Vault.RelevancyStatus.RELEVANT);
-            StateAndRef basketOfAppleStateAndRef = getServiceHub().getVaultService().queryBy(BasketOfApple.class, outputCriteria).getStates().get(0);
-            BasketOfApple originalBasketOfApple = (BasketOfApple) basketOfAppleStateAndRef.getState().getData();
+            StateAndRef BasketOfApplesStateAndRef = getServiceHub().getVaultService().queryBy(BasketOfApples.class, outputCriteria).getStates().get(0);
+            BasketOfApples originalBasketOfApples = (BasketOfApples) BasketOfApplesStateAndRef.getState().getData();
 
             //Modify output to address the owner change
-            BasketOfApple output = originalBasketOfApple.changeOwner(buyer);
+            BasketOfApples output = originalBasketOfApples.changeOwner(buyer);
 
             /* Obtain a reference to a notary we wish to use.*/
-            Party notary = basketOfAppleStateAndRef.getState().getNotary();
+            Party notary = BasketOfApplesStateAndRef.getState().getNotary();
 
             //Build Transaction
             TransactionBuilder txBuilder = new TransactionBuilder(notary)
                     .addInputState(appleStampStateAndRef)
-                    .addInputState(basketOfAppleStateAndRef)
-                    .addOutputState(output, BasketOfAppleContract.ID)
-                    .addCommand(new BasketOfAppleContract.Commands.Redeem(),
+                    .addInputState(BasketOfApplesStateAndRef)
+                    .addOutputState(output, BasketOfApplesContract.ID)
+                    .addCommand(new BasketOfApplesContract.Commands.Redeem(),
                             Arrays.asList(getOurIdentity().getOwningKey(),this.buyer.getOwningKey()));
 
             // Verify that the transaction is valid.

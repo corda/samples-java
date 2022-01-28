@@ -5,7 +5,7 @@ import com.tutorial.flows.CreateAndIssueAppleStamp;
 import com.tutorial.flows.PackageApples;
 import com.tutorial.flows.RedeemApples;
 import com.tutorial.states.AppleStamp;
-import com.tutorial.states.BasketOfApple;
+import com.tutorial.states.BasketOfApples;
 import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.identity.CordaX500Name;
 import net.corda.core.node.services.Vault;
@@ -42,10 +42,10 @@ public class RedeemApplesWithStampTest {
     }
 
     @Test
-    public void buyerRedeemBasketOfApple() throws ExecutionException, InterruptedException {
+    public void buyerRedeemBasketOfApples() throws ExecutionException, InterruptedException {
         //Create Basket of Apples
-        PackageApples.PackApplesInitiator createBasketOfApple = new PackageApples.PackApplesInitiator("Fuji4072", 10);
-        Future<SignedTransaction> future = a.startFlow(createBasketOfApple);
+        PackageApples.PackApplesInitiator createBasketOfApples = new PackageApples.PackApplesInitiator("Fuji4072", 10);
+        Future<SignedTransaction> future = a.startFlow(createBasketOfApples);
         network.runNetwork();
 
         //Issue Apple Stamp
@@ -65,8 +65,8 @@ public class RedeemApplesWithStampTest {
 
         //successful query means the state is stored at node b's vault. Flow went through.
         QueryCriteria outputCriteria = new QueryCriteria.VaultQueryCriteria().withStatus(Vault.StateStatus.UNCONSUMED);
-        BasketOfApple state = b.getServices().getVaultService()
-                .queryBy(BasketOfApple.class, outputCriteria).getStates().get(0).getState().getData();
+        BasketOfApples state = b.getServices().getVaultService()
+                .queryBy(BasketOfApples.class, outputCriteria).getStates().get(0).getState().getData();
 
         assert(state.getDescription().equals("Fuji4072"));
     }
