@@ -38,7 +38,7 @@ Go to PartyA's terminal and run the below command
 start SubmitProjectProposalFlow lenders: [PartyB, PartyC], projectDescription: "Overseas Expansion", projectCost: 10000000, loanAmount: 8000000 
 ```
 
-Validate the project details are crated and shared with the lenders successfully by running the vaultQuery command in each 
+Validate the project details are created and shared with the lenders successfully by running the vaultQuery command in each 
 lender's terminal and borrower's terminal.
 
 ```
@@ -67,7 +67,7 @@ Go to PartyA's terminal and run the below command. The loanbid-identifier can be
 start ApproveLoanBidFlow bidIdentifier: <loanbid-identifier>
 ```
 
-One the loan bid has been approved by the borrower, the lender can start the process of creating teh syndicate by
+One the loan bid has been approved by the borrower, the lender can start the process of creating the syndicate by
 acting as the lead bank and approach participating bank for funds.
 
 Goto PartyB's terminal and run the below command.
