@@ -46,4 +46,19 @@ public class FlowTests {
         QueryCriteria.VaultQueryCriteria inputCriteria = new QueryCriteria.VaultQueryCriteria().withStatus(Vault.StateStatus.UNCONSUMED);
         Avatar state = a.getServices().getVaultService().queryBy(Avatar.class,inputCriteria).getStates().get(0).getState().getData();
     }
+
+    @Test
+    public void TransferAvatarTest() {
+        CreateAvatarFlow createflow = new CreateAvatarFlow("PETER-7526", 3);
+        CordaFuture<SignedTransaction> future = a.startFlow(createflow);
+        network.runNetwork();
+
+        TransferAvatarFlow transferflow = new TransferAvatarFlow("PETER-7526", b.getInfo().getLegalIdentities().get(0).getName().getOrganisation());
+        CordaFuture<SignedTransaction> future2 = a.startFlow(transferflow);
+        network.runNetwork();
+
+        //successful query means the state is stored at node b's vault. Flow went through.
+        QueryCriteria.VaultQueryCriteria inputCriteria = new QueryCriteria.VaultQueryCriteria().withStatus(Vault.StateStatus.UNCONSUMED);
+        Avatar state = b.getServices().getVaultService().queryBy(Avatar.class,inputCriteria).getStates().get(0).getState().getData();
+    }
 }
