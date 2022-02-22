@@ -1,9 +1,9 @@
-package com.template.contracts;
+package net.corda.samples.avatar.contracts;
 
 import com.google.common.collect.ImmutableList;
-import com.template.states.Avatar;
-import com.template.states.Expiry;
 import net.corda.core.identity.CordaX500Name;
+import net.corda.samples.avatar.states.Avatar;
+import net.corda.samples.avatar.states.Expiry;
 import net.corda.testing.core.TestIdentity;
 import net.corda.testing.node.MockServices;
 import org.junit.Test;
@@ -74,9 +74,8 @@ public class ContractTests {
         ledger(ledgerServices, (ledger -> {
             ledger.transaction(tx -> {
                 //this fails as time window is not specified
-                tx.output(AvatarContract.AVATAR_CONTRACT_ID, new Avatar(seller.getParty(), "1"));
-                tx.output(ExpiryContract.EXPIRY_CONTRACT_ID,
-                        new Expiry(Instant.now().plus(2, ChronoUnit.MINUTES), "1", seller.getParty()));
+                tx.output(AvatarContract.AVATAR_CONTRACT_ID, 1, new Avatar(seller.getParty(), "1"));
+                tx.output(ExpiryContract.EXPIRY_CONTRACT_ID, 0, new Expiry(Instant.now().plus(2, ChronoUnit.MINUTES), "1", seller.getParty()));
                 tx.command(ImmutableList.of(seller.getPublicKey()), new AvatarContract.Commands.Create());
                 tx.fails();
 
@@ -93,9 +92,8 @@ public class ContractTests {
     public void avatarIsRejectedIfItIsExpired() {
         ledger(ledgerServices, (ledger -> {
             ledger.transaction(tx -> {
-                tx.output(AvatarContract.AVATAR_CONTRACT_ID, new Avatar(seller.getParty(), "1"));
-                tx.output(ExpiryContract.EXPIRY_CONTRACT_ID,
-                        new Expiry(Instant.now().plus(2, ChronoUnit.MINUTES), "1", seller.getParty()));
+                tx.output(AvatarContract.AVATAR_CONTRACT_ID, 1, new Avatar(seller.getParty(), "1"));
+                tx.output(ExpiryContract.EXPIRY_CONTRACT_ID, 0, new Expiry(Instant.now().plus(2, ChronoUnit.MINUTES), "1", seller.getParty()));
                 tx.command(ImmutableList.of(seller.getPublicKey()), new AvatarContract.Commands.Create());
                 tx.timeWindow(Instant.now(), Duration.ofMinutes(3));
                 tx.fails();
@@ -110,9 +108,8 @@ public class ContractTests {
     public void expirationDateShouldBeAfterTheTimeWindow() {
         ledger(ledgerServices, (ledger -> {
             ledger.transaction(tx -> {
-                tx.output(AvatarContract.AVATAR_CONTRACT_ID, new Avatar(seller.getParty(), "1"));
-                tx.output(ExpiryContract.EXPIRY_CONTRACT_ID,
-                        new Expiry(Instant.now().plus(3, ChronoUnit.MINUTES), "1", seller.getParty()));
+                tx.output(AvatarContract.AVATAR_CONTRACT_ID, 1, new Avatar(seller.getParty(), "1"));
+                tx.output(ExpiryContract.EXPIRY_CONTRACT_ID, 0, new Expiry(Instant.now().plus(3, ChronoUnit.MINUTES), "1", seller.getParty()));
                 tx.command(ImmutableList.of(seller.getPublicKey()), new AvatarContract.Commands.Create());
                 tx.timeWindow(Instant.now(), Duration.ofMinutes(2));
                 tx.verifies();

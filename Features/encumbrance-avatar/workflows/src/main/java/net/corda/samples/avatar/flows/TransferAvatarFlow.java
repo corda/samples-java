@@ -1,10 +1,10 @@
-package com.template.flows;
+package net.corda.samples.avatar.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
-import com.template.contracts.AvatarContract;
-import com.template.contracts.ExpiryContract;
-import com.template.states.Avatar;
-import com.template.states.Expiry;
+import net.corda.samples.avatar.contracts.AvatarContract;
+import net.corda.samples.avatar.contracts.ExpiryContract;
+import net.corda.samples.avatar.states.Avatar;
+import net.corda.samples.avatar.states.Expiry;
 import net.corda.core.CordaRuntimeException;
 import net.corda.core.contracts.StateAndRef;
 import net.corda.core.flows.*;

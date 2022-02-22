@@ -1,4 +1,4 @@
-package com.template.flows;
+package net.corda.samples.avatar.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import net.corda.core.crypto.SecureHash;

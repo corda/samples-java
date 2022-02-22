@@ -1,6 +1,6 @@
-package com.template.contracts;
+package net.corda.samples.avatar.contracts;
 
-import com.template.states.Expiry;
+import net.corda.samples.avatar.states.Expiry;
 import net.corda.core.contracts.CommandData;
 import net.corda.core.contracts.Contract;
 import net.corda.core.contracts.TimeWindow;
@@ -13,7 +13,7 @@ import java.time.ZoneId;
 //ExpiryContract is also run when Avatar's contract is run
 public class ExpiryContract implements Contract {
 
-    public static final String EXPIRY_CONTRACT_ID = "com.template.contracts.ExpiryContract";
+    public static final String EXPIRY_CONTRACT_ID = "net.corda.samples.avatar.contracts.ExpiryContract";
 
     @Override
     public void verify(@NotNull LedgerTransaction tx) throws IllegalArgumentException {

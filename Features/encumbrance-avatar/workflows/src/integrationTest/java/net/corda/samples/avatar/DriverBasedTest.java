@@ -1,4 +1,4 @@
-package com.template;
+package net.corda.samples.avatar;
 
 import com.google.common.collect.ImmutableList;
 import net.corda.core.concurrent.CordaFuture;

@@ -32,37 +32,23 @@ performing the DVP for the NFT against the tokens.
 ## How to use run this sample
 
 Build the CorDapp using below command. This will deploy three nodes - buyer, seller and notary.
+```
+    ./gradlew clean deployNodes
+    ./build/nodes/runnodes
+```
 
-     ./gradlew clean deployNodes
-
-Execute below commands for all the nodes. This will run the migration scripts on all the nodes.
-
-      cd buil/nodes/PartyA
-      java -jar corda.jar run-migration-scripts --core-schemas 
-      java -jar corda.jar run-migration-scripts --app-schemas
-      java -jar corda.jar 
-
-      cd buil/nodes/PartyB
-      java -jar corda.jar run-migration-scripts --core-schemas
-      java -jar corda.jar run-migration-scripts --app-schemas
-      java -jar corda.jar
-      
-      cd buil/nodes/Notary
-      java -jar corda.jar run-migration-scripts --core-schemas
-      java -jar corda.jar run-migration-scripts --app-schemas
-      java -jar corda.jar
 
 Create the Avatar on PartyA node
 
-      start CreateAvatarFlow avatarId : 1, expiryAfterMinutes : 3
+      start CreateAvatarFlow avatarId : PETER-7526, expiryAfterMinutes : 3
 
 Sell the Avatar to PartyB node from PartyA node
 
-      start TransferAvatarFlow avatarId : 1, buyer : PartyB
+      start TransferAvatarFlow avatarId : PETER-7526, buyer : PartyB
 
 Confirm if PartyB owns the Avatar
 
-      run vaultQuery contractStateType : com.template.states.Avatar
+      run vaultQuery contractStateType : Avatar
 
 Note
 As you can see in both the flows, Avatar is encumbered by Expiry. But Encumbrances should form a complete directed cycle, 

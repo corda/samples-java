@@ -1,7 +1,7 @@
-package com.template.contracts;
+package net.corda.samples.avatar.contracts;
 
-import com.template.states.Avatar;
-import com.template.states.Expiry;
+import net.corda.samples.avatar.states.Avatar;
+import net.corda.samples.avatar.states.Expiry;
 import net.corda.core.contracts.CommandData;
 import net.corda.core.contracts.CommandWithParties;
 import net.corda.core.contracts.Contract;
@@ -16,7 +16,7 @@ import static net.corda.core.contracts.ContractsDSL.requireThat;
 
 public class AvatarContract implements Contract {
 
-    public static final String AVATAR_CONTRACT_ID = "com.template.contracts.AvatarContract";
+    public static final String AVATAR_CONTRACT_ID = "net.corda.samples.avatar.contracts.AvatarContract";
 
     @Override
     public void verify(@NotNull LedgerTransaction tx) throws IllegalArgumentException {

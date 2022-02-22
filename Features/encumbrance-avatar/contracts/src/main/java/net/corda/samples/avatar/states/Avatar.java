@@ -1,7 +1,7 @@
-package com.template.states;
+package net.corda.samples.avatar.states;
 
 import com.google.common.collect.ImmutableList;
-import com.template.contracts.AvatarContract;
+import net.corda.samples.avatar.contracts.AvatarContract;
 import net.corda.core.contracts.BelongsToContract;
 import net.corda.core.contracts.ContractState;
 import net.corda.core.identity.AbstractParty;
