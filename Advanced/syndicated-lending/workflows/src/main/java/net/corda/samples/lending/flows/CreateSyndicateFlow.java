@@ -6,6 +6,7 @@ import net.corda.core.contracts.StateAndRef;
 import net.corda.core.contracts.StaticPointer;
 import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.flows.*;
+import net.corda.core.identity.CordaX500Name;
 import net.corda.core.identity.Party;
 import net.corda.core.node.StatesToRecord;
 import net.corda.core.node.services.Vault;
@@ -43,8 +44,9 @@ public class CreateSyndicateFlow {
         public SignedTransaction call() throws FlowException {
 
             // Step 1. Get a reference to the notary service on our network and our key pair.
-            // Note: ongoing work to support multiple notary identities is still in progress.
-            final Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0);
+            /** Explicit selection of notary by CordaX500Name - argument can by coded in flows or parsed from config (Preferred)*/
+            final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB"));
+
 
             this.leadBank = getOurIdentity();
 

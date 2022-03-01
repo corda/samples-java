@@ -3,6 +3,7 @@ package net.corda.samples.lending.flows;
 import co.paralleluniverse.fibers.Suspendable;
 import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.flows.*;
+import net.corda.core.identity.CordaX500Name;
 import net.corda.core.identity.Party;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
@@ -40,8 +41,9 @@ public class SubmitProjectProposalFlow {
             this.borrower = getOurIdentity();
 
             // Step 1. Get a reference to the notary service on our network and our key pair.
-            // Note: ongoing work to support multiple notary identities is still in progress.
-            final Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0);
+            /** Explicit selection of notary by CordaX500Name - argument can by coded in flows or parsed from config (Preferred)*/
+            final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB"));
+
 
             //Compose the State that carries the Hello World message
             final ProjectState output = new ProjectState(new UniqueIdentifier(), projectDescription, borrower,
@@ -52,7 +54,7 @@ public class SubmitProjectProposalFlow {
 
             // Step 4. Add the project as an output state, as well as a command to the transaction builder.
             builder.addOutputState(output);
-            builder.addCommand(new ProjectContract.Commands.Issue(), Collections.singletonList(borrower.getOwningKey()));
+            builder.addCommand(new ProjectContract.Commands.ProposeProject(), Collections.singletonList(borrower.getOwningKey()));
 
             // Step 5. Verify and sign it with our KeyPair.
             builder.verify(getServiceHub());

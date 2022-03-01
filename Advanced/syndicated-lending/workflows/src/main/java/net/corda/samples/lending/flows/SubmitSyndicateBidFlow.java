@@ -5,6 +5,7 @@ import net.corda.core.contracts.LinearPointer;
 import net.corda.core.contracts.StateAndRef;
 import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.flows.*;
+import net.corda.core.identity.CordaX500Name;
 import net.corda.core.identity.Party;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
@@ -15,7 +16,7 @@ import net.corda.samples.lending.states.SyndicateState;
 import java.util.Arrays;
 import java.util.List;
 
-public class SyndicateBidFlow {
+public class SubmitSyndicateBidFlow {
 
     @InitiatingFlow
     @StartableByRPC
@@ -32,10 +33,6 @@ public class SyndicateBidFlow {
         @Override
         @Suspendable
         public SignedTransaction call() throws FlowException {
-
-            // Step 1. Get a reference to the notary service on our network and our key pair.
-            // Note: ongoing work to support multiple notary identities is still in progress.
-            final Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0);
 
             // Fetch Project
             List<StateAndRef<SyndicateState>> syndicateStateAndRefs = getServiceHub().getVaultService()
@@ -57,6 +54,7 @@ public class SyndicateBidFlow {
                     "SUBMITTED"
             );
 
+            Party notary = syndicateStateAndRef.getState().getNotary();
 
             // Step 3. Create a new TransactionBuilder object.
             final TransactionBuilder builder = new TransactionBuilder(notary);

@@ -48,9 +48,6 @@ public class SubmitLoanBidFlow {
         public SignedTransaction call() throws FlowException {
             this.lender = getOurIdentity();
 
-            // Step 1. Get a reference to the notary service on our network and our key pair.
-            // Note: ongoing work to support multiple notary identities is still in progress.
-            final Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0);
 
             List<StateAndRef<ProjectState>> projectStateAndRefs = getServiceHub().getVaultService()
                     .queryBy(ProjectState.class).getStates();
@@ -60,6 +57,7 @@ public class SubmitLoanBidFlow {
                 return projectState.getLinearId().equals(projectIdentifier);
             }).findAny().orElseThrow(() -> new IllegalArgumentException("Project Not Found"));
 
+            Party notary = inputStateAndRef.getState().getNotary();
 
             final LoanBidState output = new LoanBidState(
                     new StaticPointer<>(inputStateAndRef.getRef(), ProjectState.class),
