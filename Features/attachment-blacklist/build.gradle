@@ -21,7 +21,7 @@ buildscript {
     repositories {
         mavenLocal()
         mavenCentral()
-        jcenter()
+
         maven { url 'https://software.r3.com/artifactory/corda-releases' }
     }
 
@@ -39,7 +39,7 @@ allprojects {
 
     repositories {
         mavenLocal()
-        jcenter()
+
         mavenCentral()
         maven { url 'https://jitpack.io' }
         maven { url 'https://software.r3.com/artifactory/corda' }
