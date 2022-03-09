@@ -1,7 +1,8 @@
-#  Postgres Cordapp
+# Postgres Cordapp
 
-This application will demonstrate to you how to run corda with a postgres or other custom database.
-The cordapp being used is another copy of the yo cordapp, as the majority of the work here is in simply configuring the sql database connection.
+The latest versions of Corda Open Source support H2 and Postgres.H2 is the default database while this application will
+demonstrate to you how to run corda with a postgres. The cordapp being used is another copy of the yo cordapp, as the
+majority of the work here is in simply configuring the sql database connection.
 
 ## Pre-Requisites
 
@@ -26,7 +27,6 @@ cat config.sql | docker exec -i postgres_for_corda psql -h localhost -p 5432 -U 
 
 You can then look for the shell for PartyA and run your flows.
 
-
 ```sh
 Thu Apr 22 13:03:05 EDT 2021>>> flow start net.corda.samples.postgres.flows.YoFlow target: PartyB
 
@@ -43,9 +43,8 @@ Thu Apr 22 13:03:05 EDT 2021>>> flow start net.corda.samples.postgres.flows.YoFl
 Flow completed with result: SignedTransaction(id=8B3FC06F685FC8FFD29001CC6205DAECBFF436E28E0439F74F5A89D11372C578)
 ```
 
-
-
 ### useful commands for interacting with your postgres container
+
 Here's a couple convenient postgres commands to get you started.
 
 ```sh
@@ -61,7 +60,8 @@ docker exec -i postgres_for_corda psql -U postgres -p 5432 -h localhost postgres
 
 ### Connencting to your database with dbeaver
 
-You can connect to your db with all kinds of tools like dbeaver, just open up a new connection, specify `postgreSQL` in the search bar.
+You can connect to your db with all kinds of tools like dbeaver, just open up a new connection, specify `postgreSQL` in
+the search bar.
 
 The default username we provided in the command above is `postgres` and the password is `test`.
 
@@ -77,10 +77,11 @@ FROM information_schema.schemata;
 
 ![](./img/config-2.png)
 
-
-
 ### Troubleshooting
-You may run into some errors about node identity when running 'deployNodes', this is because the database will already have the node information, so you will want to make sure to clear the database contents so that you don't run into issues when recompiling the nodes.
+
+You may run into some errors about node identity when running 'deployNodes', this is because the database will already
+have the node information, so you will want to make sure to clear the database contents so that you don't run into
+issues when recompiling the nodes.
 
 ## Additional Resources
 
