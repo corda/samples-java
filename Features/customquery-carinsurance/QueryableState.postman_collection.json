@@ -1,0 +1,93 @@
+{
+	"info": {
+		"_postman_id": "381497f6-9903-47b2-9d74-7f1578532895",
+		"name": "Queryable State",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Vehicle Insurance",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"vehicleInfo\": {\n\t\t\"registrationNumber\": \"MH014343\",\n\t\t\"chasisNumber\": \"C232ND832\",\n\t\t\"make\": \"Hyundai\",\n\t\t\"model\": \"Elantra\",\n\t\t\"variant\": \"SX\",\n\t\t\"color\": \"Black\",\n\t\t\"fuelType\": \"Petrol\"\n\t},\n\t\"policyNumber\": \"8190\",\n\t\"insuredValue\": \"20000\",\n\t\"duration\": 1,\n\t\"premium\": \"3000\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/vehicleInsurance/Insuree",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"vehicleInsurance",
+						"Insuree"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Claim",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"claimNumber\":\"C001\",\n\t\"claimDescription\": \"Minor Accident, Bumper Damaged\",\n\t\"claimAmount\": 1000\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080//vehicleInsurance/claim/8190",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"",
+						"vehicleInsurance",
+						"claim",
+						"8190"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
