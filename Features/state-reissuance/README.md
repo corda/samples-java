@@ -44,6 +44,7 @@ Once land title has been issued to PartyB, he could transfer it to PartyC. Go to
 `start TransferLandTitleFlow owner: PartyC, plotIdentifier: <plot-identifier>`
 
 You could find the `plot-identifier` from the result of the vaultQuery command used earlier to query the ledgers.
+![Screenshot](image/1.jpeg)
 
 Verify the land title has been correctly tranferred to PartyC by querying the ledgers of PartyA and PartyC using the below command
 
@@ -68,6 +69,7 @@ reissuance request. To accept the request goto PartyA's (issuer) terminal and ru
 
 The `<output-index>` and `<trnx-hash>` are of the transaction which created the state to the reissued. They can be found
 in the `ReissuanceRequest` queried earlier.
+![Screenshot](image/2.jpeg)
 
 On successful completion of the above flow, the a duplicate land title would be issued, however it would be currently
 locked and it could not be spend. In order to spend it, the older state which was requested to be reissued must be exited
@@ -81,14 +83,20 @@ Once the previous land title is exited, unlock the reissued land title using the
 
 `start UnlockReissuedLandStateFlow reissuedRef: {index: <output-index>, txhash: <tx-hash>}, reissuanceLockRef: {index: <output-index>, txhash: <tx-hash>}, exitTrnxId: <tx-hash>`
 
-The `reissuedRef` is the stateRef of the reissued state, `reissuanceLockRef` is the stateRef of the reissuance lock generated, 
-which can queried usinf `run vaultQuery contractStateType: com.r3.corda.lib.reissuance.states.ReissuanceLock` and `exitTrnxId` is the 
-transaction hash of the transaction used to exit the older state.
-
+The `reissuedRef` is the stateRef of the reissued state.
+ ![Screenshot](image/3.jpeg)
+ 
+ And the `reissuanceLockRef` is the stateRef of the reissuance lock generated, which can queried using `run vaultQuery contractStateType: com.r3.corda.lib.reissuance.states.ReissuanceLock` 
+ ![Screenshot](image/4.jpeg)
+ And the `exitTrnxId` is the transaction hash of the transaction used to exit the older state.
+ ![Screenshot](image/5.jpeg)
+ 
 Note that the lock uses the encumbrance feature of Corda. You can check out the sample on encumbrance [here](https://github.com/corda/samples-java/tree/master/Features/encumbrance-avatar)
 
-Now the reissue process is completed and the reissued state can be spent freely.
+Now with all the information input into the function call, the reissue process is completed and the reissued state can be spent freely.
 
+![Screenshot](image/6.jpeg)
 
-
+You can see the encumbrance field is restored to `null` again, meaning the state is free to be transacted again. 
+![Screenshot](image/7.jpeg)
 
