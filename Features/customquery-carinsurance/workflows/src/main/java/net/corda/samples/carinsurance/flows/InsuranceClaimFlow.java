@@ -44,22 +44,24 @@ public class InsuranceClaimFlow {
         @Override
         @Suspendable
         public SignedTransaction call() throws FlowException{
-            // Query the vault to fetch list of all Insurance state based on the policy number.
-            // This state would be used as input to the
-            // transaction.
-            QueryCriteria generalCriteria = new QueryCriteria.VaultQueryCriteria(Vault.StateStatus.UNCONSUMED);
+            /*************************************************************************************
+             * This section is the custom query code. Instead of query out all the insurance state and filter by their policy number,
+             * custom query will only retrieve the insurance state that matched the policy number. The filtering will happen behind the scene.
+             * **/
             Field valueField = null;
             try{
                 valueField = PersistentInsurance.class.getDeclaredField("policyNumber");
             } catch (NoSuchFieldException e) {
                 e.printStackTrace();
             }
-            CriteriaExpression criteria = Builder.equal(valueField, policyNumber);
-            QueryCriteria insuranceQuery = new QueryCriteria.VaultCustomQueryCriteria(criteria);
-            generalCriteria = generalCriteria.and(insuranceQuery);
+            QueryCriteria insuranceQuery = new QueryCriteria.VaultCustomQueryCriteria(Builder.equal(valueField, policyNumber));
+            /** And you can have joint custom criteria as well. Simply add additional criteria and add it to the criteria object by using and().
+             *  QueryCriteria insuranceQuery = new QueryCriteria.VaultCustomQueryCriteria(Builder.equal(valueField, insuredValue));
+             * **/
+            QueryCriteria generalCriteria = new QueryCriteria.VaultQueryCriteria(Vault.StateStatus.UNCONSUMED).and(insuranceQuery);
+            Vault.Page<InsuranceState> insuranceStateAndRefs = getServiceHub().getVaultService().queryBy(InsuranceState.class, generalCriteria );
+            /***************************************************************************************/
 
-            Vault.Page<InsuranceState> insuranceStateAndRefs;
-            insuranceStateAndRefs = getServiceHub().getVaultService().queryBy(InsuranceState.class, generalCriteria );
             if(insuranceStateAndRefs.getStates().isEmpty()){
                 throw new IllegalArgumentException("Policy not found");
             }
