@@ -42,7 +42,7 @@ public class AddTokenValueFlow extends FlowLogic<Void> {
         try {
             databaseService.addtokenValue(token, value);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new FlowException(e.getMessage(), e);
         }
         return null;
     }

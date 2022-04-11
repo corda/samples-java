@@ -27,13 +27,13 @@ It works mostly as you'd expect, using a request builder to make a request at a 
 ```java
     public String call() throws FlowException {
         final Request httpRequest = new Request.Builder().url(Constants.BITCOIN_README_URL).build();
-        String value = null;
-        Response httpResponse = null;
+        String value;
+        Response httpResponse;
         try {
             httpResponse = new OkHttpClient().newCall(httpRequest).execute();
             value = httpResponse.body().string();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new FlowException(e.getMessage(), e);
         }
         return value;
     }
@@ -52,7 +52,7 @@ For development environment setup, please refer to: [Setup Guide](https://docs.c
 
 Open a terminal and go to the project root directory and type: (to deploy the nodes using bootstrapper)
 ```
-./gradlew clean deployNodes
+../gradlew clean deployNodes
 ```
 Then type: (to run the nodes)
 ```

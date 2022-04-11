@@ -16,9 +16,9 @@ import java.util.List;
 public class TemplateState implements ContractState {
 
     //private variables
-    private String msg;
-    private Party sender;
-    private Party receiver;
+    private final String msg;
+    private final Party sender;
+    private final Party receiver;
 
     /* Constructor of your Corda state */
     public TemplateState(String msg, Party sender, Party receiver) {

@@ -106,7 +106,7 @@ public class FlowTests {
         for (StartedMockNode node : ImmutableList.of(a, b)) {
             SignedTransaction recordedTx = node.getServices().getValidatedTransactions().getTransaction(signedTx.getId());
             List<TransactionState<ContractState>> txOutputs = recordedTx.getTx().getOutputs();
-            assert (txOutputs.size() == 1);
+            assertEquals(1, txOutputs.size());
 
             IOUState recordedState = (IOUState) txOutputs.get(0).getData();
             assertEquals(recordedState.getValue(), iouValue);

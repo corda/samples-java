@@ -1,17 +1,16 @@
 package net.corda.samples.example.contracts;
 
 import net.corda.samples.example.states.IOUState;
-import net.corda.testing.node.MockServices;
 import org.junit.Test;
 
-public class StateTests {
-    private final MockServices ledgerServices = new MockServices();
+import static org.junit.Assert.assertSame;
 
+public class StateTests {
     @Test
     public void hasAmountFieldOfCorrectType() throws NoSuchFieldException {
         // Does the message field exist?
         IOUState.class.getDeclaredField("value");
         // Is the message field of the correct type?
-        assert(IOUState.class.getDeclaredField("value").getType().equals(Integer.class));
+        assertSame(IOUState.class.getDeclaredField("value").getType(), Integer.class);
     }
 }

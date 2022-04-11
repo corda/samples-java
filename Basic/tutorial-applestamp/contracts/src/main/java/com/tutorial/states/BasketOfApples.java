@@ -15,13 +15,13 @@ import java.util.List;
 public class BasketOfApples implements ContractState {
 
     //Private Variables
-    private String description; //Brand or type
-    private Party farm; //Origin of the apple
-    private Party owner; //The person who exchange the basket of apple with the stamp.
-    private int weight;
+    private final String description; //Brand or type
+    private final Party farm; //Origin of the apple
+    private final Party owner; //The person who exchange the basket of apple with the stamp.
+    private final int weight;
 
     //ALL Corda State required parameter to indicate storing parties
-    private List<AbstractParty> participants;
+    private final List<AbstractParty> participants;
 
     //Constructors
     //Basket of Apple creation. Only farm name is stored.

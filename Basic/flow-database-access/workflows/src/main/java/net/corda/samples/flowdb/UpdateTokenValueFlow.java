@@ -36,7 +36,7 @@ public class UpdateTokenValueFlow extends FlowLogic<Void> {
         try {
             databaseService.updateTokenValue(token, value);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new FlowException(e.getMessage(), e);
         }
         return null;
     }

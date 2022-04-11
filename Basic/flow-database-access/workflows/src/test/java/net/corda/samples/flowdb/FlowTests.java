@@ -19,13 +19,12 @@ import java.util.concurrent.ExecutionException;
 import static org.junit.Assert.assertEquals;
 
 public class FlowTests {
-    private final String BITCOIN = "bitcoin";
-    private final String E_CASH = "eCash";
-    private final Integer INITIAL_BITCOIN_VALUE = 7000;
-    private final Integer NEW_BITCOIN_VALUE = 8000;
-    private final Integer INITIAL_E_CASH_VALUE = 100;
-    private final Integer NEW_E_CASH_VALUE = 200;
-
+    private static final String BITCOIN = "bitcoin";
+    private static final String E_CASH = "eCash";
+    private static final int INITIAL_BITCOIN_VALUE = 7000;
+    private static final Integer NEW_BITCOIN_VALUE = 8000;
+    private static final int INITIAL_E_CASH_VALUE = 100;
+    private static final Integer NEW_E_CASH_VALUE = 200;
 
     private MockNetwork network;
     private StartedMockNode node;
