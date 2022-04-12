@@ -1,0 +1,5 @@
+includeBuild 'cordapp-example'
+includeBuild 'flow-database-access'
+includeBuild 'flow-http-access'
+includeBuild 'ping-pong'
+includeBuild 'tutorial-applestamp'

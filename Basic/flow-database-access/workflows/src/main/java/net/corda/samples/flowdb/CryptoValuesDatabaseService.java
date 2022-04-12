@@ -32,7 +32,7 @@ public class CryptoValuesDatabaseService extends DatabaseService {
         params.put(2, value);
 
         executeUpdate(query, params);
-        log.info("Token " + token + " added to crypto_values table.");
+        log.info("Token {} added to crypto_values table.", token);
     }
 
     /**
@@ -45,7 +45,7 @@ public class CryptoValuesDatabaseService extends DatabaseService {
         params.put(2, token);
 
         executeUpdate(query, params);
-        log.info("Token " + token + " updated in crypto_values table.");
+        log.info("Token {} updated in crypto_values table.", token);
     }
 
     /**
@@ -74,7 +74,7 @@ public class CryptoValuesDatabaseService extends DatabaseService {
             throw new IllegalArgumentException("Error list has more than one element");
         }
 
-        log.info("Token " + token + "read from crypto_values table.");
+        log.info("Token {} read from crypto_values table.", token);
         return (Integer) results.get(0);
     }
 

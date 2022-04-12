@@ -1,3 +1,34 @@
+pluginManagement {
+    repositories {
+        maven {
+            url "$artifactoryContextUrl/corda-dev"
+        }
+        gradlePluginPortal()
+    }
+
+    plugins {
+        id 'net.corda.plugins.cordapp' version corda_gradle_plugins_version
+        id 'net.corda.plugins.cordformation' version corda_gradle_plugins_version
+        id 'net.corda.plugins.quasar-utils' version corda_gradle_plugins_version
+        id 'org.springframework.boot' version spring_boot_version
+    }
+}
+
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+        maven {
+            url "$artifactoryContextUrl/corda"
+            metadataSources {
+                mavenPom()
+                artifact()
+            }
+        }
+        maven {
+            url 'https://repo.gradle.org/gradle/libs-releases'
+        }
+    }
+}
+
 include 'workflows'
 include 'contracts'
-include 'clients'

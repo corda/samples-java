@@ -31,11 +31,11 @@ public class QueryTokenValueFlow extends FlowLogic<Integer> {
     @Override
     public Integer call() throws FlowException {
         final CryptoValuesDatabaseService databaseService = getServiceHub().cordaService(CryptoValuesDatabaseService.class);
-        Integer val = null;
+        Integer val;
         try {
             val = databaseService.queryTokenValue(token);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new FlowException(e.getMessage(), e);
         }
         return val;
     }

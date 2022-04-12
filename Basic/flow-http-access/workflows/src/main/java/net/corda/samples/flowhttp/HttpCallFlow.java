@@ -32,13 +32,13 @@ public class HttpCallFlow extends FlowLogic<String> {
         //    currently support suspending to await an HTTP call's response
         // 2. The request must be idempotent. If the flow fails and has to
         //    restart from a checkpoint, the request will also be replayed
-        String value = null;
-        Response httpResponse = null;
+        String value;
+        Response httpResponse;
         try {
             httpResponse = new OkHttpClient().newCall(httpRequest).execute();
             value = httpResponse.body().string();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new FlowException(e.getMessage(), e);
         }
         return value;
     }

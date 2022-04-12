@@ -4,7 +4,6 @@ import co.paralleluniverse.fibers.Suspendable;
 import net.corda.samples.example.contracts.IOUContract;
 import net.corda.samples.example.states.IOUState;
 import net.corda.core.contracts.Command;
-import net.corda.core.contracts.ContractState;
 import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.crypto.SecureHash;
 import net.corda.core.flows.*;
@@ -15,6 +14,7 @@ import net.corda.core.utilities.ProgressTracker;
 import net.corda.core.utilities.ProgressTracker.Step;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static net.corda.core.contracts.ContractsDSL.requireThat;
 import net.corda.core.identity.CordaX500Name;
@@ -142,9 +142,9 @@ public class ExampleFlow {
                 @Override
                 protected void checkTransaction(SignedTransaction stx) {
                     requireThat(require -> {
-                        ContractState output = stx.getTx().getOutputs().get(0).getData();
-                        require.using("This must be an IOU transaction.", output instanceof IOUState);
-                        IOUState iou = (IOUState) output;
+                        List<IOUState> ious = stx.getTx().outputsOfType(IOUState.class);
+                        require.using("This must be an IOU transaction.", !ious.isEmpty());
+                        IOUState iou = ious.get(0);
                         require.using("I won't accept IOUs with a value over 100.", iou.getValue() <= 100);
                         return null;
                     });

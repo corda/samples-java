@@ -16,15 +16,15 @@ import java.util.List;
 public class AppleStamp implements LinearState {
 
     //Private Variables
-    private String stampDesc; //For example: "One stamp can exchange for a basket of HoneyCrispy Apple"
-    private Party issuer; //The person who issued the stamp
-    private Party holder; //The person who currently owns the stamp
+    private final String stampDesc; //For example: "One stamp can exchange for a basket of HoneyCrispy Apple"
+    private final Party issuer; //The person who issued the stamp
+    private final Party holder; //The person who currently owns the stamp
 
     //LinearState required variable.
-    private UniqueIdentifier linearID;
+    private final UniqueIdentifier linearID;
 
     //ALL Corda State required parameter to indicate storing parties
-    private List<AbstractParty> participants;
+    private final List<AbstractParty> participants;
 
     //Constructor Tips: Command + N in IntelliJ can auto generate constructor.
     @ConstructorForDeserialization

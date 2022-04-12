@@ -1,0 +1,8 @@
+plugins {
+   id 'base'
+}
+
+wrapper {
+    gradleVersion = '7.4.2'
+    distributionType = Wrapper.DistributionType.BIN
+}

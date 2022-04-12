@@ -1,30 +1,28 @@
-apply plugin: 'org.springframework.boot'
-
-sourceSets {
-    main {
-        resources {
-            srcDir rootProject.file("config/dev")
-        }
-    }
+plugins {
+    id 'org.springframework.boot'
+    id 'java'
 }
 
 dependencies {
     // Corda dependencies.
-    compile "$corda_release_group:corda-rpc:$corda_release_version"
+    implementation "$corda_release_group:corda-rpc:$corda_release_version"
 
     // CorDapp dependencies.
-    compile project(":workflows")
-    compile("org.springframework.boot:spring-boot-starter-websocket:$spring_boot_version") {
-        exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
+    implementation project(':workflows')
+    implementation("org.springframework.boot:spring-boot-starter-websocket:$spring_boot_version") {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
     }
-    compile "org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}"
-    compile "org.apache.logging.log4j:log4j-web:${log4j_version}"
-    compile "org.slf4j:jul-to-slf4j:$slf4j_version"
+    runtimeOnly "org.apache.logging.log4j:log4j-slf4j-impl:$log4j_version"
+    runtimeOnly "org.apache.logging.log4j:log4j-web:$log4j_version"
 }
 
-task pingPartyBJava(type: JavaExec) {
+/* The Client is the communication channel between the external and the node. This task will help you immediately
+ * execute your rpc methods in the main method of the client.kt. You can somewhat see this as a quick test of making
+ * RPC calls to your nodes.
+ */
+tasks.register('pingPartyBKotlin', JavaExec) {
+    dependsOn assemble
     classpath = sourceSets.main.runtimeClasspath
-    main = 'net.corda.samples.pingpong.Client'
+    main = 'net.corda.samples.pingpong.ClientKt'
     args 'localhost:10006', 'O=PartyB,L=New York,C=US'
-
 }

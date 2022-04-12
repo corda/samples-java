@@ -21,7 +21,9 @@ public class Ping extends FlowLogic<Void> {
         final FlowSession counterpartySession = initiateFlow(counterparty);
         final UntrustworthyData<String> counterpartyData = counterpartySession.sendAndReceive(String.class, "ping");
         counterpartyData.unwrap( msg -> {
-            assert(msg.equals("pong"));
+            if (!msg.equals("pong")) {
+                throw new IllegalArgumentException("Invalid message: " + msg);
+            }
             return true;
         });
         return null;
