@@ -1,7 +1,7 @@
 pluginManagement {
     repositories {
         maven {
-            url "$artifactoryContextUrl/corda-dev"
+            url "$artifactoryContextUrl/corda-releases"
         }
         gradlePluginPortal()
     }

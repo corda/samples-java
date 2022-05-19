@@ -1,13 +1,6 @@
 import static org.gradle.jvm.toolchain.JavaLanguageVersion.of
 import net.corda.plugins.Cordform
 
-buildscript {
-    configurations.classpath {
-        // FORCE Gradle to use latest SNAPSHOT plugins.
-        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
-    }
-}
-
 plugins {
     id 'net.corda.plugins.cordformation'
     id 'base'
@@ -21,13 +14,6 @@ configurations {
 }
 
 subprojects { //Properties that you need to compile your project (The application)
-    buildscript {
-        configurations.classpath {
-            // FORCE Gradle to use latest SNAPSHOT plugins.
-            resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
-        }
-    }
-
     pluginManager.withPlugin('java') {
         java {
             toolchain {
