@@ -5,24 +5,23 @@ import com.tutorial.contracts.AppleStampContract;
 import com.tutorial.states.AppleStamp;
 import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.flows.*;
+import net.corda.core.identity.CordaX500Name;
 import net.corda.core.identity.Party;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import net.corda.core.identity.CordaX500Name;
 
 public class CreateAndIssueAppleStamp {
 
     @InitiatingFlow
     @StartableByRPC
-    public static class CreateAndIssueAppleStampInitiator  extends FlowLogic<SignedTransaction>{
+    public static class CreateAndIssueAppleStampInitiator extends FlowLogic<SignedTransaction> {
 
         private String stampDescription;
         private Party holder;
 
-        public CreateAndIssueAppleStampInitiator(String stampDescription,  Party holder) {
+        public CreateAndIssueAppleStampInitiator(String stampDescription, Party holder) {
             this.stampDescription = stampDescription;
             this.holder = holder;
         }
@@ -37,13 +36,13 @@ public class CreateAndIssueAppleStamp {
 
             //Building the output AppleStamp state
             UniqueIdentifier uniqueID = new UniqueIdentifier();
-            AppleStamp newStamp = new AppleStamp(this.stampDescription,this.getOurIdentity(),this.holder,uniqueID);
+            AppleStamp newStamp = new AppleStamp(this.stampDescription, this.getOurIdentity(), this.holder, uniqueID);
 
             //Compositing the transaction
             TransactionBuilder txBuilder = new TransactionBuilder(notary)
                     .addOutputState(newStamp)
                     .addCommand(new AppleStampContract.Commands.Issue(),
-                            Arrays.asList(getOurIdentity().getOwningKey(),holder.getOwningKey()));
+                            Arrays.asList(getOurIdentity().getOwningKey(), holder.getOwningKey()));
 
             // Verify that the transaction is valid.
             txBuilder.verify(getServiceHub());
@@ -62,7 +61,7 @@ public class CreateAndIssueAppleStamp {
     }
 
     @InitiatedBy(CreateAndIssueAppleStampInitiator.class)
-    public static class CreateAndIssueAppleStampResponder extends FlowLogic<Void>{
+    public static class CreateAndIssueAppleStampResponder extends FlowLogic<Void> {
 
         //private variable
         private FlowSession counterpartySession;
@@ -96,7 +95,6 @@ public class CreateAndIssueAppleStamp {
             return null;
         }
     }
-
 }
 
 //flow start CreateAndIssueAppleStampInitiator stampDescription: Fuji0472, holder: Peter

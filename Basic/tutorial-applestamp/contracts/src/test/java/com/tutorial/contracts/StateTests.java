@@ -25,5 +25,4 @@ public class StateTests {
         AppleStamp.class.getDeclaredField("holder");
         assert (AppleStamp.class.getDeclaredField("issuer").getType().equals(Party.class));
     }
-
 }

@@ -27,8 +27,8 @@ public class RedeemApplesWithStampTest {
     @Before
     public void setup() {
         network = new MockNetwork(new MockNetworkParameters().withCordappsForAllNodes(ImmutableList.of(
-                TestCordapp.findCordapp("com.tutorial.contracts"),
-                TestCordapp.findCordapp("com.tutorial.flows")))
+                        TestCordapp.findCordapp("com.tutorial.contracts"),
+                        TestCordapp.findCordapp("com.tutorial.flows")))
                 .withNotarySpecs(ImmutableList.of(new MockNetworkNotarySpec(CordaX500Name.parse("O=Notary,L=London,C=GB"))))
         );
         a = network.createPartyNode(null);
@@ -51,7 +51,7 @@ public class RedeemApplesWithStampTest {
         //Issue Apple Stamp
         CreateAndIssueAppleStamp.CreateAndIssueAppleStampInitiator issueAppleStamp =
                 new CreateAndIssueAppleStamp.CreateAndIssueAppleStampInitiator(
-                        "Fuji4072",this.b.getInfo().getLegalIdentities().get(0));
+                        "Fuji4072", this.b.getInfo().getLegalIdentities().get(0));
         Future<SignedTransaction> future1 = a.startFlow(issueAppleStamp);
         network.runNetwork();
 
@@ -59,7 +59,7 @@ public class RedeemApplesWithStampTest {
         UniqueIdentifier id = issuedStamp.getLinearId();
 
         //Redeem Basket of Apples with stamp
-        RedeemApples.RedeemApplesInitiator redeemApples = new RedeemApples.RedeemApplesInitiator(b.getInfo().getLegalIdentities().get(0),id);
+        RedeemApples.RedeemApplesInitiator redeemApples = new RedeemApples.RedeemApplesInitiator(b.getInfo().getLegalIdentities().get(0), id);
         Future<SignedTransaction> future2 = a.startFlow(redeemApples);
         network.runNetwork();
 
@@ -68,6 +68,6 @@ public class RedeemApplesWithStampTest {
         BasketOfApples state = b.getServices().getVaultService()
                 .queryBy(BasketOfApples.class, outputCriteria).getStates().get(0).getState().getData();
 
-        assert(state.getDescription().equals("Fuji4072"));
+        assert (state.getDescription().equals("Fuji4072"));
     }
 }

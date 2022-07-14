@@ -22,8 +22,8 @@ public class FarmerSelfCreateBasketOfApplesTest {
     @Before
     public void setup() {
         network = new MockNetwork(new MockNetworkParameters().withCordappsForAllNodes(ImmutableList.of(
-                TestCordapp.findCordapp("com.tutorial.contracts"),
-                TestCordapp.findCordapp("com.tutorial.flows")))
+                        TestCordapp.findCordapp("com.tutorial.contracts"),
+                        TestCordapp.findCordapp("com.tutorial.flows")))
                 .withNotarySpecs(ImmutableList.of(new MockNetworkNotarySpec(CordaX500Name.parse("O=Notary,L=London,C=GB")))));
         a = network.createPartyNode(null);
         b = network.createPartyNode(null);
@@ -36,7 +36,7 @@ public class FarmerSelfCreateBasketOfApplesTest {
     }
 
     @Test
-    public void createBasketOfApples(){
+    public void createBasketOfApples() {
         PackageApples.PackApplesInitiator flow1 = new PackageApples.PackApplesInitiator("Fuji4072", 10);
         Future<SignedTransaction> future = a.startFlow(flow1);
         network.runNetwork();
@@ -44,13 +44,13 @@ public class FarmerSelfCreateBasketOfApplesTest {
         //successful query means the state is stored at node b's vault. Flow went through.
         QueryCriteria inputCriteria = new QueryCriteria.VaultQueryCriteria().withStatus(Vault.StateStatus.UNCONSUMED);
         BasketOfApples state = a.getServices().getVaultService()
-                .queryBy(BasketOfApples.class,inputCriteria).getStates().get(0).getState().getData();
+                .queryBy(BasketOfApples.class, inputCriteria).getStates().get(0).getState().getData();
 
         System.out.println("-------------------------");
         System.out.println(state.getOwner());
         System.out.println("-------------------------");
 
-        assert(state.getDescription().equals("Fuji4072"));
+        assert (state.getDescription().equals("Fuji4072"));
     }
 }
 

@@ -4,12 +4,12 @@ import co.paralleluniverse.fibers.Suspendable;
 import com.tutorial.contracts.BasketOfApplesContract;
 import com.tutorial.states.BasketOfApples;
 import net.corda.core.flows.*;
+import net.corda.core.identity.CordaX500Name;
 import net.corda.core.identity.Party;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
 
 import java.util.Collections;
-import net.corda.core.identity.CordaX500Name;
 
 public class PackageApples {
 
@@ -34,7 +34,7 @@ public class PackageApples {
             final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB"));
 
             //Create the output object
-            BasketOfApples basket = new BasketOfApples(this.appleDescription,this.getOurIdentity(),this.weight);
+            BasketOfApples basket = new BasketOfApples(this.appleDescription, this.getOurIdentity(), this.weight);
 
             //Building transaction
             TransactionBuilder txBuilder = new TransactionBuilder(notary)
@@ -51,7 +51,6 @@ public class PackageApples {
             return subFlow(new FinalityFlow(signedTransaction, Collections.emptyList()));
         }
     }
-
 }
 
 //flow start PackApplesInitiator appleDescription: Fuji4072, weight: 10
