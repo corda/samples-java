@@ -24,8 +24,8 @@ public class CreateAndIssueAppleStampTest {
     @Before
     public void setup() {
         network = new MockNetwork(new MockNetworkParameters().withCordappsForAllNodes(ImmutableList.of(
-                TestCordapp.findCordapp("com.tutorial.contracts"),
-                TestCordapp.findCordapp("com.tutorial.flows")))
+                        TestCordapp.findCordapp("com.tutorial.contracts"),
+                        TestCordapp.findCordapp("com.tutorial.flows")))
                 .withNotarySpecs(ImmutableList.of(new MockNetworkNotarySpec(CordaX500Name.parse("O=Notary,L=London,C=GB"))))
         );
         a = network.createPartyNode(null);
@@ -47,14 +47,14 @@ public class CreateAndIssueAppleStampTest {
         //successful query means the state is stored at node b's vault. Flow went through.
         QueryCriteria inputCriteria = new QueryCriteria.VaultQueryCriteria().withStatus(Vault.StateStatus.UNCONSUMED);
         TemplateState state = b.getServices().getVaultService()
-                .queryBy(TemplateState.class,inputCriteria).getStates().get(0).getState().getData();
+                .queryBy(TemplateState.class, inputCriteria).getStates().get(0).getState().getData();
     }
 
     @Test
-    public void CreateAndIssueAppleStampTest(){
+    public void CreateAndIssueAppleStampTest() {
         CreateAndIssueAppleStamp.CreateAndIssueAppleStampInitiator flow1 =
                 new CreateAndIssueAppleStamp.CreateAndIssueAppleStampInitiator(
-                        "HoneyCrispy 4072",this.b.getInfo().getLegalIdentities().get(0));
+                        "HoneyCrispy 4072", this.b.getInfo().getLegalIdentities().get(0));
         Future<SignedTransaction> future1 = a.startFlow(flow1);
         network.runNetwork();
 
@@ -62,11 +62,7 @@ public class CreateAndIssueAppleStampTest {
         QueryCriteria inputCriteria = new QueryCriteria.VaultQueryCriteria()
                 .withStatus(Vault.StateStatus.UNCONSUMED);
         AppleStamp state = b.getServices().getVaultService()
-                .queryBy(AppleStamp.class,inputCriteria).getStates().get(0).getState().getData();
-        assert(state.getStampDesc().equals("HoneyCrispy 4072"));
+                .queryBy(AppleStamp.class, inputCriteria).getStates().get(0).getState().getData();
+        assert (state.getStampDesc().equals("HoneyCrispy 4072"));
     }
-
-
-
-
 }

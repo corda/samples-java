@@ -14,13 +14,12 @@ public class BasketOfApplesContract implements Contract {
     // This is used to identify our contract when building a transaction.
     public static final String ID = "com.tutorial.contracts.BasketOfApplesContract";
 
-
     @Override
     public void verify(@NotNull LedgerTransaction tx) throws IllegalArgumentException {
         //Extract the command from the transaction.
         final CommandData commandData = tx.getCommands().get(0).getValue();
 
-        if (commandData instanceof BasketOfApplesContract.Commands.packBasket){
+        if (commandData instanceof BasketOfApplesContract.Commands.packBasket) {
             BasketOfApples output = tx.outputsOfType(BasketOfApples.class).get(0);
             requireThat(require -> {
                 require.using("This transaction should only output one BasketOfApples state", tx.getOutputs().size() == 1);
@@ -28,8 +27,7 @@ public class BasketOfApplesContract implements Contract {
                 require.using("The output BasketOfApples state should have non zero weight", output.getWeight() > 0);
                 return null;
             });
-        }
-        else if (commandData instanceof BasketOfApplesContract.Commands.Redeem) {
+        } else if (commandData instanceof BasketOfApplesContract.Commands.Redeem) {
             //Retrieve the output state of the transaction
             AppleStamp input = tx.inputsOfType(AppleStamp.class).get(0);
             BasketOfApples output = tx.outputsOfType(BasketOfApples.class).get(0);
@@ -41,8 +39,7 @@ public class BasketOfApplesContract implements Contract {
                 require.using("The basket of apple has to weight more than 0", output.getWeight() > 0);
                 return null;
             });
-        }
-        else{
+        } else {
             //Unrecognized Command type
             throw new IllegalArgumentException("Incorrect type of BasketOfApples Commands");
         }
@@ -50,8 +47,10 @@ public class BasketOfApplesContract implements Contract {
 
     // Used to indicate the transaction's intent.
     public interface Commands extends CommandData {
-        class packBasket implements BasketOfApplesContract.Commands {}
-        class Redeem implements BasketOfApplesContract.Commands {}
+        class packBasket implements BasketOfApplesContract.Commands {
+        }
 
+        class Redeem implements BasketOfApplesContract.Commands {
+        }
     }
 }

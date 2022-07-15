@@ -22,8 +22,8 @@ public class FlowTests {
     @Before
     public void setup() {
         network = new MockNetwork(new MockNetworkParameters().withCordappsForAllNodes(ImmutableList.of(
-                TestCordapp.findCordapp("com.tutorial.contracts"),
-                TestCordapp.findCordapp("com.tutorial.flows")))
+                        TestCordapp.findCordapp("com.tutorial.contracts"),
+                        TestCordapp.findCordapp("com.tutorial.flows")))
                 .withNotarySpecs(ImmutableList.of(new MockNetworkNotarySpec(CordaX500Name.parse("O=Notary,L=London,C=GB"))))
         );
         a = network.createPartyNode(null);
@@ -45,6 +45,6 @@ public class FlowTests {
         //successful query means the state is stored at node b's vault. Flow went through.
         QueryCriteria inputCriteria = new QueryCriteria.VaultQueryCriteria().withStatus(Vault.StateStatus.UNCONSUMED);
         TemplateState state = b.getServices().getVaultService()
-                .queryBy(TemplateState.class,inputCriteria).getStates().get(0).getState().getData();
+                .queryBy(TemplateState.class, inputCriteria).getStates().get(0).getState().getData();
     }
 }

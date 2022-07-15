@@ -40,6 +40,7 @@ public class TemplateContract implements Contract {
     // Used to indicate the transaction's intent.
     public interface Commands extends CommandData {
         //In our hello-world app, We will only have one command.
-        class Send implements Commands {}
+        class Send implements Commands {
+        }
     }
 }

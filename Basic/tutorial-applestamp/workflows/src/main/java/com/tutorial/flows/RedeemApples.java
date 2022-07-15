@@ -1,7 +1,6 @@
 package com.tutorial.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
-import com.tutorial.contracts.AppleStampContract;
 import com.tutorial.contracts.BasketOfApplesContract;
 import com.tutorial.states.AppleStamp;
 import com.tutorial.states.BasketOfApples;
@@ -21,7 +20,7 @@ public class RedeemApples {
 
     @InitiatingFlow
     @StartableByRPC
-    public static class RedeemApplesInitiator extends FlowLogic<SignedTransaction>{
+    public static class RedeemApplesInitiator extends FlowLogic<SignedTransaction> {
 
         private Party buyer;
         private UniqueIdentifier stampId;
@@ -61,7 +60,7 @@ public class RedeemApples {
                     .addInputState(BasketOfApplesStateAndRef)
                     .addOutputState(output, BasketOfApplesContract.ID)
                     .addCommand(new BasketOfApplesContract.Commands.Redeem(),
-                            Arrays.asList(getOurIdentity().getOwningKey(),this.buyer.getOwningKey()));
+                            Arrays.asList(getOurIdentity().getOwningKey(), this.buyer.getOwningKey()));
 
             // Verify that the transaction is valid.
             txBuilder.verify(getServiceHub());
@@ -82,7 +81,7 @@ public class RedeemApples {
     }
 
     @InitiatedBy(RedeemApplesInitiator.class)
-    public static class RedeemApplesResponder extends FlowLogic<Void>{
+    public static class RedeemApplesResponder extends FlowLogic<Void> {
         //private variable
         private FlowSession counterpartySession;
 
@@ -104,6 +103,5 @@ public class RedeemApples {
             return null;
         }
     }
-
 }
 //flow start RedeemApplesInitiator buyer: Peter, stampId:
