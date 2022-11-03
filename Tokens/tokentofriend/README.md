@@ -26,7 +26,7 @@ We have built a front end interface to make the interaction easier. Clone the ap
  
  Go to that storage node terminal: 
  ```
- flow start QueryToken uuid: xxx-xxxx-xxxx-xxxx-xx, recipientEmai: 2@gmail.com
+ flow start QueryToken uuid: xxx-xxxx-xxxx-xxxx-xx, recipientEmail: 2@gmail.com
  ```
  
 You should discover the message that was attached in the token. 
