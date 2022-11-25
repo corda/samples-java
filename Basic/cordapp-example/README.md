@@ -1,7 +1,5 @@
-# cordapp-example 
+# CorDapp Example
 
-This repo is the implementation of the tutorial cordapp. 
+This repo is the implementation of the tutorial CorDapp. 
 
-You can find that tutorial here: 
-
-https://docs.corda.net/docs/corda-os/4.7/tutorial-cordapp.html
+You can find the tutorial for this example [here](https://docs.r3.com/en/platform/corda/4.9/community/tutorial-cordapp.html).
