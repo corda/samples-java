@@ -20,7 +20,7 @@ Be aware that support of HTTP requests in flows is currently limited:
 Be careful when making HTTP calls in flows; they have to be blocking.
 In addition, if the flow fails and is restarted, the HTTP request will be replayed as-is.
 
-You'll find our HTTP request example within HTTPCallFlow.java
+You'll find our HTTP request example within [HTTPCallFlow.java](./workflows/src/main/java/net/corda/samples/flowhttp/HttpCallFlow.java)
 
 It works mostly as you'd expect, using a request builder to make a request at a client and use the result.
 
@@ -37,14 +37,13 @@ It works mostly as you'd expect, using a request builder to make a request at a 
         }
         return value;
     }
-
 ```
 
 
 
 ## Pre-Requisites
 
-For development environment setup, please refer to: [Setup Guide](https://docs.corda.net/getting-set-up.html).
+For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.9/community/getting-set-up.html).
 
 
 ## Running the nodes
@@ -52,7 +51,7 @@ For development environment setup, please refer to: [Setup Guide](https://docs.c
 
 Open a terminal and go to the project root directory and type: (to deploy the nodes using bootstrapper)
 ```
-./gradlew clean deployNodes
+./gradlew clean build deployNodes
 ```
 Then type: (to run the nodes)
 ```
