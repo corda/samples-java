@@ -1,8 +1,8 @@
 # Network Bootstrapper Tutorial
 
-In this tutorial, I will demostrate how to sign a contract jar with your own keystore. 
+This tutorial demonstrates how to sign a contract jar with your own keystore. 
 
-A cordapp will most likely have two jars, one contract jar and one workflow jar. Since all of the data and transactional rules are defined in the contract, when transacting over the Corda Network, we will need to check the hashes of the contract jars. Hence, when speaking of signing a cordapp, we are most likely talking about signing the contract jar. 
+A CorDapp will most likely have two jars, one contract jar and one workflow jar. Since all the data and transactional rules are defined in the contract, when transacting over the Corda Network, we will need to check the hashes of the contract jars. Hence, when speaking of signing a CorDapp, we are most likely talking about signing the contract jar. 
 
 The signing option is defined in the build.gradle file of the /workflows and /contracts folder. 
 ```
@@ -20,7 +20,7 @@ cordapp {
     }
 }
 ```
-In this example, we disable the signing for the workflow jar. And, for the contract jar, we will add custome keystore to use for signing. 
+In this example, we disable the signing for the workflow jar. And, for the contract jar, we will add custom keystore to use for signing. 
 ```
 cordapp {
     targetPlatformVersion corda_platform_version
@@ -45,10 +45,22 @@ cordapp {
     }
 }
 ```
-As you can see, we are porting in varibles from the gradle.preperties file in the root directory. They are the keystore path and the password for the keystore
+In the terminal, create a private key in JKS format (replace the X500 name with yours, and use the same [password] value for both storepass and keypass):
+
 ```
-jar.sign.keystore=/Users/admin/corda/corda4/networkBootstrapper/certificates/jarSignKeystore.pkcs12
-jar.sign.password = bootstrapper
+keytool -keystore jarSignKeystore.jks -keyalg RSA -genkey -dname "OU=, O=, L=, C=" -storepass [password] -keypass [password] -alias cordapp-signer
+```
+
+Migrate the JKS key to PKCS12 format. You will be prompted for 2 passwords, use the same value that you used to create the JKS key for both values:
+
+```
+keytool -importkeystore -srckeystore jarSignKeystore.jks -destkeystore jarSignKeystore.pkcs12 -deststoretype pkcs12
+```
+
+As you can see, we are importing in variables from the gradle.properties file in the root directory. They are the keystore path and the password for the keystore
+```
+jar.sign.keystore = path to PKCS12 file
+jar.sign.password = password of PKCS12 file
 ```
 Once you have edited all the above fields, you can simply gradle task build to execute the building and signing of the jar. 
 ```
