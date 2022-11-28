@@ -1,12 +1,12 @@
 # Sendfile -- Attachment
-This Cordapp shows how to upload and download an [attachment](https://training.corda.net/corda-details/attachments/) via flow.
+This CorDapp shows how to upload and download an [attachment](https://docs.r3.com/en/platform/corda/4.9/community/cordapp-build-systems.html#cordapp-contract-attachments) via flow.
 
 
 ## Concepts
 
-In this Cordapp, there are two parties:
+In this CorDapp, there are two parties:
 * Seller: sends an invoice (with attachment) to Buyer
-* Buyer: receive the the invoice and be able to download the attached zip file to their local machine
+* Buyer: receive the invoice and be able to download the attached zip file to their local machine
 
 
 ### States
@@ -28,10 +28,10 @@ The flow logic is the following:
 
 * `sendAttachment`: send and sync the attachment between parties
   1. Uploading attachment from local
-  2. Attaching the accachmentID to the transaction
-  3. Storing the attached file into attachment service at the counterparty's node (Automatically check if it already exists or not. If it does, do nothing; if not, download the attached file from the conterparty.)
+  2. Attaching the attachmentID to the transaction
+  3. Storing the attached file into attachment service at the counterparty's node (Automatically check if it already exists or not. If it does, do nothing; if not, download the attached file from the counterparty.)
 
-* `downloadAttchment`: save the attachment file from node's serviceHub to local
+* `downloadAttachment`: save the attachment file from node's serviceHub to local
   1. signing the attachment service in the node to download the file via attachmentID
 
 ![alt text](./graph.png)
@@ -43,7 +43,7 @@ The flow logic is the following:
 
 Open a terminal and go to the project root directory and type: (to deploy the nodes using bootstrapper)
 ```
-./gradlew clean deployNodes
+./gradlew clean build deployNodes
 ```
 Then type: (to run the nodes)
 ```
