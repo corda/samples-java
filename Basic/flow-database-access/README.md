@@ -1,5 +1,5 @@
 # Flow Database Access CorDapp 
-This CorDapp provides a simple example of how the node database can be accessed in flows using a [JDBC Connection](https://docs.corda.net/docs/corda-os/api-persistence.html#jdbc-session). In this case, the flows
+This CorDapp provides a simple example of how the node database can be accessed in flows using a [JDBC Connection](https://docs.r3.com/en/platform/corda/4.9/community/api-persistence.html#jdbc-session). In this case, the flows
 maintain a table of cryptocurrency values in the node's database.
 
 
@@ -7,7 +7,7 @@ maintain a table of cryptocurrency values in the node's database.
 
 ### Flows
 
-The CorDapp defines three flows: `AddTokenValueFlow`, `UpdateTokenValueFlow`, and `QueryTokenValueFlow`. Under the hood, the database accesses are managed by the CryptoValuesDatabaseService [CordaService](https://training.corda.net/corda-details/automation/#services).
+The CorDapp defines three flows: `AddTokenValueFlow`, `UpdateTokenValueFlow`, and `QueryTokenValueFlow`. Under the hood, database access is managed by the CryptoValuesDatabaseService [CordaService](https://training.corda.net/corda-advanced-concepts/automation/).
 
 Be aware that support of database accesses in flows is currently limited:
 
@@ -17,7 +17,7 @@ Be aware that support of database accesses in flows is currently limited:
 
 ## Pre-Requisites
 
-For development environment setup, please refer to: [Setup Guide](https://docs.corda.net/getting-set-up.html).
+For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.9/community/getting-set-up.html).
 
 
 ## Running the nodes
@@ -25,7 +25,7 @@ For development environment setup, please refer to: [Setup Guide](https://docs.c
 
 Open a terminal and go to the project root directory and type: (to deploy the nodes using bootstrapper)
 ```
-./gradlew clean deployNodes
+./gradlew clean build deployNodes
 ```
 Then type: (to run the nodes)
 ```
