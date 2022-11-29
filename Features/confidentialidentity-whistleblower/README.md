@@ -1,6 +1,6 @@
 # Whistleblower -- Confidential Identity 
 
-This CorDapp is a simple showcase of [confidential identities](https://docs.corda.net/docs/corda-os/api-identity.html#confidential-identities) (i.e. anonymous public keys).
+This CorDapp is a simple showcase of [confidential identities](https://docs.r3.com/en/platform/corda/4.9/community/api-identity.html#confidential-identities) (i.e. anonymous public keys).
 
 
 ## Concepts
@@ -8,7 +8,7 @@ This CorDapp is a simple showcase of [confidential identities](https://docs.cord
 
 A node (the *whistle-blower*) can whistle-blow on a company to another node (the *investigator*). Both the
 whistle-blower and the investigator generate anonymous public keys for this transaction, meaning that any third-parties
-who manage to get ahold of the state cannot identity the whistle-blower or investigator. This process is handled
+who manage to get a hold of the state cannot identity the whistle-blower or investigator. This process is handled
 automatically by the `SwapIdentitiesFlow`.
 
 
@@ -17,14 +17,14 @@ automatically by the `SwapIdentitiesFlow`.
 
 ## Pre-Requisites
 
-For development environment setup, please refer to: [Setup Guide](https://docs.corda.net/getting-set-up.html).
+For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.9/community/getting-set-up.html).
 
 
 ### Running the CorDapp
 
 Open a terminal and go to the project root directory and type: (to deploy the nodes using bootstrapper)
 ```
-./gradlew clean deployNodes
+./gradlew clean build deployNodes
 ```
 Then type: (to run the nodes)
 ```
@@ -33,15 +33,17 @@ Then type: (to run the nodes)
 
 ### Interacting with the nodes:
 
-We will interact with this CorDapp via the nodes' [CRaSH](https://docs.corda.net/docs/corda-os/shell.html) shells.
+We will interact with this CorDapp via the nodes' interactive shells.
 
-First, go the the shell of BraveEmployee, and report BadCompany to the TradeBody by running:
+First, go the shell of BraveEmployee, and report BadCompany to the TradeBody by running:
 
     flow start BlowWhistleFlow badCompany: BadCompany, investigator: TradeBody
 
-To see the whistle-blowing case stored on the whistle-blowing node, run:
+To see the whistleblower case stored on the whistleblower node, run:
 
-    run vaultQuery contractStateType: BlowWhistleState
+    run vaultQuery contractStateType: net.corda.samples.whistleblower.states.BlowWhistleState
+
+You should see something similar to the following output:
 
     [ {
       "badCompany" : "C=KE,L=Eldoret,O=BadCompany",
@@ -54,5 +56,5 @@ To see the whistle-blowing case stored on the whistle-blowing node, run:
       "participants" : [ "8Kqd4oWdx4KQGHGKubAvzAFiUG2JjhHxM2chUs4BTHHNHnUCgf6ngCAjmCu", "8Kqd4oWdx4KQGHGGdcHPVdafymUrBvXo6KimREJhttHNhY3JVBKgTCKod1X" ]
     } ]
 
-We can also see the whistle-blowing case stored on the investigator node.
+We can also see the whistleblower case stored on the investigator node.
 

@@ -14,8 +14,6 @@ buildscript {
         log4j_version = constants.getProperty("log4jVersion")
         slf4j_version = constants.getProperty("slf4jVersion")
         corda_platform_version = constants.getProperty("platformVersion").toInteger()
-
-        //springboot
         spring_boot_version = '2.0.2.RELEASE'
         spring_boot_gradle_plugin_version = '2.0.2.RELEASE'
     }
@@ -44,6 +42,7 @@ allprojects {//Properties that you need to compile your project (The application
         mavenLocal()
 
         mavenCentral()
+        jcenter()
         maven { url 'https://software.r3.com/artifactory/corda' }
         maven { url 'https://jitpack.io' }
     }
@@ -86,6 +85,7 @@ dependencies {
     cordaCompile "org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}"
     cordaCompile "org.apache.logging.log4j:log4j-web:${log4j_version}"
     cordaCompile "org.slf4j:jul-to-slf4j:$slf4j_version"
+    cordaCompile "org.jetbrains.kotlinx:kotlinx-html-jvm:0.6.12"
     cordaDriver "net.corda:corda-shell:4.9"
 
 }

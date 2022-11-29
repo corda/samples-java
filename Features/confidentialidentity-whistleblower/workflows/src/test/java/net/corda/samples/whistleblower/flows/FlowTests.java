@@ -8,6 +8,7 @@ import net.corda.testing.node.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Assert;
 
 import java.util.concurrent.ExecutionException;
 
@@ -16,7 +17,7 @@ public class FlowTests {
             .withCordappsForAllNodes(ImmutableList.of(
                     TestCordapp.findCordapp("net.corda.samples.whistleblower.contracts"),
                     TestCordapp.findCordapp("net.corda.samples.whistleblower.flows")))
-            .withNotarySpecs(ImmutableList.of(new MockNetworkNotarySpec(CordaX500Name.parse("O=Notary,L=London,C=GB")))));
+            .withNotarySpecs(ImmutableList.of(new MockNetworkNotarySpec(CordaX500Name.parse("O=Notary,L=Nakuru,C=KE")))));
     private final StartedMockNode a = network.createNode();
     private final StartedMockNode b = network.createNode();
     private final StartedMockNode c = network.createNode();
@@ -42,7 +43,7 @@ public class FlowTests {
         CordaFuture<SignedTransaction> future = a.startFlow(new BlowWhistleFlow(b.getInfo().getLegalIdentities().get(0), c.getInfo().getLegalIdentities().get(0)));
         network.runNetwork();
         SignedTransaction ptx = future.get();
-        assert (!ptx.getTx().getRequiredSigningKeys().contains(a.getInfo().getLegalIdentities().get(0).getOwningKey()));
-        assert (!ptx.getTx().getRequiredSigningKeys().contains(b.getInfo().getLegalIdentities().get(0).getOwningKey()));
+        Assert.assertTrue(!ptx.getTx().getRequiredSigningKeys().contains(a.getInfo().getLegalIdentities().get(0).getOwningKey()));
+        Assert.assertTrue(!ptx.getTx().getRequiredSigningKeys().contains(b.getInfo().getLegalIdentities().get(0).getOwningKey()));
     }
 }
