@@ -6,14 +6,14 @@ using one of the Corda library flow called `NotaryChangeFlow`.
 ## Concepts
 
 Notary is a critical component of a Corda network. It helps prevent double-spending 
-attempts in a Corda network. Thus all states issued in Corda are tied to a Notary. 
+attempts in a Corda network. Thus, all states issued in Corda are tied to a Notary. 
 Any transaction involving the update of a state must be notarised from the Notary 
 that the state is tied to, since other notaries wouldn't have seen any previous 
 transaction involving the state would not be able to prevent a double spending 
 attempt.
 
 However, a need to spend a state at a notary other than the one its tied to 
-become unavoidable at times. Thus Corda provides `NotaryChangeFlow` to cater to such 
+become unavoidable at times. Thus, Corda provides `NotaryChangeFlow` to cater to such 
 needs.
 
 This demo uses the IOU Demo to demonstrate a Notary Change Transaction. Here we would 
@@ -25,14 +25,14 @@ issue an IOU at a particular Notary and try to settle the IOU at a different Not
 
 ### Pre-Requisites
 
-See https://docs.corda.net/getting-set-up.html.
+For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.9/community/getting-set-up.html).
 
 ### Running the CorDapp
 
 Open a terminal and go to the project root directory and type: (to deploy the 
 nodes using bootstrapper)
 ```
-./gradlew clean deployNodes
+./gradlew clean build deployNodes
 ```
 Then type: (to run the nodes)
 ```
@@ -40,8 +40,6 @@ Then type: (to run the nodes)
 ```
 This should bring up 4 nodes (PartyA, PartyB, NotaryA and NotaryB) in 4 different terminals.
 
-If you have any questions during setup, please go to 
-https://docs.corda.net/getting-set-up.html for detailed setup instructions.
 
 To issue an IOU go to PartyA terminal and run:
 ```
