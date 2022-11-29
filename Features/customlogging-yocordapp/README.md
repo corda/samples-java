@@ -2,14 +2,14 @@
 
 ## Custom Logging
 
-This is a modified version of the original yo cordapp with some additions to use custom log4j2 configurations.
+This is a modified version of the original yo CorDapp with some additions to use custom log4j2 configurations.
 
 
 The primary example we've implemented here is json logging which is configured in `config/dev/log4j2.xml`.
 
 This gives us the ability to use Log4j thread contexts to log arbitrary objects or data points in json format.
 
-In this example not only do the node logs output in json but we can add arbitrary key value pairs as well.
+In this example not only do the node logs output in json, but we can add arbitrary key value pairs as well.
 
 ```java
     // here we have our first opportunity to log out the contents of the flow arguments.
@@ -70,14 +70,14 @@ You can end up getting log feeds in json that look something like this:
 
 ### Pre-Requisites
 
-See https://docs.corda.net/getting-set-up.html.
+For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.9/community/getting-set-up.html).
 
 
 ### Running the CorDapp
 
 Open a terminal and go to the project root directory and type: (to deploy the nodes using bootstrapper)
 ```
-./gradlew clean deployNodes
+./gradlew clean build deployNodes
 ```
 Then type: (to run the nodes)
 
@@ -85,7 +85,7 @@ Then type: (to run the nodes)
 ./build/nodes/runnodes
 ```
 
-When the nodes run you'll be able to see the node's json log files in their respesctive `logs` folders.
+When the nodes run you'll be able to see the node's json log files in their respective `logs` folders.
 This logging configuration will add a new file that you can view.
 
 ```shell
@@ -108,12 +108,12 @@ Yo to another node:
 ```
 
 Where `NODE_NAME` is 'PartyA' or 'PartyB'. The space after the `:` is required. You are not required to use the full
-X500 name in the node shell. Note you can't sent a Yo! to yourself because that's not cool!
+X500 name in the node shell. Note: you can't send a Yo! to yourself because that's not cool!
 
 To see all the Yo's! other nodes have sent you in your vault (you do not store the Yo's! you send yourself), run:
 
 ```
-    run vaultQuery contractStateType: YoState
+    run vaultQuery contractStateType: net.corda.samples.logging.states.YoState
 ```
 
 ### Other ways to use this log configuration
