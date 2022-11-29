@@ -4,14 +4,14 @@
 
 # Multi-Output Transaction Cordapp
 
-In this cordapp, we will demo how to produce two outputs in one transaction. 
+In this CorDapp, we will demo how to produce two outputs in one transaction. 
 It is a simple use case that we will have two states. One state is called 
 SubcountState and the other state is called OmniState, for which the OmniState keeps track of the accumulated balance of 
 the SubCountState amounts. Our goal is to show you how to produce two outputs in one transaction.
 
 # Pre-Requisites
 
-See https://docs.corda.net/getting-set-up.html.
+For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.9/community/getting-set-up.html).
 
 # Usage
 
@@ -19,7 +19,7 @@ See https://docs.corda.net/getting-set-up.html.
 
 Open a terminal and go to the project root directory and type: (to deploy the nodes using bootstrapper)
 ```
-./gradlew clean deployNodes
+./gradlew clean build deployNodes
 ```
 Then type: (to run the nodes)
 ```
@@ -54,5 +54,3 @@ And now if we go to PartyB's node and look for the OmniState, we should see it n
 
 
 
-For a guided example of how to extend this template, see the Hello, World! tutorial 
-[here](https://docs.corda.net/hello-world-introduction.html).
