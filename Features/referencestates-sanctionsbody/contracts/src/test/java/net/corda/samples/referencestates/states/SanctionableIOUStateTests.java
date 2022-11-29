@@ -8,8 +8,8 @@ import net.corda.core.identity.Party;
 import net.corda.testing.core.TestIdentity;
 import org.junit.Test;
 
-import static org.jgroups.util.Util.assertEquals;
-import static org.jgroups.util.Util.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.wildfly.common.Assert.assertTrue;
 
 public class SanctionableIOUStateTests {
 

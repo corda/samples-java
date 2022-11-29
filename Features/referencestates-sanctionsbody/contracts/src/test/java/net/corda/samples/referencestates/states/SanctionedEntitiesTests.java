@@ -10,7 +10,9 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.jgroups.util.Util.*;
+import static org.junit.Assert.assertEquals;
+import static org.wildfly.common.Assert.assertFalse;
+import static org.wildfly.common.Assert.assertTrue;
 
 public class SanctionedEntitiesTests {
 
