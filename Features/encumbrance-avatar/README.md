@@ -20,7 +20,7 @@ There are many use cases which can use encumbrance like -
 
 This is a basic sample which shows how you can use encumbrance in Corda. For this sample, we will have an Avatar
 created on Corda. We will transfer this Avatar from one party to the other within a specified time limit.
-After this time window, the Avatar will be expired and you cannot transfer it to anyone. 
+After this time window, the Avatar will be expired, and you cannot transfer it to anyone. 
 
 Avatar state is locked up by the Expiry state which suggests that the Avatar will expire after a certain time, 
 and cannot be transferred to anyone after that.
@@ -29,13 +29,15 @@ This sample can be extended further, where the Avatar can be represented as a NF
 can be traded and purchased by a buyer on the exchange. The tokens can be locked up using an encumbrance before 
 performing the DVP for the NFT against the tokens.
 
+## Pre-Requisites
+For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.9/community/getting-set-up.html).
+
 ## How to use run this sample
 
 Build the CorDapp using below command. This will deploy three nodes - buyer, seller and notary.
-```
+   
     ./gradlew clean deployNodes
     ./build/nodes/runnodes
-```
 
 
 Create the Avatar on PartyA node
@@ -52,7 +54,7 @@ Confirm if PartyB owns the Avatar
 
 Note
 As you can see in both the flows, Avatar is encumbered by Expiry. But Encumbrances should form a complete directed cycle, 
-otherwise one can spend the "encumbrance" (Expiry) state, which would freeze the "encumbered" (Avatar) state for ever.
+otherwise one can spend the "encumbrance" (Expiry) state, which would freeze the "encumbered" (Avatar) state forever.
 That's why we also make Expiry dependent on Avatar. (See how we have added encumbrance index's to the output states in 
 both the flows.)
 
