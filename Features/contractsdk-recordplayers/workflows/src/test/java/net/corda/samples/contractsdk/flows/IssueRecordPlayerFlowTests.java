@@ -22,7 +22,7 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 
-import static org.jgroups.util.Util.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 

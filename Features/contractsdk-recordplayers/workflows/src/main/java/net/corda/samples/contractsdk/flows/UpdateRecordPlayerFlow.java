@@ -52,9 +52,10 @@ public class UpdateRecordPlayerFlow extends FlowLogic<SignedTransaction> {
 
         if (needleId.toLowerCase().equals("elliptical")) {
             needle = Needle.ELLIPTICAL;
-        }
-        if (needleId.toLowerCase().equals("damaged")) {
+        } else if (needleId.toLowerCase().equals("damaged")) {
             needle = Needle.DAMAGED;
+        } else if (needleId.toLowerCase().equals("spherical")){
+          needle = Needle.SPHERICAL;
         } else {
             throw new IllegalArgumentException("Invalid needle state given.");
         }
