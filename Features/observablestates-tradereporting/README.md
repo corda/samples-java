@@ -1,6 +1,6 @@
 # Trade Reporting -- ObservableStates
 
-This CorDapp shows how Corda's [observable states](https://docs.corda.net/docs/corda-os/4.4/tutorial-observer-nodes.html#observer-nodes) feature works. Observable states is the ability for nodes who are not
+This CorDapp shows how Corda's observable states feature works. Observable states is the ability for nodes who are not
 participants in a transaction to still store them if the transactions are sent to them.
 
 
@@ -24,18 +24,18 @@ In this CorDapp, the seller runs the `TradeAndReport` flow to create a new `High
 
 ## Pre-Requisites
 
-For development environment setup, please refer to: [Setup Guide](https://docs.corda.net/getting-set-up.html).
+For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.9/community/getting-set-up.html).
 
 
 ### Deploy and run the node
 ```
-./greadlew deployNodes
+./greadlew clean build deployNodes
 ./build/node/runnodes
 ```
 
 ### Interacting with the nodes:
 
-Go to the [CRaSH](https://docs.corda.net/docs/corda-os/shell.html) shell of Seller, and create a new `HighlyRegulatedState`
+Go to the interactive node shell of Seller, and create a new `HighlyRegulatedState`
 
     start TradeAndReport buyer: Buyer, stateRegulator: StateRegulator, nationalRegulator: NationalRegulator
 
