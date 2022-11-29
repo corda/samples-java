@@ -1,12 +1,12 @@
-# Postgres Cordapp
+# Postgres CorDapp
 
 The latest versions of Corda Open Source support H2 and Postgres.H2 is the default database while this application will
-demonstrate to you how to run corda with a postgres. The cordapp being used is another copy of the yo cordapp, as the
+demonstrate to you how to run corda with a postgres. The CorDapp being used is another copy of the yo CorDapp, as the
 majority of the work here is in simply configuring the sql database connection.
 
 ## Pre-Requisites
 
-See https://docs.corda.net/getting-set-up.html.
+For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.9/community/getting-set-up.html).
 
 ## Usage
 
@@ -58,7 +58,7 @@ docker exec -i postgres_for_corda psql -U postgres -p 5432 -h localhost postgres
 docker exec -i postgres_for_corda psql -U postgres -p 5432 -h localhost postgres -c "\dg"
 ```
 
-### Connencting to your database with dbeaver
+### Connecting to your database with dbeaver
 
 You can connect to your db with all kinds of tools like dbeaver, just open up a new connection, specify `postgreSQL` in
 the search bar.
