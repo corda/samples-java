@@ -3,8 +3,7 @@ package net.corda.samples.carinsurance.states;
 import net.corda.core.identity.CordaX500Name;
 import net.corda.testing.core.TestIdentity;
 import org.junit.Test;
-
-import static org.jgroups.util.Util.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 public class VehicleDetailTests {
 

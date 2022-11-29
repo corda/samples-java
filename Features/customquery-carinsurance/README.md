@@ -1,45 +1,45 @@
 # Car Insurance -- QueryableState -- Custom Query
 
-This CorDapp demonstrates how [Custom Query](https://docs.r3.com/en/platform/corda/4.8/open-source/api-vault-query.html)
-work in Corda. Corda allows developers to have the ability to query the vault using multiple mechanisms such as the
+This CorDapp demonstrates how [Custom Query](https://docs.r3.com/en/platform/corda/4.9/community/api-vault-query.html)
+works in Corda. Corda allows developers to have the ability to query the vault using multiple mechanisms such as the
 Vault Query API, using a JDBC session, etc. This sample demonstrates how to store your state data to a custom database
 using an ORM tool and how to query this vault via Vault Query using some custom field defined in your state (for example
 a string property of your state). To use Vault Query to query by a certain property the state must implement
-`QueryableState` with a custom mapped schema. This way the DB (and Corda) know what you will be querying By. Please
-refer to the flow `InsranceClaimflow` for details.
+[QueryableState](https://docs.r3.com/en/platform/corda/4.9/community/api-states.html#the-queryablestate-and-schedulablestate-interfaces) with a custom mapped schema. This way the DB (and Corda) know what you will be querying By. Please
+refer to the flow [InsuranceClaimFlow](./workflows/src/main/java/net/corda/samples/carinsurance/flows/InsuranceClaimFlow.java) for details.
 
 In this CorDapp we would use an `Insurance` state and persist its properties in a custom table in the database.
 The `Insurance` state among other fields also contains an `VehicleDetail` object, which is the asset being insured. We
-have used this `VehicleDetail` to demonstrate _One-to-One_ relationship. Similarly we also have a list of `Claim`
+have used this `VehicleDetail` to demonstrate _One-to-One_ relationship. Similarly, we also have a list of `Claim`
 objects in the `Insurance` state which represents claims made against the insurance. We use them to demonstrate _
 One-to-Many_ relationship.
 
 ## Concepts
 
-A spring boot client is provided with the cordapp, which exposes two REST endpoints
-(see `Controller` in the clients module) to trigger the flows. Use the command `./gradlew bootRun` in the project root
+A spring boot client is provided with the CorDapp, which exposes two REST endpoints
+(see [Controller](./clients/src/main/java/net/corda/samples/carinsurance/webserver/Controller.java) in the clients' module) to trigger the flows. Use the command `./gradlew bootRun` in the project root
 folder to run the [Spring Boot Server](https://spring.io/projects/spring-boot#overview).
 
 ### Flows
 
-There are two flow in this cordapp:
+There are two flows in this CorDapp:
 
-1. IssueInsurance: It creates the insurance state with the associated vehicle information.
+1. `IssueInsurance`: It creates the insurance state with the associated vehicle information.
 
-2. InsuranceClaim: It creates the claims against the insurance.It uses the Vault Query to perform a custom vault query.
+2. `InsuranceClaim`: It creates the claims against the insurance.It uses the Vault Query to perform a custom vault query.
 
 ## Usage
 
 ## Pre-Requisites
 
-For development environment setup, please refer to: [Setup Guide](https://docs.corda.net/getting-set-up.html).
+For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.9/community/getting-set-up.html).
 
 ### Running the CorDapp
 
 Open a terminal and go to the project root directory and type: (to deploy the nodes using bootstrapper)
 
 ```
-./gradlew clean deployNodes
+./gradlew clean build deployNodes
 ```
 
 Then type: (to run the nodes)

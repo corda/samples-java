@@ -7,9 +7,8 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-import static org.jgroups.util.Util.assertEquals;
-import static org.jgroups.util.Util.assertTrue;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 public class InsuranceStateTests {
 
     TestIdentity a = new TestIdentity(new CordaX500Name("Alice", "", "GB"));
