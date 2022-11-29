@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import java.util.concurrent.ExecutionException;
 
-import static org.jgroups.util.Util.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 public class PrimeClientTests {
 

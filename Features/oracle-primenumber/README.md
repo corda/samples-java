@@ -26,25 +26,25 @@ This repo is split into three CorDapps:
 
 ## Pre-Requisites
 
-For development environment setup, please refer to: [Setup Guide](https://docs.corda.net/getting-set-up.html).
+For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.9/community/getting-set-up.html).
 
 
 ### Running the CorDapp
 
 Open a terminal and go to the project root directory and type: (to deploy the nodes using bootstrapper)
 ```
-./gradlew clean deployNodes
+./gradlew clean build deployNodes
 ```
 Then type: (to run the nodes)
 ```
 ./build/nodes/runnodes
 ```
 
-Go to the [CRaSH](https://docs.corda.net/docs/corda-os/shell.html) shell for PartyA, and request the 5th prime from the oracle using the `CreatePrime` flow:
+Go to the interactive node shell for PartyA, and request the 5th prime from the oracle using the `CreatePrime` flow:
 
     flow start CreatePrime index: 5
 
 We can then see the state wrapping the 5th prime (11) in our vault by running:
 
-    run vaultQuery contractStateType: net.corda.examples.oracle.base.states.PrimeState
+    run vaultQuery contractStateType: net.corda.samples.oracle.states.PrimeState
 

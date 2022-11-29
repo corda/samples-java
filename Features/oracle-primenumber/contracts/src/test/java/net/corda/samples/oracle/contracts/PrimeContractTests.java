@@ -11,9 +11,11 @@ import net.corda.testing.node.MockServices;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import static net.corda.testing.node.NodeTestUtils.transaction;
-import static org.jgroups.util.Util.assertEquals;
+import static org.junit.Assert.assertEquals;
+import static org.wildfly.common.Assert.assertTrue;
 
 public class PrimeContractTests {
 
@@ -39,8 +41,8 @@ public class PrimeContractTests {
     @Test
     public void constructorTest() {
 
-        assertEquals(1, st.getN());
-        assertEquals(5, st.getNthPrime());
+        assertTrue(st.getN() == 1);
+        assertTrue( st.getNthPrime() == 5);
     }
 
     @Test
