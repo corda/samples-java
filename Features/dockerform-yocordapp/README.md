@@ -1,20 +1,20 @@
 # dockerform-yocordapp
 
-This time we've taken the original yo cordapp and modified it to demonstrate an example of how you can use dockerForm to bootstrap a corda network on a single machine.
+This time we've taken the original yo CorDapp and modified it to demonstrate an example of how you can use dockerForm to bootstrap a corda network on a single machine.
 
-For the purposes of this example, we'll use the yo cordapp as a base to create a clear example for how to use the dockerForm gradle build task in a normal cordapp setup.
+For the purposes of this example, we'll use the yo CorDapp as a base to create a clear example for how to use the dockerForm gradle build task in a normal CorDapp setup.
 
-> Note this is generally intended to be used on localhost.
+> Note: This is generally intended to be used on localhost.
 
 
 ## Concepts
 
 In the original yo application, the app sent what is essentially a nudge from one endpoint and another.
 
-In corda, we can use abstractions to accomplish the same thing.
+In Corda, we can use abstractions to accomplish the same thing.
 
 
-We define a state (the yo to be shared), define a contract (the way to make sure the yo is legit), and define the flow (the control flow of our cordapp).
+We define a state (the yo to be shared), define a contract (the way to make sure the yo is legit), and define the flow (the control flow of our CorDapp).
 
 
 ## Usage
@@ -69,7 +69,7 @@ Once this runs on your machine you've got everything you would need to run corda
 To see all the Yo's other nodes have sent you in your vault you can run a vault query from the Corda shell:
 
 ```bash
-run vaultQuery contractStateType: net.corda.examples.yo.states.YoState
+run vaultQuery contractStateType: net.corda.samples.dockerform.states.YoState
 ```
 
 As a quick note you can shut down your docker containers with the following command
