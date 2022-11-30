@@ -16,13 +16,13 @@ In our sample, we will have three nodes, named as:
 * Insurance <- Insurance Company that is in the network
 * CarePro <- Care Provider of the network
 
-The NetworkOperator will be create and primarily manage the network. As introduced in the SDK docs, NetworkOperator will be the default authorized user of this global network. And the other two nodes will fill the roles which can be easily tell by its name.
+The NetworkOperator will create and primarily manage the network. As introduced in the SDK docs, NetworkOperator will be the default authorized user of this global network. And the other two nodes will fill the roles which can be easily tell by its name.
 
 #### The corDapp will run with the following steps:
 1. Network creations by NetworkOperator
 2. The rest of the nodes request join the network
 3. The NetworkOperator will query all the request and active the membership status for the other nodes.
-4. The NetworkOperator will then create a sub group out of the global insurance network called APAC_Insurance_Alliance, and include the two other nodes in the network.
+4. The NetworkOperator will then create a subgroup out of the global insurance network called APAC_Insurance_Alliance, and include the two other nodes in the network.
 5. The NetworkOperator will then assign custom network identity to the nodes. The insurer node will get an insurance identity, the carePro node will get a health care provider identity.
 6. Custom network identity comes with custom roles. We will give the insurer node a policy.
    As of now, the network setup is done. The very last step is to run a transaction between the insurer and the carePro node
@@ -33,7 +33,7 @@ The NetworkOperator will be create and primarily manage the network. As introduc
 
 Open a terminal and go to the project root directory and type: (to deploy the nodes using bootstrapper)
 ```
-./gradlew clean deployNodes
+./gradlew clean build deployNodes
 ```
 Then type: (to run the nodes)
 ```
@@ -41,7 +41,7 @@ Then type: (to run the nodes)
 ```
 #### Interacting with the CorDapp
 
-**Step 1:** Create the network in NetwprkOperator's terminal
+**Step 1:** Create the network in NetworkOperator's terminal
 ```
 flow start CreateNetwork
 ```
@@ -62,7 +62,7 @@ flow start RequestMembership authorisedParty: NetworkOperator, networkId: <xxxx-
 ```
 flow start QueryAllMembers
 ```
-**Step 4:** In this step, Network Operator will active the pending memberships
+**Step 4:** In this step, Network Operator will activate the pending memberships
 Insurance: fill in the Insurance node MembershipId that is display in the previous query
 ```
 flow start ActiveMembers membershipId: <xxxx-xxxx-INSURANCE-ID-xxxxx>
