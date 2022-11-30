@@ -3,10 +3,10 @@
 This folder features [TokenSDK](https://training.corda.net/libraries/tokens-sdk/) sample projects.
 
 ### [Fungible House Token](./fungiblehousetoken):
-This Cordapp serves as a basic example to demostrate how to tokenize an asset into [Fungible](https://training.corda.net/libraries/tokens-sdk/#fungibletoken) tokens in Corda utilizing the TokenSDK. 
+This CorDapp serves as a basic example to demonstrate how to tokenize an asset into [Fungible](https://training.corda.net/libraries/tokens-sdk/#fungibletoken) tokens in Corda utilizing the TokenSDK. 
 
 ### [Bike Market](./bikemarket):
-This sample Cordapp demonstrate all four out-of-box TokenSDK flows (Create, Issue, Move, and Redeem flows). The cordapp demonstrate how to tokenize an asset as non-fungible tokens and excute a few transacting procedures. 
+This sample CorDapp demonstrates all four out-of-box TokenSDK flows (Create, Issue, Move, and Redeem flows). The CorDapp demonstrate how to tokenize an asset as non-fungible tokens and excute a few transacting procedures. 
 <p align="center">
   <img src="./bikemarket/diagram/pic1.png" alt="Corda" width="500">
 </p>
