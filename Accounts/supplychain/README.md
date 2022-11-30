@@ -1,6 +1,6 @@
 # Accounts_SupplyChain
 
-For More information regarding the Accounts Library, please read at: https://github.com/corda/accounts/blob/master/docs.md
+For more information regarding the Accounts Library, please read at: https://github.com/corda/accounts/blob/master/docs.md
 
 This sample describes a mock/simple supply chain business flow.
 
@@ -13,7 +13,7 @@ From the above chart, you can see the flow is going back and forth between diffe
 # Setting up
 Go into the project directory and build the project
 ```
-./gradlew clean deployNodes
+./gradlew clean build deployNodes
 ```
 Run the project
 ```
@@ -33,7 +33,7 @@ flow start ShareAccountTo acctNameShared: BuyerFinance, shareTo: Seller
 flow start ShareAccountTo acctNameShared: BuyerWarehouse, shareTo: ShippingCo
 flow start ShareAccountTo acctNameShared: BuyerWarehouse, shareTo: Seller
 ```
-This is creating 3 accounts under Buyer's node and sharing with their specific conterpartie's node or account.
+This is creating 3 accounts under Buyer's node and sharing with their specific counterparty's node or account.
 
 Go to the Seller's node terminal and paste in the following code: 
 ```
@@ -45,14 +45,14 @@ flow start ShareAccountTo acctNameShared: SellerSales, shareTo: Buyer
 flow start ShareAccountTo acctNameShared: SellerFinance, shareTo: Buyer
 flow start ShareAccountTo acctNameShared: SellerInventory, shareTo: ShippingCo
 ```
-This is creating 3 accounts under Seller's node and sharing with their specific conterparty's node or account.
+This is creating 3 accounts under Seller's node and sharing with their specific counterparty's node or account.
 
 [Optional]: You can run a vaultQuery to see the [AccountInfo](https://training.corda.net/libraries/accounts-lib/#design) that been stored at each node by using: 
 ```
 run vaultQuery contractStateType: com.r3.corda.lib.accounts.contracts.states.AccountInfo
 ```
 # Shell Instructions (Part 2) - Executing Business Flows
-## Step 1: Seller's sales team send inovice of $500 to Buyer's procurement team
+## Step 1: Seller's sales team send invoice for $500 to Buyer's procurement team
 navigate to Seller's node terminal and run
 ```
 flow start SendInvoice whoAmI: SellerSales, whereTo: BuyerProcurement, amount: 500 
