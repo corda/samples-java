@@ -1,4 +1,4 @@
-# T20 Cricket World Cup Ticket Booking Cordapp [<img src="../../webIDE.png" height=25 />](https://ide.corda.net/?folder=/home/coder/samples-java/Accounts/worldcupticketbooking)
+# T20 Cricket World Cup Ticket Booking CorDapp
 
 
 ## Introduction
@@ -11,10 +11,10 @@ of the tickets on Corda Platform.
 Nodes:
 
 * BCCI node: source of ticket creation. All the tickets in the market are created by this node. 
-* Bank Node: souce of money. All the money that is transacted between each individual is issued by this node.
+* Bank Node: source of money. All the money that is transacted between each individual is issued by this node.
 * Dealer1 Node: Dealer Agency 1 and it includes
-    * agent1 account: who will get ticket from the BCCI and sell to others. (To demostrate same node account token transaction.)
-    * buyer1 account: who will get the ticket from agent1 and later sell to buyer3 (To demostrate cross node account token transaction)
+    * agent1 account: who will get ticket from the BCCI and sell to others. (To demonstrate same node account token transaction.)
+    * buyer1 account: who will get the ticket from agent1 and later sell to buyer3 (To demonstrate cross node account token transaction)
     * buyer2 account: who will buy the ticket from buyer3. 
 * Dealer2 Node: Dealer Agency 2 and it includes
     * buyer3 account: who will get the ticket from buyer1 and sell to buyer2
@@ -23,41 +23,49 @@ Nodes:
   <img src="./images/graph.png" alt="Corda">
 </p>
 
+## Pre-Requisites
+
+For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.9/community/getting-set-up.html).
+
+## Running the sample
+Deploy and run the nodes by:
+```
+./gradlew clean build deployNodes
+./build/nodes/runnodes
+```
 
 ###  Step 1
+Run the below flow in Dealer1's interactive node shell. This will create the agent1, buyer1 and buyer2 accounts on the Dealer1 node and share this account info with BCCI, Bank, and Dealer2 node respectively.
 ```
 flow start CreateAndShareAccountFlow accountName: agent1, partyToShareAccountInfoToList: [BCCI, Dealer2]
 flow start CreateAndShareAccountFlow accountName: buyer1, partyToShareAccountInfoToList: [Bank, Dealer2]
 flow start CreateAndShareAccountFlow accountName: buyer2, partyToShareAccountInfoToList: [Bank, Dealer2]
 ```
-Run the above flow on the Dealer1 node. This will create the agent1, buyer1 and buyer2 accounts on the Dealer1 node and share this account info with BCCI, Bank, and Dealer2 node respecticely.
 
-Then let's go to the Dealer2 node and create buyer3 account: 
+Then let's go to the Dealer2 interactive node shell and create buyer3 account: 
 ```
 flow start CreateAndShareAccountFlow accountName: buyer3, partyToShareAccountInfoToList: [Bank, Dealer1]
 ```
 
-Run the below query to confirm if accounts are created on Dealer1 node. Also run the above query on Bank and BCCI node to confirm if account info is shared with these nodes.
+Run the below query to confirm if accounts are created on Dealer1 node. Also run the below query on Bank and BCCI's interactive node shell to confirm if account info is shared with these nodes.
 
     run vaultQuery contractStateType : com.r3.corda.lib.accounts.contracts.states.AccountInfo
 
-
-
 ###  Step 2
 
+Run the below command on the Bank's interactive node shell, which will issue 20 USD to buyer1 account.
 ```
 start IssueCashFlow accountName : buyer1 , currency : USD , amount : 10
 start IssueCashFlow accountName : buyer3 , currency : USD , amount : 20
 start IssueCashFlow accountName : buyer2 , currency : USD , amount : 50
 ```
-Run the above command on the Bank node, which will issue 20 USD to buyer1 account.
 
 ###  Step 3
 ```
 flow start QuerybyAccount whoAmI: buyer1
 ```
-You can check balance of buyer1 account at Dealer1's node
-[Option] You can also run the below command to confirm if 20 USD fungible tokens are stored at Dealer1's node. The current holder field in the output will be an [AnonymousParty](https://docs.corda.net/docs/corda-os/4.4/api-identity.html#party) which specifies an account.
+You can check balance of buyer1 account at Dealer1's interactive node shell.
+[Option] You can also run the below command to confirm if 20 USD fungible tokens are stored at Dealer1's node. The current holder field in the output will be an [AnonymousParty](https://docs.r3.com/en/platform/corda/4.9/community/api-identity.html) which specifies an account.
 ```
 run vaultQuery contractStateType : com.r3.corda.lib.tokens.contracts.states.FungibleToken
 ```
@@ -65,25 +73,27 @@ run vaultQuery contractStateType : com.r3.corda.lib.tokens.contracts.states.Fung
 
 ###  Step 4
 
+Run the below flow on BCCI's node. BCCI node will create base token type for the T20 Ticket for the match MumbaiIndians Vs RajasthanRoyals. The ticket ID returned from this flow will be needed in the next steps.
+  
     start CreateT20CricketTicketTokenFlow ticketTeam : MumbaiIndiansVsRajasthanRoyals
     
-Run the above flow on BCCI's node. BCCI node will create base token type for the T20 Ticket for the match MumbaiIndians Vs RajasthanRoyals. The ticket ID returned from this flow will be needed in the next steps.
-You can see your ticket state generated via vault query at the BCCI'd node:
+You can see your ticket state generated via vault query at the BCCI's node:
 
 
     run vaultQuery contractStateType : com.t20worldcup.states.T20CricketTicket
 
 ###  Step 5
 
+Run the below flow on BCCI's node to issue a non-fungible token based off the token type which we created in Step5. You will need to replace the `<XXX-XXX-XXXX-XXXXX>` with the uuid returned from step 6. This token will be issued by the BCCI node to agent1 account on Dealer1 node.
+
     start IssueNonFungibleTicketFlow tokenId : <XXX-XXX-XXXX-XXXXX>, dealerAccountName : agent1
 
-Run the above flow on BCCI's node to issue a non fungible token based off the token type which we created in Step5. You will need to replace the `<XXX-XXX-XXXX-XXXXX>` with the uuid returned from step 6. This token will be issued by the BCCI node to agent1 account on Dealer1 node. 
 Switching to the Dealer1's node, you can run the following code to confirm if the token has been issued to the dealer1 account. 
 ```
 flow start QuerybyAccount whoAmI: agent1
 
 ```
-You can also look for the acutal state that is recoreded by: 
+You can also look for the actual state that is recorded by: 
 
     run vaultQuery contractStateType : com.r3.corda.lib.tokens.contracts.states.NonFungibleToken
 Note that, the current holder it will be a key representing the account.
@@ -97,7 +107,7 @@ flow start DVPAccountsOnSameNode tokenId: <XXX-XXX-XXXX-XXXXX>, buyerAccountName
 This is the DVP flow where the buyer(buyer1 account on Dealer1 node) account will pay cash to seller account(agent1 account on Dealer1 node), and the seller account will transfer the ticket token to the buyer. Again, replace the `<XXX-XXX-XXXX-XXXXX>` with the uuid generated in step 6.
 
 ### Step 7
-Now lets continue the flow logic to intiate an ticket sale between buyer1 and buyer3. Go to Dealer2 node and run the following code:
+Now let's continue the flow logic to initiate a ticket sale between buyer1 and buyer3. Go to Dealer2 node and run the following code:
 ```
 flow start DVPAccountsHostedOnDifferentNodes tokenId: <XXX-XXX-XXXX-XXXXX>, buyerAccountName: buyer3, sellerAccountName: buyer1, costOfTicket: 10, currency: USD
 
@@ -130,30 +140,32 @@ For someone who is looking into how to only transfer tokens from one account to 
 
 
 ###  Step 1
+Run the below flow on the Dealer1 node. This will create the agent1, buyer1 and buyer2 accounts on the Dealer1 node and share this account info with BCCI, Bank, and Dealer2 node respectively.
+
 ```
 flow start CreateAndShareAccountFlow accountName: agent1, partyToShareAccountInfoToList: [BCCI, Dealer2]
 flow start CreateAndShareAccountFlow accountName: buyer1, partyToShareAccountInfoToList: [Bank, Dealer2]
 flow start CreateAndShareAccountFlow accountName: buyer2, partyToShareAccountInfoToList: [Bank, Dealer2]
 ```
-Run the above flow on the Dealer1 node. This will create the agent1, buyer1 and buyer2 accounts on the Dealer1 node and share this account info with BCCI, Bank, and Dealer2 node respecticely.
 
 Then let's go to the Dealer2 node and create buyer3 account: 
 ```
 flow start CreateAndShareAccountFlow accountName: buyer3, partyToShareAccountInfoToList: [Bank, Dealer1]
 ```
 
-Run the below query to confirm if accounts are created on Dealer1 node. Also run the above query on Bank and BCCI node to confirm if account info is shared with these nodes.
+Run the below query to confirm if accounts are created on Dealer1 node. Also run the below query on Bank and BCCI node to confirm if account info is shared with these nodes.
 
     run vaultQuery contractStateType : com.r3.corda.lib.accounts.contracts.states.AccountInfo
 
 
 ###  Step 2
 
+Run the below command on the Bank node, which will issue 77 USD to buyer1 account.
+
 ```
 start IssueCashFlow accountName : buyer1 , currency : USD , amount : 77
 
 ```
-Run the above command on the Bank node, which will issue 77 USD to buyer1 account.
 
 ###  Step 3
 ```
