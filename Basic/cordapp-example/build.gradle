@@ -40,7 +40,6 @@ allprojects {//Properties that you need to compile your project (The application
 
     repositories {
         mavenLocal()
-
         mavenCentral()
         maven { url 'https://software.r3.com/artifactory/corda' }
         maven { url 'https://jitpack.io' }
@@ -69,7 +68,7 @@ sourceSets {
         }
     }
 }
-//Module dependencis
+//Module dependencies
 dependencies {
     // Corda dependencies.
     cordaCompile "$corda_core_release_group:corda-core:$corda_core_release_version"

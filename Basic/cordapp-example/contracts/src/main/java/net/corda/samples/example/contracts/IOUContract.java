@@ -13,7 +13,7 @@ import static net.corda.core.contracts.ContractsDSL.requireSingleCommand;
 import static net.corda.core.contracts.ContractsDSL.requireThat;
 
 /**
- * A implementation of a basic smart contracts in Corda.
+ * An implementation of a basic smart contract in Corda.
  *
  * This contracts enforces rules regarding the creation of a valid [IOUState], which in turn encapsulates an [IOU].
  *
@@ -22,13 +22,13 @@ import static net.corda.core.contracts.ContractsDSL.requireThat;
  * - One output states: the new [IOU].
  * - An Create() command with the public keys of both the lender and the borrower.
  *
- * All contracts must sub-class the [Contract] interface.
+ * All contracts must subclass the [Contract] interface.
  */
 public class IOUContract implements Contract {
     public static final String ID = "net.corda.samples.example.contracts.IOUContract";
 
     /**
-     * The verify() function of all the states' contracts must not throw an exception for a transaction to be
+     * The "verify()" function of all the states' contracts must not throw an exception for a transaction to be
      * considered valid.
      */
     @Override

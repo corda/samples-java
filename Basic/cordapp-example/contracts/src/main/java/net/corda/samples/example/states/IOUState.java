@@ -30,6 +30,7 @@ public class IOUState implements LinearState, QueryableState {
      * @param value the value of the IOU.
      * @param lender the party issuing the IOU.
      * @param borrower the party receiving and approving the IOU.
+     * @param linearId the unique identifier of the IOU state.
      */
     public IOUState(Integer value,
                     Party lender,
