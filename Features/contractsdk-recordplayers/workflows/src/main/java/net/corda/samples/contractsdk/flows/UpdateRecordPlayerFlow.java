@@ -50,11 +50,11 @@ public class UpdateRecordPlayerFlow extends FlowLogic<SignedTransaction> {
      */
     public UpdateRecordPlayerFlow(UniqueIdentifier stateId, String needleId, int magneticStrength, int coilTurns, int amplifierSNR, int songsPlayed) {
 
-        if (needleId.toLowerCase().equals("elliptical")) {
+        if (needleId.equalsIgnoreCase("elliptical")) {
             needle = Needle.ELLIPTICAL;
-        } else if (needleId.toLowerCase().equals("damaged")) {
+        } else if (needleId.equalsIgnoreCase("damaged")) {
             needle = Needle.DAMAGED;
-        } else if (needleId.toLowerCase().equals("spherical")){
+        } else if (needleId.equalsIgnoreCase("spherical")){
           needle = Needle.SPHERICAL;
         } else {
             throw new IllegalArgumentException("Invalid needle state given.");
@@ -71,9 +71,7 @@ public class UpdateRecordPlayerFlow extends FlowLogic<SignedTransaction> {
     @Override
     public SignedTransaction call() throws FlowException {
 
-        List<UUID> listOfLinearIds = Arrays.asList(stateId.getId());
-        QueryCriteria queryCriteria = new QueryCriteria.LinearStateQueryCriteria(null, listOfLinearIds);
-        Vault.Page results = getServiceHub().getVaultService().queryBy(RecordPlayerState.class, queryCriteria);
+        Vault.Page results = getServiceHub().getVaultService().queryBy(RecordPlayerState.class);
         StateAndRef inputStateAndRef = (StateAndRef) results.getStates().get(0);
         RecordPlayerState input = (RecordPlayerState) ((StateAndRef) results.getStates().get(0)).getState().getData();
 

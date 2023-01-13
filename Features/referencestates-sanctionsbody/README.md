@@ -10,7 +10,7 @@ This CorDapp allows two nodes to enter into an IOU agreement, but enforces that 
 
 ## Pre-Requisites
 
-For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.9/community/getting-set-up.html).
+For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.10/community/getting-set-up.html).
 
 
 ### Running the CorDapp

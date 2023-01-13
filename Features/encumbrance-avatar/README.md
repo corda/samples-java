@@ -30,7 +30,7 @@ can be traded and purchased by a buyer on the exchange. The tokens can be locked
 performing the DVP for the NFT against the tokens.
 
 ## Pre-Requisites
-For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.9/community/getting-set-up.html).
+For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.10/community/getting-set-up.html).
 
 ## How to use run this sample
 

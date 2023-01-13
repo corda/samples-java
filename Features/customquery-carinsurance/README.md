@@ -1,11 +1,11 @@
 # Car Insurance -- QueryableState -- Custom Query
 
-This CorDapp demonstrates how [Custom Query](https://docs.r3.com/en/platform/corda/4.9/community/api-vault-query.html)
+This CorDapp demonstrates how [Custom Query](https://docs.r3.com/en/platform/corda/4.10/community/api-vault-query.html)
 works in Corda. Corda allows developers to have the ability to query the vault using multiple mechanisms such as the
 Vault Query API, using a JDBC session, etc. This sample demonstrates how to store your state data to a custom database
 using an ORM tool and how to query this vault via Vault Query using some custom field defined in your state (for example
 a string property of your state). To use Vault Query to query by a certain property the state must implement
-[QueryableState](https://docs.r3.com/en/platform/corda/4.9/community/api-states.html#the-queryablestate-and-schedulablestate-interfaces) with a custom mapped schema. This way the DB (and Corda) know what you will be querying By. Please
+[QueryableState](https://docs.r3.com/en/platform/corda/4.10/community/api-states.html#the-queryablestate-and-schedulablestate-interfaces) with a custom mapped schema. This way the DB (and Corda) know what you will be querying By. Please
 refer to the flow [InsuranceClaimFlow](./workflows/src/main/java/net/corda/samples/carinsurance/flows/InsuranceClaimFlow.java) for details.
 
 In this CorDapp we would use an `Insurance` state and persist its properties in a custom table in the database.
@@ -32,7 +32,7 @@ There are two flows in this CorDapp:
 
 ## Pre-Requisites
 
-For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.9/community/getting-set-up.html).
+For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.10/community/getting-set-up.html).
 
 ### Running the CorDapp
 

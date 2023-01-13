@@ -38,7 +38,7 @@ If you've written contracts before you might be used to outlining the verify met
 Take a look at the small RecordPlayerContract sample in this repository to see how this works in practice.
 
 ## Pre-Requisites
-For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.9/community/getting-set-up.html).
+For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.10/community/getting-set-up.html).
 
 
 ## Usage

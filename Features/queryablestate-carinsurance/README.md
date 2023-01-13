@@ -1,6 +1,6 @@
 # Car Insurance -- QueryableState
 
-This CorDapp demonstrates [QueryableState](https://docs.r3.com/en/platform/corda/4.9/enterprise/cordapps/api-states.html#the-queryablestate-and-schedulablestate-interfaces) works in Corda. Corda allows developers
+This CorDapp demonstrates [QueryableState](https://docs.r3.com/en/platform/corda/4.10/enterprise/cordapps/api-states.html#the-queryablestate-and-schedulablestate-interfaces) works in Corda. Corda allows developers
 to have the ability to expose some or all parts of their states to a custom database
 table using an ORM tools. To support this feature the state must implement
 `QueryableState`.
@@ -34,7 +34,7 @@ There are two flow in this CorDapp:
 
 ## Pre-Requisites
 
-For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.9/community/getting-set-up.html).
+For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.10/community/getting-set-up.html).
 
 ### Running the CorDapp
 

@@ -1,5 +1,5 @@
 # Sendfile -- Attachment
-This CorDapp shows how to upload and download an [attachment](https://docs.r3.com/en/platform/corda/4.9/community/cordapp-build-systems.html#cordapp-contract-attachments) via flow.
+This CorDapp shows how to upload and download an [attachment](https://docs.r3.com/en/platform/corda/4.10/community/cordapp-build-systems.html#cordapp-contract-attachments) via flow.
 
 
 ## Concepts

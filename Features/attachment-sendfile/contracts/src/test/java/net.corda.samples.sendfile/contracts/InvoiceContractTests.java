@@ -13,7 +13,7 @@ import org.junit.Test;
 import java.util.Arrays;
 
 import static net.corda.testing.node.NodeTestUtils.transaction;
-import static org.jgroups.util.Util.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 public class InvoiceContractTests {
 

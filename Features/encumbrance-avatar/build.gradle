@@ -1,7 +1,9 @@
 buildscript {
     ext {
         corda_release_group = 'net.corda'
-        corda_release_version = '4.9'
+        corda_core_release_group = '4.10'
+        corda_release_version = '4.10'
+        corda_core_release_version = '4.10'
         corda_gradle_plugins_version = '4.0.42'
         junit_version = '4.12'
         quasar_version = '0.7.10'
@@ -9,14 +11,13 @@ buildscript {
         spring_boot_gradle_plugin_version = '2.0.2.RELEASE'
         slf4j_version = '1.7.30'
         log4j_version = '2.17.0'
-        corda_platform_version = '10'
+        corda_platform_version = '12'
     }
 
     repositories {
         mavenLocal()
         mavenCentral()
-
-        maven { url 'https://software.r3.com/artifactory/corda' }
+        maven { url 'https://software.r3.com/artifactory/corda-releases' }
         maven { url 'https://jitpack.io' }
     }
 
@@ -32,7 +33,7 @@ allprojects {
 
     repositories {
         mavenLocal()
-
+        jcenter()
         mavenCentral()
         maven { url 'https://software.r3.com/artifactory/corda' }
         maven { url 'https://jitpack.io' }
@@ -79,9 +80,7 @@ dependencies {
     cordaCompile "org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}"
     cordaCompile "org.apache.logging.log4j:log4j-web:${log4j_version}"
     cordaCompile "org.slf4j:jul-to-slf4j:$slf4j_version"
-    cordaDriver "net.corda:corda-shell:4.9"
-
-
+    cordaDriver "net.corda:corda-shell:4.10"
 }
 
 task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {

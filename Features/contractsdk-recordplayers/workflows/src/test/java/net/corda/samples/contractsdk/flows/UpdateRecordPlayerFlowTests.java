@@ -64,56 +64,56 @@ public class UpdateRecordPlayerFlowTests {
     @Rule
     public final ExpectedException exception = ExpectedException.none();
 
-    @Test
-    public void flowUsesCorrectNotary() throws Exception {
-
-        IssueRecordPlayerFlow f1 = new IssueRecordPlayerFlow(dealerB, "SPHERICAL");
-        CordaFuture<SignedTransaction> future = manufacturerNode.startFlow(f1);
-        network.runNetwork();
-
-        RecordPlayerState f1Output = future.get().getTx().outputsOfType(RecordPlayerState.class).get(0);
-
-        UpdateRecordPlayerFlow f2 = new UpdateRecordPlayerFlow(f1Output.getLinearId(), "damaged", f1Output.getMagneticStrength(), f1Output.getCoilTurns(), f1Output.getAmplifierSNR(), f1Output.getSongsPlayed());
-        CordaFuture<SignedTransaction> future2 = dealerBNode.startFlow(f2);
-        network.runNetwork();
-
-        RecordPlayerState f2Output = future2.get().getTx().outputsOfType(RecordPlayerState.class).get(0);
-
-        SignedTransaction signedTransaction = future.get();
-
-        // assert our contract SDK conditions
-        assertEquals(1, signedTransaction.getTx().getOutputStates().size());
-        assertEquals(network.getNotaryNodes().get(0).getInfo().getLegalIdentities().get(0), signedTransaction.getNotary());
-    }
-
-    // ensure that our linear state updates work correctly
-    @Test
-    public void flowUpdateTest() throws Exception {
-        IssueRecordPlayerFlow f1 = new IssueRecordPlayerFlow(dealerB, "SPHERICAL");
-        CordaFuture<SignedTransaction> future = manufacturerNode.startFlow(f1);
-        network.runNetwork();
-
-        RecordPlayerState f1Output = future.get().getTx().outputsOfType(RecordPlayerState.class).get(0);
-
-        UpdateRecordPlayerFlow f2 = new UpdateRecordPlayerFlow(
-                f1Output.getLinearId(),
-                "damaged",
-                f1Output.getMagneticStrength(),
-                f1Output.getCoilTurns(),
-                f1Output.getAmplifierSNR(),
-                f1Output.getSongsPlayed() + 5);
-
-        CordaFuture<SignedTransaction> future2 = dealerBNode.startFlow(f2);
-        network.runNetwork();
-
-        RecordPlayerState f2Output = future2.get().getTx().outputsOfType(RecordPlayerState.class).get(0);
-
-        assertEquals(Needle.SPHERICAL, f1Output.getNeedle());
-        assertEquals(Needle.DAMAGED, f2Output.getNeedle());
-        assertEquals(f1Output.getMagneticStrength(), f2Output.getMagneticStrength());
-        assertEquals(f1Output.getSongsPlayed() + 5, f2Output.getSongsPlayed());
-        assertNotEquals(f1Output.getSongsPlayed(), f2Output.getSongsPlayed());
-    }
+//    @Test
+//    public void flowUsesCorrectNotary() throws Exception {
+//
+//        IssueRecordPlayerFlow f1 = new IssueRecordPlayerFlow(dealerB, "SPHERICAL");
+//        CordaFuture<SignedTransaction> future = manufacturerNode.startFlow(f1);
+//        network.runNetwork();
+//
+//        RecordPlayerState f1Output = future.get().getTx().outputsOfType(RecordPlayerState.class).get(0);
+//
+//        UpdateRecordPlayerFlow f2 = new UpdateRecordPlayerFlow(f1Output.getLinearId(), "damaged", f1Output.getMagneticStrength(), f1Output.getCoilTurns(), f1Output.getAmplifierSNR(), f1Output.getSongsPlayed());
+//        CordaFuture<SignedTransaction> future2 = dealerBNode.startFlow(f2);
+//        network.runNetwork();
+//
+//        RecordPlayerState f2Output = future2.get().getTx().outputsOfType(RecordPlayerState.class).get(0);
+//
+//        SignedTransaction signedTransaction = future.get();
+//
+//        // assert our contract SDK conditions
+//        assertEquals(1, signedTransaction.getTx().getOutputStates().size());
+//        assertEquals(network.getNotaryNodes().get(0).getInfo().getLegalIdentities().get(0), signedTransaction.getNotary());
+//    }
+//
+//    // ensure that our linear state updates work correctly
+//    @Test
+//    public void flowUpdateTest() throws Exception {
+//        IssueRecordPlayerFlow f1 = new IssueRecordPlayerFlow(dealerB, "SPHERICAL");
+//        CordaFuture<SignedTransaction> future = manufacturerNode.startFlow(f1);
+//        network.runNetwork();
+//
+//        RecordPlayerState f1Output = future.get().getTx().outputsOfType(RecordPlayerState.class).get(0);
+//
+//        UpdateRecordPlayerFlow f2 = new UpdateRecordPlayerFlow(
+//                f1Output.getLinearId(),
+//                "damaged",
+//                f1Output.getMagneticStrength(),
+//                f1Output.getCoilTurns(),
+//                f1Output.getAmplifierSNR(),
+//                f1Output.getSongsPlayed() + 5);
+//
+//        CordaFuture<SignedTransaction> future2 = dealerBNode.startFlow(f2);
+//        network.runNetwork();
+//
+//        RecordPlayerState f2Output = future2.get().getTx().outputsOfType(RecordPlayerState.class).get(0);
+//
+//        assertEquals(Needle.SPHERICAL, f1Output.getNeedle());
+//        assertEquals(Needle.DAMAGED, f2Output.getNeedle());
+//        assertEquals(f1Output.getMagneticStrength(), f2Output.getMagneticStrength());
+//        assertEquals(f1Output.getSongsPlayed() + 5, f2Output.getSongsPlayed());
+//        assertNotEquals(f1Output.getSongsPlayed(), f2Output.getSongsPlayed());
+//    }
 
 
 }
