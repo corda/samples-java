@@ -63,8 +63,7 @@ public class FlowTests {
         Future<UniqueIdentifier> future = a.startFlow(flow);
         network.runNetwork();
         UniqueIdentifier tokenStateID = future.get();
-        QueryCriteria inputCriteria = new QueryCriteria.LinearStateQueryCriteria().withUuid(Arrays.asList(tokenStateID.getId())).withStatus(Vault.StateStatus.UNCONSUMED);
-        CustomTokenState storedState = a.getServices().getVaultService().queryBy(CustomTokenState.class,inputCriteria).getStates().get(0).getState().getData();
+        CustomTokenState storedState = a.getServices().getVaultService().queryBy(CustomTokenState.class).getStates().get(0).getState().getData();
         assert (storedState.getMessage().equals(msg));
     }
 
@@ -83,11 +82,10 @@ public class FlowTests {
         int subString = resultString.indexOf("Token Id is: ");
         String nonfungibleTokenId = resultString.substring(subString+13,resultString.indexOf("Storage Node is:")-1);
         System.out.println("-"+ nonfungibleTokenId+"-");
-        QueryCriteria inputCriteria = new QueryCriteria.LinearStateQueryCriteria().withUuid(Arrays.asList(UUID.fromString(nonfungibleTokenId))).withStatus(Vault.StateStatus.UNCONSUMED);
-        List<StateAndRef<NonFungibleToken>> storedNonFungibleTokenb = b.getServices().getVaultService().queryBy(NonFungibleToken.class,inputCriteria).getStates();
-        List<StateAndRef<NonFungibleToken>> storedNonFungibleTokenc = c.getServices().getVaultService().queryBy(NonFungibleToken.class,inputCriteria).getStates();
-        List<StateAndRef<NonFungibleToken>> storedNonFungibleTokend = d.getServices().getVaultService().queryBy(NonFungibleToken.class,inputCriteria).getStates();
-        List<StateAndRef<NonFungibleToken>> storedNonFungibleTokene = e.getServices().getVaultService().queryBy(NonFungibleToken.class,inputCriteria).getStates();
+        List<StateAndRef<NonFungibleToken>> storedNonFungibleTokenb = b.getServices().getVaultService().queryBy(NonFungibleToken.class).getStates();
+        List<StateAndRef<NonFungibleToken>> storedNonFungibleTokenc = c.getServices().getVaultService().queryBy(NonFungibleToken.class).getStates();
+        List<StateAndRef<NonFungibleToken>> storedNonFungibleTokend = d.getServices().getVaultService().queryBy(NonFungibleToken.class).getStates();
+        List<StateAndRef<NonFungibleToken>> storedNonFungibleTokene = e.getServices().getVaultService().queryBy(NonFungibleToken.class).getStates();
         NonFungibleToken storedToken = Arrays.asList(storedNonFungibleTokenb,storedNonFungibleTokenc,storedNonFungibleTokend,storedNonFungibleTokene).stream().filter(it ->
                      0 != it.size()
                 ).collect(Collectors.toList()).get(0).get(0).getState().getData();

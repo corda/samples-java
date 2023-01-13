@@ -20,7 +20,7 @@ public class ContractTests {
     @Test
     public void multipleOutputTests() {
         StockState tokenPass = new StockState(new UniqueIdentifier(),Operator.getParty(),"TT","Test Token",
-                "USD",BigDecimal.valueOf(2.7), BigDecimal.valueOf(0.2),new Date(),new Date());
+                "USD",BigDecimal.valueOf(2.7), BigDecimal.valueOf(0),new Date(),new Date());
         StockState tokenFail = new StockState(new UniqueIdentifier(),Operator.getParty(),"","Test Token",
                 "USD",BigDecimal.valueOf(2.7), BigDecimal.valueOf(0.2),new Date(),new Date());
         ledger(ledgerServices, l -> {
