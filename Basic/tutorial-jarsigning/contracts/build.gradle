@@ -13,7 +13,7 @@ cordapp {
         enabled true
         options {
             Properties constants = new Properties()
-            file("$projectDir/../gradle.properties").withInputStream { constants.load(it) }
+            file("../gradle.properties").withInputStream { constants.load(it) }
             keystore getProperty('jar.sign.keystore')
             alias "cordapp-signer"
             storepass getProperty('jar.sign.password')
