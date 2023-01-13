@@ -15,7 +15,7 @@ and agreeing on loan terms.
 See https://docs.corda.net/getting-set-up.html.
 
 # Usage
-
+ 
 ## Running the CorDapp
 
 Open a terminal and go to the project root directory and type: (to deploy the nodes using bootstrapper)

@@ -1,6 +1,6 @@
 # Obligation Cordap
 
-This Cordapp is the complete implementation of our signature IOU (I-owe-you) demonstration.
+This CorDapp is the complete implementation of our signature IOU (I-owe-you) demonstration.
 
 ## Concepts
 
@@ -9,12 +9,12 @@ An IOU is someone who has cash that is paying it back to someone they owe it to.
 
 ### Flows
 
-The first flows are the ones that issue the original cash and assets. You can find that the cash flow at `SelfIssueCashFlow.java` and the IOU issurance in `IOUIssueFlow.java`.
+The first flows are the ones that issue the original cash and assets. You can find that the cash flow at `SelfIssueCashFlow.java` and the IOU issuance in `IOUIssueFlow.java`.
 
 The next flow is the one that transfers ownership of that asset over to another party. That can be found in `IOUTransferFlow.java`.
 
 
-Finally, once we have the ability to transfer assets, we just need to settle up. That functiionality can be found here in `IOUSettleFlow.java`
+Finally, once we have the ability to transfer assets, we just need to settle up. That functionality can be found here in `IOUSettleFlow.java`
 
 
 

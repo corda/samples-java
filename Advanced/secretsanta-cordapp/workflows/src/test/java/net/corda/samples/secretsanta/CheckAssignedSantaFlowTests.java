@@ -18,7 +18,7 @@ import org.junit.Test;
 import java.time.Instant;
 import java.util.*;
 
-import static org.jgroups.util.Util.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class CheckAssignedSantaFlowTests {

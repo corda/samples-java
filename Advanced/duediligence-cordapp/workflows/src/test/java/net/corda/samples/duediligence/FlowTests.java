@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import static org.jgroups.util.Util.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 public class FlowTests {
     private MockNetwork network;
