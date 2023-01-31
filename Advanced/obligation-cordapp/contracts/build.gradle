@@ -33,7 +33,6 @@ dependencies {
     cordaRuntime "$corda_release_group:corda:$corda_release_version"
     cordaCompile "$corda_release_group:corda-finance-contracts:$corda_release_version"
     cordaCompile "$corda_release_group:corda-finance-workflows:$corda_release_version"
-    compileOnly "$corda_release_group:corda-testserver-impl:$corda_release_version"
     testCompile "$corda_release_group:corda-node-driver:$corda_release_version"
     cordapp "$corda_release_group:corda-finance-contracts:$corda_release_version"
     cordapp "$corda_release_group:corda-finance-workflows:$corda_release_version"

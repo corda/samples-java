@@ -30,6 +30,6 @@ sourceSets {
 dependencies {
     // Corda dependencies.
     cordaCompile "$corda_release_group:corda-core:$corda_release_version"
-    compileOnly "$corda_release_group:corda-testserver-impl:$corda_release_version"
+
     testCompile "$corda_release_group:corda-node-driver:$corda_release_version"
 }
