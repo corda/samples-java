@@ -33,7 +33,7 @@ allprojects {
 
     repositories {
         mavenLocal()
-        jcenter()
+
         mavenCentral()
         maven { url 'https://software.r3.com/artifactory/corda' }
         maven { url 'https://jitpack.io' }
