@@ -26,6 +26,12 @@ dependencyManagement {
     }
 }
 
+configurations {
+    all {
+        exclude group: 'ch.qos.logback', module: 'logback-classic'
+    }
+}
+
 dependencies {
     // CorDapp dependencies.
     compile project(":contracts")
