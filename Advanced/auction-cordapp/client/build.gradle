@@ -1,5 +1,11 @@
 apply plugin: 'org.springframework.boot'
 
+configurations {
+    all {
+        exclude group: 'ch.qos.logback', module: 'logback-classic'
+    }
+}
+
 dependencies {
     // Corda dependencies.
     compile "$corda_release_group:corda-rpc:$corda_release_version"
