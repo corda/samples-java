@@ -1,0 +1,415 @@
+{
+	"info": {
+		"_postman_id": "a15974fd-2343-87ea-e9a1-b6b228aa8093",
+		"name": "Obligation Corda App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Node A create iou",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:10007/api/iou/issue-iou?amount=99&currency=GBP&party=O=ParticipantB,L=New York,C=US",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10007",
+					"path": [
+						"api",
+						"iou",
+						"issue-iou"
+					],
+					"query": [
+						{
+							"key": "amount",
+							"value": "99"
+						},
+						{
+							"key": "currency",
+							"value": "GBP"
+						},
+						{
+							"key": "party",
+							"value": "O=ParticipantB,L=New York,C=US"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Node A transfer iou",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:10007/api/iou/transfer-iou?id=52f92916-99db-4ece-bd68-101d8598f5fc&party=O=ParticipantB,L=New York,C=US",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10007",
+					"path": [
+						"api",
+						"iou",
+						"transfer-iou"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "52f92916-99db-4ece-bd68-101d8598f5fc"
+						},
+						{
+							"key": "party",
+							"value": "O=ParticipantB,L=New York,C=US"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Node A peers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:10007/api/iou/peers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10007",
+					"path": [
+						"api",
+						"iou",
+						"peers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Node A me",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:10007/api/iou/me",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10007",
+					"path": [
+						"api",
+						"iou",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Node A ious",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:10007/api/iou/ious",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10007",
+					"path": [
+						"api",
+						"iou",
+						"ious"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Node A create iou error",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:10007/api/iou/issue-iou?amount=99&currency=GBP&party=O=ParticipantD,L=New York,C=US",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10007",
+					"path": [
+						"api",
+						"iou",
+						"issue-iou"
+					],
+					"query": [
+						{
+							"key": "amount",
+							"value": "99"
+						},
+						{
+							"key": "currency",
+							"value": "GBP"
+						},
+						{
+							"key": "party",
+							"value": "O=ParticipantD,L=New York,C=US"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Node B create iou",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:10010/api/iou/issue-iou?amount=99&currency=GBP&party=O=ParticipantC,L=New York,C=US",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10010",
+					"path": [
+						"api",
+						"iou",
+						"issue-iou"
+					],
+					"query": [
+						{
+							"key": "amount",
+							"value": "99"
+						},
+						{
+							"key": "currency",
+							"value": "GBP"
+						},
+						{
+							"key": "party",
+							"value": "O=ParticipantC,L=New York,C=US"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Node B transfer iou",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:10010/api/iou/transfer-iou?id=9c30d15a-03c7-4ca9-b621-ac81b84481bb&party=C=US,L=New York,O=ParticipantC",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10010",
+					"path": [
+						"api",
+						"iou",
+						"transfer-iou"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "9c30d15a-03c7-4ca9-b621-ac81b84481bb"
+						},
+						{
+							"key": "party",
+							"value": "C=US,L=New York,O=ParticipantC"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Node B peers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:10010/api/iou/peers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10010",
+					"path": [
+						"api",
+						"iou",
+						"peers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Node B me",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:10010/api/iou/me",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10010",
+					"path": [
+						"api",
+						"iou",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Node B ious",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:10010/api/iou/ious",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10010",
+					"path": [
+						"api",
+						"iou",
+						"ious"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Node C create iou",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:10013/api/iou/issue-iou?amount=99&currency=GBP&party=O=ParticipantB,L=New York,C=US",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10013",
+					"path": [
+						"api",
+						"iou",
+						"issue-iou"
+					],
+					"query": [
+						{
+							"key": "amount",
+							"value": "99"
+						},
+						{
+							"key": "currency",
+							"value": "GBP"
+						},
+						{
+							"key": "party",
+							"value": "O=ParticipantB,L=New York,C=US"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Node C peers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:10013/api/iou/peers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10013",
+					"path": [
+						"api",
+						"iou",
+						"peers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Node C me",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:10013/api/iou/me",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10013",
+					"path": [
+						"api",
+						"iou",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Node C ious",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:10013/api/iou/ious",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10013",
+					"path": [
+						"api",
+						"iou",
+						"ious"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

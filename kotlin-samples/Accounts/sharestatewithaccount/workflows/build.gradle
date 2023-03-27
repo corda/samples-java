@@ -1,0 +1,67 @@
+apply plugin: 'kotlin'
+apply plugin: 'net.corda.plugins.cordapp'
+apply plugin: 'net.corda.plugins.quasar-utils'
+
+cordapp {
+    targetPlatformVersion 4
+    minimumPlatformVersion 4
+    workflow {
+        name "supplychain Flows"
+        vendor "Corda Open Source"
+        licence "A liberal, open source licence"
+        versionId 1
+    }
+    signing {
+        enabled false
+    }
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDir rootProject.file("config/dev")
+        }
+    }
+    test {
+        resources {
+            srcDir rootProject.file("config/test")
+        }
+    }
+    integrationTest {
+        kotlin {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/integrationTest/kotlin')
+        }
+    }
+}
+
+configurations {
+    integrationTestCompile.extendsFrom testCompile
+    integrationTestRuntime.extendsFrom testRuntime
+}
+
+dependencies {
+    // Kotlin.
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    // For testing.
+    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+    testCompile "$corda_release_group:corda-node-driver:$corda_release_version"
+    testCompile "junit:junit:$junit_version"
+
+    // Corda dependencies.
+    cordaCompile "$corda_core_release_group:corda-core:$corda_core_release_version"
+
+    // CorDapp dependencies.
+    cordaCompile project(":contracts")
+
+    //Account dependencies
+    cordaCompile "$confidential_id_release_group:ci-workflows:$confidential_id_release_version"
+    cordaCompile "$accounts_release_group:accounts-workflows:$accounts_release_version"
+}
+
+task integrationTest(type: Test, dependsOn: []) {
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Be aware that this is a configuration file for Apache log4j,
+
+You can read more about this particular example in the corda documentation here:
+https://docs.corda.net/docs/corda-os/4.7/node-administration.html#example
+-->
+    <Configuration status="WARN">
+        <Appenders>
+            <Console name="Console" target="SYSTEM_OUT">
+                <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            </Console>
+        </Appenders>
+        <Loggers>
+            <Logger name="org.hibernate" level="debug" additivity="false">
+                <AppenderRef ref="Console"/>
+            </Logger>
+            <Root level="error">
+                <AppenderRef ref="Console"/>
+            </Root>
+        </Loggers>
+    </Configuration>
+

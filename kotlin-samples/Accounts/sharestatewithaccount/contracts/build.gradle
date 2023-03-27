@@ -1,0 +1,40 @@
+apply plugin: 'kotlin'
+apply plugin: 'net.corda.plugins.cordapp'
+
+cordapp {
+    targetPlatformVersion 4
+    minimumPlatformVersion 4
+    contract {
+        name "supplychain Contract"
+        vendor "Corda Open Source"
+        licence "A liberal, open source licence"
+        versionId 1
+    }
+    signing {
+        enabled true
+    }
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDir rootProject.file("config/dev")
+        }
+    }
+}
+
+dependencies {
+    // Kotlin.
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+    testCompile "junit:junit:$junit_version"
+
+    // Corda dependencies.
+    cordaCompile "$corda_release_group:corda-core:$corda_release_version"
+    testCompile "$corda_release_group:corda-node-driver:$corda_release_version"
+
+    // Token Account dependencies.
+    cordaCompile "$accounts_release_group:accounts-contracts:$accounts_release_version"
+}
+

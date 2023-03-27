@@ -1,0 +1,46 @@
+apply plugin: 'net.corda.plugins.cordapp'
+
+cordapp {
+    targetPlatformVersion corda_platform_version.toInteger()
+    minimumPlatformVersion corda_platform_version.toInteger()
+    contract {
+        name "Tic-Tac-Toe - Contracts"
+        vendor "Corda Open Source"
+        licence "Apache License, Version 2.0"
+        versionId 1
+    }
+    signing {
+        enabled false
+        options {
+            keystore "/Users/thorgilman/Desktop/thor_key.jks"
+            alias "thorkey"
+            storepass "password"
+            keypass "password"
+            storetype "JKS"
+        }
+    }
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        languageVersion = "1.2"
+        apiVersion = "1.2"
+        jvmTarget = "1.8"
+        javaParameters = true   // Useful for reflection.
+    }
+}
+
+
+dependencies {
+    // Kotlin.
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+    testCompile "junit:junit:$junit_version"
+    // Corda dependencies.
+    cordaCompile "$corda_release_group:corda-core:$corda_release_version"
+    testCompile "$corda_release_group:corda-node-driver:$corda_release_version"
+
+    // Token Account dependencies.
+    cordaCompile "$accounts_release_group:accounts-contracts:$accounts_release_version"
+}

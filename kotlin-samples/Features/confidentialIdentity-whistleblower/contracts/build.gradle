@@ -1,0 +1,35 @@
+apply plugin: 'net.corda.plugins.cordapp'
+
+cordapp {
+    targetPlatformVersion corda_platform_version
+    minimumPlatformVersion corda_platform_version
+
+    contract {
+        name "Confidential Identity Whistleblower"
+        vendor "Corda Open Source"
+        licence "Apache License, Version 2.0"
+        versionId 1
+    }
+}
+
+sourceSets {
+
+    main {
+        java {
+            srcDir 'src/main/kotlin'
+            java.outputDir = file('bin/main')
+        }
+    }
+    test {
+        java {
+            srcDir 'src/test/kotlin'
+            java.outputDir = file('bin/test')
+        }
+    }
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    cordaCompile "$corda_release_group:corda-core:$corda_release_version"
+    testCompile "$corda_release_group:corda-node-driver:$corda_release_version"
+}
