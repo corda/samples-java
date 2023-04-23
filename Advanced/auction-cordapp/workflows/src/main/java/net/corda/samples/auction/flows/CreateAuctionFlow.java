@@ -13,6 +13,8 @@ import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
 import net.corda.core.utilities.ProgressTracker;
 import net.corda.samples.auction.contracts.AuctionContract;
+import net.corda.samples.auction.contracts.AuctionExpiryContract;
+import net.corda.samples.auction.states.AuctionExpiry;
 import net.corda.samples.auction.states.AuctionState;
 import net.corda.core.identity.CordaX500Name;
 
@@ -59,7 +61,8 @@ public class CreateAuctionFlow {
         public SignedTransaction call() throws FlowException {
             // Obtain a reference to a notary we wish to use.
             /** Explicit selection of notary by CordaX500Name - argument can by coded in flows or parsed from config (Preferred)*/
-            final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB"));
+            final Party notary = getServiceHub()
+                    .getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB"));
 
             Party auctioneer = getOurIdentity();
 
@@ -68,6 +71,8 @@ public class CreateAuctionFlow {
             List<Party> bidders = getServiceHub().getNetworkMapCache().getAllNodes().stream()
                     .map(nodeInfo -> nodeInfo.getLegalIdentities().get(0))
                     .collect(Collectors.toList());
+            List<Party> allParticipants = new ArrayList(bidders);
+            allParticipants.remove(notary);
             bidders.remove(auctioneer);
             bidders.remove(notary);
 
@@ -76,13 +81,22 @@ public class CreateAuctionFlow {
             AuctionState auctionState = new AuctionState(
                     new LinearPointer<>(new UniqueIdentifier(null, auctionItem), LinearState.class),
                     UUID.randomUUID(), basePrice, null, null,
-                    bidDeadLine.atZone(ZoneId.systemDefault()).toInstant(), null, true, auctioneer,
+                    bidDeadLine.atZone(ZoneId.systemDefault()).toInstant(),
+                    null, true, auctioneer,
                     bidders, null);
+
+
+            AuctionExpiry expiry = new AuctionExpiry(bidDeadLine.atZone(ZoneId.systemDefault()).toInstant(),
+                    auctionState.getAuctionId(), allParticipants);
 
             // Build the transaction
             TransactionBuilder builder = new TransactionBuilder(notary)
-                    .addOutputState(auctionState)
-                    .addCommand(new AuctionContract.Commands.CreateAuction(), Arrays.asList(auctioneer.getOwningKey()));
+                    .addOutputState(auctionState, AuctionContract.ID, notary, 1)
+                    .addOutputState(expiry, AuctionExpiryContract.ID, notary, 0)
+                    .addCommand(new AuctionContract.Commands.CreateAuction(),
+                            Collections.singletonList(auctioneer.getOwningKey()))
+                    .addCommand(new AuctionExpiryContract.Commands.Create(),
+                            Collections.singletonList(auctioneer.getOwningKey()));
 
             // Verify the transaction
             builder.verify(getServiceHub());

@@ -2,13 +2,17 @@ package net.corda.samples.auction.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import net.corda.core.contracts.StateAndRef;
+import net.corda.core.contracts.TimeWindow;
 import net.corda.core.flows.*;
 import net.corda.core.identity.Party;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
 import net.corda.samples.auction.contracts.AuctionContract;
+import net.corda.samples.auction.states.AuctionExpiry;
 import net.corda.samples.auction.states.AuctionState;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -50,19 +54,30 @@ public class EndAuctionFlow {
             Party notary = inputStateAndRef.getState().getNotary();
             AuctionState inputState = inputStateAndRef.getState().getData();
 
+            List<StateAndRef<AuctionExpiry>> expiryStateAndRefs = getServiceHub().getVaultService()
+                    .queryBy(AuctionExpiry.class).getStates();
+
+            StateAndRef<AuctionExpiry> expiryStateAndRef = expiryStateAndRefs.stream().filter(stateAndRef -> {
+                AuctionExpiry expiryState = stateAndRef.getState().getData();
+                return expiryState.getAuctionId().equals(auctionId);
+            }).findAny().orElseThrow(() -> new IllegalArgumentException("Expiry Not Found"));
+
             // Check used to restrict the flow execution to be only done by the auctioneer.
             if (getOurIdentity().getName().toString().equals(inputState.getAuctioneer().getName().toString())) {
                 // Create the output state, mark tge auction as inactive
                 AuctionState outputState = new AuctionState(inputState.getAuctionItem(), inputState.getAuctionId(),
                         inputState.getBasePrice(), inputState.getHighestBid(), inputState.getHighestBidder(),
-                        inputState.getBidEndTime(), inputState.getHighestBid(), false, inputState.getAuctioneer(),
+                                    inputState.getBidEndTime(),
+                        inputState.getHighestBid(), false, inputState.getAuctioneer(),
                         inputState.getBidders(), inputState.getHighestBidder());
 
                 // Build the transaction.
                 TransactionBuilder transactionBuilder = new TransactionBuilder(notary)
                         .addInputState(inputStateAndRef)
+                        .addInputState(expiryStateAndRef)
                         .addOutputState(outputState)
-                        .addCommand(new AuctionContract.Commands.EndAuction(), getOurIdentity().getOwningKey());
+                        .addCommand(new AuctionContract.Commands.EndAuction(), getOurIdentity().getOwningKey())
+                        .setTimeWindow(TimeWindow.fromOnly(Instant.now()));
 
                 //Verify the transaction against the contract
                 transactionBuilder.verify(getServiceHub());
