@@ -6,7 +6,14 @@ import net.corda.core.contracts.Amount;
 import net.corda.core.contracts.LinearPointer;
 import net.corda.core.contracts.LinearState;
 import net.corda.core.contracts.UniqueIdentifier;
-import net.corda.core.flows.*;
+import net.corda.core.flows.FinalityFlow;
+import net.corda.core.flows.FlowException;
+import net.corda.core.flows.FlowLogic;
+import net.corda.core.flows.FlowSession;
+import net.corda.core.flows.InitiatedBy;
+import net.corda.core.flows.InitiatingFlow;
+import net.corda.core.flows.ReceiveFinalityFlow;
+import net.corda.core.flows.StartableByRPC;
 import net.corda.core.identity.CordaX500Name;
 import net.corda.core.identity.Party;
 import net.corda.core.transactions.SignedTransaction;
@@ -16,11 +23,14 @@ import net.corda.samples.auction.contracts.AuctionContract;
 import net.corda.samples.auction.contracts.AuctionExpiryContract;
 import net.corda.samples.auction.states.AuctionExpiry;
 import net.corda.samples.auction.states.AuctionState;
-import net.corda.core.identity.CordaX500Name;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Currency;
+import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**

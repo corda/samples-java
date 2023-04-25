@@ -1,0 +1,25 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="R3.Corda" id="create_auction_detail">
+        <createTable tableName="auction_detail">
+            <column name="output_index" type="INT"/>
+            <column name="transaction_id" type="NVARCHAR(64)"/>
+            <column name="auctionId" type="VARCHAR(512)" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="assetId" type="VARCHAR(512)"/>
+            <column name="basePrice" type="DECIMAL"/>
+            <column name="currency" type="VARCHAR(5)"/>
+            <column name="highestBid" type="DECIMAL" />
+            <column name="highestBidder" type="VARCHAR(512)" />
+            <column name="bidEndTime" type="TIME" />
+            <column name="winningBid" type="DECIMAL" />
+            <column name="active" type="BOOLEAN" />
+            <column name="auctioneer" type="VARCHAR(512)" />
+            <column name="winner" type="VARCHAR(512)" />
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
