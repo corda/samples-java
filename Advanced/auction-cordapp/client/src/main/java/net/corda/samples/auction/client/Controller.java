@@ -1,5 +1,6 @@
 package net.corda.samples.auction.client;
 
+import com.r3.corda.lib.tokens.contracts.states.FungibleToken;
 import net.corda.core.contracts.Amount;
 import net.corda.core.contracts.StateAndRef;
 import net.corda.core.contracts.TransactionVerificationException;
@@ -164,10 +165,10 @@ public class Controller {
     @GetMapping("getCashBalance")
     public APIResponse<Long> getCashBalance(){
         try {
-            List<StateAndRef<Cash.State>> cashStateList = activeParty.vaultQuery(Cash.State.class).getStates();
+            List<StateAndRef<FungibleToken>> tokenStateList = activeParty.vaultQuery(FungibleToken.class).getStates();
             Long amount = 0L;
-            if(cashStateList.size()>0) {
-                amount = cashStateList.stream().map(stateStateAndRef ->
+            if(tokenStateList.size()>0) {
+                amount = tokenStateList.stream().map(stateStateAndRef ->
                         stateStateAndRef.getState().getData().getAmount().getQuantity()).reduce(Long::sum).get();
                 if (amount >= 100) {
                     amount = amount / 100;

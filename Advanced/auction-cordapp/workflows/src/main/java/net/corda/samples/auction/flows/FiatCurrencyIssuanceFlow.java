@@ -44,7 +44,7 @@ public class FiatCurrencyIssuanceFlow extends FlowLogic<SignedTransaction> {
         List<NodeInfo> matchedNodes = getServiceHub().getNetworkMapCache().getAllNodes().stream().filter(node -> node.getLegalIdentities().get(0).getName().getOrganisation().equals(recipient)).collect(Collectors.toList());
 
         if (matchedNodes.isEmpty()){
-            throw new FlowException("No matcing nodes are found with the name " + recipient);
+            throw new FlowException("No matching nodes are found with the name " + recipient);
         }
 
         Party recipientParty = matchedNodes.get(0).getLegalIdentities().get(0);
