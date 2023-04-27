@@ -44,8 +44,19 @@ public class AuctionContract implements Contract {
     }
 
     private void verifyAuctionCreation(LedgerTransaction tx){
-        // Auction Creation Contract Verification Logic goes here
+        // Verify the item being auctioned is owned by the auctioneer uisng reference state
+        if(tx.getReferenceStates().size() != 1)
+            throw new IllegalArgumentException("Asset is not referenced in the transaction");
 
+        if(tx.outputsOfType(AuctionState.class).size() != 1)
+            throw new IllegalArgumentException("Auction State not found in the transaction");
+
+        Asset asset = (Asset)tx.getReferenceStates().get(0);
+        AuctionState auction = tx.outputsOfType(AuctionState.class).get(0);
+
+        if(!asset.getOwner().equals(auction.getAuctioneer())){
+            throw new IllegalArgumentException("Auctioneer should be the owner of the asset being put on auction");
+        }
     }
 
     private void verifyBid(LedgerTransaction tx){
