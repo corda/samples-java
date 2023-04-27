@@ -46,7 +46,7 @@ public class AuctionExpiryContract implements Contract {
 
             if(!expiryInput.getAuctionId().equals(expiryOutput.getAuctionId()) &&
                     !expiryInput.getParticipants().equals(expiryOutput.getParticipants())){
-                throw new IllegalArgumentException("Auction Id and Par should not change while placing a bid");
+                throw new IllegalArgumentException("Auction Id and Participants should not change while placing a bid");
             }
         }else if(command.getValue() instanceof AuctionContract.Commands.EndAuction){
             if(tx.inputsOfType(AuctionExpiry.class).size() != 1){

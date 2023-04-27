@@ -50,8 +50,8 @@ public class AuctionContract implements Contract {
 
     private void verifyBid(LedgerTransaction tx){
         // Bid Contract Verification Logic goes here
-        if(tx.getInputStates().size() != 2) throw new IllegalArgumentException("Two Input Expected");
-        if(tx.getOutputStates().size() != 2) throw new IllegalArgumentException("Two Output Expected");
+        if(tx.getInputStates().size() != 2) throw new IllegalArgumentException("Two Inputs Expected");
+        if(tx.getOutputStates().size() != 2) throw new IllegalArgumentException("Two Outputs Expected");
 
         AuctionState inputState = (AuctionState)tx.getInput(0);
         AuctionState outputState = (AuctionState) tx.getOutput(0);
