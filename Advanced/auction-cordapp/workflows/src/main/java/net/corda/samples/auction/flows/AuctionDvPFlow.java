@@ -1,7 +1,7 @@
 package net.corda.samples.auction.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
-import kotlin.Pair;
+import com.sun.istack.NotNull;
 import net.corda.core.contracts.Amount;
 import net.corda.core.contracts.CommandAndState;
 import net.corda.core.contracts.StateAndRef;
@@ -11,13 +11,9 @@ import net.corda.core.node.services.Vault;
 import net.corda.core.node.services.vault.QueryCriteria;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
-import net.corda.finance.workflows.asset.CashUtils;
 import net.corda.samples.auction.states.Asset;
 import net.corda.samples.auction.states.AuctionState;
-import org.jetbrains.annotations.NotNull;
 
-
-import java.security.PublicKey;
 import java.util.*;
 
 /**
@@ -39,7 +35,7 @@ public class AuctionDvPFlow {
          *
          * @param auctionId is the unique id of the auction to be settled
          * @param payment is the bid amount which is required to be transferred from the highest bidded to auctioneer to
-         *              settle the auction.
+         * settle the auction.
          */
         public AuctionDvPInitiator(UUID auctionId, Amount<Currency> payment) {
             this.auctionId = auctionId;
@@ -52,23 +48,26 @@ public class AuctionDvPFlow {
 
             // Query the vault to fetch a list of all AuctionState states, and filter the results based on the auctionId
             // to fetch the desired AuctionState states from the vault.
-            List<StateAndRef<AuctionState>> auntionStateAndRefs = getServiceHub().getVaultService()
+            List<StateAndRef<AuctionState>> auctionStateAndRefs = getServiceHub().getVaultService()
                     .queryBy(AuctionState.class).getStates();
-            StateAndRef<AuctionState> auctionStateAndRef = auntionStateAndRefs.stream().filter(stateAndRef -> {
+            StateAndRef<AuctionState> auctionStateAndRef = auctionStateAndRefs.stream().filter(stateAndRef -> {
                 AuctionState auctionState = stateAndRef.getState().getData();
                 return auctionState.getAuctionId().equals(auctionId);
             }).findAny().orElseThrow(() -> new FlowException("Auction Not Found"));
             AuctionState auctionState = auctionStateAndRef.getState().getData();
 
-            // Query the vault to fetch the asset put on Auction
-            List<StateAndRef<Asset>> assetStateAndRefs = getServiceHub().getVaultService()
-                    .queryBy(Asset.class).getStates();
-            StateAndRef<Asset> assetStateAndRef = assetStateAndRefs.stream().filter(stateAndRef -> {
-                Asset assetState = stateAndRef.getState().getData();
-                return assetState.getLinearId().equals(auctionState.getAuctionItem().resolve(getServiceHub())
-                        .getState().getData().getLinearId());
-            }).findAny().orElseThrow(() -> new FlowException("Asset Not Found"));
+            // Create a QueryCriteria to query the Asset.
+            // Resolve the linear pointer in previously filtered auctionState to fetch the assetState containing
+            // the asset's unique id.
+            QueryCriteria queryCriteria = new QueryCriteria.LinearStateQueryCriteria(
+                    null, Arrays.asList(auctionStateAndRef.getState().getData().getAuctionItem()
+                    .resolve(getServiceHub()).getState().getData().getLinearId().getId()),
+                    null, Vault.StateStatus.UNCONSUMED);
 
+            // Use the vaultQuery with the previously created queryCriteria to fetch th assetState to be used as input
+            // in the transaction.
+            StateAndRef<Asset> assetStateAndRef = getServiceHub().getVaultService().
+                    queryBy(Asset.class, queryCriteria).getStates().get(0);
 
             // Use the withNewOwner() of the Ownable states get the command and the output states to be used in the
             // transaction from ownership transfer of the asset.
@@ -82,15 +81,6 @@ public class AuctionDvPFlow {
             // Create the transaction builder.
             TransactionBuilder transactionBuilder = new TransactionBuilder(notary);
 
-            // Generate Spend for the Cash. The CashUtils generateSpend method can be used to update the transaction
-            // builder with the appropriate inputs and outputs corresponding to the cash spending. A new keypair is
-            // generated to sign the transaction, so that the the change returned to the spender after the cash is spend
-            // is untraceable.
-            Pair<TransactionBuilder, List<PublicKey>> txAndKeysPair =
-                    CashUtils.generateSpend(getServiceHub(), transactionBuilder, payment, getOurIdentityAndCert(),
-                            auctionState.getAuctioneer(), Collections.emptySet());
-            transactionBuilder = txAndKeysPair.getFirst();
-
             // Update the transaction builder with the input and output for the asset's ownership transfer.
             transactionBuilder.addInputState(assetStateAndRef)
                     .addOutputState(commandAndState.getOwnableState())
@@ -100,19 +90,13 @@ public class AuctionDvPFlow {
             // Verify the transaction
             transactionBuilder.verify(getServiceHub());
 
-            // Sign the transaction. The transaction should be sigend with the new keyPair generated for Cash spending
-            // and the node's key.
-            List<PublicKey> keysToSign = txAndKeysPair.getSecond();
-            keysToSign.add(getOurIdentity().getOwningKey());
-            SignedTransaction selfSignedTransaction = getServiceHub().signInitialTransaction(transactionBuilder, keysToSign);
+            SignedTransaction partiallySignedTransaction = getServiceHub().signInitialTransaction(transactionBuilder);
 
-            // Collect counterparty signature.
-            FlowSession auctioneerFlow = initiateFlow(auctionState.getAuctioneer());
-            SignedTransaction signedTransaction = subFlow(new CollectSignaturesFlow(selfSignedTransaction,
-                    Arrays.asList(auctioneerFlow)));
+            FlowSession counterpartySession = initiateFlow(auctionState.getAuctioneer());
 
-            // Notarize the transaction and record tge update in participants ledger.
-            return subFlow(new FinalityFlow(signedTransaction, (auctioneerFlow)));
+            SignedTransaction signedTransaction = subFlow(new CollectSignaturesFlow(partiallySignedTransaction, Arrays.asList(counterpartySession)));
+
+            return subFlow(new FinalityFlow(signedTransaction, (counterpartySession)));
         }
     }
 
