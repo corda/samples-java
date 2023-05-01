@@ -1,7 +1,14 @@
 package net.corda.samples.auction.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
+import com.r3.corda.lib.tokens.contracts.states.FungibleToken;
+import com.r3.corda.lib.tokens.contracts.types.TokenType;
+import com.r3.corda.lib.tokens.money.FiatCurrency;
+import com.r3.corda.lib.tokens.selection.database.selector.DatabaseTokenSelection;
+import com.r3.corda.lib.tokens.workflows.flows.move.MoveTokensUtilities;
+import com.r3.corda.lib.tokens.workflows.types.PartyAndAmount;
 import com.sun.istack.NotNull;
+import kotlin.Pair;
 import net.corda.core.contracts.Amount;
 import net.corda.core.contracts.CommandAndState;
 import net.corda.core.contracts.StateAndRef;
@@ -55,6 +62,7 @@ public class AuctionDvPFlow {
                 return auctionState.getAuctionId().equals(auctionId);
             }).findAny().orElseThrow(() -> new FlowException("Auction Not Found"));
             AuctionState auctionState = auctionStateAndRef.getState().getData();
+            Amount<Currency> winningBidPrice = auctionState.getWinningBid();
 
             // Create a QueryCriteria to query the Asset.
             // Resolve the linear pointer in previously filtered auctionState to fetch the assetState containing
@@ -74,12 +82,26 @@ public class AuctionDvPFlow {
             CommandAndState commandAndState = assetStateAndRef.getState().getData()
                     .withNewOwner(auctionState.getWinner());
 
+            // Start a flow session with the auctioneer
+            FlowSession counterpartySession = initiateFlow(auctionState.getAuctioneer());
+
             // Obtain a reference to a notary we wish to use.
             /** Explicit selection of notary by CordaX500Name - argument can by coded in flows or parsed from config (Preferred)*/
             final Party notary = auctionStateAndRef.getState().getNotary();
 
             // Create the transaction builder.
             TransactionBuilder transactionBuilder = new TransactionBuilder(notary);
+
+            // Create an instance of the fiat currency token amount
+            Amount<TokenType> winningBidToken = new Amount<>(winningBidPrice.getQuantity(), FiatCurrency.Companion.getInstance(winningBidPrice.getToken().getCurrencyCode()));
+
+            // Generate the move proposal - this returns input/output pair for the fiat currency transfer
+            PartyAndAmount<TokenType> partyAndAmount = new PartyAndAmount<>(counterpartySession.getCounterparty(), winningBidToken);
+            Pair<List<StateAndRef<FungibleToken>>, List<FungibleToken>> inputsAndOutputs = new DatabaseTokenSelection(getServiceHub())
+                    .generateMove(Collections.singletonList(new Pair<>(counterpartySession.getCounterparty(), winningBidToken)), auctionState.getWinner());
+
+            // Create a fiat currency proposal for the asset using the helper function provided by TokenSDK
+            MoveTokensUtilities.addMoveTokens(transactionBuilder, inputsAndOutputs.getFirst(), inputsAndOutputs.getSecond());
 
             // Update the transaction builder with the input and output for the asset's ownership transfer.
             transactionBuilder.addInputState(assetStateAndRef)
@@ -91,8 +113,6 @@ public class AuctionDvPFlow {
             transactionBuilder.verify(getServiceHub());
 
             SignedTransaction partiallySignedTransaction = getServiceHub().signInitialTransaction(transactionBuilder);
-
-            FlowSession counterpartySession = initiateFlow(auctionState.getAuctioneer());
 
             SignedTransaction signedTransaction = subFlow(new CollectSignaturesFlow(partiallySignedTransaction, Arrays.asList(counterpartySession)));
 
