@@ -1,12 +1,12 @@
 package net.corda.samples.auction.client;
 
+import com.r3.corda.lib.tokens.contracts.states.FungibleToken;
 import net.corda.core.contracts.Amount;
 import net.corda.core.contracts.StateAndRef;
 import net.corda.core.contracts.TransactionVerificationException;
 import net.corda.core.messaging.CordaRPCOps;
 import net.corda.core.utilities.OpaqueBytes;
 import net.corda.finance.contracts.asset.Cash;
-import net.corda.finance.flows.CashIssueAndPaymentFlow;
 import net.corda.samples.auction.flows.*;
 import net.corda.samples.auction.states.Asset;
 import net.corda.samples.auction.states.AuctionState;
@@ -144,14 +144,11 @@ public class Controller {
     }
 
     @PostMapping("issueCash")
-    public APIResponse<Void> issueCash(@RequestBody Forms.IssueCashForm issueCashForm){
+    public APIResponse<Void> issueFiatCurrency(@RequestBody Forms.IssueCashForm issueCashForm){
         try{
-            activeParty.startFlowDynamic(CashIssueAndPaymentFlow.class,
-                    Amount.parseCurrency(issueCashForm.getAmount() + " USD"),
-                    OpaqueBytes.of("PartyA".getBytes()),
-                    activeParty.partiesFromName(issueCashForm.getParty(), false).iterator().next(),
-                    false,
-                    activeParty.notaryIdentities().get(0))
+            activeParty.startFlowDynamic(FiatCurrencyIssuanceFlow.class,
+                    issueCashForm.getAmount(),
+                    issueCashForm.getParty())
                     .getReturnValue().get();
             return APIResponse.success();
         }catch (ExecutionException e){
@@ -168,10 +165,10 @@ public class Controller {
     @GetMapping("getCashBalance")
     public APIResponse<Long> getCashBalance(){
         try {
-            List<StateAndRef<Cash.State>> cashStateList = activeParty.vaultQuery(Cash.State.class).getStates();
+            List<StateAndRef<FungibleToken>> tokenStateList = activeParty.vaultQuery(FungibleToken.class).getStates();
             Long amount = 0L;
-            if(cashStateList.size()>0) {
-                amount = cashStateList.stream().map(stateStateAndRef ->
+            if(tokenStateList.size()>0) {
+                amount = tokenStateList.stream().map(stateStateAndRef ->
                         stateStateAndRef.getState().getData().getAmount().getQuantity()).reduce(Long::sum).get();
                 if (amount >= 100) {
                     amount = amount / 100;

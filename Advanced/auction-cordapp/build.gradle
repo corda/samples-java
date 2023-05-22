@@ -15,6 +15,10 @@ buildscript {
         corda_platform_version = constants.getProperty("platformVersion").toInteger()
         spring_boot_version = '2.0.2.RELEASE'
         spring_boot_gradle_plugin_version = '2.0.2.RELEASE'
+
+        //Tokens
+        tokens_release_group = 'com.r3.corda.lib.tokens'
+        tokens_release_version = '1.2'
     }
 
     repositories {
@@ -22,6 +26,7 @@ buildscript {
         mavenCentral()
 
         maven { url 'https://software.r3.com/artifactory/corda' }
+
     }
 
     dependencies {
@@ -37,11 +42,14 @@ allprojects {
 
     repositories {
         mavenLocal()
-
         mavenCentral()
         maven { url 'https://software.r3.com/artifactory/corda' }
         maven { url 'https://jitpack.io' }
         maven { url 'https://repo.gradle.org/gradle/libs-releases' }
+        maven { url "http://software.r3.com/artifactory/corda-lib" }
+        maven { url "http://software.r3.com/artifactory/corda-releases" }
+        maven { url "http://software.r3.com/artifactory/corda-lib-dev" }
+
     }
 
     tasks.withType(JavaCompile) {
@@ -90,6 +98,10 @@ dependencies {
 
     cordaDriver "net.corda:corda-shell:4.10"
 
+    // Token SDK dependencies.
+    cordapp "$tokens_release_group:tokens-contracts:$tokens_release_version"
+    cordapp "$tokens_release_group:tokens-workflows:$tokens_release_version"
+
 }
 
 task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
@@ -97,6 +109,10 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         projectCordapp {
             deploy = false
         }
+        cordapp("$tokens_release_group:tokens-contracts:$tokens_release_version")
+        cordapp("$tokens_release_group:tokens-workflows:$tokens_release_version")
+
+
         cordapp("$corda_release_group:corda-finance-contracts:$corda_release_version")
         cordapp("$corda_release_group:corda-finance-workflows:$corda_release_version")
         cordapp project(':contracts')
