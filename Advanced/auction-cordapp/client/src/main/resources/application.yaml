@@ -7,4 +7,7 @@ partyB:
 partyC:
   host: localhost:10012
 
+bank:
+  host: localhost:10015
+
 server.port: 8085
