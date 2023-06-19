@@ -34,6 +34,9 @@ public class Controller {
     private CordaRPCOps partyCProxy;
 
     @Autowired
+    private CordaRPCOps bankProxy;
+
+    @Autowired
     @Qualifier("partyAProxy")
     private CordaRPCOps activeParty;
 
@@ -190,6 +193,8 @@ public class Controller {
             activeParty = partyBProxy;
         }else if(party.equals("PartyC")){
             activeParty = partyCProxy;
+        }else if(party.equals("Bank")){
+            activeParty = bankProxy;
         }else{
             return APIResponse.error("Unrecognised Party");
         }

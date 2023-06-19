@@ -23,6 +23,9 @@ public class AppConfig implements WebMvcConfigurer {
     @Value("${partyC.host}")
     private String partyCHostAndPort;
 
+    @Value("${bank.host}")
+    private String bankHostAndPort;
+
     @Bean(destroyMethod = "")  // Avoids node shutdown on rpc disconnect
     public CordaRPCOps partyAProxy(){
         CordaRPCClient partyAClient = new CordaRPCClient(NetworkHostAndPort.parse(partyAHostAndPort));
@@ -39,6 +42,12 @@ public class AppConfig implements WebMvcConfigurer {
     public CordaRPCOps partyCProxy(){
         CordaRPCClient partyCClient = new CordaRPCClient(NetworkHostAndPort.parse(partyCHostAndPort));
         return partyCClient.start("user1", "test").getProxy();
+    }
+
+    @Bean(destroyMethod = "")
+    public CordaRPCOps bankProxy(){
+        CordaRPCClient bankClient = new CordaRPCClient(NetworkHostAndPort.parse(bankHostAndPort));
+        return bankClient.start("user1", "test").getProxy();
     }
 
     /**
