@@ -37,7 +37,7 @@ buildscript {
         mavenLocal()
         mavenCentral()
 
-        maven { url 'https://software.r3.com/artifactory/corda-releases' }
+        maven { url 'https://download.corda.net/maven/corda-releases' }
        // maven { url 'http://software.r3.com/artifactory/corda-lib-dev' }
         maven { url 'http://software.r3.com/artifactory/corda-lib' }
     }
@@ -59,10 +59,10 @@ allprojects {
         mavenLocal()
 
         mavenCentral()
-        maven { url 'https://software.r3.com/artifactory/corda' }
+        maven { url 'https://download.corda.net/maven/corda-dependencies' }
         // Can be removed post-release - used to get nightly snapshot build.
-        maven { url 'https://software.r3.com/artifactory/corda-lib' }
-        maven { url 'https://software.r3.com/artifactory/corda-lib-dev' }
+        maven { url 'https://download.corda.net/maven/corda-lib' }
+        maven { url 'https://download.corda.net/maven/corda-lib-dev' }
        // maven { url 'https://jitpack.io' }
         maven { url "https://repo.gradle.org/gradle/libs-releases-local" }
     }

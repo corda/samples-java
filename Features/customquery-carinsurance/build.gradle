@@ -23,7 +23,7 @@ buildscript {
     repositories {
         mavenLocal()
         mavenCentral()
-        maven { url 'https://software.r3.com/artifactory/corda-releases' }
+        maven { url 'https://download.corda.net/maven/corda-releases' }
     }
 
     dependencies {
@@ -43,7 +43,7 @@ allprojects {
         mavenLocal()
 
         mavenCentral()
-        maven { url 'https://software.r3.com/artifactory/corda' }
+        maven { url 'https://download.corda.net/maven/corda-dependencies' }
         maven { url 'https://jitpack.io' }
     }
 
