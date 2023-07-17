@@ -31,7 +31,7 @@ buildscript { //properties that you need to build the project
         maven { url 'https://jitpack.io' }
         maven { url 'https://repo.gradle.org/gradle/libs-releases' }
         maven { url 'http://software.r3.com/artifactory/corda-lib' }
-        maven { url 'https://download.corda.net/maven/corda-releases' }
+        maven { url 'https://software.r3.com/artifactory/corda-releases' }
     }
 
     dependencies {
@@ -55,7 +55,7 @@ allprojects {//Properties that you need to compile your project (The application
 
         mavenCentral()
         maven { url 'https://jitpack.io' }
-        maven { url 'https://download.corda.net/maven/corda-dependencies' }
+        maven { url 'https://software.r3.com/artifactory/corda' }
     }
 
     tasks.withType(JavaCompile) {

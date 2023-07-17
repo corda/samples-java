@@ -24,13 +24,13 @@ buildscript {
         mavenLocal()
         mavenCentral()
 
-        maven { url 'https://download.corda.net/maven/corda-dependencies' }
+        maven { url 'https://software.r3.com/artifactory/corda' }
         maven { url 'http://software.r3.com/artifactory/corda-lib' }
         maven { url 'http://software.r3.com/artifactory/corda-lib-dev' }
-        maven { url 'https://download.corda.net/maven/corda-releases' }
+        maven { url 'https://software.r3.com/artifactory/corda-releases' }
 
         // Corda dependencies for the patched Quasar version
-        maven { url "https://download.corda.net/maven/corda-dependencies" } // access to the patched Quasar version
+        maven { url "https://software.r3.com/artifactory/corda-dependencies" } // access to the patched Quasar version
     }
 
     dependencies {
@@ -49,10 +49,10 @@ allprojects {
         mavenLocal()
 
         mavenCentral()
-        maven { url 'https://download.corda.net/maven/corda-dependencies' }
+        maven { url 'https://software.r3.com/artifactory/corda' }
         // Can be removed post-release - used to get nightly snapshot build.
-        maven { url 'https://download.corda.net/maven/corda-lib' }
-        maven { url 'https://download.corda.net/maven/corda-lib-dev' }
+        maven { url 'https://software.r3.com/artifactory/corda-lib' }
+        maven { url 'https://software.r3.com/artifactory/corda-lib-dev' }
         maven { url 'https://jitpack.io' }
         maven { url "https://repo.gradle.org/gradle/libs-releases-local" }
     }

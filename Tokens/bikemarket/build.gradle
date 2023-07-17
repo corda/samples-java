@@ -24,7 +24,7 @@ buildscript {
     repositories {
         mavenLocal()
         mavenCentral()
-        maven { url 'https://download.corda.net/maven/corda-releases' }
+        maven { url 'https://software.r3.com/artifactory/corda-releases' }
     }
 
     dependencies {
@@ -42,10 +42,10 @@ allprojects {
         mavenLocal()
 
         mavenCentral()
-        maven { url 'https://download.corda.net/maven/corda-dependencies' }
+        maven { url 'https://software.r3.com/artifactory/corda' }
         maven { url 'https://jitpack.io' }
         //SDK lib
-        maven { url 'https://download.corda.net/maven/corda-lib' }
+        maven { url 'https://software.r3.com/artifactory/corda-lib' }
         //Gradle Plugins
         maven { url 'https://repo.gradle.org/gradle/libs-releases' }
     }
