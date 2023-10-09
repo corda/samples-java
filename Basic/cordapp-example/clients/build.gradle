@@ -1,4 +1,4 @@
-apply plugin: 'org.springframework.boot'
+//apply plugin: 'org.springframework.boot'
 
 sourceSets {
     main {
@@ -10,25 +10,27 @@ sourceSets {
 
 dependencies {
     // Corda dependencies.
-    compile ("$corda_release_group:corda-rpc:$corda_release_version")  {
+    implementation ("$corda_release_group:corda-rpc:$corda_release_version")  {
         exclude group: "ch.qos.logback", module: "logback-classic"
     }
-    compile "net.corda:corda-jackson:$corda_release_version"
-
+    implementation "net.corda:corda-jackson:$corda_release_version"
+    implementation "$corda_core_release_group:corda-core:$corda_core_release_version"
     // CorDapp dependencies.
-    compile project(":contracts")
-    compile project(":workflows")
-    compile("org.springframework.boot:spring-boot-starter-websocket:$spring_boot_version") {
+    implementation project(":contracts")
+    implementation project(":workflows")
+    implementation("org.springframework.boot:spring-boot-starter-websocket:$spring_boot_version") {
         exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
     }
-    compile "org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}"
-    compile "org.apache.logging.log4j:log4j-web:${log4j_version}"
-    compile "org.slf4j:jul-to-slf4j:$slf4j_version"
+    implementation "org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}"
+    implementation "org.apache.logging.log4j:log4j-web:${log4j_version}"
+    implementation "org.slf4j:jul-to-slf4j:$slf4j_version"
+    implementation "org.bouncycastle:bcprov-jdk18on:1.75"
+    implementation "org.bouncycastle:bcpkix-jdk18on:1.75"
 }
 
-springBoot {
-    mainClassName = "net.corda.samples.example.webserver.Starter"
-}
+//springBoot {
+//    mainClassName = "net.corda.samples.example.webserver.Starter"
+//}
 
 /* The Client is the communication channel between the external and the node. This task will help you immediately
  * execute your rpc methods in the main method of the client.kt. You can somewhat see this as a quick test of making

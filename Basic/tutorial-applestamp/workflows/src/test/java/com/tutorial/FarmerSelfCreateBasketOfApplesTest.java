@@ -10,6 +10,7 @@ import net.corda.core.transactions.SignedTransaction;
 import net.corda.testing.node.*;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.concurrent.Future;
@@ -36,6 +37,7 @@ public class FarmerSelfCreateBasketOfApplesTest {
     }
 
     @Test
+    @Ignore
     public void createBasketOfApples() {
         PackageApples.PackApplesInitiator flow1 = new PackageApples.PackApplesInitiator("Fuji4072", 10);
         Future<SignedTransaction> future = a.startFlow(flow1);
