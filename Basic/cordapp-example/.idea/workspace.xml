@@ -5,15 +5,34 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae2f70c6-dd38-4990-8c82-5e6cc0a19567" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../constants.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../constants.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/workflows/src/main/java/net/corda/samples/example/flows/ExampleFlow.java" beforeDir="false" afterPath="$PROJECT_DIR$/workflows/src/main/java/net/corda/samples/example/flows/ExampleFlow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/workflows/src/test/java/net/corda/samples/example/FlowTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/workflows/src/test/java/net/corda/samples/example/FlowTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/main/java/com/tutorial/flows/CreateAndIssueAppleStamp.java" beforeDir="false" afterPath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/main/java/com/tutorial/flows/CreateAndIssueAppleStamp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/main/java/com/tutorial/flows/PackageApples.java" beforeDir="false" afterPath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/main/java/com/tutorial/flows/PackageApples.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/main/java/com/tutorial/flows/RedeemApples.java" beforeDir="false" afterPath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/main/java/com/tutorial/flows/RedeemApples.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/main/java/com/tutorial/flows/TemplateInitiator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/main/java/com/tutorial/flows/TemplateInitiator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/clients/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/clients/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contracts/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/repositories.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/repositories.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/workflows/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/workflows/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tutorial-applestamp/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../tutorial-applestamp/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tutorial-applestamp/contracts/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../tutorial-applestamp/contracts/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tutorial-applestamp/contracts/src/main/java/com/tutorial/contracts/AppleStampContract.java" beforeDir="false" afterPath="$PROJECT_DIR$/../tutorial-applestamp/contracts/src/main/java/com/tutorial/contracts/AppleStampContract.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tutorial-applestamp/contracts/src/main/java/com/tutorial/contracts/BasketOfApplesContract.java" beforeDir="false" afterPath="$PROJECT_DIR$/../tutorial-applestamp/contracts/src/main/java/com/tutorial/contracts/BasketOfApplesContract.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tutorial-applestamp/contracts/src/main/java/com/tutorial/states/AppleStamp.java" beforeDir="false" afterPath="$PROJECT_DIR$/../tutorial-applestamp/contracts/src/main/java/com/tutorial/states/AppleStamp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tutorial-applestamp/contracts/src/main/java/com/tutorial/states/BasketOfApples.java" beforeDir="false" afterPath="$PROJECT_DIR$/../tutorial-applestamp/contracts/src/main/java/com/tutorial/states/BasketOfApples.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tutorial-applestamp/contracts/src/test/java/com/tutorial/contracts/ContractTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/../tutorial-applestamp/contracts/src/test/java/com/tutorial/contracts/ContractTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tutorial-applestamp/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../tutorial-applestamp/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tutorial-applestamp/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../tutorial-applestamp/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tutorial-applestamp/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/../tutorial-applestamp/gradlew" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tutorial-applestamp/gradlew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/../tutorial-applestamp/gradlew.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tutorial-applestamp/repositories.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../tutorial-applestamp/repositories.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tutorial-applestamp/workflows/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../tutorial-applestamp/workflows/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/test/java/com/tutorial/CreateAndIssueAppleStampTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/test/java/com/tutorial/CreateAndIssueAppleStampTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/test/java/com/tutorial/FarmerSelfCreateBasketOfAppleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/test/java/com/tutorial/FarmerSelfCreateBasketOfAppleTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/test/java/com/tutorial/FarmerSelfCreateBasketOfApplesTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/test/java/com/tutorial/FarmerSelfCreateBasketOfApplesTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/test/java/com/tutorial/FlowTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/test/java/com/tutorial/FlowTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/test/java/com/tutorial/RedeemApplesWithStampTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../tutorial-applestamp/workflows/src/test/java/com/tutorial/RedeemApplesWithStampTest.java" afterDir="false" />
     </list>
@@ -57,6 +76,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="1lyrLNggqOnZplsX0yKPQgsNZ4g" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -65,13 +87,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
-    <property name="show.unlinked.gradle.project.popup" value="true" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/workspace/disaster-recovery-kush/build.gradle",
+    "spring.configuration.checksum": "7f824e514c554163e15edc97d6b67773"
+  }
+}]]></component>
   <component name="RunManager" selected="Gradle.FlowTests">
     <configuration name="ContractTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
@@ -178,12 +202,20 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
+    <configuration name="Starter" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="cordapp-example.clients.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="net.corda.samples.example.webserver.Starter" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Gradle.ContractTests" />
       <item itemvalue="Gradle.ContractTests.transactionMustIncludeCreateCommand" />
       <item itemvalue="Gradle.StateTests.hasAmountFieldOfCorrectType" />
       <item itemvalue="Gradle.DriverBasedTest" />
       <item itemvalue="Gradle.FlowTests" />
+      <item itemvalue="Spring Boot.Starter" />
     </list>
     <recent_temporary>
       <list>
@@ -203,7 +235,27 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1608580114235</updated>
+      <workItem from="1695901539141" duration="2498000" />
+      <workItem from="1695981285037" duration="1158000" />
+      <workItem from="1696444808735" duration="28000" />
+      <workItem from="1696444920401" duration="19046000" />
+      <workItem from="1696737888926" duration="4725000" />
+      <workItem from="1696779218511" duration="11602000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/build.gradle</url>
+          <line>142</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

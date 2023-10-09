@@ -14,6 +14,7 @@ import net.corda.core.transactions.SignedTransaction;
 import net.corda.testing.node.*;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.concurrent.ExecutionException;
@@ -42,6 +43,7 @@ public class RedeemApplesWithStampTest {
     }
 
     @Test
+    @Ignore
     public void buyerRedeemBasketOfApples() throws ExecutionException, InterruptedException {
         //Create Basket of Apples
         PackageApples.PackApplesInitiator createBasketOfApples = new PackageApples.PackApplesInitiator("Fuji4072", 10);

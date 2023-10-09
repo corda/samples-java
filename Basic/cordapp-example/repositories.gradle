@@ -1,8 +1,16 @@
 repositories {
     mavenLocal()
     mavenCentral()
-
+    jcenter()
     maven { url 'https://jitpack.io' }
     maven { url 'https://download.corda.net/maven/corda-dependencies' }
-    maven { url 'https://repo.gradle.org/gradle/libs-releases' }
+    maven { url 'https://download.corda.net/maven/corda-releases' }
+    maven { url 'https://download.corda.net/maven/corda-dev' }
+    maven {
+        url 'https://repo.gradle.org/ui/native/libs-releases-local'
+        credentials {
+            username = cordaArtifactoryUsername
+            password = cordaArtifactoryPassword
+        }
+    }
 }
