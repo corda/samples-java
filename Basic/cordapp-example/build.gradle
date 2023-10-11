@@ -1,3 +1,5 @@
+import static org.gradle.api.JavaVersion.VERSION_11
+
 buildscript {//properties that you need to build the project
     Properties constants = new Properties()
     file("$projectDir/../constants.properties").withInputStream { constants.load(it) }
@@ -21,33 +23,20 @@ buildscript {//properties that you need to build the project
 
     repositories {
         mavenLocal()
-        jcenter()
         mavenCentral()
         maven { url 'https://download.corda.net/maven/corda-dependencies' }
         maven { url 'https://download.corda.net/maven/corda-releases' }
         maven { url 'https://download.corda.net/maven/corda-dev' }
-        maven { url 'https://repo.gradle.org/ui/native/libs-releases-local' }
+        maven { url 'https://repo.gradle.org/gradle/libs-releases-local' }
     }
 
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "net.corda.plugins:cordapp:$corda_gradle_plugins_version"
         classpath "net.corda.plugins:cordformation:$corda_gradle_plugins_version"
         classpath "net.corda.plugins:quasar-utils:$corda_gradle_plugins_version"
         classpath "org.springframework.boot:spring-boot-gradle-plugin:$spring_boot_gradle_plugin_version"
     }
-}
-
-// You can define this property in ~/.gradle/gradle.properties on your dev box.
-if (! project.hasProperty('cordaArtifactoryUsername') || ext.cordaArtifactoryUsername != null) {
-    ext.cordaArtifactoryUsername = System.getenv('CORDA_ARTIFACTORY_USERNAME')
-            ?: System.getProperty('corda.artifactory.username')
-}
-
-// You can define this property in ~/.gradle/gradle.properties on your dev box.
-if (! project.hasProperty('cordaArtifactoryPassword') || ext.cordaArtifactoryPassword == null) {
-    ext.cordaArtifactoryPassword = System.getenv('CORDA_ARTIFACTORY_PASSWORD')
-            ?: System.getProperty('corda.artifactory.password')
 }
 
 allprojects {//Properties that you need to compile your project (The application)
@@ -57,20 +46,21 @@ allprojects {//Properties that you need to compile your project (The application
     repositories {
         mavenLocal()
         mavenCentral()
-        jcenter()
         maven { url 'https://download.corda.net/maven/corda-dependencies' }
         maven { url 'https://jitpack.io' }
-        maven {
-            url 'https://repo.gradle.org/ui/native/libs-releases-local'
-            credentials {
-                username = cordaArtifactoryUsername
-                password = cordaArtifactoryPassword
-            }
-        }
     }
 
     tasks.withType(JavaCompile) {
         options.compilerArgs << "-parameters" // Required by Corda's serialisation framework.
+    }
+
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
+        kotlinOptions {
+            languageVersion = "1.8"
+            apiVersion = "1.8"
+            jvmTarget = VERSION_11
+            javaParameters = true   // Useful for reflection.
+        }
     }
 
     jar {
@@ -104,7 +94,6 @@ dependencies {
     // CorDapp dependencies.
     cordapp project(":workflows")
     cordapp project(":contracts")
-    implementation 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0'
     cordaProvided "org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}"
     cordaProvided "org.apache.logging.log4j:log4j-web:${log4j_version}"
     cordaProvided "org.slf4j:jul-to-slf4j:$slf4j_version"
