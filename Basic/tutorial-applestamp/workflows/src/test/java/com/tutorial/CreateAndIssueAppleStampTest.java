@@ -12,7 +12,6 @@ import net.corda.core.transactions.SignedTransaction;
 import net.corda.testing.node.*;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.concurrent.Future;
@@ -40,7 +39,6 @@ public class CreateAndIssueAppleStampTest {
     }
 
     @Test
-    @Ignore
     public void dummyTest() {
         TemplateInitiator flow = new TemplateInitiator(b.getInfo().getLegalIdentities().get(0));
         Future<SignedTransaction> future = a.startFlow(flow);
@@ -53,7 +51,6 @@ public class CreateAndIssueAppleStampTest {
     }
 
     @Test
-    @Ignore
     public void CreateAndIssueAppleStampTest() {
         CreateAndIssueAppleStamp.CreateAndIssueAppleStampInitiator flow1 =
                 new CreateAndIssueAppleStamp.CreateAndIssueAppleStampInitiator(
