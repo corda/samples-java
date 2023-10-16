@@ -40,7 +40,7 @@ sourceSets {
 
 dependencies {
     cordaProvided "org.jetbrains.kotlin:kotlin-stdlib:1.8.22"
-    cordaProvided 'org.hibernate:hibernate-annotations:3.5.1-Final'
+    cordaProvided "javax.persistence:javax.persistence-api:2.2"
     cordaProvided 'com.google.guava:guava:23.0'
     cordaProvided "$corda_core_release_group:corda-core:$corda_core_release_version"
 
