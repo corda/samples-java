@@ -59,7 +59,7 @@ dependencies {
 //    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     testImplementation "junit:junit:$junit_version"
     testImplementation "$corda_release_group:corda-node-driver:$corda_release_version"
-
+    testRuntimeOnly "org.iq80.snappy:snappy:$snappy_version"
 
     // CorDapp dependencies.
     cordapp project(":contracts")
