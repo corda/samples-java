@@ -39,6 +39,7 @@ sourceSets {
 //}
 
 dependencies {
+    implementation "org.hibernate:hibernate-core:$hibernate_version"
     cordaProvided "org.jetbrains.kotlin:kotlin-stdlib:1.8.22"
     cordaProvided "javax.persistence:javax.persistence-api:2.2"
     cordaProvided 'com.google.guava:guava:23.0'
