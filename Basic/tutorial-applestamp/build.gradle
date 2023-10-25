@@ -16,6 +16,8 @@ buildscript {//properties that you need to build the project
         log4j_version = constants.getProperty("log4jVersion")
         slf4j_version = constants.getProperty("slf4jVersion")
         corda_platform_version = constants.getProperty("platformVersion").toInteger()
+        hibernate_version = constants.getProperty("hibernateVersion")
+        snappy_version = constants.getProperty("snappyVersion")
         //springboot
         spring_boot_version = '2.5.15'
         spring_boot_gradle_plugin_version = '2.5.15'
@@ -34,7 +36,7 @@ buildscript {//properties that you need to build the project
         maven { url 'https://download.corda.net/maven/corda-dev' }
         maven { url 'https://download.corda.net/maven/corda-dependencies' }
         maven { url 'https://download.corda.net/maven/corda-releases' }
-
+        maven { url 'https://repo.gradle.org/gradle/libs-releases-local' }
         maven { url 'https://jitpack.io' }
     }
 
@@ -57,6 +59,15 @@ allprojects {//Properties that you need to compile your project (The application
         mavenCentral()
         maven { url 'https://download.corda.net/maven/corda-dependencies' }
         maven { url 'https://jitpack.io' }
+    }
+
+    java {
+        sourceCompatibility = VERSION_11
+        targetCompatibility = VERSION_11
+    }
+
+    compileJava {
+        options.compilerArgs << '-parameters'
     }
 
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {

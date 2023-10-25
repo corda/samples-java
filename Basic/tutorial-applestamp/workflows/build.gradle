@@ -59,6 +59,38 @@ dependencies {
     implementation 'com.google.guava:guava:23.0'
     // CorDapp dependencies.
     cordapp project(":contracts")
+
+    testRuntimeOnly "org.iq80.snappy:snappy:$snappy_version"
+}
+
+quasar {
+    excludePackages.addAll(
+            "antlr**",
+            "javax**",
+            "com.codahale**",
+            "com.fasterxml.**",
+            "com.github.benmanes.caffeine.**",
+            "com.google.**",
+            "com.lmax.**",
+            "com.zaxxer.**",
+            "net.bytebuddy**",
+            "io.github.classgraph**",
+            "io.netty*",
+            "liquibase**",
+            "net.i2p.crypto.**",
+            "nonapi.io.github.classgraph.**",
+            "org.apiguardian.**",
+            "org.bouncycastle**",
+            "org.codehaus.**",
+            "org.h2**",
+            "org.hibernate**",
+            "org.jboss.**",
+            "org.objenesis**",
+            "org.w3c.**",
+            "org.xml**",
+            "org.yaml**",
+            "kotlin**",
+            "rx**")
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
@@ -77,4 +109,8 @@ task integrationTest(type: Test, dependsOn: []) {
 
 test {
     jvmArgs = rootProject.ext.testJvmArgs
+}
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
