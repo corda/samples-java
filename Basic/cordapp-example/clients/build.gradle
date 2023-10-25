@@ -34,7 +34,6 @@ dependencies {
 //    mainClassName = "net.corda.samples.example.webserver.Starter"
 //}
 
-
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
     kotlinOptions {
         languageVersion = "1.8"

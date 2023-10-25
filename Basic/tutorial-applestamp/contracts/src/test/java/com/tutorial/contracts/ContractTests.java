@@ -7,7 +7,6 @@ import net.corda.core.identity.CordaX500Name;
 import net.corda.testing.core.TestIdentity;
 import net.corda.testing.node.MockServices;
 import org.junit.Test;
-import org.junit.Ignore;
 
 import java.util.Arrays;
 
@@ -20,7 +19,6 @@ public class ContractTests {
 
     //Template Tester
     @Test
-    @Ignore
     public void issuerAndRecipientCannotHaveSameEmail() {
         TemplateState state = new TemplateState("Hello-World", alice.getParty(), bob.getParty());
         ledger(ledgerServices, l -> {
@@ -41,7 +39,6 @@ public class ContractTests {
 
     //Basket of Apple cordapp testers
     @Test
-    @Ignore
     public void StampIssuanceCanOnlyHaveOneOutput() {
         AppleStamp stamp = new AppleStamp("FUji4072", alice.getParty(), bob.getParty(), new UniqueIdentifier());
         AppleStamp stamp2 = new AppleStamp("HoneyCrispy7864", alice.getParty(), bob.getParty(), new UniqueIdentifier());
@@ -63,7 +60,6 @@ public class ContractTests {
     }
 
     @Test
-    @Ignore
     public void StampMustHaveDescription() {
         AppleStamp stamp = new AppleStamp("", alice.getParty(), bob.getParty(), new UniqueIdentifier());
         AppleStamp stamp2 = new AppleStamp("FUji4072", alice.getParty(), bob.getParty(), new UniqueIdentifier());
