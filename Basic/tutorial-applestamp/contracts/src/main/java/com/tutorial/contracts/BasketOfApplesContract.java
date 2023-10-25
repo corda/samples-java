@@ -6,7 +6,6 @@ import net.corda.core.contracts.CommandData;
 import net.corda.core.contracts.Contract;
 import net.corda.core.transactions.LedgerTransaction;
 import org.jetbrains.annotations.NotNull;
-
 import static net.corda.core.contracts.ContractsDSL.requireThat;
 
 public class BasketOfApplesContract implements Contract {
