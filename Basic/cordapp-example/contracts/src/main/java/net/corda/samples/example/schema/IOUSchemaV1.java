@@ -30,10 +30,9 @@ public class IOUSchemaV1 extends MappedSchema {
     public static class PersistentIOU extends PersistentState {
         @Column(name = "lender") private final String lender;
         @Column(name = "borrower") private final String borrower;
-        @Column(name = "_value") private final int value;
-        @Column(name = "linear_id")
-        @Type(type = "uuid-char")
-        private final UUID linearId;
+        @Column(name = "iou_value") private final int value;
+        @Column(name = "linear_id") @Type (type = "uuid-char") private final UUID linearId;
+
 
 
         public PersistentIOU(String lender, String borrower, int value, UUID linearId) {
