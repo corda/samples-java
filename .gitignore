@@ -11,3 +11,4 @@
 **/node_modules/
 corda-nodeinfo/corda-nodeinfo.iml
 *~*
+*.prefs

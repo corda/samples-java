@@ -62,7 +62,8 @@ We can now check the issued house token in PartyB's vault. Since we issued it as
 
 Note that HouseState token is an evolvable token which is a `LinearState`, thus we can check PartyB's vault to view the `EvolvableToken`
 
-    run vaultQuery contractStateType: HouseState
+    //run vaultQuery contractStateType: HouseState
+    run vaultQuery contractStateType: net.corda.samples.dollartohousetoken.states.HouseState
 
 Note the linearId of the HouseState token from the previous step, we will need it to perform our DvP opearation. Goto PartyB's shell to initiate the token sale.
 
@@ -74,3 +75,11 @@ We could now verify that the non-fungible token has been transferred to PartyC a
     run vaultQuery contractStateType: com.r3.corda.lib.tokens.contracts.states.FungibleToken
     // Run on PartyC's shell
     run vaultQuery contractStateType: com.r3.corda.lib.tokens.contracts.states.NonFungibleToken
+
+
+Use RPC client
+In one terminal:
+./gradlew build
+In another terminal:
+curl -i -X GET http://localhost:50005/me -H 'Content-Type: application/json'
+curl -i -X POST 'http://localhost:50005/create-token?amount=100&recipient=PartyC&currency=USD' -H 'Content-Type: application/x-www-form-urlencoded'
