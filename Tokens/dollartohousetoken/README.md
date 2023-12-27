@@ -77,9 +77,9 @@ We could now verify that the non-fungible token has been transferred to PartyC a
     run vaultQuery contractStateType: com.r3.corda.lib.tokens.contracts.states.NonFungibleToken
 
 
-Use RPC client
-In one terminal:
-./gradlew build
-In another terminal:
-curl -i -X GET http://localhost:50005/me -H 'Content-Type: application/json'
-curl -i -X POST 'http://localhost:50005/create-token?amount=100&recipient=PartyC&currency=USD' -H 'Content-Type: application/x-www-form-urlencoded'
+Use RPC client  
+In one terminal:  
+./gradlew build  
+In another terminal:  
+curl -i -X GET http://localhost:50005/me -H 'Content-Type: application/json'  
+curl -i -X POST 'http://localhost:50005/create-token?amount=100&recipient=PartyC&currency=USD' -H 'Content-Type: application/x-www-form-urlencoded'  
