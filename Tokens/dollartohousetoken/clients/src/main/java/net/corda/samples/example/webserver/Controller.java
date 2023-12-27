@@ -143,18 +143,20 @@ public class Controller {
     @PostMapping(value = "create-token", produces = TEXT_PLAIN_VALUE, headers = "Content-Type=application/x-www-form-urlencoded")
     public ResponseEntity<String> issueIOU(HttpServletRequest request) throws IllegalArgumentException {
 
-        int amount = Integer.valueOf(request.getParameter("amount"));
+        Long amount = Long.valueOf(request.getParameter("amount"));
         String party = request.getParameter("recipient");
         String currency = request.getParameter("currency");
         // Get party objects for recipient and the currency.
-
-        //CordaX500Name partyX500Name = CordaX500Name.parse(party);
-        //Party otherParty = proxy.wellKnownPartyFromX500Name(partyX500Name);
+        System.out.println(amount);
+        System.out.println(currency);
+        System.out.println(party);
+        CordaX500Name partyX500Name = CordaX500Name.parse(party);
+        Party otherParty = proxy.wellKnownPartyFromX500Name(partyX500Name);
 
         // Create a new token state using the parameters given.
         try {
             // Start the IssueFlow. We block and waits for the flow to return.
-            SignedTransaction result = proxy.startTrackedFlowDynamic(FiatCurrencyIssueFlow.class, currency, amount, party)
+            SignedTransaction result = proxy.startTrackedFlowDynamic(FiatCurrencyIssueFlow.class, currency, amount, otherParty)
                     .getReturnValue().get();
             // Return the response.
             return ResponseEntity
