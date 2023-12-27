@@ -79,7 +79,8 @@ We could now verify that the non-fungible token has been transferred to PartyC a
 
 Use RPC client  
 In one terminal:  
-./gradlew build  
+./gradlew assemble    
+java -jar clients/build/libs/clients-1.0.jar --server.port=50005 --config.rpc.host=localhost --config.rpc.port=10006 --config.rpc.username=user1 --config.rpc.password=test  
 In another terminal:  
 curl -i -X GET http://localhost:50005/me -H 'Content-Type: application/json'  
 curl -i -X POST 'http://localhost:50005/create-token?amount=100&recipient=O=PartyC,L=Mumbai,C=IN&currency=USD' -H 'Content-Type: application/x-www-form-urlencoded'
