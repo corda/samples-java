@@ -7,6 +7,7 @@ import com.r3.corda.lib.tokens.money.FiatCurrency;
 import com.r3.corda.lib.tokens.selection.database.selector.DatabaseTokenSelection;
 import com.r3.corda.lib.tokens.workflows.types.PartyAndAmount;
 import kotlin.Pair;
+import com.r3.corda.lib.tokens.workflows.flows.rpc.MoveFungibleTokens;
 import net.corda.core.contracts.Amount;
 import net.corda.core.contracts.StateAndRef;
 import net.corda.core.flows.*;
@@ -44,17 +45,27 @@ public class FiatCurrencyMoveFlow extends FlowLogic<SignedTransaction> {
         /* Create instance of the fiat currency token amount */
         Amount<TokenType> priceToken = new Amount<>(longAmount, FiatCurrency.Companion.getInstance(this.currency));
 
+        System.out.println("recipient: " + this.recipient);
+        System.out.println("amount: " + this.amount);
+        System.out.println("longAmount: " + longAmount);
+        System.out.println("currency: " + this.currency);
+        System.out.println("priceToken: " + priceToken);
+
         /* Generate the move proposal, it returns the input-output pair for the fiat currency transfer, which we need to
         send to the Initiator */
         Pair<List<StateAndRef<FungibleToken>>, List<FungibleToken>> inputsAndOutputs = new DatabaseTokenSelection(getServiceHub())
                 // here we are generating input and output states which send the correct amount to the seller, and any change back to buyer
                 .generateMove(Collections.singletonList(new Pair<>(this.recipient, priceToken)), getOurIdentity());
 
-        FlowSession counterpartySession = initiateFlow(this.recipient);
-        /* Call SendStateAndRefFlow to send the inputs to the Initiator */
+        System.out.println("inputsAndOutputs: " + inputsAndOutputs);
+        
+        //FlowSession counterpartySession = initiateFlow(this.recipient);
+        //System.out.println("counterpartySession: " + counterpartySession);
+        /* 
+        // Call SendStateAndRefFlow to send the inputs to the Initiator 
         subFlow(new SendStateAndRefFlow(counterpartySession, inputsAndOutputs.getFirst()));
 
-        /* Send the output generated from the fiat currency move proposal to the initiator */
+        // Send the output generated from the fiat currency move proposal to the initiator 
         counterpartySession.send(inputsAndOutputs.getSecond());
         subFlow(new SignTransactionFlow(counterpartySession) {
             @Override
@@ -63,5 +74,8 @@ public class FiatCurrencyMoveFlow extends FlowLogic<SignedTransaction> {
             }
         });
         return subFlow(new ReceiveFinalityFlow(counterpartySession));
+        */
+        
+        return subFlow(new MoveFungibleTokens(priceToken, this.recipient));
     }
 }
