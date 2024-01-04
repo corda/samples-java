@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.corda.samples.dollartohousetoken.flows.FiatCurrencyIssueFlow;
+import net.corda.samples.dollartohousetoken.flows.FiatCurrencyMoveFlow;
 
 /**
  * Define your API endpoints here.
@@ -170,4 +171,37 @@ public class Controller {
                     .body(e.getMessage());
         }
     }
+
+    @PostMapping(value = "burn-token", produces = TEXT_PLAIN_VALUE, headers = "Content-Type=application/x-www-form-urlencoded")
+    public ResponseEntity<String> burnIOU(HttpServletRequest request) throws IllegalArgumentException {
+
+        Long amount = Long.valueOf(request.getParameter("amount"));
+        String party = request.getParameter("recipient");
+        String currency = request.getParameter("currency");
+        // Get party objects for recipient and the currency.
+        System.out.println(amount);
+        System.out.println(currency);
+        System.out.println(party);
+        CordaX500Name partyX500Name = CordaX500Name.parse(party);
+        Party otherParty = proxy.wellKnownPartyFromX500Name(partyX500Name);
+
+        // Create a new token state using the parameters given.
+        try {
+            // Start the IssueFlow. We block and waits for the flow to return.
+            System.out.println("burning token");
+            SignedTransaction result = proxy.startTrackedFlowDynamic(FiatCurrencyMoveFlow.class, currency, amount, otherParty)
+                    .getReturnValue().get();
+            // Return the response.
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body("Transaction id " + result.getId() + " committed to ledger.\n "
+                            + result.getTx().getOutput(0));
+            // For the purposes of this demo app, we do not differentiate by exception type.
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
+        }
+    }
+
 }
