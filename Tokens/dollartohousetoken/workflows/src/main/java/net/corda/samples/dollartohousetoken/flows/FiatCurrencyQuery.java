@@ -51,10 +51,12 @@ public class FiatCurrencyQuery extends FlowLogic<String>{
         }
         String tokenTypeId = receivedToken.getTokenType().getTokenIdentifier();
         String amoString = receivedToken.getAmount().toString();
+        String holder = receivedToken.getHolder().toString();
 
         {
             return "\nthe Token type: " + tokenTypeId +
-                   "\nAmount: " + amoString;
+                   "\nAmount: " + amoString +
+                   "\nHolder: " + holder;
         }
     }
 }
