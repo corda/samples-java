@@ -87,4 +87,4 @@ curl -i -X POST 'http://localhost:50005/create-token?amount=100&recipient=O=Part
 curl -i -X POST 'http://localhost:50005/create-token?amount=100&recipient=O=PartyA,L=London,C=GB&currency=USD' -H 'Content-Type: application/x-www-form-urlencoded'
 curl -i -X POST 'http://localhost:50005/burn-token?amount=100&recipient=O=PartyC,L=Mumbai,C=IN&currency=USD' -H 'Content-Type: application/x-www-form-urlencoded'
 curl -i -X POST 'http://localhost:50005/burn-token?amount=100&recipient=O=PartyA,L=London,C=GB&currency=USD' -H 'Content-Type: application/x-www-form-urlencoded'
-curl -i -X POST 'http://localhost:50005/query-token?recipient=O=PartyC,L=Mumbai,C=IN&currency=USD' -H 'Content-Type: application/x-www-form-urlencoded'
+curl -i -X POST 'http://localhost:50005/query-token' -H 'Content-Type: application/x-www-form-urlencoded'
