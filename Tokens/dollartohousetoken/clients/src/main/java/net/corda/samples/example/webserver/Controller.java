@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import net.corda.samples.dollartohousetoken.flows.FiatCurrencyIssueFlow;
 import net.corda.samples.dollartohousetoken.flows.FiatCurrencyMoveFlow;
+import net.corda.samples.dollartohousetoken.flows.FiatCurrencyQuery;
 
 /**
  * Define your API endpoints here.
@@ -196,6 +197,35 @@ public class Controller {
                     .status(HttpStatus.CREATED)
                     .body("Transaction id " + result.getId() + " committed to ledger.\n "
                             + result.getTx().getOutput(0));
+            // For the purposes of this demo app, we do not differentiate by exception type.
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
+        }
+    }
+
+
+    @PostMapping(value = "query-token", produces = TEXT_PLAIN_VALUE, headers = "Content-Type=application/x-www-form-urlencoded")
+    public ResponseEntity<String> queryIOU(HttpServletRequest request) throws IllegalArgumentException {
+
+        String party = request.getParameter("recipient");
+        String currency = request.getParameter("currency");
+        // Get party objects for recipient and the currency.
+        System.out.println(currency);
+        System.out.println(party);
+        CordaX500Name partyX500Name = CordaX500Name.parse(party);
+        Party otherParty = proxy.wellKnownPartyFromX500Name(partyX500Name);
+
+        // Create a new token state using the parameters given.
+        try {
+            // Start the IssueFlow. We block and waits for the flow to return.
+            String result = proxy.startTrackedFlowDynamic(FiatCurrencyQuery.class, currency, otherParty)
+                    .getReturnValue().get();
+            // Return the response.
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body("Transaction: " + result + "\n ");
             // For the purposes of this demo app, we do not differentiate by exception type.
         } catch (Exception e) {
             return ResponseEntity
