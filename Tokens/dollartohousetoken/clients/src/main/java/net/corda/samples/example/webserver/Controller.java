@@ -209,8 +209,12 @@ public class Controller {
     @PostMapping(value = "query-token", produces = TEXT_PLAIN_VALUE, headers = "Content-Type=application/x-www-form-urlencoded")
     public ResponseEntity<String> queryIOU(HttpServletRequest request) throws IllegalArgumentException {
 
-        String party = request.getParameter("recipient");
-        String currency = request.getParameter("currency");
+        //String party = request.getParameter("recipient");
+        //String currency = request.getParameter("currency");
+        // just hardcode the party and currency for now
+        String party = "O=PartyB,L=New York,C=US";
+        String currency = "USD";
+
         // Get party objects for recipient and the currency.
         System.out.println(currency);
         System.out.println(party);
