@@ -43,7 +43,7 @@ public class FiatCurrencyQuery extends FlowLogic<String>{
         FungibleToken receivedToken = null;
         try {
             
-            VaultQueryCriteria inputQueryCriteria = new VaultQueryCriteria(Vault.StateStatus.CONSUMED);
+            VaultQueryCriteria inputQueryCriteria = new VaultQueryCriteria(Vault.StateStatus.UNCONSUMED);
 
             receivedToken = getServiceHub().getVaultService().queryBy(FungibleToken.class,inputQueryCriteria).getStates().get(0).getState().getData();
         }catch (NoSuchElementException e){
@@ -53,7 +53,7 @@ public class FiatCurrencyQuery extends FlowLogic<String>{
         String amoString = receivedToken.getAmount().toString();
 
         {
-            return "\nthe Token id: " + tokenTypeId +
+            return "\nthe Token type: " + tokenTypeId +
                    "\nAmount: " + amoString;
         }
     }
