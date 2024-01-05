@@ -46,6 +46,16 @@ public class FiatCurrencyQuery extends FlowLogic<String>{
             VaultQueryCriteria inputQueryCriteria = new VaultQueryCriteria(Vault.StateStatus.UNCONSUMED);
 
             receivedToken = getServiceHub().getVaultService().queryBy(FungibleToken.class,inputQueryCriteria).getStates().get(0).getState().getData();
+
+            List<StateAndRef<FungibleToken>> arrList = getServiceHub().getVaultService().queryBy(FungibleToken.class,inputQueryCriteria).getStates();
+            ListIterator<StateAndRef<FungibleToken>> iterator = arrList.listIterator();
+            StateAndRef<FungibleToken> valueRet;
+            while (iterator.hasNext()) {
+              //System.out.println("Value is : " + iterator.next());
+              valueRet = iterator.next();
+              System.out.println("Value :" + valueRet.getState().getData());
+              receivedToken = valueRet.getState().getData();
+            }
         }catch (NoSuchElementException e){
             return "\nERROR: Your Token ID Cannot Be Found In The System";
         }
