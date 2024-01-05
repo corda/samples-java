@@ -7,6 +7,7 @@ import com.r3.corda.lib.tokens.contracts.types.IssuedTokenType;
 import com.r3.corda.lib.tokens.contracts.types.TokenType;
 import com.r3.corda.lib.tokens.money.FiatCurrency;
 import com.r3.corda.lib.tokens.money.MoneyUtilities;
+import com.r3.corda.lib.tokens.contracts.utilities.AmountUtilities;
 import com.r3.corda.lib.tokens.workflows.flows.rpc.IssueTokens;
 import com.r3.corda.lib.tokens.workflows.utilities.FungibleTokenBuilder;
 import net.corda.core.contracts.Amount;
@@ -17,6 +18,7 @@ import net.corda.core.flows.StartableByRPC;
 import net.corda.core.identity.Party;
 import net.corda.core.transactions.SignedTransaction;
 import org.intellij.lang.annotations.Flow;
+import java.util.Collections;
 
 /**
  * Flow class to issue fiat currency. FiatCurrency is defined in the Token SDK and is issued as a Fungible Token.
@@ -51,8 +53,17 @@ public class FiatCurrencyIssueFlow extends FlowLogic<SignedTransaction> {
                     .heldBy(recipient)
                     .buildFungibleToken();
 
+        final IssuedTokenType targetTokenType = new IssuedTokenType(getOurIdentity(), tokenType);
+
+        final Amount<IssuedTokenType> targetAmount = AmountUtilities.amount(amount, targetTokenType);
+        final FungibleToken targetToken = new FungibleToken(targetAmount, recipient, null);
+
         /* Issue the required amount of the token to the recipient */
-        return subFlow(new IssueTokens(ImmutableList.of(fungibleToken), ImmutableList.of(recipient)));
+        //return subFlow(new IssueTokens(ImmutableList.of(fungibleToken), ImmutableList.of(recipient)));
+
+        return subFlow(new IssueTokens(
+                Collections.singletonList(targetToken), // Output instances
+                Collections.emptyList()));
     }
 
     private TokenType getTokenType() throws FlowException{
