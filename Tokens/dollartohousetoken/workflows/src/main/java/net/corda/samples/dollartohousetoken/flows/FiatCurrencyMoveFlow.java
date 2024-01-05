@@ -4,6 +4,11 @@ import co.paralleluniverse.fibers.Suspendable;
 import com.r3.corda.lib.tokens.contracts.states.FungibleToken;
 import com.r3.corda.lib.tokens.contracts.types.TokenType;
 import com.r3.corda.lib.tokens.money.FiatCurrency;
+import com.r3.corda.lib.tokens.money.MoneyUtilities;
+import net.corda.core.identity.CordaX500Name;
+import net.corda.core.node.services.vault.QueryCriteria;
+import com.r3.corda.lib.tokens.contracts.utilities.AmountUtilities;
+import com.r3.corda.lib.tokens.workflows.utilities.QueryUtilities;
 import com.r3.corda.lib.tokens.selection.database.selector.DatabaseTokenSelection;
 import com.r3.corda.lib.tokens.workflows.types.PartyAndAmount;
 import kotlin.Pair;
@@ -43,39 +48,62 @@ public class FiatCurrencyMoveFlow extends FlowLogic<SignedTransaction> {
         Optional<Long> optFoo = Optional.ofNullable(null);
         long longAmount = optFoo.orElse( this.amount );
         /* Create instance of the fiat currency token amount */
-        Amount<TokenType> priceToken = new Amount<>(longAmount, FiatCurrency.Companion.getInstance(this.currency));
+        Amount<TokenType> tokenAmount = new Amount<>(longAmount, getTokenType());
 
         System.out.println("recipient: " + this.recipient);
         System.out.println("amount: " + this.amount);
         System.out.println("longAmount: " + longAmount);
         System.out.println("currency: " + this.currency);
-        System.out.println("priceToken: " + priceToken);
+        System.out.println("tokenAmount: " + tokenAmount);
 
         /* Generate the move proposal, it returns the input-output pair for the fiat currency transfer, which we need to
         send to the Initiator */
         Pair<List<StateAndRef<FungibleToken>>, List<FungibleToken>> inputsAndOutputs = new DatabaseTokenSelection(getServiceHub())
                 // here we are generating input and output states which send the correct amount to the seller, and any change back to buyer
-                .generateMove(Collections.singletonList(new Pair<>(this.recipient, priceToken)), getOurIdentity());
+                .generateMove(Collections.singletonList(new Pair<>(this.recipient, tokenAmount)), getOurIdentity());
 
         System.out.println("inputsAndOutputs: " + inputsAndOutputs);
         
-        //FlowSession counterpartySession = initiateFlow(this.recipient);
-        //System.out.println("counterpartySession: " + counterpartySession);
-        /* 
-        // Call SendStateAndRefFlow to send the inputs to the Initiator 
-        subFlow(new SendStateAndRefFlow(counterpartySession, inputsAndOutputs.getFirst()));
+        final TokenType usdTokenType = FiatCurrency.Companion.getInstance("USD");
+        final Party partyA = getServiceHub().getNetworkMapCache().getPeerByLegalName(
+                CordaX500Name.parse("O=PartyA,L=London,C=GB"));
+        final Party holderMint = getServiceHub().getNetworkMapCache().getPeerByLegalName(
+                CordaX500Name.parse("O=PartyA,L=London,C=GB"));
+        if (holderMint == null)
+            throw new FlowException("No Mint found");
 
-        // Send the output generated from the fiat currency move proposal to the initiator 
-        counterpartySession.send(inputsAndOutputs.getSecond());
-        subFlow(new SignTransactionFlow(counterpartySession) {
-            @Override
-            protected void checkTransaction(@NotNull SignedTransaction stx) throws FlowException {
-                // Custom Logic to validate transaction.
-            }
-        });
-        return subFlow(new ReceiveFinalityFlow(counterpartySession));
-        */
-        
-        return subFlow(new MoveFungibleTokens(priceToken, this.recipient));
+        // Who is going to own the output, and how much?
+        final Party partyC = getServiceHub().getNetworkMapCache().getPeerByLegalName(
+                CordaX500Name.parse("O=PartyC, L=Mumbai, C=IN"));
+        final Amount<TokenType> fiftyUSD = AmountUtilities.amount(50L, usdTokenType);
+        final PartyAndAmount<TokenType> fiftyUSDForPartyC = new PartyAndAmount<>(partyC, tokenAmount);
+
+        // Describe how to find those $ held by PartyA.
+        final QueryCriteria issuedByHolderMint = QueryUtilities.tokenAmountWithIssuerCriteria(usdTokenType, holderMint);
+        final QueryCriteria heldByPartyA = QueryUtilities.heldTokenAmountCriteria(usdTokenType, partyA);
+
+        // Do the move
+        final SignedTransaction moveTx = subFlow(new MoveFungibleTokens(
+                Collections.singletonList(fiftyUSDForPartyC), // Output instances
+                Collections.emptyList(), // Observers
+                issuedByHolderMint.and(heldByPartyA), // Criteria to find the inputs
+                partyA)); // change holder
+        return moveTx;
+    }
+
+    private TokenType getTokenType() throws FlowException {
+        switch (currency) {
+            case "USD":
+                return MoneyUtilities.getUSD();
+
+            case "GBP":
+                return MoneyUtilities.getGBP();
+
+            case "EUR":
+                return MoneyUtilities.getEUR();
+
+            default:
+                throw new FlowException("Currency Not Supported");
+        }
     }
 }
