@@ -40,33 +40,55 @@ public class FiatCurrencyQuery extends FlowLogic<String>{
     @Suspendable
     public String call() throws FlowException {
 
-        FungibleToken receivedToken = null;
+        FungibleToken[] receivedToken;
+        String[] tokenTypeId;
+        String[] amoString;
+        String[] holder;
+        int i = 0;
+        String retString = "";
+
         try {
             
             VaultQueryCriteria inputQueryCriteria = new VaultQueryCriteria(Vault.StateStatus.UNCONSUMED);
 
-            receivedToken = getServiceHub().getVaultService().queryBy(FungibleToken.class,inputQueryCriteria).getStates().get(0).getState().getData();
-
             List<StateAndRef<FungibleToken>> arrList = getServiceHub().getVaultService().queryBy(FungibleToken.class,inputQueryCriteria).getStates();
             ListIterator<StateAndRef<FungibleToken>> iterator = arrList.listIterator();
             StateAndRef<FungibleToken> valueRet;
+
+            int arraySize = 1;
+            receivedToken = new FungibleToken[arraySize];
+            tokenTypeId = new String[arraySize];
+            amoString = new String[arraySize];
+            holder = new String[arraySize];
+
             while (iterator.hasNext()) {
               //System.out.println("Value is : " + iterator.next());
               valueRet = iterator.next();
               System.out.println("Value :" + valueRet.getState().getData());
-              receivedToken = valueRet.getState().getData();
-            }
-        }catch (NoSuchElementException e){
-            return "\nERROR: Your Token ID Cannot Be Found In The System";
-        }
-        String tokenTypeId = receivedToken.getTokenType().getTokenIdentifier();
-        String amoString = receivedToken.getAmount().toString();
-        String holder = receivedToken.getHolder().toString();
 
-        {
-            return "\nthe Token type: " + tokenTypeId +
-                   "\nAmount: " + amoString +
-                   "\nHolder: " + holder;
+              if (receivedToken.length == i) {
+                // expand list
+                receivedToken = Arrays.copyOf(receivedToken, receivedToken.length + arraySize);
+                amoString = Arrays.copyOf(amoString, amoString.length + arraySize);
+                tokenTypeId = Arrays.copyOf(tokenTypeId, tokenTypeId.length + arraySize);
+                holder = Arrays.copyOf(holder, holder.length + arraySize);
+              }
+              receivedToken[i] = valueRet.getState().getData();
+
+              tokenTypeId[i] = receivedToken[i].getTokenType().getTokenIdentifier();
+              amoString[i] = receivedToken[i].getAmount().toString();
+              holder[i] = receivedToken[i].getHolder().toString();
+
+              retString = "\nthe Token type: " + tokenTypeId[i] +
+                "\nAmount: " + amoString[i] +
+                "\nHolder: " + holder[i];
+              i++;
+            }
+
+            return retString;
+        
+        } catch (NoSuchElementException e) {
+            return "\nERROR: Your Token ID Cannot Be Found In The System";
         }
     }
 }
