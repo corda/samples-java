@@ -77,7 +77,7 @@ We could now verify that the non-fungible token has been transferred to PartyC a
     run vaultQuery contractStateType: com.r3.corda.lib.tokens.contracts.states.NonFungibleToken
 
 
-Use RPC client  
+## Use RPC client  
 In one terminal:  
 ./gradlew assemble    
 java -jar clients/build/libs/clients-1.0.jar --server.port=50005 --config.rpc.host=localhost --config.rpc.port=10006 --config.rpc.username=user1 --config.rpc.password=test  
