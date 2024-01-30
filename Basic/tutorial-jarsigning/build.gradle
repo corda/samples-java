@@ -1,3 +1,5 @@
+import static org.gradle.api.JavaVersion.VERSION_17
+
 buildscript { //properties that you need to build the project
 
     Properties constants = new Properties()
@@ -50,13 +52,13 @@ allprojects { //Properties that you need to compile your project (The applicatio
         maven { url 'https://download.corda.net/maven/corda-lib' }
     }
 
-    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
-        kotlinOptions {
-            languageVersion = "1.2"
-            apiVersion = "1.2"
-            jvmTarget = "1.8"
-            javaParameters = true   // Useful for reflection.
-        }
+    java {
+        sourceCompatibility = VERSION_17
+        targetCompatibility = VERSION_17
+    }
+
+    compileJava {
+        options.compilerArgs << '-parameters'
     }
 
     jar {

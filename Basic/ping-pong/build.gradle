@@ -1,4 +1,4 @@
-import static org.gradle.api.JavaVersion.VERSION_11
+import static org.gradle.api.JavaVersion.VERSION_17
 
 buildscript { //properties that you need to build the project
 
@@ -53,13 +53,13 @@ allprojects { //Properties that you need to compile your project (The applicatio
         maven { url 'https://jitpack.io' }
     }
 
-    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
-        kotlinOptions {
-            languageVersion = "1.8"
-            apiVersion = "1.8"
-            jvmTarget = VERSION_11
-            javaParameters = true   // Useful for reflection.
-        }
+    java {
+        sourceCompatibility = VERSION_17
+        targetCompatibility = VERSION_17
+    }
+
+    compileJava {
+        options.compilerArgs << '-parameters'
     }
 
     jar {

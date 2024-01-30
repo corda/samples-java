@@ -1,3 +1,5 @@
+import static org.gradle.api.JavaVersion.VERSION_17
+
 buildscript {//properties that you need to build the project
     Properties constants = new Properties()
     file("$projectDir/../constants.properties").withInputStream { constants.load(it) }
@@ -44,8 +46,13 @@ allprojects {//Properties that you need to compile your project (The application
         maven { url 'https://jitpack.io' }
     }
 
-    tasks.withType(JavaCompile) {
-        options.compilerArgs << "-parameters" // Required by Corda's serialisation framework.
+    java {
+        sourceCompatibility = VERSION_17
+        targetCompatibility = VERSION_17
+    }
+
+    compileJava {
+        options.compilerArgs << '-parameters'
     }
 
     jar {
