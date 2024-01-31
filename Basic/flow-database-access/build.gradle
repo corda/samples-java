@@ -8,6 +8,7 @@ buildscript {//properties that you need to build the project
         corda_release_group = constants.getProperty("cordaReleaseGroup")
         corda_core_release_group =  constants.getProperty("cordaCoreReleaseGroup")
         corda_release_version = constants.getProperty("cordaVersion")
+        corda_shell_version = corda_release_version
         corda_core_release_version = constants.getProperty("cordaCoreVersion")
         corda_gradle_plugins_version = constants.getProperty("gradlePluginsVersion")
         kotlin_version = constants.getProperty("kotlinVersion")
@@ -22,7 +23,12 @@ buildscript {//properties that you need to build the project
         mavenLocal()
         mavenCentral()
 
-        maven { url 'https://download.corda.net/maven/corda-releases' }
+        maven {
+            url 'https://download.corda.net/maven/corda-releases'
+            mavenContent {
+                releasesOnly()
+            }
+        }
         maven { url 'https://download.corda.net/maven/corda-dev' }
     }
 
@@ -34,17 +40,8 @@ buildscript {//properties that you need to build the project
 }
 
 allprojects {//Properties that you need to compile your project (The application)
+    apply from: "${rootProject.projectDir}/../repositories.gradle"
     apply plugin: 'java'
-
-    repositories {
-        mavenLocal()
-
-        mavenCentral()
-        maven { url 'https://download.corda.net/maven/corda-dependencies' }
-        maven { url 'https://download.corda.net/maven/corda-releases' }
-        maven { url 'https://download.corda.net/maven/corda-dev' }
-        maven { url 'https://jitpack.io' }
-    }
 
     java {
         sourceCompatibility = VERSION_17
@@ -77,17 +74,17 @@ sourceSets {
 //Module dependencis
 dependencies {
     // Corda dependencies.
-    cordaProvided "$corda_core_release_group:corda-core:$corda_core_release_version"
-    cordaProvided "$corda_release_group:corda-node-api:$corda_release_version"
+    cordaBootstrapper "$corda_release_group:corda-node-api:$corda_release_version"
     corda "$corda_release_group:corda:$corda_release_version"
-    cordaDriver "net.corda:corda-shell:4.10"
 
     // CorDapp dependencies.
     cordapp project(":workflows")
 
+    cordaProvided "$corda_core_release_group:corda-core:$corda_core_release_version"
     cordaProvided "org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}"
     cordaProvided "org.apache.logging.log4j:log4j-web:${log4j_version}"
     cordaProvided "org.slf4j:jul-to-slf4j:$slf4j_version"
+    cordaDriver "net.corda:corda-shell:$corda_shell_version"
 }
 
 cordapp {
