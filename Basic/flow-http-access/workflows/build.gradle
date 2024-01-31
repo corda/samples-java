@@ -3,8 +3,6 @@ apply plugin: 'net.corda.plugins.cordapp'
 apply plugin: 'net.corda.plugins.cordformation'
 apply plugin: 'net.corda.plugins.quasar-utils'
 
-apply from: '../repositories.gradle'
-
 cordapp {
     targetPlatformVersion corda_platform_version.toInteger()
     minimumPlatformVersion corda_platform_version.toInteger()
