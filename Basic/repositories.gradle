@@ -1,0 +1,47 @@
+/*
+ * Required only for build the samples with Corda Enterprise
+ */
+ext.artifactory_contextUrl = 'https://software.r3.com/artifactory'
+ext.cordaArtifactoryUsername = System.getenv('CORDA_ARTIFACTORY_USERNAME') ?: ''
+ext.cordaArtifactoryPassword = System.getenv('CORDA_ARTIFACTORY_PASSWORD') ?: ''
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+
+    maven { url 'https://download.corda.net/maven/corda-dev' }
+    maven { url 'https://download.corda.net/maven/corda-dependencies' }
+    maven {
+        url 'https://repo.gradle.org/gradle/libs-releases'
+        mavenContent {
+            releasesOnly()
+        }
+    }
+    maven { url 'https://repo.gradle.org/gradle/libs-releases-local' }
+    maven { url 'https://jitpack.io' }
+
+    maven {
+        url "$artifactory_contextUrl/r3-corda-releases"
+        authentication {
+            basic(BasicAuthentication)
+        }
+        credentials {
+            username = cordaArtifactoryUsername
+            password = cordaArtifactoryPassword
+        }
+        mavenContent {
+            releasesOnly()
+        }
+    }
+
+    maven {
+        url "$artifactory_contextUrl/r3-corda-dev"
+        content {
+            includeModule 'com.r3.corda', 'corda-shell'
+        }
+        credentials {
+            username = cordaArtifactoryUsername
+            password = cordaArtifactoryPassword
+        }
+    }
+}
