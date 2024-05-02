@@ -1,3 +1,5 @@
+import static org.gradle.api.JavaVersion.VERSION_17
+
 buildscript {
     Properties constants = new Properties()
     file("$projectDir/../constants.properties").withInputStream { constants.load(it) }
@@ -15,8 +17,8 @@ buildscript {
         slf4j_version = constants.getProperty("slf4jVersion")
         corda_platform_version = constants.getProperty("platformVersion").toInteger()
         //springboot
-        spring_boot_version = '2.0.2.RELEASE'
-        spring_boot_gradle_plugin_version = '2.0.2.RELEASE'
+        spring_boot_version = '2.7.1'
+        spring_boot_gradle_plugin_version = '2.7.1'
     }
 
     repositories {
@@ -44,6 +46,7 @@ allprojects {
         mavenCentral()
         maven { url 'https://download.corda.net/maven/corda-dependencies' }
         maven { url 'https://jitpack.io' }
+        maven { url 'https://mvnrepository.com/artifact/com.google.common/google-collect' }
     }
 
     tasks.withType(JavaCompile) {
@@ -74,11 +77,11 @@ sourceSets {
 dependencies {
 
     // Corda dependencies.
-    cordaCompile "$corda_core_release_group:corda-core:$corda_core_release_version"
-    cordaCompile "$corda_release_group:corda-finance-contracts:$corda_release_version"
-    cordaCompile "$corda_release_group:corda-finance-workflows:$corda_release_version"
-    cordaCompile "$corda_release_group:corda-node-api:$corda_release_version"
-    cordaRuntime "$corda_release_group:corda:$corda_release_version"
+    cordaProvided "$corda_core_release_group:corda-core:$corda_core_release_version"
+    cordaProvided "$corda_release_group:corda-finance-contracts:$corda_release_version"
+    cordaProvided "$corda_release_group:corda-finance-workflows:$corda_release_version"
+    cordaProvided "$corda_release_group:corda-node-api:$corda_release_version"
+    cordaProvided "$corda_release_group:corda:$corda_release_version"
 
     // CorDapp dependencies.
     cordapp project(":workflows")
@@ -88,20 +91,22 @@ dependencies {
     cordapp "$corda_release_group:corda-finance-workflows:$corda_release_version"
     cordapp "$corda_release_group:corda-confidential-identities:$corda_release_version"
 
-    cordaCompile "org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}"
-    cordaCompile "org.apache.logging.log4j:log4j-web:${log4j_version}"
-    cordaCompile "org.slf4j:jul-to-slf4j:$slf4j_version"
+    cordaProvided "org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}"
+    cordaProvided "org.apache.logging.log4j:log4j-web:${log4j_version}"
+    cordaProvided "org.slf4j:jul-to-slf4j:$slf4j_version"
     cordaDriver "net.corda:corda-shell:4.10"
+
+    testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.8.0'
 
 }
 
 cordapp {
-    info {
-        name "Obligation CorDapp"
-        vendor "Corda Open Source"
+    //info {
+      //  name "Obligation CorDapp"
+       // vendor "Corda Open Source"
         targetPlatformVersion corda_platform_version
         minimumPlatformVersion corda_platform_version
-    }
+   // }
 }
 
 task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
