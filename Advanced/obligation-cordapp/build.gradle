@@ -1,5 +1,3 @@
-import static org.gradle.api.JavaVersion.VERSION_17
-
 buildscript {
     Properties constants = new Properties()
     file("$projectDir/../constants.properties").withInputStream { constants.load(it) }
@@ -82,22 +80,8 @@ allprojects {
         maven { url 'https://download.corda.net/maven/corda-dependencies' }
     }
 
-    java {
-        sourceCompatibility = VERSION_17
-        targetCompatibility = VERSION_17
-    }
-
     compileJava {
         options.compilerArgs << '-parameters'
-    }
-
-    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
-        kotlinOptions {
-            languageVersion = "1.9"
-            apiVersion = "1.9"
-            jvmTarget = VERSION_17
-            javaParameters = true   // Useful for reflection.
-        }
     }
 
     jar {
