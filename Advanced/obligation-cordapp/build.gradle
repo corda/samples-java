@@ -84,11 +84,24 @@ allprojects {
         maven { url 'https://download.corda.net/maven/corda-lib' }
         maven { url 'https://download.corda.net/maven/corda-lib-dev' }
         maven { url 'https://jitpack.io' }
-       // maven { url 'https://mvnrepository.com/artifact/com.google.common/google-collect' }
     }
 
-    tasks.withType(JavaCompile) {
-        options.compilerArgs << "-parameters" // Required by Corda's serialisation framework.
+    java {
+        sourceCompatibility = VERSION_17
+        targetCompatibility = VERSION_17
+    }
+
+    compileJava {
+        options.compilerArgs << '-parameters'
+    }
+
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
+        kotlinOptions {
+            languageVersion = "1.9"
+            apiVersion = "1.9"
+            jvmTarget = VERSION_17
+            javaParameters = true   // Useful for reflection.
+        }
     }
 
     jar {
@@ -98,7 +111,6 @@ allprojects {
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
 }
-
 
 apply plugin: 'net.corda.plugins.cordapp'
 apply plugin: 'net.corda.plugins.cordformation'
@@ -118,8 +130,10 @@ dependencies {
     cordaProvided "$corda_core_release_group:corda-core:$corda_core_release_version"
     cordaProvided "$corda_release_group:corda-finance-contracts:$corda_release_version"
     cordaProvided "$corda_release_group:corda-finance-workflows:$corda_release_version"
-    cordaProvided "$corda_release_group:corda-node-api:$corda_release_version"
-    cordaProvided "$corda_release_group:corda:$corda_release_version"
+    cordaBootstrapper ("$corda_release_group:corda-node-api:$corda_release_version") {
+        exclude group: "ch.qos.logback", module: "logback-classic"
+    }
+    corda "$corda_release_group:corda:$corda_release_version"
 
     // CorDapp dependencies.
     cordapp project(":workflows")
@@ -133,9 +147,6 @@ dependencies {
     cordaProvided "org.apache.logging.log4j:log4j-web:${log4j_version}"
     cordaProvided "org.slf4j:jul-to-slf4j:$slf4j_version"
     cordaDriver "net.corda:corda-shell:$corda_release_version"
-
-    //testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.8.0'
-
 }
 
 cordapp {

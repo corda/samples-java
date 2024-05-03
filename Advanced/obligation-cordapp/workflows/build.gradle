@@ -1,5 +1,3 @@
-import static org.gradle.api.JavaVersion.VERSION_17
-
 apply plugin: 'net.corda.plugins.cordapp'
 apply plugin: 'net.corda.plugins.cordformation'
 apply plugin: 'net.corda.plugins.quasar-utils'
