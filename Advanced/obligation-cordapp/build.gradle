@@ -80,10 +80,6 @@ allprojects {
         mavenCentral()
         maven { url 'https://download.corda.net/maven/corda-releases' }
         maven { url 'https://download.corda.net/maven/corda-dependencies' }
-        // Can be removed post-release - used to get nightly snapshot build.
-        maven { url 'https://download.corda.net/maven/corda-lib' }
-        maven { url 'https://download.corda.net/maven/corda-lib-dev' }
-        maven { url 'https://jitpack.io' }
     }
 
     java {
