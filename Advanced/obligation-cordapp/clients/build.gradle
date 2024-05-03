@@ -1,14 +1,24 @@
+import static org.gradle.api.JavaVersion.VERSION_17
+
 repositories {
     mavenLocal()
 
     mavenCentral()
+    maven { url 'https://dl.bintray.com/kotlin/exposed' }
     maven { url 'https://jitpack.io' }
-    maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda-releases' }
+    maven { url 'https://download.corda.net/maven/corda-releases' }
 }
 
+apply plugin: 'kotlin'
+apply plugin: 'net.corda.plugins.cordapp'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'net.corda.plugins.cordformation'
 apply plugin: 'net.corda.plugins.quasar-utils'
+
+cordapp {
+    targetPlatformVersion corda_platform_version.toInteger()
+    minimumPlatformVersion corda_platform_version.toInteger()
+}
 
 sourceSets {
     main {
@@ -22,7 +32,7 @@ sourceSets {
 // See https://docs.spring.io/dependency-management-plugin/docs/current/reference/html
 dependencyManagement {
     dependencies {
-        dependency "org.apache.logging.log4j:log4j-slf4j-impl:$log4j_version"
+        dependency "org.apache.logging.log4j:log4j-slf4j2-impl:$log4j_version"
     }
 }
 
@@ -33,10 +43,8 @@ configurations {
 }
 
 dependencies {
-    // CorDapp dependencies.
-    implementation project(":contracts")
-    implementation project(":workflows")
-
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
     testImplementation "junit:junit:$junit_version"
 
     // Corda dependencies.
@@ -52,10 +60,16 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-log4j2:$spring_boot_version"
     implementation "org.apache.logging.log4j:log4j-web:$log4j_version"
 
-    implementation group: 'org.bouncycastle', name: 'bcprov-jdk18on', version: '1.77'
-    cordapp "$corda_core_release_group:corda-finance-contracts:$corda_core_release_version"
-    cordapp "$corda_release_group:corda-finance-workflows:$corda_release_version"
+    cordaProvided "$corda_core_release_group:corda-finance-contracts:$corda_release_version"
+    cordaProvided "$corda_core_release_group:corda-finance-workflows:$corda_release_version"
 
+    // CorDapp dependencies.
+    implementation project(":contracts")
+    implementation project(":workflows")
+
+    implementation "org.bouncycastle:bcprov-jdk18on:1.75"
+    implementation "org.bouncycastle:bcpkix-jdk18on:1.75"
+    implementation "javax.annotation:javax.annotation-api:1.2"
 }
 
 
@@ -78,4 +92,8 @@ task runPartyCServer(type: JavaExec, dependsOn: jar) {
     classpath = sourceSets.main.runtimeClasspath
     main = 'net.corda.samples.obligation.server.Server'
     args '--server.port=10015', '--config.rpc.host=localhost', '--config.rpc.port=10014', '--config.rpc.username=user1', '--config.rpc.password=password'
+}
+
+jar {
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
 }

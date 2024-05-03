@@ -11,14 +11,48 @@ buildscript {
         corda_release_version = constants.getProperty("cordaVersion")
         corda_core_release_version = constants.getProperty("cordaCoreVersion")
         corda_gradle_plugins_version = constants.getProperty("gradlePluginsVersion")
+        kotlin_version = constants.getProperty("kotlinVersion")
         junit_version = constants.getProperty("junitVersion")
         quasar_version = constants.getProperty("quasarVersion")
+        quasar_exclusions = [
+                'co.paralleluniverse**',
+                'groovy**',
+                'com.esotericsoftware.**',
+                'jdk**',
+                'junit**',
+                'kotlin**',
+                'net.rubygrapefruit.**',
+                'org.gradle.**',
+                'org.apache.**',
+                'org.jacoco.**',
+                'org.junit**',
+                'org.slf4j**',
+                'worker.org.gradle.**',
+                'org.mockito.kotlin**',
+                'org.assertj**',
+                'org.hamcrest**',
+                'org.mockito**',
+                'org.opentest4j**',
+                'org.springframework**'
+        ]
         log4j_version = constants.getProperty("log4jVersion")
         slf4j_version = constants.getProperty("slf4jVersion")
         corda_platform_version = constants.getProperty("platformVersion").toInteger()
+        rxjava_version = constants.getProperty("rxJavaVersion")
+        snappy_version = constants.getProperty("snappyVersion")
         //springboot
-        spring_boot_version = '2.7.1'
-        spring_boot_gradle_plugin_version = '2.7.1'
+        spring_boot_version = '3.2.5'
+        spring_boot_gradle_plugin_version = '3.2.5'
+
+        testJvmArgs = ['--add-opens', 'java.base/java.time=ALL-UNNAMED', '--add-opens', 'java.base/java.io=ALL-UNNAMED',
+                       '--add-opens', 'java.base/java.util=ALL-UNNAMED', '--add-opens', 'java.base/java.net=ALL-UNNAMED',
+                       '--add-opens', 'java.base/java.nio=ALL-UNNAMED', '--add-opens', 'java.base/java.lang.invoke=ALL-UNNAMED',
+                       '--add-opens', 'java.base/java.security.cert=ALL-UNNAMED', '--add-opens', 'java.base/java.security=ALL-UNNAMED',
+                       '--add-opens', 'java.base/javax.net.ssl=ALL-UNNAMED', '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
+                       '--add-opens', 'java.base/java.util.concurrent=ALL-UNNAMED', '--add-opens', 'java.sql/java.sql=ALL-UNNAMED',]
+        testJvmFxArgs = [  '--add-exports', 'java.base/sun.nio.ch=ALL-UNNAMED',
+                           '--add-exports', 'javafx.base/com.sun.javafx=ALL-UNNAMED',
+                           '--add-exports', 'javafx.base/com.sun.javafx.collections=ALL-UNNAMED']
     }
 
     repositories {
@@ -29,11 +63,11 @@ buildscript {
     }
 
     dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "net.corda.plugins:cordapp:$corda_gradle_plugins_version"
         classpath "net.corda.plugins:cordformation:$corda_gradle_plugins_version"
         classpath "net.corda.plugins:quasar-utils:$corda_gradle_plugins_version"
         classpath "org.springframework.boot:spring-boot-gradle-plugin:$spring_boot_gradle_plugin_version"
-
     }
 }
 
@@ -44,9 +78,13 @@ allprojects {
     repositories {
         mavenLocal()
         mavenCentral()
+        maven { url 'https://download.corda.net/maven/corda-releases' }
         maven { url 'https://download.corda.net/maven/corda-dependencies' }
+        // Can be removed post-release - used to get nightly snapshot build.
+        maven { url 'https://download.corda.net/maven/corda-lib' }
+        maven { url 'https://download.corda.net/maven/corda-lib-dev' }
         maven { url 'https://jitpack.io' }
-        maven { url 'https://mvnrepository.com/artifact/com.google.common/google-collect' }
+       // maven { url 'https://mvnrepository.com/artifact/com.google.common/google-collect' }
     }
 
     tasks.withType(JavaCompile) {
@@ -91,22 +129,18 @@ dependencies {
     cordapp "$corda_release_group:corda-finance-workflows:$corda_release_version"
     cordapp "$corda_release_group:corda-confidential-identities:$corda_release_version"
 
-    cordaProvided "org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}"
+    cordaProvided "org.apache.logging.log4j:log4j-slf4j2-impl:${log4j_version}"
     cordaProvided "org.apache.logging.log4j:log4j-web:${log4j_version}"
     cordaProvided "org.slf4j:jul-to-slf4j:$slf4j_version"
-    cordaDriver "net.corda:corda-shell:4.10"
+    cordaDriver "net.corda:corda-shell:$corda_release_version"
 
-    testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.8.0'
+    //testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.8.0'
 
 }
 
 cordapp {
-    //info {
-      //  name "Obligation CorDapp"
-       // vendor "Corda Open Source"
-        targetPlatformVersion corda_platform_version
-        minimumPlatformVersion corda_platform_version
-   // }
+    targetPlatformVersion corda_platform_version.toInteger()
+    minimumPlatformVersion corda_platform_version.toInteger()
 }
 
 task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
@@ -118,11 +152,12 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         cordapp project(":workflows")
         cordapp project(":contracts")
 
-	runSchemaMigration = true
-        cordapp("$corda_release_group:corda-finance-contracts:$corda_release_version")
+	    cordapp("$corda_release_group:corda-finance-contracts:$corda_release_version")
         cordapp("$corda_release_group:corda-finance-workflows:$corda_release_version")
         cordapp("$corda_release_group:corda-confidential-identities:$corda_release_version")
         rpcUsers = [[ user: "user1", "password": "password", "permissions": ["ALL"]]]
+        runSchemaMigration = true
+
     }
     node {
         name "O=Notary,L=London,C=GB"
