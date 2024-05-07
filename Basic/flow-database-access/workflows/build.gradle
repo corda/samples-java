@@ -15,6 +15,8 @@ repositories {
     maven { url 'https://jitpack.io' }
     maven { url 'https://ci-artifactory.corda.r3cev.com/artifactory/corda' }
     maven { url 'https://repo.gradle.org/gradle/libs-releases' }
+    maven { url 'https://download.corda.net/maven/corda-releases' }
+    maven { url 'https://download.corda.net/maven/corda-dev' }
 }
 
 cordapp {
@@ -29,19 +31,30 @@ cordapp {
 }
 
 dependencies {
-    testCompile "junit:junit:$junit_version"
-
     // Corda dependencies.
-    cordaCompile "$corda_core_release_group:corda-core:$corda_core_release_version"
-    cordaCompile "$corda_release_group:corda-jackson:$corda_release_version"
-    cordaCompile "$corda_release_group:corda-rpc:$corda_release_version"
-    cordaCompile "$corda_release_group:corda-node-api:$corda_release_version"
-    cordaRuntime "$corda_release_group:corda:$corda_release_version"
+    cordaProvided "$corda_core_release_group:corda-core:$corda_core_release_version"
+    cordaProvided "$corda_release_group:corda-jackson:$corda_release_version"
+    cordaProvided "$corda_release_group:corda-rpc:$corda_release_version"
+    cordaProvided "$corda_release_group:corda-node-api:$corda_release_version"
+    corda "$corda_release_group:corda:$corda_release_version"
 
-    testCompile "$corda_release_group:corda-node-driver:$corda_release_version"
-    cordaRuntime "org.apache.logging.log4j:log4j-slf4j-impl:$log4j_version"
+    testImplementation "$corda_release_group:corda-node-driver:$corda_release_version"
+
+    testImplementation "junit:junit:$junit_version"
+    cordaProvided "org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}"
 }
 
 tasks.withType(JavaCompile) {
     options.compilerArgs << "-parameters" // Required for shell commands.
 }
+
+test {
+    jvmArgs = ['--add-opens', 'java.base/java.time=ALL-UNNAMED', '--add-opens', 'java.base/java.io=ALL-UNNAMED',
+               '--add-opens', 'java.base/java.util=ALL-UNNAMED', '--add-opens', 'java.base/java.net=ALL-UNNAMED',
+               '--add-opens', 'java.base/java.nio=ALL-UNNAMED', '--add-opens', 'java.base/java.lang.invoke=ALL-UNNAMED',
+               '--add-opens', 'java.base/java.security.cert=ALL-UNNAMED', '--add-opens', 'java.base/java.security=ALL-UNNAMED',
+               '--add-opens', 'java.base/javax.net.ssl=ALL-UNNAMED', '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
+               '--add-opens', 'java.base/java.util.concurrent=ALL-UNNAMED', '--add-opens', 'java.sql/java.sql=ALL-UNNAMED',
+               '--add-opens', 'java.base/sun.nio.ch=ALL-UNNAMED',]
+}
+

@@ -9,16 +9,17 @@ cordapp {
         licence "Apache License, Version 2.0"
         versionId 1
     }
+
     signing {
         enabled true
         options {
             Properties constants = new Properties()
-            file("../gradle.properties").withInputStream { constants.load(it) }
-            keystore getProperty('jar.sign.keystore')
-            alias "cordapp-signer"
-            storepass getProperty('jar.sign.password')
-            keypass getProperty('jar.sign.password')
-            storetype "PKCS12"
+            file("$projectDir/../gradle.properties").withInputStream { constants.load(it) }
+            keyStore = getProperty('jar.sign.keystore')
+            alias = "cordapp-signer"
+            storePassword = getProperty('jar.sign.password')
+            keyPassword = getProperty('jar.sign.password')
+            storeType = "PKCS12"
         }
     }
 }
