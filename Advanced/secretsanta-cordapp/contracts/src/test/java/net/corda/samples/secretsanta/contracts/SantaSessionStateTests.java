@@ -12,9 +12,7 @@ import org.junit.Test;
 
 import java.util.*;
 
-import static junit.framework.TestCase.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.Assert.*;
 
 public class SantaSessionStateTests {
 

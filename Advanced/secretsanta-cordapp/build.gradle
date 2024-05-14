@@ -1,3 +1,5 @@
+import static org.gradle.api.JavaVersion.VERSION_17
+
 buildscript { //properties that you need to build the project
     Properties constants = new Properties()
     file("$projectDir/../constants.properties").withInputStream { constants.load(it) }
@@ -11,26 +13,52 @@ buildscript { //properties that you need to build the project
         kotlin_version = constants.getProperty("kotlinVersion")
         junit_version = constants.getProperty("junitVersion")
         quasar_version = constants.getProperty("quasarVersion")
+        quasar_exclusions = [
+                'co.paralleluniverse**',
+                'groovy**',
+                'com.esotericsoftware.**',
+                'jdk**',
+                'junit**',
+                'kotlin**',
+                'net.rubygrapefruit.**',
+                'org.gradle.**',
+                'org.apache.**',
+                'org.jacoco.**',
+                'org.junit**',
+                'org.slf4j**',
+                'worker.org.gradle.**',
+                'org.mockito.kotlin**',
+                'org.assertj**',
+                'org.hamcrest**',
+                'org.mockito**',
+                'org.opentest4j**',
+                'org.springframework**'
+        ]
         log4j_version = constants.getProperty("log4jVersion")
         slf4j_version = constants.getProperty("slf4jVersion")
         corda_platform_version = constants.getProperty("platformVersion").toInteger()
 
         // springboot
-        spring_boot_version = '2.0.2.RELEASE'
-        spring_boot_gradle_plugin_version = '2.0.2.RELEASE'
+        spring_boot_version = '3.2.5'
+        spring_boot_gradle_plugin_version = '3.2.5'
 
-        accounts_release_version = '1.0'
+        accounts_release_version = '1.1-RC01'
         accounts_release_group = 'com.r3.corda.lib.accounts'
         confidential_id_release_group = "com.r3.corda.lib.ci"
-        confidential_id_release_version = "1.0"
+        confidential_id_release_version = "1.2-RC01"
+
+        test_add_opens = ['--add-opens', 'java.base/java.time=ALL-UNNAMED', '--add-opens', 'java.base/java.io=ALL-UNNAMED',
+                          '--add-opens', 'java.base/java.util=ALL-UNNAMED', '--add-opens', 'java.base/java.net=ALL-UNNAMED',
+                          '--add-opens', 'java.base/java.nio=ALL-UNNAMED', '--add-opens', 'java.base/java.lang.invoke=ALL-UNNAMED',
+                          '--add-opens', 'java.base/java.security.cert=ALL-UNNAMED', '--add-opens', 'java.base/java.security=ALL-UNNAMED',
+                          '--add-opens', 'java.base/javax.net.ssl=ALL-UNNAMED', '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
+                          '--add-opens', 'java.base/java.util.concurrent=ALL-UNNAMED', '--add-opens', 'java.sql/java.sql=ALL-UNNAMED',]
     }
 
     repositories {
         mavenLocal()
         mavenCentral()
         maven { url 'https://jitpack.io' }
-        maven { url 'https://repo.gradle.org/gradle/libs-releases' }
-        maven { url 'http://software.r3.com/artifactory/corda-lib' }
         maven { url 'https://download.corda.net/maven/corda-releases' }
     }
 
@@ -56,20 +84,17 @@ allprojects {//Properties that you need to compile your project (The application
         mavenCentral()
         maven { url 'https://jitpack.io' }
         maven { url 'https://download.corda.net/maven/corda-dependencies' }
+        maven { url 'https://download.corda.net/maven/corda-releases' }
     }
 
-    tasks.withType(JavaCompile) {
-        options.compilerArgs << "-parameters" // Required by Corda's serialisation framework.
+    java {
+        sourceCompatibility = VERSION_17
+        targetCompatibility = VERSION_17
     }
 
-//    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
-//        kotlinOptions {
-//            languageVersion = "1.2"
-//            apiVersion = "1.2"
-//            jvmTarget = "1.8"
-//            javaParameters = true   // Useful for reflection.
-//        }
-//    }
+    compileJava {
+        options.compilerArgs << '-parameters'
+    }
 
     jar {
         // This makes the JAR's SHA-256 hash repeatable.
@@ -93,20 +118,22 @@ sourceSets {
 
 //Module dependencis
 dependencies {
+    testImplementation "junit:junit:$junit_version"
     // Corda dependencies.
-    cordaCompile "$corda_core_release_group:corda-core:$corda_core_release_version"
-    cordaCompile "$corda_release_group:corda-node-api:$corda_release_version"
-    cordaRuntime "$corda_release_group:corda:$corda_release_version"
+    cordaProvided "$corda_core_release_group:corda-core:$corda_core_release_version"
+    cordaBootstrapper ("$corda_release_group:corda-node-api:$corda_release_version") {
+        exclude group: "ch.qos.logback", module: "logback-classic"
+    }
+    corda "$corda_release_group:corda:$corda_release_version"
 
     // CorDapp dependencies.
     cordapp project(":workflows")
     cordapp project(":contracts")
 
-    cordaCompile "org.slf4j:jul-to-slf4j:$slf4j_version"
-    cordaCompile "org.apache.logging.log4j:log4j-web:${log4j_version}"
-    cordaCompile "org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}"
-    cordaDriver "net.corda:corda-shell:4.10"
-
+    cordaProvided "org.slf4j:jul-to-slf4j:$slf4j_version"
+    cordaProvided "org.apache.logging.log4j:log4j-web:${log4j_version}"
+    cordaProvided "org.apache.logging.log4j:log4j-slf4j2-impl:${log4j_version}"
+    cordaDriver "net.corda:corda-shell:$corda_release_version"
 }
 
 //Task to deploy the nodes in order to bootstrap a network
@@ -117,11 +144,6 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
      * the notion of cordapps. In production, Notary does not need cordapps as well. This is just a short cut to load
      * the Corda network bootstrapper.
      */
-
-    //Java version check
-    if (JavaVersion.current() != JavaVersion.VERSION_1_8){
-        throw new GradleException("This build must be run with java 8")
-    }
 
     nodeDefaults {
         projectCordapp { deploy = true }
@@ -158,5 +180,9 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
 
         rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
     }
+}
 
+cordapp {
+    targetPlatformVersion corda_platform_version.toInteger()
+    minimumPlatformVersion corda_platform_version.toInteger()
 }
