@@ -22,6 +22,7 @@ dependencies {
     // CorDapp dependencies.
     implementation project(":contracts")
     implementation project(":workflows")
+
     implementation("org.springframework.boot:spring-boot-starter-websocket:$spring_boot_version") {
         exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
     }

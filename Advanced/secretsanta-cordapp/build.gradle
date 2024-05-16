@@ -116,7 +116,7 @@ sourceSets {
     }
 }
 
-//Module dependencis
+//Module dependencies
 dependencies {
     testImplementation "junit:junit:$junit_version"
     // Corda dependencies.

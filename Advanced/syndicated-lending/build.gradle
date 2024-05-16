@@ -106,7 +106,7 @@ sourceSets {
         }
     }
 }
-//Module dependencis
+//Module dependencies
 dependencies {
     // Corda dependencies.
     cordaProvided "$corda_core_release_group:corda-core:$corda_core_release_version"

@@ -17,8 +17,6 @@ sourceSets {
 }
 
 dependencies {
-    implementation 'com.google.code.gson:gson:2.8.5'
-
     // Corda dependencies.
     implementation "$corda_release_group:corda-rpc:$corda_release_version"
     implementation "$corda_core_release_group:corda-core:$corda_core_release_version"
@@ -26,6 +24,8 @@ dependencies {
     // CorDapp dependencies.
     implementation project(":contracts")
     implementation project(":workflows")
+
+    implementation 'com.google.code.gson:gson:2.8.5'
     implementation("org.springframework.boot:spring-boot-starter-websocket:$spring_boot_version") {
         exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
     }
