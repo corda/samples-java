@@ -6,7 +6,6 @@ import com.r3.corda.lib.accounts.contracts.states.AccountInfo;
 import com.r3.corda.lib.accounts.workflows.flows.RequestKeyForAccount;
 import com.r3.corda.lib.accounts.workflows.services.AccountService;
 import com.r3.corda.lib.accounts.workflows.services.KeyManagementBackedAccountService;
-import com.sun.istack.NotNull;
 import net.corda.core.contracts.ReferencedStateAndRef;
 import net.corda.core.contracts.StateAndRef;
 import net.corda.core.contracts.UniqueIdentifier;
@@ -24,6 +23,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import net.corda.core.identity.CordaX500Name;
+import org.jetbrains.annotations.NotNull;
 
 public class CreateGameFlow {
 

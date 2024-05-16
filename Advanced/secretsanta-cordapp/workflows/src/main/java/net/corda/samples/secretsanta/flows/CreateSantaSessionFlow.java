@@ -1,7 +1,6 @@
 package net.corda.samples.secretsanta.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
-import com.sun.istack.Nullable;
 import net.corda.samples.secretsanta.contracts.SantaSessionContract;
 import net.corda.samples.secretsanta.states.SantaSessionState;
 import net.corda.core.contracts.CommandData;
@@ -15,6 +14,7 @@ import static java.util.Collections.singletonList;
 
 import java.util.*;
 import net.corda.core.identity.CordaX500Name;
+import org.jetbrains.annotations.Nullable;
 
 
 /**

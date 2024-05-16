@@ -6,7 +6,6 @@ import com.r3.corda.lib.accounts.contracts.states.AccountInfo;
 import com.r3.corda.lib.accounts.workflows.flows.RequestKeyForAccount;
 import com.r3.corda.lib.accounts.workflows.services.AccountService;
 import com.r3.corda.lib.accounts.workflows.services.KeyManagementBackedAccountService;
-import com.sun.istack.NotNull;
 import net.corda.core.contracts.StateAndRef;
 import net.corda.core.flows.*;
 import net.corda.core.identity.AbstractParty;
@@ -18,6 +17,7 @@ import net.corda.samples.snl.states.BoardConfig;
 import java.security.SignatureException;
 import java.util.*;
 import net.corda.core.identity.CordaX500Name;
+import org.jetbrains.annotations.NotNull;
 
 public class CreateBoardConfig {
     private CreateBoardConfig() {}

@@ -17,28 +17,28 @@ sourceSets {
 }
 
 dependencies {
-    implementation 'com.google.code.gson:gson:2.8.5'
-
     // Corda dependencies.
-    compile "$corda_release_group:corda-rpc:$corda_release_version"
+    implementation "$corda_release_group:corda-rpc:$corda_release_version"
+    implementation "$corda_core_release_group:corda-core:$corda_core_release_version"
 
     // CorDapp dependencies.
-    compile project(":contracts")
-    compile project(":workflows")
-    compile("org.springframework.boot:spring-boot-starter-websocket:$spring_boot_version") {
+    implementation project(":contracts")
+    implementation project(":workflows")
+
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation("org.springframework.boot:spring-boot-starter-websocket:$spring_boot_version") {
         exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
     }
-    compile "org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}"
-    compile "org.apache.logging.log4j:log4j-web:${log4j_version}"
-    compile "org.slf4j:jul-to-slf4j:$slf4j_version"
+    implementation "org.apache.logging.log4j:log4j-slf4j2-impl:${log4j_version}"
+    implementation "org.apache.logging.log4j:log4j-web:${log4j_version}"
+    implementation "org.slf4j:jul-to-slf4j:$slf4j_version"
 
     // SendGrid
     implementation 'com.sendgrid:sendgrid-java:4.7.0'
-    compile 'com.sendgrid:sendgrid-java:4.7.0'
 }
 
 springBoot {
-    mainClassName = "net.corda.samples.secretsanta.webserver.Server"
+    mainClass = "net.corda.samples.secretsanta.webserver.Starter"
 }
 
 /* The Client is the communication channel between the external and the node. This task will help you immediately
@@ -60,4 +60,8 @@ task runSantaServer(type: JavaExec, dependsOn: assemble) {
     classpath = sourceSets.main.runtimeClasspath
     main = 'net.corda.samples.secretsanta.webserver.Starter'
     args '--server.port=10056', '--config.rpc.host=localhost', '--config.rpc.port=10016', '--config.rpc.username=user1', '--config.rpc.password=test'
+}
+
+tasks.withType(Jar) {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }

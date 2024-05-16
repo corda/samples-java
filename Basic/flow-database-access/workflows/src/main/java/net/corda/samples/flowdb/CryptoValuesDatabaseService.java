@@ -39,7 +39,7 @@ public class CryptoValuesDatabaseService extends DatabaseService {
      * Updates the value of a crypto token in the table of crypto values.
      */
     protected void updateTokenValue(String token, Integer value) throws SQLException {
-        final String query = "update " + TABLE_NAME + " set value = ? where token = ?";
+        final String query = "update " + TABLE_NAME + " set token_value = ? where token = ?";
         final Map<Integer, Object> params = new HashMap<>();
         params.put(1, value);
         params.put(2, token);
@@ -52,14 +52,14 @@ public class CryptoValuesDatabaseService extends DatabaseService {
      * Retrieves the value of a crypto token in the table of crypto values.
      */
     protected Integer queryTokenValue(String token) throws SQLException {
-        final String query = "select value from " + TABLE_NAME + " where token = ?";
+        final String query = "select token_value from " + TABLE_NAME + " where token = ?";
         final Map<Integer, Object> params = new HashMap<>();
         params.put(1, token);
 
         Function<ResultSet, Object> transformer = (it) -> {
             Integer i = null;
             try {
-                i = it.getInt("value");
+                i = it.getInt("token_value");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -80,7 +80,7 @@ public class CryptoValuesDatabaseService extends DatabaseService {
 
     private void setUpStorage() throws SQLException {
         final String query = "create table if not exists " + TABLE_NAME +
-                "(token varchar(64), value int)";
+                "(token varchar(64), token_value int)";
         executeUpdate(query, Collections.emptyMap());
         log.info("Created crypto_values table.");
     }

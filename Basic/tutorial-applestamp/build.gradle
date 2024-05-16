@@ -14,14 +14,36 @@ buildscript {//properties that you need to build the project
         kotlin_version = constants.getProperty("kotlinVersion")
         junit_version = constants.getProperty("junitVersion")
         quasar_version = constants.getProperty("quasarVersion")
+        quasar_exclusions = [
+                'co.paralleluniverse**',
+                'groovy**',
+                'com.esotericsoftware.**',
+                'jdk**',
+                'junit**',
+                'kotlin**',
+                'net.rubygrapefruit.**',
+                'org.gradle.**',
+                'org.apache.**',
+                'org.jacoco.**',
+                'org.junit**',
+                'org.slf4j**',
+                'worker.org.gradle.**',
+                'org.mockito.kotlin**',
+                'org.assertj**',
+                'org.hamcrest**',
+                'org.mockito**',
+                'org.opentest4j**',
+                'org.springframework**'
+        ]
         log4j_version = constants.getProperty("log4jVersion")
         slf4j_version = constants.getProperty("slf4jVersion")
         corda_platform_version = constants.getProperty("platformVersion").toInteger()
         hibernate_version = constants.getProperty("hibernateVersion")
         snappy_version = constants.getProperty("snappyVersion")
         //springboot
-        spring_boot_version = '2.5.15'
-        spring_boot_gradle_plugin_version = '2.5.15'
+        spring_boot_version = '3.2.5'
+        spring_boot_gradle_plugin_version = '3.2.5'
+
         testJvmArgs = ['--add-opens', 'java.base/java.time=ALL-UNNAMED', '--add-opens', 'java.base/java.io=ALL-UNNAMED',
                        '--add-opens', 'java.base/java.util=ALL-UNNAMED', '--add-opens', 'java.base/java.net=ALL-UNNAMED',
                        '--add-opens', 'java.base/java.nio=ALL-UNNAMED', '--add-opens', 'java.base/java.lang.invoke=ALL-UNNAMED',
@@ -59,6 +81,12 @@ allprojects {//Properties that you need to compile your project (The application
     apply from: "${rootProject.projectDir}/../repositories.gradle"
     apply plugin: 'java'
 
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url 'https://download.corda.net/maven/corda-releases' }
+    }
+
     java {
         sourceCompatibility = VERSION_17
         targetCompatibility = VERSION_17
@@ -66,15 +94,6 @@ allprojects {//Properties that you need to compile your project (The application
 
     compileJava {
         options.compilerArgs << '-parameters'
-    }
-
-    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
-        kotlinOptions {
-            languageVersion = "1.8"
-            apiVersion = "1.8"
-            jvmTarget = VERSION_11
-            javaParameters = true   // Useful for reflection.
-        }
     }
 
     jar {
@@ -97,7 +116,7 @@ sourceSets {
     }
 }
 
-//Module dependencis
+//Module dependencies
 dependencies {
 
     cordaBootstrapper "$corda_release_group:corda-node-api:$corda_release_version"
@@ -108,7 +127,7 @@ dependencies {
     cordapp project(":contracts")
 
     cordaProvided "$corda_core_release_group:corda-core:$corda_core_release_version"
-    cordaProvided "org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}"
+    cordaProvided "org.apache.logging.log4j:log4j-slf4j2-impl:${log4j_version}"
     cordaProvided "org.apache.logging.log4j:log4j-web:${log4j_version}"
     cordaProvided "org.slf4j:jul-to-slf4j:$slf4j_version"
     cordaDriver "net.corda:corda-shell:$corda_shell_version"

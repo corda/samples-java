@@ -1,7 +1,6 @@
 package net.corda.samples.secretsanta.states;
 
 import net.corda.samples.secretsanta.contracts.SantaSessionContract;
-import com.sun.istack.NotNull;
 import net.corda.core.contracts.BelongsToContract;
 import net.corda.core.contracts.ContractState;
 import net.corda.core.contracts.LinearState;
@@ -9,6 +8,7 @@ import net.corda.core.contracts.UniqueIdentifier;
 import net.corda.core.identity.AbstractParty;
 import net.corda.core.identity.Party;
 import net.corda.core.serialization.ConstructorForDeserialization;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 

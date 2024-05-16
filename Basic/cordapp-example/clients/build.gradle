@@ -1,6 +1,4 @@
-import static org.gradle.api.JavaVersion.VERSION_11
-
-//apply plugin: 'org.springframework.boot'
+apply plugin: 'org.springframework.boot'
 
 sourceSets {
     main {
@@ -8,6 +6,11 @@ sourceSets {
             srcDir rootProject.file("config/dev")
         }
     }
+}
+
+cordapp {
+    targetPlatformVersion corda_platform_version.toInteger()
+    minimumPlatformVersion corda_platform_version.toInteger()
 }
 
 dependencies {
@@ -23,16 +26,16 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-websocket:$spring_boot_version") {
         exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
     }
-    implementation "org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}"
+    implementation "org.apache.logging.log4j:log4j-slf4j2-impl:${log4j_version}"
     implementation "org.apache.logging.log4j:log4j-web:${log4j_version}"
     implementation "org.slf4j:jul-to-slf4j:$slf4j_version"
     implementation "org.bouncycastle:bcprov-jdk18on:1.75"
     implementation "org.bouncycastle:bcpkix-jdk18on:1.75"
 }
 
-//springBoot {
-//    mainClassName = "net.corda.samples.example.webserver.Starter"
-//}
+springBoot {
+    mainClass = "net.corda.samples.example.webserver.Starter"
+}
 
 /* The Client is the communication channel between the external and the node. This task will help you immediately
  * execute your rpc methods in the main method of the client.kt. You can somewhat see this as a quick test of making
