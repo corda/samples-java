@@ -44,3 +44,7 @@ dependencies {
     // CorDapp dependencies.
     cordapp project(":oracle-service")
 }
+
+test {
+    jvmArgs = rootProject.ext.test_add_opens
+}
