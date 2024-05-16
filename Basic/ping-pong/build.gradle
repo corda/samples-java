@@ -104,7 +104,7 @@ sourceSets {
     }
 }
 
-//Module dependencis
+//Module dependencies
 dependencies {
     // Corda dependencies.
     // Corda dependencies.

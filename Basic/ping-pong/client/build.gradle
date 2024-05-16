@@ -1,5 +1,3 @@
-//apply plugin: 'org.springframework.boot'
-
 sourceSets {
     main {
         resources {
@@ -28,5 +26,4 @@ task pingPartyBJava(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     main = 'net.corda.samples.pingpong.Client'
     args 'localhost:10006', 'O=PartyB,L=New York,C=US'
-
 }

@@ -32,11 +32,11 @@ dependencies {
     cordaProvided "org.jetbrains.kotlin:kotlin-stdlib:1.8.22"
     cordaProvided "javax.persistence:javax.persistence-api:2.2"
     cordaProvided 'com.google.guava:guava:23.0'
+    testImplementation "junit:junit:$junit_version"
 
     // Corda dependencies.
     cordaProvided "$corda_core_release_group:corda-core:$corda_core_release_version"
     testImplementation "$corda_release_group:corda-node-driver:$corda_release_version"
-    testImplementation "junit:junit:$junit_version"
     testImplementation "$corda_core_release_group:corda-test-utils:$corda_core_release_version"
     testImplementation "$corda_core_release_group:corda-core-test-utils:$corda_core_release_version"
 }
