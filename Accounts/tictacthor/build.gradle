@@ -1,3 +1,5 @@
+import static org.gradle.api.JavaVersion.VERSION_17
+
 buildscript {
     Properties constants = new Properties()
     file("$projectDir/../constants.properties").withInputStream { constants.load(it) }
@@ -17,15 +19,22 @@ buildscript {
         corda_platform_version = constants.getProperty("platformVersion").toInteger()
 
         //springboot
-        spring_boot_version = '2.0.2.RELEASE'
-        spring_boot_gradle_plugin_version = '2.0.2.RELEASE'
+        spring_boot_version = '2.5.5'
+        spring_boot_gradle_plugin_version = '2.5.5'
 
         //account
         accounts_release_group = 'com.r3.corda.lib.accounts'
-        accounts_release_version = '1.0'
+        accounts_release_version = '1.1-RC01'
         //CI
         confidential_id_release_group = "com.r3.corda.lib.ci"
-        confidential_id_release_version = "1.0"
+        confidential_id_release_version = "1.2-RC01"
+
+        test_add_opens = ['--add-opens', 'java.base/java.time=ALL-UNNAMED', '--add-opens', 'java.base/java.io=ALL-UNNAMED',
+                          '--add-opens', 'java.base/java.util=ALL-UNNAMED', '--add-opens', 'java.base/java.net=ALL-UNNAMED',
+                          '--add-opens', 'java.base/java.nio=ALL-UNNAMED', '--add-opens', 'java.base/java.lang.invoke=ALL-UNNAMED',
+                          '--add-opens', 'java.base/java.security.cert=ALL-UNNAMED', '--add-opens', 'java.base/java.security=ALL-UNNAMED',
+                          '--add-opens', 'java.base/javax.net.ssl=ALL-UNNAMED', '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
+                          '--add-opens', 'java.base/java.util.concurrent=ALL-UNNAMED', '--add-opens', 'java.sql/java.sql=ALL-UNNAMED',]
     }
 
     repositories {
@@ -53,6 +62,7 @@ allprojects {
 
         mavenCentral()
         maven { url 'https://download.corda.net/maven/corda-dependencies' }
+        maven { url 'https://download.corda.net/maven/corda-releases' }
         maven { url 'https://jitpack.io' }
         //SDK lib
         maven { url 'https://download.corda.net/maven/corda-lib' }
@@ -60,8 +70,13 @@ allprojects {
         maven { url 'https://repo.gradle.org/gradle/libs-releases' }
     }
 
-    tasks.withType(JavaCompile) {
-        options.compilerArgs << "-parameters" // Required by Corda's serialisation framework.
+    java {
+        sourceCompatibility = VERSION_17
+        targetCompatibility = VERSION_17
+    }
+
+    compileJava {
+        options.compilerArgs << '-parameters'
     }
 
     jar {
@@ -71,9 +86,6 @@ allprojects {
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
 }
-
-
-
 
 apply plugin: 'net.corda.plugins.cordapp'
 apply plugin: 'net.corda.plugins.cordformation'
@@ -89,18 +101,20 @@ sourceSets {
 
 dependencies {
     // Corda dependencies.
-    cordaCompile "$corda_core_release_group:corda-core:$corda_core_release_version"
-    cordaCompile "$corda_release_group:corda-node-api:$corda_release_version"
-    cordaRuntime "$corda_release_group:corda:$corda_release_version"
+    cordaProvided "$corda_core_release_group:corda-core:$corda_core_release_version"
+    cordaBootstrapper ("$corda_release_group:corda-node-api:$corda_release_version") {
+        exclude group: "ch.qos.logback", module: "logback-classic"
+    }
+    corda "$corda_release_group:corda:$corda_release_version"
 
     // CorDapp dependencies.
     cordapp project(":workflows")
     cordapp project(":contracts")
 
-    cordaCompile "org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}"
-    cordaCompile "org.apache.logging.log4j:log4j-web:${log4j_version}"
-    cordaCompile "org.slf4j:jul-to-slf4j:$slf4j_version"
-    cordaDriver "net.corda:corda-shell:4.10"
+    cordaProvided "org.apache.logging.log4j:log4j-slf4j2-impl:${log4j_version}"
+    cordaProvided "org.apache.logging.log4j:log4j-web:${log4j_version}"
+    cordaProvided "org.slf4j:jul-to-slf4j:$slf4j_version"
+    cordaDriver "net.corda:corda-shell:$corda_release_version"
 
     //Account lib
     cordapp "$confidential_id_release_group:ci-workflows:$confidential_id_release_version"
@@ -155,5 +169,10 @@ task installQuasar(type: Copy) {
     from(configurations.quasar) {
         rename 'quasar-core(.*).jar', 'quasar.jar'
     }
+}
+
+cordapp {
+    targetPlatformVersion corda_platform_version.toInteger()
+    minimumPlatformVersion corda_platform_version.toInteger()
 }
 
