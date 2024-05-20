@@ -103,7 +103,7 @@ dependencies {
     cordapp project(":workflows")
     cordapp project(":contracts")
 
-    cordaProvided "org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}"
+    cordaProvided "org.apache.logging.log4j:log4j-slf4j2-impl:${log4j_version}"
     cordaProvided "org.apache.logging.log4j:log4j-web:${log4j_version}"
     cordaProvided "org.slf4j:jul-to-slf4j:$slf4j_version"
     cordaDriver "net.corda:corda-shell:$corda_release_version"
