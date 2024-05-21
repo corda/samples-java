@@ -3,7 +3,7 @@ package com.t20worldcup.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import com.r3.corda.lib.tokens.contracts.states.NonFungibleToken;
-import com.r3.corda.lib.tokens.workflows.utilities.QueryUtilitiesKt;
+import com.r3.corda.lib.tokens.workflows.utilities.QueryUtilities;
 import com.t20worldcup.states.T20CricketTicket;
 import com.r3.corda.lib.accounts.contracts.states.AccountInfo;
 import com.r3.corda.lib.accounts.workflows.UtilitiesKt;
@@ -17,7 +17,7 @@ import com.r3.corda.lib.tokens.money.FiatCurrency;
 import com.r3.corda.lib.tokens.selection.TokenQueryBy;
 import com.r3.corda.lib.tokens.selection.database.config.DatabaseSelectionConfigKt;
 import com.r3.corda.lib.tokens.selection.database.selector.DatabaseTokenSelection;
-import com.r3.corda.lib.tokens.workflows.flows.move.MoveTokensUtilitiesKt;
+import com.r3.corda.lib.tokens.workflows.flows.move.MoveTokensUtilities;
 import kotlin.Pair;
 import net.corda.core.contracts.*;
 import net.corda.core.flows.*;
@@ -94,7 +94,7 @@ public class DVPAccountsHostedOnDifferentNodes extends FlowLogic<String> {
         Amount<FiatCurrency> amount = new Amount(costOfTicket, FiatCurrency.Companion.getInstance(currency));
 
         //Buyer Query for token balance.
-        QueryCriteria queryCriteria = QueryUtilitiesKt.heldTokenAmountCriteria(this.getInstance(currency), buyerAccount).and(QueryUtilitiesKt.sumTokenCriteria());
+        QueryCriteria queryCriteria = QueryUtilities.heldTokenAmountCriteria(this.getInstance(currency), buyerAccount).and(QueryUtilities.sumTokenCriteria());
         List<Object> sum = getServiceHub().getVaultService().queryBy(FungibleToken.class, queryCriteria).component5();
         if(sum.size() == 0)
             throw new FlowException(buyerAccountName + " has 0 token balance. Please ask the Bank to issue some cash.");
@@ -234,10 +234,10 @@ class DVPAccountsHostedOnDifferentNodesResponder extends FlowLogic<Void> {
         TransactionBuilder transactionBuilder = new TransactionBuilder(notary);
 
         //part1 of DVP is to transfer the non fungible token from seller to buyer
-        MoveTokensUtilitiesKt.addMoveNonFungibleTokens(transactionBuilder, getServiceHub(), tokenPointer, buyerAccount);
+        MoveTokensUtilities.addMoveNonFungibleTokens(transactionBuilder, getServiceHub(), tokenPointer, buyerAccount);
 
         //part2 of DVP is to transfer cash - fungible token from buyer to seller and return the change to buyer
-        MoveTokensUtilitiesKt.addMoveTokens(transactionBuilder, inputs, moneyReceived);
+        MoveTokensUtilities.addMoveTokens(transactionBuilder, inputs, moneyReceived);
 
         //sync keys with buyer, again sync for similar members
 

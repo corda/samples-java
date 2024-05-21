@@ -4,7 +4,6 @@ import co.paralleluniverse.fibers.Suspendable;
 import com.r3.corda.lib.accounts.contracts.states.AccountInfo;
 import com.r3.corda.lib.accounts.workflows.services.AccountService;
 import com.r3.corda.lib.accounts.workflows.services.KeyManagementBackedAccountService;
-import com.sun.istack.NotNull;
 import net.corda.core.identity.CordaX500Name;
 import net.corda.samples.supplychain.accountUtilities.NewKeyForAccount;
 import net.corda.samples.supplychain.contracts.ShippingRequestStateContract;
@@ -16,6 +15,7 @@ import net.corda.core.identity.Party;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
 import net.corda.core.utilities.ProgressTracker;
+import org.jetbrains.annotations.NotNull;
 
 import java.security.PublicKey;
 import java.util.Arrays;
