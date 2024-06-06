@@ -1,6 +1,6 @@
 package net.corda.samples.blacklist.contracts;
 
-import com.google.common.base.Charsets;
+import kotlin.text.Charsets;
 import net.corda.core.contracts.*;
 import net.corda.core.crypto.SecureHash;
 import net.corda.core.identity.AbstractParty;
