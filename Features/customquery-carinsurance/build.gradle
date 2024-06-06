@@ -1,10 +1,12 @@
+import static org.gradle.api.JavaVersion.VERSION_17
+
 buildscript {
     Properties constants = new Properties()
     file("$projectDir/../constants.properties").withInputStream { constants.load(it) }
 
     ext {
         corda_release_group = constants.getProperty("cordaReleaseGroup")
-        corda_core_release_group =  constants.getProperty("cordaCoreReleaseGroup")
+        corda_core_release_group = constants.getProperty("cordaCoreReleaseGroup")
         corda_release_version = constants.getProperty("cordaVersion")
         corda_core_release_version = constants.getProperty("cordaCoreVersion")
         corda_gradle_plugins_version = constants.getProperty("gradlePluginsVersion")
@@ -14,10 +16,18 @@ buildscript {
         log4j_version = constants.getProperty("log4jVersion")
         slf4j_version = constants.getProperty("slf4jVersion")
         corda_platform_version = constants.getProperty("platformVersion").toInteger()
+        hibernate_version = constants.getProperty("hibernateVersion")
 
         //springboot
-        spring_boot_version = '2.0.2.RELEASE'
-        spring_boot_gradle_plugin_version = '2.0.2.RELEASE'
+        spring_boot_version = '3.2.5'
+        spring_boot_gradle_plugin_version = '3.2.5'
+
+        testJvmArgs = ['--add-opens', 'java.base/java.time=ALL-UNNAMED', '--add-opens', 'java.base/java.io=ALL-UNNAMED',
+                       '--add-opens', 'java.base/java.util=ALL-UNNAMED', '--add-opens', 'java.base/java.net=ALL-UNNAMED',
+                       '--add-opens', 'java.base/java.nio=ALL-UNNAMED', '--add-opens', 'java.base/java.lang.invoke=ALL-UNNAMED',
+                       '--add-opens', 'java.base/java.security.cert=ALL-UNNAMED', '--add-opens', 'java.base/java.security=ALL-UNNAMED',
+                       '--add-opens', 'java.base/javax.net.ssl=ALL-UNNAMED', '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
+                       '--add-opens', 'java.base/java.util.concurrent=ALL-UNNAMED', '--add-opens', 'java.sql/java.sql=ALL-UNNAMED',]
     }
 
     repositories {
@@ -44,11 +54,17 @@ allprojects {
 
         mavenCentral()
         maven { url 'https://download.corda.net/maven/corda-dependencies' }
+        maven { url 'https://download.corda.net/maven/corda-releases' }
         maven { url 'https://jitpack.io' }
     }
 
-    tasks.withType(JavaCompile) {
-        options.compilerArgs << "-parameters" // Required by Corda's serialisation framework.
+    java {
+        sourceCompatibility = VERSION_17
+        targetCompatibility = VERSION_17
+    }
+
+    compileJava {
+        options.compilerArgs << '-parameters'
     }
 
     jar {
@@ -72,29 +88,25 @@ sourceSets {
 
 dependencies {
     // Corda dependencies.
-    cordaCompile "$corda_core_release_group:corda-core:$corda_core_release_version"
-    cordaCompile "$corda_release_group:corda-node-api:$corda_release_version"
-    cordaRuntime "$corda_release_group:corda:$corda_release_version"
+    cordaProvided "$corda_core_release_group:corda-core:$corda_core_release_version"
+    cordaBootstrapper("$corda_release_group:corda-node-api:$corda_release_version") {
+        exclude group: "ch.qos.logback", module: "logback-classic"
+    }
+    corda "$corda_release_group:corda:$corda_release_version"
 
     // CorDapp dependencies.
     cordapp project(":workflows")
     cordapp project(":contracts")
 
-    cordaCompile "org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}"
-    cordaCompile "org.apache.logging.log4j:log4j-web:${log4j_version}"
-    cordaCompile "org.slf4j:jul-to-slf4j:$slf4j_version"
-
-    cordaDriver "net.corda:corda-shell:4.10"
-
+    cordaProvided "org.apache.logging.log4j:log4j-slf4j2-impl:${log4j_version}"
+    cordaProvided "org.apache.logging.log4j:log4j-web:${log4j_version}"
+    cordaProvided "org.slf4j:jul-to-slf4j:$slf4j_version"
+    cordaDriver "net.corda:corda-shell:$corda_release_version"
 }
 
 cordapp {
-    info {
-        name "Queryablestate Car Insurance"
-        vendor "Corda Open Source"
-        targetPlatformVersion corda_platform_version
-        minimumPlatformVersion corda_platform_version
-    }
+    targetPlatformVersion corda_platform_version
+    minimumPlatformVersion corda_platform_version
 }
 
 task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
@@ -104,14 +116,15 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         }
         cordapp project(":workflows")
         cordapp project(":contracts")
-        runSchemaMigration = true //This configuration is for any CorDapps with custom schema, We will leave this as true to avoid
+        runSchemaMigration = true
+        //This configuration is for any CorDapps with custom schema, We will leave this as true to avoid
         //problems for developers who are not familiar with Corda. If you are not using custom schemas, you can change
         //it to false for quicker project compiling time.
     }
 
     node {
         name "O=Notary,L=London,C=GB"
-        notary = [validating : false]
+        notary = [validating: false]
         p2pPort 10002
         rpcSettings {
             address("localhost:10003")
@@ -127,8 +140,8 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
             address("localhost:10006")
             adminAddress("localhost:10046")
         }
-        rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
-        extraConfig = ['h2Settings.address' : 'localhost:20041']
+        rpcUsers = [[user: "user1", "password": "test", "permissions": ["ALL"]]]
+        extraConfig = ['h2Settings.address': 'localhost:20041']
     }
 
     node {
@@ -138,7 +151,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
             address("localhost:10009")
             adminAddress("localhost:10049")
         }
-        rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
-        extraConfig = ['h2Settings.address' : 'localhost:20042']
+        rpcUsers = [[user: "user1", "password": "test", "permissions": ["ALL"]]]
+        extraConfig = ['h2Settings.address': 'localhost:20042']
     }
 }
