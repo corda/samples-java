@@ -8,8 +8,7 @@ import org.junit.Test;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
-import static org.wildfly.common.Assert.assertTrue;
-
+import static org.junit.Assert.assertTrue;
 
 public class InsuranceStateTests {
 
@@ -71,5 +70,4 @@ public class InsuranceStateTests {
         assertTrue(st.getParticipants().contains(a.getParty()));
         assertTrue(st.getParticipants().contains(b.getParty()));
     }
-
 }

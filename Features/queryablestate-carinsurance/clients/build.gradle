@@ -10,22 +10,23 @@ sourceSets {
 
 dependencies {
     // Corda dependencies.
-    compile "$corda_release_group:corda-rpc:$corda_release_version"
+    implementation "$corda_release_group:corda-rpc:$corda_release_version"
+    implementation "$corda_core_release_group:corda-core:$corda_core_release_version"
 
     // CorDapp dependencies.
-    compile project(":workflows")
+    implementation project(":workflows")
 
-    compile("org.springframework.boot:spring-boot-starter-websocket:$spring_boot_version") {
+    implementation("org.springframework.boot:spring-boot-starter-websocket:$spring_boot_version") {
         exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
     }
 
-    compile "org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}"
-    compile "org.apache.logging.log4j:log4j-web:${log4j_version}"
-    compile "org.slf4j:jul-to-slf4j:$slf4j_version"
+    implementation "org.apache.logging.log4j:log4j-slf4j2-impl:${log4j_version}"
+    implementation "org.apache.logging.log4j:log4j-web:${log4j_version}"
+    implementation "org.slf4j:jul-to-slf4j:$slf4j_version"
 }
 
 springBoot {
-    mainClassName = "net.corda.samples.carinsurance.webserver.Starter"
+    mainClass = "net.corda.samples.carinsurance.webserver.Starter"
 }
 
 // Note that the bootRun task is built into gradle so there is no webserver task defined here.
