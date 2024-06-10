@@ -9,7 +9,7 @@ import net.corda.testing.core.TestIdentity;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.wildfly.common.Assert.assertTrue;
+import static org.junit.Assert.assertTrue;
 
 public class SanctionableIOUStateTests {
 
@@ -38,6 +38,5 @@ public class SanctionableIOUStateTests {
         assertTrue(st.getParticipants().contains(b.getParty()));
 
     }
-
 }
 

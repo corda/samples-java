@@ -10,9 +10,7 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.wildfly.common.Assert.assertFalse;
-import static org.wildfly.common.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class SanctionedEntitiesTests {
 
@@ -40,7 +38,6 @@ public class SanctionedEntitiesTests {
         assertFalse(st.getParticipants().contains(a.getParty()));
         assertFalse(st.getParticipants().contains(c.getParty()));
     }
-
 }
 
 
