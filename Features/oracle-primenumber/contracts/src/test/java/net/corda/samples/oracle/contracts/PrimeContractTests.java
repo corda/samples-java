@@ -11,11 +11,9 @@ import net.corda.testing.node.MockServices;
 import org.junit.Test;
 
 import java.util.Arrays;
-import java.util.Optional;
 
 import static net.corda.testing.node.NodeTestUtils.transaction;
-import static org.junit.Assert.assertEquals;
-import static org.wildfly.common.Assert.assertTrue;
+import static org.junit.Assert.assertTrue;
 
 public class PrimeContractTests {
 

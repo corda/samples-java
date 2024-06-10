@@ -31,13 +31,20 @@ sourceSets {
 
 
 dependencies {
-    testCompile "junit:junit:$junit_version"
+    cordaProvided group: 'com.google.guava', name: 'guava', version: '23.5-jre'
+    testImplementation "junit:junit:$junit_version"
 
     // Corda dependencies.
-    cordaCompile "$corda_core_release_group:corda-core:$corda_core_release_version"
-    cordaCompile "$corda_release_group:corda-jackson:$corda_release_version"
-    cordaCompile "$corda_release_group:corda-rpc:$corda_release_version"
-    cordaCompile "$corda_release_group:corda-node-api:$corda_release_version"
+    cordaProvided "$corda_core_release_group:corda-core:$corda_core_release_version"
+    cordaProvided "$corda_release_group:corda-jackson:$corda_release_version"
+    cordaProvided "$corda_release_group:corda-rpc:$corda_release_version"
+    cordaProvided "$corda_release_group:corda-node-api:$corda_release_version"
 
-    testCompile "$corda_release_group:corda-node-driver:$corda_release_version"
+    testImplementation "$corda_release_group:corda-node-driver:$corda_release_version"
+    testImplementation "$corda_core_release_group:corda-test-utils:$corda_core_release_version"
+    testImplementation "$corda_core_release_group:corda-core-test-utils:$corda_core_release_version"
+}
+
+test {
+    jvmArgs = rootProject.ext.testJvmArgs
 }
