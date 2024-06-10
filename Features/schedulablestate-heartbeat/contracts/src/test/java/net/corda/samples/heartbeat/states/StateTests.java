@@ -6,8 +6,8 @@ import net.corda.core.identity.CordaX500Name;
 import net.corda.testing.core.TestIdentity;
 import org.junit.Test;
 
-import static org.wildfly.common.Assert.assertFalse;
-import static org.wildfly.common.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class StateTests {
 
