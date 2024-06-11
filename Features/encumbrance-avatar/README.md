@@ -50,7 +50,7 @@ Sell the Avatar to PartyB node from PartyA node
 
 Confirm if PartyB owns the Avatar
 
-      run vaultQuery contractStateType : Avatar
+      run vaultQuery contractStateType : net.corda.samples.avatar.states.Avatar
 
 Note
 As you can see in both the flows, Avatar is encumbered by Expiry. But Encumbrances should form a complete directed cycle, 

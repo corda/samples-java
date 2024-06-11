@@ -30,7 +30,7 @@ For development environment setup, please refer to: [Setup Guide](https://docs.r
 ### Deploy and run the node
 ```
 ./greadlew clean build deployNodes
-./build/node/runnodes
+./build/nodes/runnodes
 ```
 
 ### Interacting with the nodes:
