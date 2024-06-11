@@ -45,7 +45,7 @@ public class IssueNewBike extends FlowLogic<String> {
 
         //mention the current holder also
         NonFungibleToken frametoken = new NonFungibleTokenBuilder()
-                .ofTokenType(frametokentype.toPointer())
+                .ofTokenType(frametokentype.toPointer(frametokentype.getClass()))
                 .issuedBy(getOurIdentity())
                 .heldBy(holder)
                 .buildNonFungibleToken();
@@ -60,7 +60,7 @@ public class IssueNewBike extends FlowLogic<String> {
 
         //mention the current holder also
         NonFungibleToken wheeltoken = new NonFungibleTokenBuilder()
-                .ofTokenType(wheeltokentype.toPointer())
+                .ofTokenType(wheeltokentype.toPointer(wheeltokentype.getClass()))
                 .issuedBy(getOurIdentity())
                 .heldBy(holder)
                 .buildNonFungibleToken();
