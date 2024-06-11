@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.Assert.assertTrue;
 
 public class StateTests {
     private final MockServices ledgerServices = new MockServices();
@@ -74,8 +74,5 @@ public class StateTests {
         assertEquals(50, st.update(st.getNeedle(), 50, 650, 8000, st.getSongsPlayed()).getMagneticStrength());
         assertEquals(650, st.update(st.getNeedle(), 50, 650, 8000, st.getSongsPlayed()).getCoilTurns());
         assertEquals(8000, st.update(st.getNeedle(), 50, 650, 8000, st.getSongsPlayed()).getAmplifierSNR());
-
     }
-
-
 }
