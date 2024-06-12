@@ -82,7 +82,7 @@ public class CreateAndIssueStock extends FlowLogic<String> {
         // Indicate the recipient which is the issuing party itself here
         //new FungibleToken(issueAmount, getOurIdentity(), null);
         FungibleToken stockToken = new FungibleTokenBuilder()
-                .ofTokenType(stockState.toPointer())
+                .ofTokenType(stockState.toPointer(stockState.getClass()))
                 .withAmount(issueVol)
                 .issuedBy(getOurIdentity())
                 .heldBy(getOurIdentity())

@@ -92,10 +92,4 @@ public class StockState extends EvolvableTokenType implements StatePersistable {
     public List<Party> getMaintainers() {
         return ImmutableList.of(issuer);
     }
-
-    /* This method returns a TokenPointer by using the linear Id of the evolvable state */
-    public TokenPointer<StockState> toPointer(){
-        LinearPointer<StockState> linearPointer = new LinearPointer<>(linearId, StockState.class);
-        return new TokenPointer<>(linearPointer, fractionDigits);
-    }
 }
