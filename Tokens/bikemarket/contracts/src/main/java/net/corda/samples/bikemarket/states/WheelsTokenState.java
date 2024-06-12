@@ -50,10 +50,4 @@ public class WheelsTokenState extends EvolvableTokenType {
     public UniqueIdentifier getLinearId() {
         return this.uniqueIdentifier;
     }
-
-    /* This method returns a TokenPointer by using the linear Id of the evolvable state */
-    public TokenPointer<WheelsTokenState> toPointer(){
-        LinearPointer<WheelsTokenState> linearPointer = new LinearPointer<>(uniqueIdentifier, WheelsTokenState.class);
-        return new TokenPointer<>(linearPointer, fractionDigits);
-    }
 }

@@ -52,10 +52,4 @@ public class FrameTokenState extends EvolvableTokenType {
     public UniqueIdentifier getLinearId() {
         return this.uniqueIdentifier;
     }
-
-    /* This method returns a TokenPointer by using the linear Id of the evolvable state */
-    public TokenPointer<FrameTokenState> toPointer(){
-        LinearPointer<FrameTokenState> linearPointer = new LinearPointer<>(uniqueIdentifier, FrameTokenState.class);
-        return new TokenPointer<>(linearPointer, fractionDigits);
-    }
 }

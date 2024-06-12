@@ -74,7 +74,7 @@ public class HouseTokenCreateAndIssueFlow extends FlowLogic<String> {
         * a LinearState. This is done to separate the state info from the token so that the state can evolve independently.
         * */
         NonFungibleToken houseToken = new NonFungibleTokenBuilder()
-                .ofTokenType(houseState.toPointer())
+                .ofTokenType(houseState.toPointer(houseState.getClass()))
                 .issuedBy(issuer)
                 .heldBy(owner)
                 .buildNonFungibleToken();

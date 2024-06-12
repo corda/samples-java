@@ -60,7 +60,7 @@ public class HouseSaleInitiatorFlow extends FlowLogic<String> {
 
         /* Create a move token proposal for the house token using the helper function provided by Token SDK. This would
         create the movement proposal and would be committed in the ledgers of parties once the transaction in finalized */
-        MoveTokensUtilities.addMoveNonFungibleTokens(txBuilder, getServiceHub(), houseState.toPointer(), buyer);
+        MoveTokensUtilities.addMoveNonFungibleTokens(txBuilder, getServiceHub(), houseState.toPointer(houseState.getClass()), buyer);
 
         /* Initiate a flow session with the buyer to send the house valuation and transfer of the fiat currency */
         FlowSession buyerSession = initiateFlow(buyer);

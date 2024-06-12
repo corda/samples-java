@@ -33,30 +33,35 @@ sourceSets {
 }
 
 configurations {
-    integrationTestCompile.extendsFrom testCompile
-    integrationTestRuntime.extendsFrom testRuntime
+    integrationTestCompile.extendsFrom testImplementation
+    integrationTestRuntime.extendsFrom testRuntimeOnly
 }
 
 dependencies {
-    testCompile "junit:junit:$junit_version"
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.2.71"
+    testImplementation "junit:junit:$junit_version"
 
     // Corda dependencies.
-    cordaCompile "$corda_core_release_group:corda-core:$corda_core_release_version"
-    cordaRuntime "$corda_release_group:corda:$corda_release_version"
-    testCompile "$corda_release_group:corda-node-driver:$corda_release_version"
+    cordaProvided "$corda_core_release_group:corda-core:$corda_core_release_version"
+    cordaProvided "$corda_release_group:corda:$corda_release_version"
+    testImplementation "$corda_release_group:corda-node-driver:$corda_release_version"
+    testImplementation "$corda_core_release_group:corda-core-test-utils:$corda_core_release_version"
 
     // CorDapp dependencies.
     cordapp project(":contracts")
 
     // Token SDK dependencies.
-    cordaCompile "$tokens_release_group:tokens-workflows:$tokens_release_version"
+    cordaProvided "$tokens_release_group:tokens-contracts:$tokens_release_version"
+    cordaProvided "$tokens_release_group:tokens-workflows:$tokens_release_version"
     
     // Other dependencies
-    cordaCompile group: 'com.google.guava', name: 'guava', version: '23.5-jre'
+    cordaProvided group: 'com.google.guava', name: 'guava', version: '23.5-jre'
 }
 
 task integrationTest(type: Test, dependsOn: []) {
     testClassesDirs = sourceSets.integrationTest.output.classesDirs
     classpath = sourceSets.integrationTest.runtimeClasspath
+}
+
+test {
+    jvmArgs = rootProject.ext.testJvmArgs
 }
