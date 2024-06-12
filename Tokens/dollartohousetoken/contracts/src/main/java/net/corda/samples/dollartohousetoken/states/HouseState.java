@@ -80,10 +80,4 @@ public class HouseState extends EvolvableTokenType {
     public List<Party> getMaintainers() {
         return ImmutableList.copyOf(maintainers);
     }
-
-    /* This method returns a TokenPointer by using the linear Id of the evolvable state */
-    public TokenPointer<HouseState> toPointer(){
-        LinearPointer<HouseState> linearPointer = new LinearPointer<>(linearId, HouseState.class);
-        return new TokenPointer<>(linearPointer, fractionDigits);
-    }
 }
