@@ -64,7 +64,7 @@ public interface InvestSpaceshipFlows {
 
             SpaceshipTokenType spaceshipTokenType = FlowHelpers.uuidToSpaceShipTokenType(getServiceHub().getVaultService(), shipUUID);
 
-            Amount<TokenType> amountOfSpaceShipTokens = QueryUtilities.tokenBalance(getServiceHub().getVaultService(), spaceshipTokenType.toPointer());
+            Amount<TokenType> amountOfSpaceShipTokens = QueryUtilities.tokenBalance(getServiceHub().getVaultService(), spaceshipTokenType.toPointer(spaceshipTokenType.getClass()));
 
             counterpartySession.send(new Pair<>(amountOfSpaceShipTokens, spaceshipTokenType.getValue()));
             return null;
@@ -153,7 +153,7 @@ public interface InvestSpaceshipFlows {
             // Deliver the shares to the buyer
             // rescale numShares to Long representation with fractional digit precision
             long numShares = (long) (shipIdAndShares.getSecond() *Math.pow(10, shipForSale.getFractionDigits()));
-            Amount<TokenType> amountOfShares = new Amount<>(numShares, shipForSale.toPointer());
+            Amount<TokenType> amountOfShares = new Amount<>(numShares, shipForSale.toPointer(shipForSale.getClass()));
 
             SignedTransaction shipFulfilmentTx = subFlow(new MoveFungibleTokens(new PartyAndAmount<>(counterpartySession.getCounterparty(), amountOfShares)));
             subFlow(new SendTransactionFlow(counterpartySession, shipFulfilmentTx));

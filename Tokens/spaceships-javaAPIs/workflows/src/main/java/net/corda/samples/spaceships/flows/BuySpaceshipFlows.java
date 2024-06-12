@@ -162,7 +162,7 @@ public interface BuySpaceshipFlows {
             // (Step 1 - Respond with value) send back value
             counterpartySession.send(spaceshipTokenType.getValue());
 
-            StateAndRef<NonFungibleToken> spaceshipNFTStateAndRef = QueryUtilities.heldTokensByToken(getServiceHub().getVaultService(), spaceshipTokenType.toPointer())
+            StateAndRef<NonFungibleToken> spaceshipNFTStateAndRef = QueryUtilities.heldTokensByToken(getServiceHub().getVaultService(), spaceshipTokenType.toPointer(spaceshipTokenType.getClass()))
                     .getStates().get(0);
 
             // (Step 2 - Send the corresponding TX representing our ownership so the buyer can build and propose the full transaction)

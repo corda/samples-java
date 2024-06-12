@@ -86,7 +86,7 @@ public interface IssueSpaceshipFlows {
              * TokenPointer which is of type TokenType and can be resolved to the definition. This allows the definition of the token to evolve
              * independently of who is holding it. The holder can reference the current definition at anytime and will receive updates when it is changed.
              */
-            TokenPointer<SpaceshipTokenType> evolvableSpaceshipTokenPtr = evolvableSpaceshipToken.toPointer();
+            TokenPointer<SpaceshipTokenType> evolvableSpaceshipTokenPtr = (TokenPointer<SpaceshipTokenType>) evolvableSpaceshipToken.toPointer(evolvableSpaceshipToken.getClass());
 
             // The FungibleTokenBuilder allows quick and easy stepwise assembly of a token that can be split/merged
             FungibleToken token = new FungibleTokenBuilder()
@@ -153,7 +153,7 @@ public interface IssueSpaceshipFlows {
              * TokenPointer which is of type TokenType and can be resolved to the definition. This allows the definition of the token to evolve
              * independently of who is holding it. The holder can reference the current definition at anytime and will receive updates when it is changed.
              */
-            TokenPointer<SpaceshipTokenType> evolvableSpaceshipTokenPtr = evolvableSpaceshipToken.toPointer();
+            TokenPointer<SpaceshipTokenType> evolvableSpaceshipTokenPtr = (TokenPointer<SpaceshipTokenType>) evolvableSpaceshipToken.toPointer(evolvableSpaceshipToken.getClass());
 
             // The NonFungibleTokenBuilder allows quick and easy stepwise assembly of a token that can only be held outright (no associated amount)
             // Notice that when building a NonFungibleToken, you do not add an 'amount'
