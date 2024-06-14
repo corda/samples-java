@@ -49,6 +49,10 @@ allprojects {
     apply from: "${rootProject.projectDir}/repositories.gradle"
     apply plugin: 'java'
 
+    tasks.withType(Test) {
+        jvmArgs = rootProject.ext.testJvmArgs
+    }
+
     repositories {
         mavenLocal()
 

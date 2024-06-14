@@ -34,8 +34,8 @@ sourceSets {
 }
 
 configurations {
-    integrationTestCompile.extendsFrom testImplementation
-    integrationTestRuntime.extendsFrom testRuntimeOnly
+    integrationTestImplementation.extendsFrom testImplementation
+    integrationTestRuntimeOnly.extendsFrom testRuntimeOnly
 }
 
 dependencies {

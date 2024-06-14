@@ -19,7 +19,7 @@ buildscript {
         spring_boot_version = '3.2.5'
         spring_boot_gradle_plugin_version = '3.2.5'
 
-        test_add_opens = ['--add-opens', 'java.base/java.time=ALL-UNNAMED', '--add-opens', 'java.base/java.io=ALL-UNNAMED',
+        testJvmArgs = ['--add-opens', 'java.base/java.time=ALL-UNNAMED', '--add-opens', 'java.base/java.io=ALL-UNNAMED',
                           '--add-opens', 'java.base/java.util=ALL-UNNAMED', '--add-opens', 'java.base/java.net=ALL-UNNAMED',
                           '--add-opens', 'java.base/java.nio=ALL-UNNAMED', '--add-opens', 'java.base/java.lang.invoke=ALL-UNNAMED',
                           '--add-opens', 'java.base/java.security.cert=ALL-UNNAMED', '--add-opens', 'java.base/java.security=ALL-UNNAMED',
@@ -46,6 +46,10 @@ buildscript {
 allprojects {//Properties that you need to compile your project (The application)
     apply from: "${rootProject.projectDir}/repositories.gradle"
     apply plugin: 'java'
+
+    tasks.withType(Test) {
+        jvmArgs = rootProject.ext.testJvmArgs
+    }
 
     repositories {
         mavenLocal()

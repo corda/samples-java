@@ -42,12 +42,13 @@ sourceSets {
 }
 
 configurations {
-    integrationTestCompile.extendsFrom testImplementation
-    integrationTestRuntime.extendsFrom testRuntimeOnly
+    integrationTestImplementation.extendsFrom testImplementation
+    integrationTestRuntimeOnly.extendsFrom testRuntimeOnly
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation group: 'com.google.guava', name: 'guava', version: '11.0.2'
     testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
     testImplementation "junit:junit:$junit_version"
 
@@ -61,6 +62,7 @@ dependencies {
     cordaProvided "$corda_release_group:corda-finance-workflows:$corda_release_version"
 
     testImplementation "$corda_release_group:corda-node-driver:$corda_release_version"
+    testImplementation "$corda_core_release_group:corda-core-test-utils:$corda_core_release_version"
 
     // CorDapp dependencies.
     cordapp project(":contracts")

@@ -81,6 +81,10 @@ allprojects {//Properties that you need to compile your project (The application
     apply from: "${rootProject.projectDir}/../repositories.gradle"
     apply plugin: 'java'
 
+    tasks.withType(Test) {
+        jvmArgs = rootProject.ext.testJvmArgs
+    }
+
     repositories {
         mavenLocal()
         mavenCentral()
