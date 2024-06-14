@@ -57,6 +57,10 @@ allprojects {//Properties that you need to compile your project (The application
     apply plugin: 'java'
     apply plugin: 'kotlin'
 
+    tasks.withType(Test) {
+        jvmArgs = rootProject.ext.testJvmArgs
+    }
+
     repositories {
         mavenLocal()
         mavenCentral()

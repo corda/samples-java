@@ -56,5 +56,5 @@ dependencies {
 }
 
 test {
-    jvmArgs = rootProject.ext.test_add_opens
+    jvmArgs = rootProject.ext.testJvmArgs
 }

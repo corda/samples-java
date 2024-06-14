@@ -6,7 +6,9 @@ buildscript {
 
     ext {
         corda_release_group = constants.getProperty("cordaReleaseGroup")
+        corda_core_release_group = constants.getProperty("cordaCoreReleaseGroup")
         corda_release_version = constants.getProperty("cordaVersion")
+        corda_core_release_version = constants.getProperty("cordaCoreVersion")
         corda_gradle_plugins_version = constants.getProperty("gradlePluginsVersion")
         junit_version = constants.getProperty("junitVersion")
         quasar_version = constants.getProperty("quasarVersion")
@@ -14,7 +16,7 @@ buildscript {
         slf4j_version = constants.getProperty("slf4jVersion")
         corda_platform_version = constants.getProperty("platformVersion").toInteger()
 
-        test_add_opens = ['--add-opens', 'java.base/java.time=ALL-UNNAMED', '--add-opens', 'java.base/java.io=ALL-UNNAMED',
+        testJvmArgs = ['--add-opens', 'java.base/java.time=ALL-UNNAMED', '--add-opens', 'java.base/java.io=ALL-UNNAMED',
                           '--add-opens', 'java.base/java.util=ALL-UNNAMED', '--add-opens', 'java.base/java.net=ALL-UNNAMED',
                           '--add-opens', 'java.base/java.nio=ALL-UNNAMED', '--add-opens', 'java.base/java.lang.invoke=ALL-UNNAMED',
                           '--add-opens', 'java.base/java.security.cert=ALL-UNNAMED', '--add-opens', 'java.base/java.security=ALL-UNNAMED',
@@ -39,6 +41,10 @@ buildscript {
 allprojects {
     apply from: "${rootProject.projectDir}/repositories.gradle"
     apply plugin: 'java'
+
+    tasks.withType(Test) {
+        jvmArgs = rootProject.ext.testJvmArgs
+    }
 
     repositories {
         mavenLocal()

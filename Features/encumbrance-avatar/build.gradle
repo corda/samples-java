@@ -46,6 +46,10 @@ buildscript {
 allprojects {
     apply plugin: 'java'
 
+    tasks.withType(Test) {
+        jvmArgs = rootProject.ext.testJvmArgs
+    }
+
     repositories {
         mavenLocal()
 
