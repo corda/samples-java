@@ -24,7 +24,7 @@ buildscript {
         confidential_id_release_group = "com.r3.corda.lib.ci"
         confidential_id_release_version = "1.2-RC01"
 
-        test_add_opens = ['--add-opens', 'java.base/java.time=ALL-UNNAMED', '--add-opens', 'java.base/java.io=ALL-UNNAMED',
+        testJvmArgs = ['--add-opens', 'java.base/java.time=ALL-UNNAMED', '--add-opens', 'java.base/java.io=ALL-UNNAMED',
                           '--add-opens', 'java.base/java.util=ALL-UNNAMED', '--add-opens', 'java.base/java.net=ALL-UNNAMED',
                           '--add-opens', 'java.base/java.nio=ALL-UNNAMED', '--add-opens', 'java.base/java.lang.invoke=ALL-UNNAMED',
                           '--add-opens', 'java.base/java.security.cert=ALL-UNNAMED', '--add-opens', 'java.base/java.security=ALL-UNNAMED',
@@ -48,6 +48,10 @@ buildscript {
 allprojects {
     apply from: "${rootProject.projectDir}/repositories.gradle"
     apply plugin: 'java'
+
+    tasks.withType(Test) {
+        jvmArgs = rootProject.ext.testJvmArgs
+    }
 
     repositories {
         mavenLocal()

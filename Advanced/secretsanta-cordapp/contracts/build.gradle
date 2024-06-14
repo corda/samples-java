@@ -28,8 +28,8 @@ sourceSets {
 }
 
 configurations {
-    integrationTestCompile.extendsFrom testImplementation
-    integrationTestRuntime.extendsFrom testRuntimeOnly
+    integrationTestImplementation.extendsFrom testImplementation
+    integrationTestRuntimeOnly.extendsFrom testRuntimeOny
 }
 
 dependencies {
@@ -46,5 +46,5 @@ dependencies {
 }
 
 test {
-    jvmArgs = rootProject.ext.test_add_opens
+    jvmArgs = rootProject.ext.testJvmArgs
 }
