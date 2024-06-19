@@ -111,7 +111,7 @@ available in the `Active Auction` section.
 
 5. Place one more bid by switching to PartyC.
 
-6. What for the auction to end.
+6. Wait for the auction to end.
 
 7. Once the auction is ended its ready to be settled. Settlement can be initiated by the
 highest bidder. Considering PartyC is the highest bidder, switch to PartyC.
