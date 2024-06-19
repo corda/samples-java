@@ -49,7 +49,7 @@ public class IssueToken extends FlowLogic<String>{
          * */
         IssuedTokenType issuedToken = new NonFungibleTokenBuilder()
                 .issuedBy(getOurIdentity())
-                .ofTokenType(customTokenState.toPointer())
+                .ofTokenType(customTokenState.toPointer(customTokenState.getClass()))
                 .buildIssuedTokenType();
 
         /* Create an instance of the non-fungible house token with the owner as the token holder. The last paramter is a hash of the jar containing the TokenType, use the helper function to fetch it. */

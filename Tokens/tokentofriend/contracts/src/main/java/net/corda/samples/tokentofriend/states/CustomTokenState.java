@@ -89,10 +89,4 @@ public class CustomTokenState extends EvolvableTokenType {
         maintainers.add(this.maintainer);
         return maintainers;
     }
-
-    /* This method returns a TokenPointer by using the linear Id of the evolvable state */
-    public TokenPointer<CustomTokenState> toPointer(){
-        LinearPointer<CustomTokenState> linearPointer = new LinearPointer<>(linearId, CustomTokenState.class);
-        return new TokenPointer<>(linearPointer, fractionDigits);
-    }
 }
