@@ -14,8 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
@@ -71,11 +72,12 @@ public class Controller {
     @PostMapping("create")
     public APIResponse<Void> createAuction(@RequestBody Forms.CreateAuctionForm auctionForm){
         try {
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
+            LocalDateTime formattedDeadline = LocalDateTime.ofInstant(dateFormatter.parse(auctionForm.getDeadline()).toInstant(), ZoneId.systemDefault());
             activeParty.startFlowDynamic(CreateAuctionFlow.CreateAuctionInitiator.class,
                     Amount.parseCurrency(auctionForm.getBasePrice() + " USD"),
                     UUID.fromString(auctionForm.getAssetId()),
-                    LocalDateTime.parse(auctionForm.getDeadline(),
-                            DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm:ss a"))).getReturnValue().get();
+                    formattedDeadline).getReturnValue().get();
             return APIResponse.success();
         }catch (ExecutionException e){
             if(e.getCause() != null && e.getCause().getClass().equals(TransactionVerificationException.ContractRejection.class)){
