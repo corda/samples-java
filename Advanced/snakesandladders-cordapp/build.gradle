@@ -39,10 +39,10 @@ buildscript {
         slf4j_version = constants.getProperty("slf4jVersion")
         corda_platform_version = constants.getProperty("platformVersion").toInteger()
         //accounts
-        accounts_release_version = '1.1-RC01'
+        accounts_release_version = '1.1'
         accounts_release_group = 'com.r3.corda.lib.accounts'
         confidential_id_release_group = "com.r3.corda.lib.ci"
-        confidential_id_release_version = "1.2-RC01"
+        confidential_id_release_version = "1.2"
         spring_boot_version = '3.2.5'
         spring_boot_gradle_plugin_version = '3.2.5'
 
