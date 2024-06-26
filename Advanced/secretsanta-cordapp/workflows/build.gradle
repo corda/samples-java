@@ -1,5 +1,4 @@
 apply plugin: 'net.corda.plugins.cordapp'
-apply plugin: 'net.corda.plugins.cordformation'
 apply plugin: 'net.corda.plugins.quasar-utils'
 
 cordapp {
@@ -17,7 +16,6 @@ sourceSets {
     main {
         java {
             srcDir 'src/main/java'
-            java.outputDir = file('bin/main')
         }
         resources {
             srcDir rootProject.file("config/dev")
@@ -26,7 +24,6 @@ sourceSets {
     test {
         java {
             srcDir 'src/test/java'
-            java.outputDir = file('bin/main')
         }
         resources {
             srcDir rootProject.file("config/test")
@@ -57,7 +54,7 @@ dependencies {
     testImplementation "$corda_core_release_group:corda-core-test-utils:$corda_core_release_version"
 
     // SendGrid
-    implementation 'com.sendgrid:sendgrid-java:4.7.0'
+    implementation 'com.sendgrid:sendgrid-java:4.10.2'
 
     // CorDapp dependencies.
     cordapp project(":contracts")

@@ -13,27 +13,6 @@ buildscript { //properties that you need to build the project
         kotlin_version = constants.getProperty("kotlinVersion")
         junit_version = constants.getProperty("junitVersion")
         quasar_version = constants.getProperty("quasarVersion")
-        quasar_exclusions = [
-                'co.paralleluniverse**',
-                'groovy**',
-                'com.esotericsoftware.**',
-                'jdk**',
-                'junit**',
-                'kotlin**',
-                'net.rubygrapefruit.**',
-                'org.gradle.**',
-                'org.apache.**',
-                'org.jacoco.**',
-                'org.junit**',
-                'org.slf4j**',
-                'worker.org.gradle.**',
-                'org.mockito.kotlin**',
-                'org.assertj**',
-                'org.hamcrest**',
-                'org.mockito**',
-                'org.opentest4j**',
-                'org.springframework**'
-        ]
         log4j_version = constants.getProperty("log4jVersion")
         slf4j_version = constants.getProperty("slf4jVersion")
         corda_platform_version = constants.getProperty("platformVersion").toInteger()
@@ -41,11 +20,6 @@ buildscript { //properties that you need to build the project
         // springboot
         spring_boot_version = '3.2.5'
         spring_boot_gradle_plugin_version = '3.2.5'
-
-        accounts_release_version = '1.1-RC01'
-        accounts_release_group = 'com.r3.corda.lib.accounts'
-        confidential_id_release_group = "com.r3.corda.lib.ci"
-        confidential_id_release_version = "1.2-RC01"
 
         testJvmArgs = ['--add-opens', 'java.base/java.time=ALL-UNNAMED', '--add-opens', 'java.base/java.io=ALL-UNNAMED',
                           '--add-opens', 'java.base/java.util=ALL-UNNAMED', '--add-opens', 'java.base/java.net=ALL-UNNAMED',
@@ -58,7 +32,6 @@ buildscript { //properties that you need to build the project
     repositories {
         mavenLocal()
         mavenCentral()
-        maven { url 'https://jitpack.io' }
         maven { url 'https://download.corda.net/maven/corda-releases' }
     }
 
@@ -67,10 +40,6 @@ buildscript { //properties that you need to build the project
         classpath "net.corda.plugins:cordformation:$corda_gradle_plugins_version"
         classpath "net.corda.plugins:quasar-utils:$corda_gradle_plugins_version"
         classpath "org.springframework.boot:spring-boot-gradle-plugin:$spring_boot_gradle_plugin_version"
-        classpath "net.corda.plugins:cordapp:$corda_gradle_plugins_version"
-
-        classpath "com.sendgrid:sendgrid-java:4.7.0"
-        classpath "com.sendgrid:java-http-client:4.3.6"
     }
 }
 
@@ -86,9 +55,9 @@ allprojects {//Properties that you need to compile your project (The application
         mavenLocal()
 
         mavenCentral()
-        maven { url 'https://jitpack.io' }
-        maven { url 'https://download.corda.net/maven/corda-dependencies' }
         maven { url 'https://download.corda.net/maven/corda-releases' }
+        maven { url 'https://download.corda.net/maven/corda-dependencies' }
+        maven { url 'https://jitpack.io' }
     }
 
     java {
@@ -122,7 +91,6 @@ sourceSets {
 
 //Module dependencies
 dependencies {
-    testImplementation "junit:junit:$junit_version"
     // Corda dependencies.
     cordaProvided "$corda_core_release_group:corda-core:$corda_core_release_version"
     cordaBootstrapper ("$corda_release_group:corda-node-api:$corda_release_version") {
