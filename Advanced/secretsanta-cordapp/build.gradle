@@ -21,11 +21,6 @@ buildscript { //properties that you need to build the project
         spring_boot_version = '3.2.5'
         spring_boot_gradle_plugin_version = '3.2.5'
 
-        accounts_release_version = '1.1'
-        accounts_release_group = 'com.r3.corda.lib.accounts'
-        confidential_id_release_group = "com.r3.corda.lib.ci"
-        confidential_id_release_version = "1.2"
-
         testJvmArgs = ['--add-opens', 'java.base/java.time=ALL-UNNAMED', '--add-opens', 'java.base/java.io=ALL-UNNAMED',
                           '--add-opens', 'java.base/java.util=ALL-UNNAMED', '--add-opens', 'java.base/java.net=ALL-UNNAMED',
                           '--add-opens', 'java.base/java.nio=ALL-UNNAMED', '--add-opens', 'java.base/java.lang.invoke=ALL-UNNAMED',
