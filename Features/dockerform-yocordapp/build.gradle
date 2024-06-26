@@ -110,7 +110,7 @@ cordapp {
 
 task prepareDockerNodes(type: net.corda.plugins.Dockerform, dependsOn: ['jar']) {
 
-    dockerImage = "entdocker.software.r3.com/corda:4.12-rc02-zulu-openjdk"
+    dockerImage = "corda/community:4.12-zulu-openjdk"
 
     nodeDefaults {
         projectCordapp {
