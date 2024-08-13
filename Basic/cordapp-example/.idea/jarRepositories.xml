@@ -27,11 +27,6 @@
       <option name="url" value="https://software.r3.com/artifactory/corda" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="BintrayJCenter2" />
-      <option name="name" value="BintrayJCenter2" />
-      <option name="url" value="https://jcenter.bintray.com/" />
-    </remote-repository>
-    <remote-repository>
       <option name="id" value="maven5" />
       <option name="name" value="maven5" />
       <option name="url" value="https://jitpack.io" />
