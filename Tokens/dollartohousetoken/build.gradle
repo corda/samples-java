@@ -17,6 +17,10 @@ buildscript {
         tokens_release_group = 'com.r3.corda.lib.tokens'
         tokens_release_version = '1.2'
 
+        //springboot
+        spring_boot_version = '2.0.2.RELEASE'
+        spring_boot_gradle_plugin_version = '2.0.2.RELEASE'        
+
     }
 
     repositories {
@@ -30,6 +34,7 @@ buildscript {
         classpath "net.corda.plugins:cordapp:$corda_gradle_plugins_version"
         classpath "net.corda.plugins:cordformation:$corda_gradle_plugins_version"
         classpath "net.corda.plugins:quasar-utils:$corda_gradle_plugins_version"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$spring_boot_gradle_plugin_version"
     }
 }
 
