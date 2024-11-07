@@ -44,6 +44,8 @@ allprojects {
         maven { url 'https://download.corda.net/maven/corda-releases' }
         maven { url 'https://jitpack.io' }
         maven { url 'https://repo.gradle.org/gradle/libs-releases' }
+
+        jcenter()
     }
 
     tasks.withType(JavaCompile) {
