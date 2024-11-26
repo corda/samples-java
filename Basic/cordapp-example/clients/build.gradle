@@ -36,7 +36,7 @@ springBoot {
  */
 task runTestClient(type: JavaExec, dependsOn: assemble) {
     classpath = sourceSets.main.runtimeClasspath
-    main = 'net.corda.samples.example.webserver.Client'
+    main = 'net.corda.samples.example.Client'
     args 'localhost:10006', 'user1', 'test'
 }
 
