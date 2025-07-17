@@ -63,11 +63,11 @@ flow start RequestMembership authorisedParty: NetworkOperator, networkId: <xxxx-
 flow start QueryAllMembers
 ```
 **Step 4:** In this step, Network Operator will activate the pending memberships
-Insurance: fill in the Insurance node MembershipId that is display in the previous query
+Insurance: fill in the Insurance node MembershipId that is displayed in the previous query
 ```
 flow start ActiveMembers membershipId: <xxxx-xxxx-INSURANCE-ID-xxxxx>
 ```
-CarePro: fill in the CarePro node MembershipId that is display in the previous query
+CarePro: fill in the CarePro node MembershipId that is displayed in the previous query
 ```
 flow start ActiveMembers membershipId: <xxxx-xxxx-CAREPRO-ID-xxxxx>
 ```
