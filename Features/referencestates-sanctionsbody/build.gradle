@@ -50,6 +50,9 @@ allprojects { //Properties that you need to compile your project (The applicatio
         maven { url 'https://download.corda.net/maven/corda-dependencies' }
         maven { url 'https://download.corda.net/maven/corda-releases' }
         maven { url 'https://jitpack.io' }
+
+        maven { url 'https://download.corda.net/maven/corda-dev' }
+        maven { url 'https://download.corda.net/maven/r3-corda-dev' }
     }
 
     java {
