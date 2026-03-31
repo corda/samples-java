@@ -53,7 +53,7 @@ public class ProposalFlow {
 
             // Obtain a reference to a notary we wish to use.
             /** Explicit selection of notary by CordaX500Name - argument can by coded in flows or parsed from config (Preferred)*/
-            final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB"));
+            final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=TestNotaryService, L=London, C=GB"));
 
             TransactionBuilder txBuilder = new TransactionBuilder(notary)
                     .addOutputState(output, ProposalAndTradeContract.ID)

@@ -4,4 +4,28 @@ repositories {
     maven { url 'https://jitpack.io' }
     maven { url 'https://download.corda.net/maven/corda-dependencies' }
     maven { url 'https://repo.gradle.org/gradle/libs-releases' }
+
+    // Repository where the user-reported artifact resides
+    maven {
+        url "https://software.r3.com/artifactory/r3-corda-releases"
+        credentials {
+            username = findProperty('cordaArtifactoryUsername') ?: System.getenv('CORDA_ARTIFACTORY_USERNAME')
+            password = findProperty('cordaArtifactoryPassword') ?: System.getenv('CORDA_ARTIFACTORY_PASSWORD')
+        }
+        content {
+            includeGroupByRegex 'com\\.r3(\\..*)?'
+        }
+    }
+
+    // Repository for corda-dev artifacts (contains net.corda SNAPSHOTs like corda-shell 4.14-SNAPSHOT)
+    maven {
+        url "https://software.r3.com/artifactory/corda-dev"
+        credentials {
+            username = findProperty('cordaArtifactoryUsername') ?: System.getenv('CORDA_ARTIFACTORY_USERNAME')
+            password = findProperty('cordaArtifactoryPassword') ?: System.getenv('CORDA_ARTIFACTORY_PASSWORD')
+        }
+        content {
+            includeGroupByRegex 'net\\.corda(\\..*)?'
+        }
+    }
 }
