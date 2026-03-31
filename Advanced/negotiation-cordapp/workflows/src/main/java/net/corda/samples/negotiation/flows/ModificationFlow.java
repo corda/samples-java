@@ -2,6 +2,8 @@ package net.corda.samples.negotiation.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import com.google.common.collect.ImmutableList;
+import net.corda.core.crypto.keyrotation.crossprovider.PartyIdentityResolved;
+import net.corda.core.crypto.keyrotation.crossprovider.PartyIdentityResolver;
 import net.corda.samples.negotiation.contracts.ProposalAndTradeContract;
 import net.corda.samples.negotiation.states.ProposalState;
 import net.corda.core.contracts.Command;
@@ -42,10 +44,12 @@ public class ModificationFlow {
             QueryCriteria.LinearStateQueryCriteria inputCriteria = new QueryCriteria.LinearStateQueryCriteria(null, ImmutableList.of(proposalId), Vault.StateStatus.UNCONSUMED, null);
             StateAndRef inputStateAndRef = getServiceHub().getVaultService().queryBy(ProposalState.class, inputCriteria).getStates().get(0);
             ProposalState input = (ProposalState) inputStateAndRef.getState().getData();
+            Party proposerParty = PartyIdentityResolver.Companion.resolveToCurrentParty(input.getProposer(), getServiceHub().getIdentityService());
 
             //Creating the output
-            Party counterparty = (getOurIdentity().equals(input.getProposer()))? input.getProposee() : input.getProposer();
-            ProposalState output = new ProposalState(newAmount, input.getBuyer(),input.getSeller(), getOurIdentity(), counterparty, input.getLinearId());
+            Party myPartyFromInput = (getOurIdentity().equals(proposerParty)) ? input.getProposer() : input.getProposee();
+            Party counterpartyFromInput = (myPartyFromInput.equals(input.getProposer()))? input.getProposee() : input.getProposer();
+            ProposalState output = new ProposalState(newAmount, input.getBuyer(),input.getSeller(), myPartyFromInput, counterpartyFromInput, input.getLinearId());
 
             //Creating the command
             List<PublicKey> requiredSigners = ImmutableList.of(input.getProposee().getOwningKey(), input.getProposer().getOwningKey());
@@ -62,7 +66,8 @@ public class ModificationFlow {
             SignedTransaction partStx = getServiceHub().signInitialTransaction(txBuilder);
 
             //Gathering the counterparty's signatures
-            FlowSession counterpartySession = initiateFlow(counterparty);
+            Party counterParty = PartyIdentityResolver.Companion.resolveToCurrentParty(counterpartyFromInput, getServiceHub().getIdentityService());
+            FlowSession counterpartySession = initiateFlow(counterParty);
             SignedTransaction fullyStx = subFlow(new CollectSignaturesFlow(partStx, ImmutableList.of(counterpartySession)));
 
             //Finalising the transaction
@@ -88,7 +93,8 @@ public class ModificationFlow {
                 protected void checkTransaction(@NotNull SignedTransaction stx) throws FlowException {
                     try {
                         LedgerTransaction ledgerTx = stx.toLedgerTransaction(getServiceHub(), false);
-                        Party proposee = ledgerTx.inputsOfType(ProposalState.class).get(0).getProposee();
+                        ProposalState input = ledgerTx.inputsOfType(ProposalState.class).get(0);
+                        Party proposee = PartyIdentityResolver.Companion.resolveToCurrentParty(input.getProposee(), getServiceHub().getIdentityService());
                         if(!proposee.equals(counterpartySession.getCounterparty())){
                             throw new FlowException("Only the proposee can modify a proposal.");
                         }
