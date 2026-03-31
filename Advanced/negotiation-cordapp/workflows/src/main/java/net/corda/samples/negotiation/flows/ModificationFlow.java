@@ -2,6 +2,9 @@ package net.corda.samples.negotiation.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import com.google.common.collect.ImmutableList;
+import net.corda.core.crypto.keyrotation.crossprovider.KeyRotationProofChain;
+import net.corda.core.crypto.keyrotation.crossprovider.PartyIdentityResolved;
+import net.corda.core.crypto.keyrotation.crossprovider.PartyIdentityResolver;
 import net.corda.samples.negotiation.contracts.ProposalAndTradeContract;
 import net.corda.samples.negotiation.states.ProposalState;
 import net.corda.core.contracts.Command;
@@ -21,6 +24,9 @@ import org.jetbrains.annotations.NotNull;
 import java.security.PublicKey;
 import java.security.SignatureException;
 import java.util.List;
+import java.util.Map;
+
+import static net.corda.core.internal.verification.AbstractVerifier.logger;
 
 public class ModificationFlow {
 
@@ -43,13 +49,28 @@ public class ModificationFlow {
             StateAndRef inputStateAndRef = getServiceHub().getVaultService().queryBy(ProposalState.class, inputCriteria).getStates().get(0);
             ProposalState input = (ProposalState) inputStateAndRef.getState().getData();
 
-            //Creating the output
-            Party counterparty = (getOurIdentity().equals(input.getProposer()))? input.getProposee() : input.getProposer();
-            ProposalState output = new ProposalState(newAmount, input.getBuyer(),input.getSeller(), getOurIdentity(), counterparty, input.getLinearId());
+            // Check if any of the parties have rotated their keys
+            PartyIdentityResolver resolver = new PartyIdentityResolver(getServiceHub().getIdentityService()); // The identity service must always have the proofs of the own node. d
+            PartyIdentityResolved buyerKeyResolution = resolver.resolve(input.getBuyer());
+            PartyIdentityResolved sellerKeyResolution = resolver.resolve(input.getSeller());
+            PartyIdentityResolved proposerKeyResolution = resolver.resolve(input.getProposer());
+            PartyIdentityResolved proposeeKeyResolution = resolver.resolve(input.getProposee());
+            Map<PublicKey, KeyRotationProofChain> proofMap = PartyIdentityResolver.Companion.generateProofChainMap(buyerKeyResolution, sellerKeyResolution);
+            if(proofMap.isEmpty()){
+                logger.info("No proof.");
+            } else {
+                logger.info("One or more parties have rotated their keys, including the proof map in the transaction.");
+            }
 
-            //Creating the command
-            List<PublicKey> requiredSigners = ImmutableList.of(input.getProposee().getOwningKey(), input.getProposer().getOwningKey());
-            Command command = new Command(new ProposalAndTradeContract.Commands.Modify(), requiredSigners);
+            //Creating the output. Remove all the old keys from the output state if possible. Otherwise, keep using the old keys. Do not mix old and new keys in the output state, as that would cause the transaction to fail. To swap keys we must ensure the transaction contains a key rotation proof
+            Party ourIdentityFromInput = (getOurIdentity().equals(proposerKeyResolution.getOriginalOrCurrentParty()))? proposerKeyResolution.getOriginalOrCurrentParty() : proposeeKeyResolution.getOriginalOrCurrentParty();
+            Party counterpartyFromInput = (getOurIdentity().equals(proposerKeyResolution.getOriginalOrCurrentParty()))? proposeeKeyResolution.getOriginalOrCurrentParty() : proposerKeyResolution.getOriginalOrCurrentParty();
+
+            ProposalState output = new ProposalState(newAmount, buyerKeyResolution.getOriginalOrCurrentParty(), sellerKeyResolution.getOriginalOrCurrentParty(), ourIdentityFromInput, counterpartyFromInput, input.getLinearId());
+
+            //Creating the command. Old keys should not be used as signers, only the new keys
+            List<PublicKey> requiredSigners = ImmutableList.of(proposeeKeyResolution.getOwningKey(), proposerKeyResolution.getOwningKey());
+            Command command = new Command(new ProposalAndTradeContract.Commands.Modify(), requiredSigners, proofMap);
 
             //Building the transaction
             Party notary = inputStateAndRef.getState().getNotary();
@@ -62,7 +83,8 @@ public class ModificationFlow {
             SignedTransaction partStx = getServiceHub().signInitialTransaction(txBuilder);
 
             //Gathering the counterparty's signatures
-            FlowSession counterpartySession = initiateFlow(counterparty);
+            Party counterParty = PartyIdentityResolver.Companion.resolveToCurrentParty(counterpartyFromInput, getServiceHub().getIdentityService());
+            FlowSession counterpartySession = initiateFlow(counterParty);
             SignedTransaction fullyStx = subFlow(new CollectSignaturesFlow(partStx, ImmutableList.of(counterpartySession)));
 
             //Finalising the transaction
@@ -88,7 +110,8 @@ public class ModificationFlow {
                 protected void checkTransaction(@NotNull SignedTransaction stx) throws FlowException {
                     try {
                         LedgerTransaction ledgerTx = stx.toLedgerTransaction(getServiceHub(), false);
-                        Party proposee = ledgerTx.inputsOfType(ProposalState.class).get(0).getProposee();
+                        ProposalState input = ledgerTx.inputsOfType(ProposalState.class).get(0);
+                        Party proposee = PartyIdentityResolver.Companion.resolveToCurrentParty(input.getProposee(), getServiceHub().getIdentityService());
                         if(!proposee.equals(counterpartySession.getCounterparty())){
                             throw new FlowException("Only the proposee can modify a proposal.");
                         }
