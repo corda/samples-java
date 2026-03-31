@@ -1,6 +1,7 @@
 package net.corda.samples.negotiation.contracts;
 
 import com.google.common.collect.ImmutableSet;
+import net.corda.core.crypto.keyrotation.crossprovider.PartyIdentityResolver;
 import net.corda.samples.negotiation.states.ProposalState;
 import net.corda.samples.negotiation.states.TradeState;
 import net.corda.core.contracts.CommandData;
@@ -61,13 +62,14 @@ public class ProposalAndTradeContract implements Contract {
 
                 ProposalState input = tx.inputsOfType(ProposalState.class).get(0);
                 ProposalState output = tx.outputsOfType(ProposalState.class).get(0);
+                PartyIdentityResolver resolver = new PartyIdentityResolver(command.getKeyRotationProofChainMap());
 
                 require.using("The amount is unmodified in the output", output.getAmount() != input.getAmount());
-                require.using("The buyer is unmodified in the output", input.getBuyer().equals(output.getBuyer()));
-                require.using("The seller is unmodified in the output", input.getSeller().equals(output.getSeller()));
+                require.using("The buyer is unmodified in the output", resolver.isSameParty(input.getBuyer(), output.getBuyer()));
+                require.using("The seller is unmodified in the ogutput", resolver.isSameParty(input.getSeller(), output.getSeller()));
 
-                require.using("The proposer is a required signer", command.getSigners().contains(input.getProposer().getOwningKey()));
-                require.using("The proposee is a required signer", command.getSigners().contains(input.getProposee().getOwningKey()));
+                require.using("The proposer is a required signer", resolver.isRequiredSigner(command.getSigners(), input.getProposer()));
+                require.using("The proposee is a required signer", resolver.isRequiredSigner(command.getSigners(), input.getProposee()));
                 return null;
 
             });
