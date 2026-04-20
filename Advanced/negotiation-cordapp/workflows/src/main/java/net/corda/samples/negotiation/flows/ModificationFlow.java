@@ -66,8 +66,7 @@ public class ModificationFlow {
             SignedTransaction partStx = getServiceHub().signInitialTransaction(txBuilder);
 
             //Gathering the counterparty's signatures
-            Party counterParty = PartyIdentityResolver.Companion.resolveToCurrentParty(counterpartyFromInput, getServiceHub().getIdentityService());
-            FlowSession counterpartySession = initiateFlow(counterParty);
+            FlowSession counterpartySession = initiateFlow(counterpartyFromInput);
             SignedTransaction fullyStx = subFlow(new CollectSignaturesFlow(partStx, ImmutableList.of(counterpartySession)));
 
             //Finalising the transaction
