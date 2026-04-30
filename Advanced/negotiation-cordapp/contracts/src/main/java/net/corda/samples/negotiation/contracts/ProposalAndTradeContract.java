@@ -45,12 +45,28 @@ public class ProposalAndTradeContract implements Contract {
                 ProposalState input = tx.inputsOfType(ProposalState.class).get(0);
                 TradeState output = tx.outputsOfType(TradeState.class).get(0);
 
-                require.using("The amount is unmodified in the output", output.getAmount() == input.getAmount());
-                require.using("The buyer is unmodified in the output", input.getBuyer().equals(output.getBuyer()));
-                require.using("The seller is unmodified in the output", input.getSeller().equals(output.getSeller()));
+                // Create a resolver using the proof chain map from the command.
+                //
+                // This allows the resolver to resolve parties across key rotations,
+                // ensuring that the same logical parties are identified in the transaction
+                // even when their public keys have changed.
+                PartyIdentityResolver resolver = new PartyIdentityResolver(command.getKeyRotationProofChainMap());
 
-                require.using("The proposer is a required signer", command.getSigners().contains(input.getProposer().getOwningKey()));
-                require.using("The proposee is a required signer", command.getSigners().contains(input.getProposee().getOwningKey()));
+                require.using("The amount is unmodified in the output", output.getAmount() == input.getAmount());
+
+                // After a key rotation, parties in the input and output states should be compared using the resolver,
+                // rather than relying on `equals`, which may fail if a party’s public key has changed.
+                //
+                // This is only strictly necessary when the flow has been updated to replace the old party with the new one in the output state.
+                // The proof chain map will be used by the resolver to determine that the old and new parties are in fact the same, allowing the contract to verify successfully.
+                require.using("The buyer is unmodified in the output", resolver.isSameParty(input.getBuyer(), output.getBuyer()));
+                require.using("The seller is unmodified in the output", resolver.isSameParty(input.getSeller(), output.getSeller()));
+
+                // Similarly, the required signers should be checked using the resolver to account for any key rotations.
+                // The proof chain map will be used by the resolver to determine that the old and new parties are in fact the same, allowing the contract to verify successfully.
+                require.using("The proposer is a required signer", resolver.isRequiredSigner(command.getSigners(), input.getProposer()));
+                require.using("The proposee is a required signer", resolver.isRequiredSigner(command.getSigners(), input.getProposee()));
+
                 return null;
             });
         } else if (command.getValue() instanceof Commands.Modify) {
