@@ -19,6 +19,8 @@ public class ProposalAndTradeContract implements Contract {
         final CommandWithParties command = tx.getCommands().get(0);
 
         if (command.getValue() instanceof Commands.Propose) {
+            // No change is required since the flow creating the transaction will always use the most up-to-date identities
+            // when building the transaction.
             requireThat(require -> {
                 require.using("There are no inputs", tx.getInputs().isEmpty());
                 require.using("Only one output state should be created.", tx.getOutputs().size() == 1);
