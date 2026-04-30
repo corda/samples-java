@@ -3,6 +3,7 @@ package net.corda.samples.negotiation.flows;
 import co.paralleluniverse.fibers.Suspendable;
 import com.google.common.collect.ImmutableList;
 
+import net.corda.core.crypto.keyrotation.crossprovider.PartyIdentityResolver;
 import net.corda.samples.negotiation.contracts.ProposalAndTradeContract;
 import net.corda.samples.negotiation.states.ProposalState;
 import net.corda.samples.negotiation.states.TradeState;
@@ -17,7 +18,6 @@ import net.corda.core.node.services.vault.QueryCriteria;
 import net.corda.core.transactions.LedgerTransaction;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
-import net.corda.core.utilities.ProgressTracker;
 import org.jetbrains.annotations.NotNull;
 
 import java.security.PublicKey;
@@ -31,7 +31,6 @@ public class AcceptanceFlow {
     public static class Initiator extends FlowLogic<SignedTransaction> {
 
         private UniqueIdentifier proposalId;
-        private ProgressTracker progressTracker = new ProgressTracker();
 
         public Initiator(UniqueIdentifier proposalId) {
             this.proposalId = proposalId;
@@ -47,25 +46,31 @@ public class AcceptanceFlow {
 
             ProposalState input = (ProposalState) inputStateAndRef.getState().getData();
 
-            //Creating the output
+            // Creating the output
             TradeState output = new TradeState(input.getAmount(), input.getBuyer(), input.getSeller(), input.getLinearId());
 
-            //Creating the command
+            // Creating the command
             List<PublicKey> requiredSigners = ImmutableList.of(input.getProposee().getOwningKey(), input.getProposer().getOwningKey());
             Command command = new Command(new ProposalAndTradeContract.Commands.Accept(), requiredSigners);
 
-           //Building the transaction
+            // Building the transaction
             Party notary = inputStateAndRef.getState().getNotary();
             TransactionBuilder txBuilder = new TransactionBuilder(notary)
                     .addInputState(inputStateAndRef)
                     .addOutputState(output, ProposalAndTradeContract.ID)
                     .addCommand(command);
 
-            //Signing the transaction ourselves
+            // Signing the transaction ourselves
             SignedTransaction partStx = getServiceHub().signInitialTransaction(txBuilder);
 
-            //Gathering the counterparty's signature
-            Party counterparty = (getOurIdentity().equals(input.getProposer()))? input.getProposee() : input.getProposer();
+            // Gathering the counterparty's signature
+            //
+            // The proposer must be resolved to its latest identity before it can be compared with the party returned by `getOurIdentity`.
+            //
+            // The counterparty might be an old key, but the session will be initiated with the most up-to-date identity.
+            // No need to use the resolved party in this case.
+            Party proposer = PartyIdentityResolver.Companion.resolveToCurrentParty(input.getProposer(), getServiceHub().getIdentityService());
+            Party counterparty = (getOurIdentity().equals(proposer))? input.getProposee() : input.getProposer();
             FlowSession counterpartySession = initiateFlow(counterparty);
             SignedTransaction fullyStx = subFlow(new CollectSignaturesFlow(partStx, ImmutableList.of(counterpartySession)));
 
@@ -92,7 +97,10 @@ public class AcceptanceFlow {
                 protected void checkTransaction(@NotNull SignedTransaction stx) throws FlowException {
                     try {
                         LedgerTransaction ledgerTx = stx.toLedgerTransaction(getServiceHub(), false);
-                        Party proposee = ledgerTx.inputsOfType(ProposalState.class).get(0).getProposee();
+
+                        // The proposee must be resolved to its latest identity before it can be compared with the party returned by `counterpartySession`.
+                        // `counterpartySession` always returns the most up-to-date identity of the counterparty.
+                        Party proposee = PartyIdentityResolver.Companion.resolveToCurrentParty(ledgerTx.inputsOfType(ProposalState.class).get(0).getProposee(), getServiceHub().getIdentityService());
                         if(!proposee.equals(counterpartySession.getCounterparty())){
                             throw new FlowException("Only the proposee can accept a proposal.");
                         }
