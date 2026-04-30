@@ -17,6 +17,8 @@ import java.security.PublicKey;
 import java.util.List;
 import net.corda.core.identity.CordaX500Name;
 
+// No changes are required in this flow, as the transaction contains no input states and all parties are obtained either
+// from `getOurIdentity` or from the counterparty session, both of which always provide the most up-to-date identity.
 public class ProposalFlow {
     @InitiatingFlow
     @StartableByRPC
@@ -53,7 +55,7 @@ public class ProposalFlow {
 
             // Obtain a reference to a notary we wish to use.
             /** Explicit selection of notary by CordaX500Name - argument can by coded in flows or parsed from config (Preferred)*/
-            final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=Notary,L=London,C=GB"));
+            final Party notary = getServiceHub().getNetworkMapCache().getNotary(CordaX500Name.parse("O=TestNotaryService, L=London, C=GB"));
 
             TransactionBuilder txBuilder = new TransactionBuilder(notary)
                     .addOutputState(output, ProposalAndTradeContract.ID)
