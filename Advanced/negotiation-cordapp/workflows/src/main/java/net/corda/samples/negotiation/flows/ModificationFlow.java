@@ -2,7 +2,6 @@ package net.corda.samples.negotiation.flows;
 
 import co.paralleluniverse.fibers.Suspendable;
 import com.google.common.collect.ImmutableList;
-import net.corda.core.crypto.keyrotation.crossprovider.PartyIdentityResolved;
 import net.corda.core.crypto.keyrotation.crossprovider.PartyIdentityResolver;
 import net.corda.samples.negotiation.contracts.ProposalAndTradeContract;
 import net.corda.samples.negotiation.states.ProposalState;
@@ -31,7 +30,6 @@ public class ModificationFlow {
     public static class Initiator extends FlowLogic<SignedTransaction>{
         private UniqueIdentifier proposalId;
         private int newAmount;
-        private ProgressTracker progressTracker = new ProgressTracker();
 
         public Initiator(UniqueIdentifier proposalId, int newAmount) {
             this.proposalId = proposalId;
@@ -44,9 +42,15 @@ public class ModificationFlow {
             QueryCriteria.LinearStateQueryCriteria inputCriteria = new QueryCriteria.LinearStateQueryCriteria(null, ImmutableList.of(proposalId), Vault.StateStatus.UNCONSUMED, null);
             StateAndRef inputStateAndRef = getServiceHub().getVaultService().queryBy(ProposalState.class, inputCriteria).getStates().get(0);
             ProposalState input = (ProposalState) inputStateAndRef.getState().getData();
-            Party proposerParty = PartyIdentityResolver.Companion.resolveToCurrentParty(input.getProposer(), getServiceHub().getIdentityService());
 
             //Creating the output
+            //
+            // The proposerParty is retrieved from the state and must be resolved to its latest identity
+            // before it can be compared with the party returned by `getOurIdentity`. Since the intent is not to
+            // replace the old key with the new one in the output state, calling `resolveToCurrentParty` is sufficient.
+            //
+            // Comparing parties that both originate from states is safe without additional resolution.
+            Party proposerParty = PartyIdentityResolver.Companion.resolveToCurrentParty(input.getProposer(), getServiceHub().getIdentityService());
             Party myPartyFromInput = (getOurIdentity().equals(proposerParty)) ? input.getProposer() : input.getProposee();
             Party counterpartyFromInput = (myPartyFromInput.equals(input.getProposer()))? input.getProposee() : input.getProposer();
             ProposalState output = new ProposalState(newAmount, input.getBuyer(),input.getSeller(), myPartyFromInput, counterpartyFromInput, input.getLinearId());
@@ -66,6 +70,9 @@ public class ModificationFlow {
             SignedTransaction partStx = getServiceHub().signInitialTransaction(txBuilder);
 
             //Gathering the counterparty's signatures
+            //
+            // The counterparty might be an old key, but the session will be initiated with the most up-to-date identity.
+            // No need to use the resolved party in this case.
             FlowSession counterpartySession = initiateFlow(counterpartyFromInput);
             SignedTransaction fullyStx = subFlow(new CollectSignaturesFlow(partStx, ImmutableList.of(counterpartySession)));
 
@@ -93,6 +100,13 @@ public class ModificationFlow {
                     try {
                         LedgerTransaction ledgerTx = stx.toLedgerTransaction(getServiceHub(), false);
                         ProposalState input = ledgerTx.inputsOfType(ProposalState.class).get(0);
+
+                        // The counterparty session always provides the most up-to-date identity for the counterparty.
+                        //
+                        // Therefore, any party retrieved from a state must be resolved using `resolveToCurrentParty`.
+                        // While `resolveToCurrentParty` does not rely on a proof, it resolves the party to its latest valid identity.
+                        //
+                        // This ensures that equality checks behave as expected after key rotation.
                         Party proposee = PartyIdentityResolver.Companion.resolveToCurrentParty(input.getProposee(), getServiceHub().getIdentityService());
                         if(!proposee.equals(counterpartySession.getCounterparty())){
                             throw new FlowException("Only the proposee can modify a proposal.");
