@@ -13,8 +13,13 @@ and [OwnableState](https://docs.corda.net/docs/corda-os/api-states.html#ownables
 An capital market themed app that depicts an ideal shareable due diligence process between banks. It uses advance feature attachment functionality to whitelist the trusted auditors.
 
 ### [Negotiation Cordapp](./negotiation-cordapp):
-An application that depicts the businsess negotiation and communication process over a distributed ledger system.
+An application that depicts the business negotiation and communication process over a distributed ledger system.
 It consists of the proposing, negotiating, and settling a corda transaction.  
+
+### [Negotiation Cordapp (Key Rotation Proof Free)](./negotiation-cordapp-key-rotation-proof-free):
+An application that depicts the business negotiation and communication process over a distributed ledger system.
+It consists of the proposing, negotiating, and settling a corda transaction.
+This is a modified version of the Negotiation CorDapp that demonstrates how to update a CorDapp to support key rotation.
 
 ### [Obligation Cordapp](./obligation-cordapp):
 A simple i-owe-you application illustrates all of the steps of creating an obligation for a resource to change owners.  
