@@ -16,6 +16,11 @@ An capital market themed app that depicts an ideal shareable due diligence proce
 An application that depicts the businsess negotiation and communication process over a distributed ledger system.
 It consists of the proposing, negotiating, and settling a corda transaction.  
 
+### [Negotiation Cordapp With Key Rotation Support](./negotiation-cordapp-key-rotation-support):
+An application that depicts the businsess negotiation and communication process over a distributed ledger system.
+It consists of the proposing, negotiating, and settling a corda transaction.
+This version of the negotiation cordapp demonstrates how to implement key rotation support in a CorDapp.
+
 ### [Obligation Cordapp](./obligation-cordapp):
 A simple i-owe-you application illustrates all of the steps of creating an obligation for a resource to change owners.  
 
