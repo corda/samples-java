@@ -19,7 +19,7 @@ It consists of the proposing, negotiating, and settling a corda transaction.
 ### [Negotiation Cordapp With Key Rotation Support](./negotiation-cordapp-key-rotation-support):
 An application that depicts the businsess negotiation and communication process over a distributed ledger system.
 It consists of the proposing, negotiating, and settling a corda transaction.
-This version of the negotiation cordapp demonstrates how to implement key rotation support in a CorDapp.
+This is a modified version of the Negotiation CorDapp that demonstrates how to update a CorDapp to support key rotation.
 
 ### [Obligation Cordapp](./obligation-cordapp):
 A simple i-owe-you application illustrates all of the steps of creating an obligation for a resource to change owners.  
