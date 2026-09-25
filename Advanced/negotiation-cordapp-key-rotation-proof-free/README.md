@@ -1,7 +1,8 @@
-# Negotiation Cordapp With Key Rotation Support
+# Negotiation Cordapp Proof-Free Transactions
 
 This CorDapp shows how multi-party negotiation is handled on the Corda ledger, in the absence of an API for user
-interaction. This version of the CorDapp demonstrates how to implement a negotiation flow with key rotation support.
+interaction. This version of the CorDapp demonstrates how to implement a negotiation flow with key rotation support
+that only requires the key rotation proof to be provided when consuming a state signed by the old key.
 
 ## Concepts
 
