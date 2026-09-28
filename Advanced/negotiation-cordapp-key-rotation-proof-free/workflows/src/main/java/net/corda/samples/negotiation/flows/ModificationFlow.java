@@ -24,7 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import java.security.PublicKey;
 import java.security.SignatureException;
 import java.util.List;
-import java.util.Map;
+import java.util.SortedMap;
 
 import static net.corda.core.internal.verification.AbstractVerifier.logger;
 
@@ -82,8 +82,8 @@ public class ModificationFlow {
             //
             // In this example, only the buyer and seller are passed to `generateProofChainMap`, since the proposer and
             // proposee are always either the buyer or the seller.
-            Map<PublicKey, KeyRotationProofChain> proofMap = PartyIdentityResolver.Companion.generateProofChainMap(buyerKeyResolution, sellerKeyResolution);
-            if(proofMap.isEmpty()){
+            SortedMap<PublicKey, KeyRotationProofChain> proofMap = PartyIdentityResolver.Companion.generateProofChainMap(buyerKeyResolution, sellerKeyResolution);
+            if(proofMap == null){
                 logger.info("No proof.");
             } else {
                 logger.info("One or more parties have rotated their keys, including the proof map in the transaction.");
@@ -97,7 +97,7 @@ public class ModificationFlow {
             //
             // Never compare the identity returned by `getOurIdentity` with the original party stored in the state,
             // as that party may be outdated due to key rotation, and the resolver may return a different current identity.
-             Party ourIdentityFromInput = (getOurIdentity().equals(proposerKeyResolution.getOriginalOrCurrentParty())) ? proposerKeyResolution.getOriginalOrCurrentParty() : proposeeKeyResolution.getOriginalOrCurrentParty();
+            Party ourIdentityFromInput = (getOurIdentity().equals(proposerKeyResolution.getOriginalOrCurrentParty())) ? proposerKeyResolution.getOriginalOrCurrentParty() : proposeeKeyResolution.getOriginalOrCurrentParty();
             Party counterpartyFromInput = (getOurIdentity().equals(proposerKeyResolution.getOriginalOrCurrentParty())) ? proposeeKeyResolution.getOriginalOrCurrentParty() : proposerKeyResolution.getOriginalOrCurrentParty();
 
             // Creating the output using the newest identity provided by the resolver.
