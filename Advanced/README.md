@@ -16,7 +16,7 @@ An capital market themed app that depicts an ideal shareable due diligence proce
 An application that depicts the business negotiation and communication process over a distributed ledger system.
 It consists of the proposing, negotiating, and settling a corda transaction.  
 
-### [Negotiation Cordapp (Key Rotation Proof Free)](./negotiation-cordapp-key-rotation-proof-free):
+### [Negotiation Cordapp (Key Rotation Support)](./negotiation-cordapp-key-rotation-support):
 An application that depicts the business negotiation and communication process over a distributed ledger system.
 It consists of the proposing, negotiating, and settling a corda transaction.
 This is a modified version of the Negotiation CorDapp that demonstrates how to update a CorDapp to support key rotation.
