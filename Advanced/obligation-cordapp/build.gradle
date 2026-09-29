@@ -109,7 +109,7 @@ dependencies {
 
     // Corda dependencies.
     cordaProvided "$corda_core_release_group:corda-core:$corda_core_release_version"
-    cordaProvided "$corda_core_release_group:corda-finance-contracts:$corda_core_release_version"
+    cordaProvided "$corda_release_group:corda-finance-contracts:$corda_release_version"
     cordaProvided "$corda_release_group:corda-finance-workflows:$corda_release_version"
     cordaBootstrapper ("$corda_release_group:corda-node-api:$corda_release_version") {
         exclude group: "ch.qos.logback", module: "logback-classic"
@@ -120,14 +120,14 @@ dependencies {
     cordapp project(":workflows")
     cordapp project(":contracts")
 
-    cordapp "$corda_core_release_group:corda-finance-contracts:$corda_core_release_version"
+    cordapp "$corda_release_group:corda-finance-contracts:$corda_release_version"
     cordapp "$corda_release_group:corda-finance-workflows:$corda_release_version"
     cordapp "$corda_release_group:corda-confidential-identities:$corda_release_version"
 
     cordaProvided "org.apache.logging.log4j:log4j-slf4j2-impl:${log4j_version}"
     cordaProvided "org.apache.logging.log4j:log4j-web:${log4j_version}"
     cordaProvided "org.slf4j:jul-to-slf4j:$slf4j_version"
-    cordaDriver "$corda_release_group:corda-shell:$corda_release_version"
+    cordaDriver "net.corda:corda-shell:$corda_release_version"
 }
 
 cordapp {
@@ -144,7 +144,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         cordapp project(":workflows")
         cordapp project(":contracts")
 
-	    cordapp("$corda_core_release_group:corda-finance-contracts:$corda_core_release_version")
+	    cordapp("$corda_release_group:corda-finance-contracts:$corda_release_version")
         cordapp("$corda_release_group:corda-finance-workflows:$corda_release_version")
         cordapp("$corda_release_group:corda-confidential-identities:$corda_release_version")
         rpcUsers = [[ user: "user1", "password": "password", "permissions": ["ALL"]]]

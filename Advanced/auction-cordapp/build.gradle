@@ -80,20 +80,6 @@ allprojects {
         maven { url 'https://download.corda.net/maven/corda-releases' }
         maven { url 'https://jitpack.io' }
         maven { url 'https://repo.gradle.org/gradle/libs-releases' }
-        // Corda Enterprise (com.r3.corda:*) and the R3 libraries it uses (com.r3.*) are not on public repositories. Point this entry
-        // at the repository your organisation serves them from, or install them into your local Maven repository (mavenLocal()).
-        // Credentials: Gradle properties cordaArtifactoryUsername/cordaArtifactoryPassword or CORDA_ARTIFACTORY_USERNAME/PASSWORD
-        // environment variables. SNAPSHOT versions are not on r3-corda-releases: use `publishToMavenLocal` or a snapshot repository.
-        maven {
-            url 'https://software.r3.com/artifactory/r3-corda-releases'
-            credentials {
-                username = findProperty('cordaArtifactoryUsername') ?: System.getenv('CORDA_ARTIFACTORY_USERNAME')
-                password = findProperty('cordaArtifactoryPassword') ?: System.getenv('CORDA_ARTIFACTORY_PASSWORD')
-            }
-            content {
-                includeGroupByRegex 'com\\.r3(\\..*)?'
-            }
-        }
     }
 
     java {
@@ -133,12 +119,12 @@ dependencies {
     cordaBootstrapper ("$corda_release_group:corda-node-api:$corda_release_version") {
         exclude group: "ch.qos.logback", module: "logback-classic"
     }
-    cordaProvided "$corda_core_release_group:corda-finance-contracts:$corda_core_release_version"
+    cordaProvided "$corda_release_group:corda-finance-contracts:$corda_release_version"
     cordaProvided "$corda_release_group:corda-finance-workflows:$corda_release_version"
     corda "$corda_release_group:corda:$corda_release_version"
 
     // CorDapp dependencies.
-    cordapp("$corda_core_release_group:corda-finance-contracts:$corda_core_release_version")
+    cordapp("$corda_release_group:corda-finance-contracts:$corda_release_version")
     cordapp("$corda_release_group:corda-finance-workflows:$corda_release_version")
     cordapp project(":workflows")
     cordapp project(":contracts")
@@ -147,7 +133,7 @@ dependencies {
     cordaProvided "org.apache.logging.log4j:log4j-web:${log4j_version}"
     cordaProvided "org.slf4j:jul-to-slf4j:$slf4j_version"
 
-    cordaDriver "$corda_release_group:corda-shell:$corda_release_version"
+    cordaDriver "net.corda:corda-shell:$corda_release_version"
 }
 
 cordapp {
@@ -159,7 +145,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         projectCordapp {
             deploy = false
         }
-        cordapp("$corda_core_release_group:corda-finance-contracts:$corda_core_release_version")
+        cordapp("$corda_release_group:corda-finance-contracts:$corda_release_version")
         cordapp("$corda_release_group:corda-finance-workflows:$corda_release_version")
         cordapp project(':contracts')
         cordapp project(':workflows')

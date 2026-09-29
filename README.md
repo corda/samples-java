@@ -10,16 +10,6 @@ If you are new to Corda and/or would like to learn all of the fundamentals in a 
 
 To get started explore the [Basic](./Basic) folder, or navigate to the [Advanced](./Advanced) and [Features](./Features) folders to see a description of whats available. You can find the exact same set of CorDapp demonstration in Kotlin language at [link](https://github.com/corda/samples-kotlin).
 
-## Building against Corda Enterprise
-
-Corda Enterprise artifacts (`com.r3.corda:*`, `com.r3.*`) are not on public repositories. Each sample's repository list
-(its `repositories.gradle`, or the `allprojects { repositories { ... } }` block of its `build.gradle`) ends with a
-commented `maven { }` entry for R3's Artifactory: point it at the repository your organisation serves Corda Enterprise
-from, supply the credentials from your licence through the Gradle properties `cordaArtifactoryUsername` /
-`cordaArtifactoryPassword` or the `CORDA_ARTIFACTORY_USERNAME` / `CORDA_ARTIFACTORY_PASSWORD` environment variables,
-or install the distribution into your local Maven repository (`mavenLocal()` is searched first). `SNAPSHOT` versions are
-not published to `r3-corda-releases`: run `./gradlew publishToMavenLocal` in the Corda Enterprise checkout.
-
 ## Directories
 The samples are divided into 5 sections with the following desciption:
 
