@@ -80,6 +80,33 @@ allprojects {
         maven { url 'https://download.corda.net/maven/corda-releases' }
         maven { url 'https://jitpack.io' }
         maven { url 'https://repo.gradle.org/gradle/libs-releases' }
+
+        // ---------------------------------------------------------------------------------------------------------------
+        // CORDA ENTERPRISE REPOSITORY - add the repository your organisation serves Corda Enterprise from here.
+        //
+        // Corda Enterprise (com.r3.corda:*) and the R3 libraries it depends on (com.r3.*) are not on any public repository.
+        // Corda OS artifacts (net.corda:corda-core, net.corda:corda-finance-contracts) keep coming from the public
+        // repositories above; the content filter keeps this repository to R3 artifacts only.
+        //
+        // The example below is R3's Artifactory, reached with the credentials supplied with your Corda Enterprise licence,
+        // given either as Gradle properties (cordaArtifactoryUsername / cordaArtifactoryPassword in ~/.gradle/gradle.properties)
+        // or as environment variables (CORDA_ARTIFACTORY_USERNAME / CORDA_ARTIFACTORY_PASSWORD). Replace the URL with your
+        // own repository if you mirror the artifacts, or install the distribution into your local Maven repository, which
+        // mavenLocal() searches before anything else.
+        //
+        // SNAPSHOT versions of Corda Enterprise are not published to r3-corda-releases: build them locally with
+        // `./gradlew publishToMavenLocal` in the Corda Enterprise checkout, or point this at your snapshot repository.
+        // ---------------------------------------------------------------------------------------------------------------
+        maven {
+            url 'https://software.r3.com/artifactory/r3-corda-releases'
+            credentials {
+                username = findProperty('cordaArtifactoryUsername') ?: System.getenv('CORDA_ARTIFACTORY_USERNAME')
+                password = findProperty('cordaArtifactoryPassword') ?: System.getenv('CORDA_ARTIFACTORY_PASSWORD')
+            }
+            content {
+                includeGroupByRegex 'com\\.r3(\\..*)?'
+            }
+        }
     }
 
     java {
@@ -119,12 +146,12 @@ dependencies {
     cordaBootstrapper ("$corda_release_group:corda-node-api:$corda_release_version") {
         exclude group: "ch.qos.logback", module: "logback-classic"
     }
-    cordaProvided "$corda_release_group:corda-finance-contracts:$corda_release_version"
+    cordaProvided "$corda_core_release_group:corda-finance-contracts:$corda_core_release_version"
     cordaProvided "$corda_release_group:corda-finance-workflows:$corda_release_version"
     corda "$corda_release_group:corda:$corda_release_version"
 
     // CorDapp dependencies.
-    cordapp("$corda_release_group:corda-finance-contracts:$corda_release_version")
+    cordapp("$corda_core_release_group:corda-finance-contracts:$corda_core_release_version")
     cordapp("$corda_release_group:corda-finance-workflows:$corda_release_version")
     cordapp project(":workflows")
     cordapp project(":contracts")
@@ -133,7 +160,7 @@ dependencies {
     cordaProvided "org.apache.logging.log4j:log4j-web:${log4j_version}"
     cordaProvided "org.slf4j:jul-to-slf4j:$slf4j_version"
 
-    cordaDriver "net.corda:corda-shell:$corda_release_version"
+    cordaDriver "$corda_release_group:corda-shell:$corda_release_version"
 }
 
 cordapp {
@@ -145,7 +172,7 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
         projectCordapp {
             deploy = false
         }
-        cordapp("$corda_release_group:corda-finance-contracts:$corda_release_version")
+        cordapp("$corda_core_release_group:corda-finance-contracts:$corda_core_release_version")
         cordapp("$corda_release_group:corda-finance-workflows:$corda_release_version")
         cordapp project(':contracts')
         cordapp project(':workflows')

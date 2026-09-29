@@ -18,7 +18,7 @@ dependencies {
     implementation ("$corda_release_group:corda-rpc:$corda_release_version")  {
         exclude group: "ch.qos.logback", module: "logback-classic"
     }
-    implementation "net.corda:corda-jackson:$corda_release_version"
+    implementation "$corda_release_group:corda-jackson:$corda_release_version"
     implementation "$corda_core_release_group:corda-core:$corda_core_release_version"
     // CorDapp dependencies.
     implementation project(":contracts")

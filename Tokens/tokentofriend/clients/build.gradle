@@ -23,7 +23,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
 
     // Corda dependencies.
-    implementation "$corda_release_group:corda-core:$corda_release_version"
+    implementation "$corda_core_release_group:corda-core:$corda_core_release_version"
     implementation "$corda_release_group:corda-rpc:$corda_release_version"
 
     // CorDapp dependencies.

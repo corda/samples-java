@@ -10,6 +10,26 @@ If you are new to Corda and/or would like to learn all of the fundamentals in a 
 
 To get started explore the [Basic](./Basic) folder, or navigate to the [Advanced](./Advanced) and [Features](./Features) folders to see a description of whats available. You can find the exact same set of CorDapp demonstration in Kotlin language at [link](https://github.com/corda/samples-kotlin).
 
+## Building against Corda Enterprise
+
+The samples target Corda Enterprise. Its artifacts (`com.r3.corda:*`) and the R3 libraries they depend on (`com.r3.*`)
+are not on any public repository, while the Corda OS artifacts they build on (`net.corda:corda-core`,
+`net.corda:corda-finance-contracts`) still come from the public repositories.
+
+Every sample declares its repositories in one place, either its `repositories.gradle` or the `allprojects { repositories { ... } }`
+block of its `build.gradle`, and that block ends with a clearly marked **CORDA ENTERPRISE REPOSITORY** entry. That entry is where you
+point the build at the repository your organisation serves Corda Enterprise from. As shipped it points at R3's Artifactory
+(`https://software.r3.com/artifactory/r3-corda-releases`) and reads the credentials supplied with your licence from the Gradle
+properties `cordaArtifactoryUsername` / `cordaArtifactoryPassword` (for example in `~/.gradle/gradle.properties`) or from the
+environment variables `CORDA_ARTIFACTORY_USERNAME` / `CORDA_ARTIFACTORY_PASSWORD`. Replace the URL if you mirror the artifacts
+internally. Alternatively, install the distribution into your local Maven repository: `mavenLocal()` is searched first.
+
+`SNAPSHOT` versions of Corda Enterprise are not published to `r3-corda-releases`. To build the samples against one, run
+`./gradlew publishToMavenLocal` in the Corda Enterprise checkout, or point the entry at your snapshot repository.
+
+The versions and artifact groups are set once per section in its `constants.properties` (`cordaReleaseGroup` for the Enterprise
+artifacts, `cordaCoreReleaseGroup` for the Corda OS core).
+
 ## Directories
 The samples are divided into 5 sections with the following desciption:
 
