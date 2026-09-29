@@ -12,23 +12,13 @@ To get started explore the [Basic](./Basic) folder, or navigate to the [Advanced
 
 ## Building against Corda Enterprise
 
-The samples target Corda Enterprise. Its artifacts (`com.r3.corda:*`) and the R3 libraries they depend on (`com.r3.*`)
-are not on any public repository, while the Corda OS artifacts they build on (`net.corda:corda-core`,
-`net.corda:corda-finance-contracts`) still come from the public repositories.
-
-Every sample declares its repositories in one place, either its `repositories.gradle` or the `allprojects { repositories { ... } }`
-block of its `build.gradle`, and that block ends with a clearly marked **CORDA ENTERPRISE REPOSITORY** entry. That entry is where you
-point the build at the repository your organisation serves Corda Enterprise from. As shipped it points at R3's Artifactory
-(`https://software.r3.com/artifactory/r3-corda-releases`) and reads the credentials supplied with your licence from the Gradle
-properties `cordaArtifactoryUsername` / `cordaArtifactoryPassword` (for example in `~/.gradle/gradle.properties`) or from the
-environment variables `CORDA_ARTIFACTORY_USERNAME` / `CORDA_ARTIFACTORY_PASSWORD`. Replace the URL if you mirror the artifacts
-internally. Alternatively, install the distribution into your local Maven repository: `mavenLocal()` is searched first.
-
-`SNAPSHOT` versions of Corda Enterprise are not published to `r3-corda-releases`. To build the samples against one, run
-`./gradlew publishToMavenLocal` in the Corda Enterprise checkout, or point the entry at your snapshot repository.
-
-The versions and artifact groups are set once per section in its `constants.properties` (`cordaReleaseGroup` for the Enterprise
-artifacts, `cordaCoreReleaseGroup` for the Corda OS core).
+Corda Enterprise artifacts (`com.r3.corda:*`, `com.r3.*`) are not on public repositories. Each sample's repository list
+(its `repositories.gradle`, or the `allprojects { repositories { ... } }` block of its `build.gradle`) ends with a
+commented `maven { }` entry for R3's Artifactory: point it at the repository your organisation serves Corda Enterprise
+from, supply the credentials from your licence through the Gradle properties `cordaArtifactoryUsername` /
+`cordaArtifactoryPassword` or the `CORDA_ARTIFACTORY_USERNAME` / `CORDA_ARTIFACTORY_PASSWORD` environment variables,
+or install the distribution into your local Maven repository (`mavenLocal()` is searched first). `SNAPSHOT` versions are
+not published to `r3-corda-releases`: run `./gradlew publishToMavenLocal` in the Corda Enterprise checkout.
 
 ## Directories
 The samples are divided into 5 sections with the following desciption:

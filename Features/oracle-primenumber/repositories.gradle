@@ -5,23 +5,10 @@ repositories {
     maven { url 'https://jitpack.io' }
     maven { url 'https://download.corda.net/maven/corda-dependencies' }
     maven { url 'https://repo.gradle.org/gradle/libs-releases' }
-
-    // ---------------------------------------------------------------------------------------------------------------
-    // CORDA ENTERPRISE REPOSITORY - add the repository your organisation serves Corda Enterprise from here.
-    //
-    // Corda Enterprise (com.r3.corda:*) and the R3 libraries it depends on (com.r3.*) are not on any public repository.
-    // Corda OS artifacts (net.corda:corda-core, net.corda:corda-finance-contracts) keep coming from the public
-    // repositories above; the content filter keeps this repository to R3 artifacts only.
-    //
-    // The example below is R3's Artifactory, reached with the credentials supplied with your Corda Enterprise licence,
-    // given either as Gradle properties (cordaArtifactoryUsername / cordaArtifactoryPassword in ~/.gradle/gradle.properties)
-    // or as environment variables (CORDA_ARTIFACTORY_USERNAME / CORDA_ARTIFACTORY_PASSWORD). Replace the URL with your
-    // own repository if you mirror the artifacts, or install the distribution into your local Maven repository, which
-    // mavenLocal() searches before anything else.
-    //
-    // SNAPSHOT versions of Corda Enterprise are not published to r3-corda-releases: build them locally with
-    // `./gradlew publishToMavenLocal` in the Corda Enterprise checkout, or point this at your snapshot repository.
-    // ---------------------------------------------------------------------------------------------------------------
+    // Corda Enterprise (com.r3.corda:*) and the R3 libraries it uses (com.r3.*) are not on public repositories. Point this entry
+    // at the repository your organisation serves them from, or install them into your local Maven repository (mavenLocal()).
+    // Credentials: Gradle properties cordaArtifactoryUsername/cordaArtifactoryPassword or CORDA_ARTIFACTORY_USERNAME/PASSWORD
+    // environment variables. SNAPSHOT versions are not on r3-corda-releases: use `publishToMavenLocal` or a snapshot repository.
     maven {
         url 'https://software.r3.com/artifactory/r3-corda-releases'
         credentials {
