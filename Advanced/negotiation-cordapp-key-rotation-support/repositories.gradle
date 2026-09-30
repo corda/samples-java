@@ -4,4 +4,17 @@ repositories {
     maven { url 'https://jitpack.io' }
     maven { url 'https://download.corda.net/maven/corda-dependencies' }
     maven { url 'https://repo.gradle.org/gradle/libs-releases' }
+
+    // Corda Enterprise artifacts (com.r3.*) are published to R3's Artifactory, which is only available to Corda Enterprise
+    // customers. Set the credentials in ~/.gradle/gradle.properties (cordaArtifactoryUsername / cordaArtifactoryPassword) or in
+    // the environment (CORDA_ARTIFACTORY_USERNAME / CORDA_ARTIFACTORY_PASSWORD). If your organisation mirrors the artifacts in
+    // its own repository, point this entry at that repository instead.
+    maven {
+        url 'https://software.r3.com/artifactory/r3-corda-releases'
+        credentials {
+            username = findProperty('cordaArtifactoryUsername') ?: System.getenv('CORDA_ARTIFACTORY_USERNAME')
+            password = findProperty('cordaArtifactoryPassword') ?: System.getenv('CORDA_ARTIFACTORY_PASSWORD')
+        }
+        content { includeGroupByRegex 'com\\.r3(\\..*)?' }
+    }
 }
