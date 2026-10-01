@@ -1,5 +1,5 @@
 # Flow Database Access CorDapp 
-This CorDapp provides a simple example of how the node database can be accessed in flows using a [JDBC Connection](https://docs.r3.com/en/platform/corda/4.9/community/api-persistence.html#jdbc-session). In this case, the flows
+This CorDapp provides a simple example of how the node database can be accessed in flows using a [JDBC Connection](https://docs.r3.com/en/platform/corda/4.15/community/api-persistence.html#jdbc-session). In this case, the flows
 maintain a table of cryptocurrency values in the node's database.
 
 
@@ -17,7 +17,7 @@ Be aware that support of database accesses in flows is currently limited:
 
 ## Pre-Requisites
 
-For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.9/community/getting-set-up.html).
+For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.15/community/getting-set-up.html).
 
 
 ## Running the nodes

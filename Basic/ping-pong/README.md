@@ -1,7 +1,7 @@
 # Ping-Pong CorDapp 
 This CorDapp allows a node to ping any other node on the network that also has this CorDapp installed.
 
-It demonstrates how to use Corda for messaging and passing data using a [flow](https://docs.r3.com/en/platform/corda/4.9/community/api-flows.html) without saving any states or using any contracts.
+It demonstrates how to use Corda for messaging and passing data using a [flow](https://docs.r3.com/en/platform/corda/4.15/community/api-flows.html) without saving any states or using any contracts.
 
 
 ### Concepts
@@ -55,7 +55,7 @@ We expect to receive data from a counterparty that contains a ping, when we rece
 
 ## Pre-Requisites
 
-For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.9/community/getting-set-up.html).
+For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.15/community/getting-set-up.html).
 
 
 ## Running the nodes

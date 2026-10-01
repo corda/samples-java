@@ -7,7 +7,7 @@ Due to the size cap of the GitHub uploaded file, you will need to manually downl
 ## Deploy a local Corda Network via the bootstrapper
 With the Corda Network Bootstrapper downloaded to this directory, you can simply call: (with the version name of the bootstrapper that you downloaded)
 ```
-java -jar corda-tools-network-bootstrapper-4.9.jar
+java -jar corda-tools-network-bootstrapper-4.15.jar
 ```
 This command will generate the node folders that corresponds with each node config file. You should expect some folder structure like this:
 ```
@@ -47,7 +47,7 @@ rpcSettings {
 ```
 After change the p2pAddress, you can now perform the bootstrapping with
 ```
-java -jar corda-tools-network-bootstrapper-4.9.jar
+java -jar corda-tools-network-bootstrapper-4.15.jar
 ```
 Next, we need to drop the node folder to the remote VMs. I simply use the `scp` command. For example:
 ```
