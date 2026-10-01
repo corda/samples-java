@@ -5,7 +5,7 @@ Example use of an apple stamp: "One stamp can be exchanged for a basket of Honey
 
 
 ## States
-* `AppleStamp`: This is a [LinearState](https://docs.r3.com/en/platform/corda/4.9/community/api-states.html#linearstate) that represents an Apple Stamp that can be issued by one party (issuer) to another party (holder).
+* `AppleStamp`: This is a [LinearState](https://docs.r3.com/en/platform/corda/4.15/community/api-states.html#linearstate) that represents an Apple Stamp that can be issued by one party (issuer) to another party (holder).
 * `BasketOfApples`: This state represents a specific basket of apples (description of the brand/type, farm, owner, and weight). To change ownership of this basket of apples, the `changeOwner` function can be used.
 
 ## Contracts
@@ -20,7 +20,7 @@ Example use of an apple stamp: "One stamp can be exchanged for a basket of Honey
 
 ## Pre-Requisites
 
-For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.9/community/getting-set-up.html).
+For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.15/community/getting-set-up.html).
 
 
 ## Running the nodes

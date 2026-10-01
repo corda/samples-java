@@ -23,7 +23,7 @@ check that the parties to the `AgreementState` are not blacklisted. There aren't
 
 ## Pre-Requisites
 
-For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.10/community/getting-set-up.html).
+For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.15/community/getting-set-up.html).
 
 
 ### Running the CorDapp
@@ -43,7 +43,7 @@ Then type: (to run the nodes)
 Note: The nodes must be running before attempting this step
 
 Before attempting to reach any agreements, you must upload the blacklist as an attachment to each node that you want to
-be able to *initiate* an agreement. The blacklist can be uploaded via [RPC](https://docs.r3.com/en/platform/corda/4.9/community/api-rpc.html) by running the following command from the
+be able to *initiate* an agreement. The blacklist can be uploaded via [RPC](https://docs.r3.com/en/platform/corda/4.15/community/api-rpc.html) by running the following command from the
 project's root folder:
 
 Java version

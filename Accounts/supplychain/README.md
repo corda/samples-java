@@ -13,7 +13,7 @@ From the above chart, you can see the flow is going back and forth between diffe
 
 ## Pre-Requisites
 
-For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.9/community/getting-set-up.html).
+For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.15/community/getting-set-up.html).
 
 ## Runnning the nodes
 Go into the project directory and build the project
