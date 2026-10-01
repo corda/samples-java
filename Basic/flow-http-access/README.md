@@ -43,7 +43,7 @@ It works mostly as you'd expect, using a request builder to make a request at a 
 
 ## Pre-Requisites
 
-For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.9/community/getting-set-up.html).
+For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.15/community/getting-set-up.html).
 
 
 ## Running the nodes

@@ -25,7 +25,7 @@ Nodes:
 
 ## Pre-Requisites
 
-For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.9/community/getting-set-up.html).
+For development environment setup, please refer to: [Setup Guide](https://docs.r3.com/en/platform/corda/4.15/community/getting-set-up.html).
 
 ## Running the sample
 Deploy and run the nodes by:
@@ -65,7 +65,7 @@ start IssueCashFlow accountName : buyer2 , currency : USD , amount : 50
 flow start QuerybyAccount whoAmI: buyer1
 ```
 You can check balance of buyer1 account at Dealer1's interactive node shell.
-[Option] You can also run the below command to confirm if 20 USD fungible tokens are stored at Dealer1's node. The current holder field in the output will be an [AnonymousParty](https://docs.r3.com/en/platform/corda/4.9/community/api-identity.html) which specifies an account.
+[Option] You can also run the below command to confirm if 20 USD fungible tokens are stored at Dealer1's node. The current holder field in the output will be an [AnonymousParty](https://docs.r3.com/en/platform/corda/4.15/community/api-identity.html) which specifies an account.
 ```
 run vaultQuery contractStateType : com.r3.corda.lib.tokens.contracts.states.FungibleToken
 ```
