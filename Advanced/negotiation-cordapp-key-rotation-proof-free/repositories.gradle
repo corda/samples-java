@@ -1,30 +1,46 @@
 repositories {
     mavenLocal()
-    mavenCentral()
-    maven { url 'https://jitpack.io' }
-    maven { url 'https://download.corda.net/maven/corda-dependencies' }
-    maven { url 'https://repo.gradle.org/gradle/libs-releases' }
 
-    // Corda Enterprise artifacts (com.r3.*) are only available to Corda Enterprise customers, so no repository URL is
-    // hard-coded here. Point the build at the repository your organisation downloads Corda Enterprise from by setting, in
-    // ~/.gradle/gradle.properties:
+    // Corda artifacts (net.corda:* OS and com.r3.* Enterprise) are only available to Corda Enterprise customers, so no
+    // repository URL is hard-coded here. Point the build at the repository (or repositories) your organisation downloads
+    // Corda from by setting, in ~/.gradle/gradle.properties:
     //
-    //     cordaEnterpriseRepositoryUrl=<repository URL>
+    //     cordaEnterpriseRepositoryUrl=<repository URL>[,<repository URL>...]
     //     cordaEnterpriseRepositoryUsername=<username>
     //     cordaEnterpriseRepositoryPassword=<password or access token>
     //
     // or the environment variables CORDA_ENTERPRISE_REPOSITORY_URL, CORDA_ENTERPRISE_REPOSITORY_USERNAME and
-    // CORDA_ENTERPRISE_REPOSITORY_PASSWORD. Without a URL the entry is skipped and the com.r3.* artifacts must already be in
-    // your local Maven repository (mavenLocal above).
+    // CORDA_ENTERPRISE_REPOSITORY_PASSWORD. The value may be a comma-separated list, because the 4.15-SNAPSHOT artifacts are
+    // spread across several repositories: the Enterprise com.r3.corda:* snapshots live in one (e.g. r3-corda-dev), the OS
+    // net.corda:* snapshots in another (e.g. corda-dev), and other R3 libraries (com.r3.libs:*) in a third (e.g.
+    // corda-dependencies). Without a URL the entry is skipped and the artifacts must already be in mavenLocal.
+    //
+    // These repositories are declared BEFORE the public ones below on purpose: repo.gradle.org returns HTTP 409 (a fatal
+    // error, not a skippable 404) for Corda snapshot paths, which aborts resolution if it is reached first. Declaring the
+    // Corda repositories earlier means Corda artifacts resolve from them before repo.gradle.org is ever consulted, while the
+    // content filter keeps all non-Corda dependencies flowing to the public repositories.
     def cordaEnterpriseRepositoryUrl = findProperty('cordaEnterpriseRepositoryUrl') ?: System.getenv('CORDA_ENTERPRISE_REPOSITORY_URL')
     if (cordaEnterpriseRepositoryUrl) {
-        maven {
-            url cordaEnterpriseRepositoryUrl
-            credentials {
-                username = findProperty('cordaEnterpriseRepositoryUsername') ?: System.getenv('CORDA_ENTERPRISE_REPOSITORY_USERNAME')
-                password = findProperty('cordaEnterpriseRepositoryPassword') ?: System.getenv('CORDA_ENTERPRISE_REPOSITORY_PASSWORD')
+        cordaEnterpriseRepositoryUrl.toString().split(',').each { repoUrl ->
+            repoUrl = repoUrl.trim()
+            if (repoUrl) {
+                maven {
+                    url repoUrl
+                    credentials {
+                        username = findProperty('cordaEnterpriseRepositoryUsername') ?: System.getenv('CORDA_ENTERPRISE_REPOSITORY_USERNAME')
+                        password = findProperty('cordaEnterpriseRepositoryPassword') ?: System.getenv('CORDA_ENTERPRISE_REPOSITORY_PASSWORD')
+                    }
+                    content {
+                        includeGroup 'net.corda'
+                        includeGroupByRegex 'com\\.r3(\\..*)?'
+                    }
+                }
             }
-            content { includeGroupByRegex 'com\\.r3(\\..*)?' }
         }
     }
+
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+    maven { url 'https://download.corda.net/maven/corda-dependencies' }
+    maven { url 'https://repo.gradle.org/gradle/libs-releases' }
 }
