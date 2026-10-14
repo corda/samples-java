@@ -88,7 +88,7 @@ public class ProposalAndTradeContract implements Contract {
                 // even when their public keys have changed.
                 PartyIdentityResolver resolver = new PartyIdentityResolver(command.getKeyRotationProofChainMap());
 
-                require.using("The amount is unmodified in the output", output.getAmount() != input.getAmount());
+                require.using("The amount is modified in the output", output.getAmount() != input.getAmount());
 
                 // After a key rotation, parties in the input and output states should be compared using the resolver,
                 // rather than relying on `equals`, which may fail if a party’s public key has changed.
