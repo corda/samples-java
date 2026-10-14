@@ -53,14 +53,10 @@ public class ModificationFlow {
             // `PartyIdentityResolver` checks whether the node has an associated proof for the given party.
             // If a proof is available, it resolves the party to the most recent valid identity permitted by that proof.
             //
-            // Note that a key rotation proof is not immediately available after rotation. It typically becomes available
-            // only after at least one transaction has been processed and the proof has been propagated to the Identity Service
-            // of the node that performed the rotation.
-            //
-            // Therefore, immediately after a key rotation, the resolver may still return a valid but non-updated identity.
-            // Once the proof becomes available, subsequent resolutions will return the updated (new-key) identity.
-            //
-            // The Identity Service will always contain the key rotation proofs for its own node.
+            // The Identity Service always holds the proofs for the node's own rotations: they are loaded when the node starts
+            // on its new key. A counterparty's proofs are only known once that counterparty has signed a transaction with its
+            // new key and the proof carried by that signature has been recorded. Until then, the resolver returns the
+            // counterparty's stored (old-key) identity, which is still valid; later resolutions return the updated identity.
             PartyIdentityResolver resolver = new PartyIdentityResolver(getServiceHub().getIdentityService());
             PartyIdentityResolved buyerKeyResolution = resolver.resolve(input.getBuyer());
             PartyIdentityResolved sellerKeyResolution = resolver.resolve(input.getSeller());
@@ -74,10 +70,11 @@ public class ModificationFlow {
             // This is required because the contract must be able to verify the proof chains for all parties that have
             // undergone key rotation, and therefore must have access to the full proof history.
             //
-            // All resolved parties are passed to the `generateProofChainMap` method, which determines whether there are
-            // differences between the original and current identities. If differences are detected, it generates the
-            // required proof chains and returns a map of new keys to their corresponding proof chains. If no differences
-            // are found, an empty map is returned.
+            // The resolved parties are passed to the `generateProofChainMap` method, which determines whether any of them
+            // resolved to a different identity than the one stored in the state. If so, it returns a map from each party's
+            // ORIGINAL key to the proof chain that links it to the current key; the contract looks proofs up by the key it
+            // finds in the input state. If no identity changed, null is returned, so the command is the same as before
+            // key rotation support was added.
             //
             // In this example, only the buyer and seller are passed to `generateProofChainMap`, since the proposer and
             // proposee are always either the buyer or the seller.
