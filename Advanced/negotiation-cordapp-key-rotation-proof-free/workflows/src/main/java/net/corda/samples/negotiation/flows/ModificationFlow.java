@@ -26,7 +26,6 @@ import java.security.SignatureException;
 import java.util.List;
 import java.util.SortedMap;
 
-import static net.corda.core.internal.verification.AbstractVerifier.logger;
 
 public class ModificationFlow {
 
@@ -84,9 +83,9 @@ public class ModificationFlow {
             // proposee are always either the buyer or the seller.
             SortedMap<PublicKey, KeyRotationProofChain> proofMap = PartyIdentityResolver.Companion.generateProofChainMap(buyerKeyResolution, sellerKeyResolution);
             if(proofMap == null){
-                logger.info("No proof.");
+                getLogger().info("No proof.");
             } else {
-                logger.info("One or more parties have rotated their keys, including the proof map in the transaction.");
+                getLogger().info("One or more parties have rotated their keys, including the proof map in the transaction.");
             }
 
             // The `getOurIdentity` method always returns the most up-to-date identity for the node.
