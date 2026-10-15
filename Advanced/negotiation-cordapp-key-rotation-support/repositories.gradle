@@ -1,0 +1,30 @@
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+    maven { url 'https://download.corda.net/maven/corda-dependencies' }
+    maven { url 'https://repo.gradle.org/gradle/libs-releases' }
+
+    // Corda Enterprise artifacts (com.r3.*) are only available to Corda Enterprise customers, so no repository URL is
+    // hard-coded here. Point the build at the repository your organisation downloads Corda Enterprise from by setting, in
+    // ~/.gradle/gradle.properties:
+    //
+    //     cordaEnterpriseRepositoryUrl=<repository URL>
+    //     cordaEnterpriseRepositoryUsername=<username>
+    //     cordaEnterpriseRepositoryPassword=<password or access token>
+    //
+    // or the environment variables CORDA_ENTERPRISE_REPOSITORY_URL, CORDA_ENTERPRISE_REPOSITORY_USERNAME and
+    // CORDA_ENTERPRISE_REPOSITORY_PASSWORD. Without a URL the entry is skipped and the com.r3.* artifacts must already be in
+    // your local Maven repository (mavenLocal above).
+    def cordaEnterpriseRepositoryUrl = findProperty('cordaEnterpriseRepositoryUrl') ?: System.getenv('CORDA_ENTERPRISE_REPOSITORY_URL')
+    if (cordaEnterpriseRepositoryUrl) {
+        maven {
+            url cordaEnterpriseRepositoryUrl
+            credentials {
+                username = findProperty('cordaEnterpriseRepositoryUsername') ?: System.getenv('CORDA_ENTERPRISE_REPOSITORY_USERNAME')
+                password = findProperty('cordaEnterpriseRepositoryPassword') ?: System.getenv('CORDA_ENTERPRISE_REPOSITORY_PASSWORD')
+            }
+            content { includeGroupByRegex 'com\\.r3(\\..*)?' }
+        }
+    }
+}
