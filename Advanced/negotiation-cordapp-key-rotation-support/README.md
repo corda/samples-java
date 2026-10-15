@@ -31,6 +31,18 @@ In the `AcceptanceFlow.java`, we receive the modified ProposalState and it's con
 ### Pre-Requisites
 For development environment setup, please refer to: [Setup Guide](https://docs.corda.net/getting-set-up.html).
 
+This sample requires **Corda Enterprise 4.15**: key rotation is a Corda Enterprise feature (see
+[Cross-provider key rotation](https://docs.r3.com/en/platform/corda/4.15/enterprise/node/cross-provider-key-rotation/cross-provider-key-rotation.html)).
+The Corda Enterprise artifacts (`com.r3.corda:*`) are only available to Corda Enterprise customers, so point Gradle at the
+repository your organisation downloads them from by setting, in `~/.gradle/gradle.properties`:
+
+    cordaEnterpriseRepositoryUrl=<repository URL>
+    cordaEnterpriseRepositoryUsername=<username>
+    cordaEnterpriseRepositoryPassword=<password or access token>
+
+or the environment variables `CORDA_ENTERPRISE_REPOSITORY_URL`, `CORDA_ENTERPRISE_REPOSITORY_USERNAME` and
+`CORDA_ENTERPRISE_REPOSITORY_PASSWORD`. See `repositories.gradle`.
+
 
 
 ### Running the nodes:
