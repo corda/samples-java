@@ -58,12 +58,6 @@ dependencies {
     testImplementation "$corda_enterprise_release_group:corda-node-driver:$corda_release_version"
     testImplementation "$corda_enterprise_release_group:corda-core-test-utils:$corda_release_version"
 
-    // The key rotation tests use the mock network of Corda Enterprise's own key rotation tests (InternalMockNetwork), whose
-    // signatures mention node-internal types. They are only needed to compile the tests; corda-node-driver brings them at runtime.
-    testCompileOnly "$corda_enterprise_release_group:corda-node:$corda_release_version"
-    testCompileOnly "$corda_enterprise_release_group:corda-node-api:$corda_release_version"
-    testCompileOnly "$corda_enterprise_release_group:corda-extensions-api:$corda_release_version"
-
     // CorDapp dependencies.
     cordapp project(":contracts")
 }
