@@ -37,7 +37,7 @@ buildscript {
         ]
         log4j_version = constants.getProperty("log4jVersion")
         slf4j_version = constants.getProperty("slf4jVersion")
-        corda_platform_version = constants.getProperty("platformVersion").toInteger()
+        corda_platform_version = constants.getProperty("keyRotationPlatformVersion").toInteger()
         //springboot
         spring_boot_version = '3.2.5'
         spring_boot_gradle_plugin_version = '3.2.5'
