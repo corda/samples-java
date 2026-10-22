@@ -19,7 +19,7 @@ repositories {
     // error, not a skippable 404) for Corda snapshot paths, which aborts resolution if it is reached first. Declaring the
     // Corda repositories earlier means Corda artifacts resolve from them before repo.gradle.org is ever consulted, while the
     // content filter keeps all non-Corda dependencies flowing to the public repositories.
-    def cordaEnterpriseRepositoryUrl = findProperty('cordaEnterpriseRepositoryUrl') ?: System.getenv('CORDA_ENTERPRISE_REPOSITORY_URL')
+    /*def cordaEnterpriseRepositoryUrl = findProperty('cordaEnterpriseRepositoryUrl') ?: System.getenv('CORDA_ENTERPRISE_REPOSITORY_URL')
     if (cordaEnterpriseRepositoryUrl) {
         cordaEnterpriseRepositoryUrl.toString().split(',').each { repoUrl ->
             repoUrl = repoUrl.trim()
@@ -27,8 +27,8 @@ repositories {
                 maven {
                     url repoUrl
                     credentials {
-                        username = findProperty('cordaEnterpriseRepositoryUsername') ?: System.getenv('CORDA_ENTERPRISE_REPOSITORY_USERNAME')
-                        password = findProperty('cordaEnterpriseRepositoryPassword') ?: System.getenv('CORDA_ENTERPRISE_REPOSITORY_PASSWORD')
+                        username = findProperty('cordaEnterpriseRepositoryUsername') ?: System.getenv('CORDA_ARTIFACTORY_USERNAME')
+                        password = findProperty('cordaEnterpriseRepositoryPassword') ?: System.getenv('CORDA_ARTIFACTORY_APIKEY')
                     }
                     content {
                         includeGroup 'net.corda'
@@ -37,10 +37,52 @@ repositories {
                 }
             }
         }
-    }
+    }*/
 
     mavenCentral()
     maven { url 'https://jitpack.io' }
     maven { url 'https://download.corda.net/maven/corda-dependencies' }
     maven { url 'https://repo.gradle.org/gradle/libs-releases' }
+    maven {
+        url 'https://software.r3.com/artifactory/r3-corda-dev'
+        credentials {
+            username = System.getenv('CORDA_ARTIFACTORY_USERNAME')
+            password = System.getenv('CORDA_ARTIFACTORY_APIKEY')
+        }
+    }
+    maven {
+        url 'https://software.r3.com/artifactory/corda-dev'
+        credentials {
+            username = System.getenv('CORDA_ARTIFACTORY_USERNAME')
+            password = System.getenv('CORDA_ARTIFACTORY_APIKEY')
+        }
+    }
+    maven {
+        url 'https://software.r3.com/artifactory/corda-dependencies'
+        credentials {
+            username = System.getenv('CORDA_ARTIFACTORY_USERNAME')
+            password = System.getenv('CORDA_ARTIFACTORY_APIKEY')
+        }
+    }
+    maven {
+        url 'https://software.r3.com/artifactory/corda-dependencies-dev'
+        credentials {
+            username = System.getenv('CORDA_ARTIFACTORY_USERNAME')
+            password = System.getenv('CORDA_ARTIFACTORY_APIKEY')
+        }
+    }
+    maven {
+        url 'https://software.r3.com/artifactory/r3-corda-releases'
+        credentials {
+            username = System.getenv('CORDA_ARTIFACTORY_USERNAME')
+            password = System.getenv('CORDA_ARTIFACTORY_APIKEY')
+        }
+    }
+    maven {
+        url 'https://software.r3.com/artifactory/corda-releases'
+        credentials {
+            username = System.getenv('CORDA_ARTIFACTORY_USERNAME')
+            password = System.getenv('CORDA_ARTIFACTORY_APIKEY')
+        }
+    }
 }
