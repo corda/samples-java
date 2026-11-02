@@ -8,10 +8,8 @@ import net.corda.core.transactions.SignedTransaction;
 import net.corda.samples.negotiation.states.ProposalState;
 import net.corda.samples.negotiation.states.TradeState;
 import org.junit.Test;
-
 import java.security.PublicKey;
 import java.util.SortedMap;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
