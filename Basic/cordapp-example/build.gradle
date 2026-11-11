@@ -37,6 +37,7 @@ buildscript {//properties that you need to build the project
         log4j_version = constants.getProperty("log4jVersion")
         slf4j_version = constants.getProperty("slf4jVersion")
         hibernate_version = constants.getProperty("hibernateVersion")
+        jakarta_persistence_version = constants.getProperty("jakartaPersistenceVersion")
         corda_platform_version = constants.getProperty("platformVersion").toInteger()
         snappy_version = constants.getProperty("snappyVersion")
         //springboot

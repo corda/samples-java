@@ -2,7 +2,7 @@ package net.corda.samples.carinsurance.schema;
 
 import net.corda.core.schemas.PersistentState;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
