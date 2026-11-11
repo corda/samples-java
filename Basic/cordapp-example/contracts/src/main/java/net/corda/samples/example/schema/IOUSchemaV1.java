@@ -3,13 +3,14 @@ package net.corda.samples.example.schema;
 import net.corda.core.schemas.MappedSchema;
 import net.corda.core.schemas.PersistentState;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import java.util.Arrays;
 import java.util.UUID;
 //4.6 changes
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import javax.annotation.Nullable;
 
 /**
@@ -32,7 +33,7 @@ public class IOUSchemaV1 extends MappedSchema {
         @Column(name = "lender") private final String lender;
         @Column(name = "borrower") private final String borrower;
         @Column(name = "iou_value") private final int value;
-        @Column(name = "linear_id") @Type (type = "uuid-char") private final UUID linearId;
+        @Column(name = "linear_id") @JdbcTypeCode(SqlTypes.VARCHAR) private final UUID linearId;
 
 
         public PersistentIOU(String lender, String borrower, int value, UUID linearId) {
