@@ -1,12 +1,13 @@
 package net.corda.samples.carinsurance.schema;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.util.UUID;
 //4.6 changes
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 
 /**
@@ -16,7 +17,7 @@ import org.hibernate.annotations.Type;
 @Table(name = "VEHICLE_DETAIL")
 public class PersistentVehicle  {
 
-    @Id @Type (type = "uuid-char") private final UUID id;
+    @Id @JdbcTypeCode(SqlTypes.VARCHAR) private final UUID id;
     @Column private final String registrationNumber;
     @Column private final String chasisNumber;
     @Column private final String make;

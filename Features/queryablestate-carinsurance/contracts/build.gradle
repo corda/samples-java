@@ -42,7 +42,8 @@ sourceSets {
 
 dependencies {
     cordaProvided group: 'com.google.guava', name: 'guava', version: '23.5-jre'
-    cordaProvided "org.hibernate:hibernate-core:$hibernate_version"
+    cordaProvided "jakarta.persistence:jakarta.persistence-api:$jakarta_persistence_version"
+    cordaProvided "org.hibernate.orm:hibernate-core:$hibernate_version"
     testImplementation "junit:junit:$junit_version"
 
     // Corda dependencies.

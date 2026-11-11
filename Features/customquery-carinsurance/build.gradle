@@ -17,6 +17,7 @@ buildscript {
         slf4j_version = constants.getProperty("slf4jVersion")
         corda_platform_version = constants.getProperty("platformVersion").toInteger()
         hibernate_version = constants.getProperty("hibernateVersion")
+        jakarta_persistence_version = constants.getProperty("jakartaPersistenceVersion")
 
         //springboot
         spring_boot_version = '3.2.5'
