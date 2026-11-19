@@ -7,6 +7,8 @@ buildscript {
     ext {
         corda_release_group = constants.getProperty("cordaReleaseGroup")
         corda_core_release_group = constants.getProperty("cordaCoreReleaseGroup")
+        // This sample runs on Corda ENTERPRISE: its node, driver, shell and test artifacts come from cordaEnterpriseReleaseGroup
+        // (com.r3.corda). Enterprise builds on Corda OS's corda-core, which stays under cordaCoreReleaseGroup.
         corda_enterprise_release_group = constants.getProperty("cordaEnterpriseReleaseGroup")
         corda_release_version = constants.getProperty("cordaVersion")
         corda_core_release_version = constants.getProperty("cordaCoreVersion")

@@ -13,6 +13,17 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * The CorDapp keeps working after Node A rotates its key across providers (Corda Enterprise).
+ *
+ * This sample never replaces a key in a state: the proposal and the trade keep naming Node A by its original key, and the
+ * flows do not put a proof map in the command. Every transaction that consumes such a state must be signed for the original
+ * key, so Node A signs with its rotated key and carries the rotation proof in the signature, each time. Node B never has to
+ * know about the rotation beforehand: the proof travels with the signature and the flows run exactly as before the rotation.
+ *
+ * In this sample only the proposee can modify or accept a proposal, and whoever modifies becomes the new proposer, so the two
+ * tests below start from a proposal made by the node that must NOT start the first transaction after the rotation.
+ */
 public class KeyRotationFlowTests extends KeyRotationTestBase {
 
     @Test
